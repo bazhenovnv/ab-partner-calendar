@@ -1,12 +1,13 @@
 # АБ Партнер — Календарь бухгалтеров
 
-Monorepo-проект для публичной витрины бухгалтерских мероприятий, календаря, Telegram/API-импорта, напоминаний и административной панели.
+Monorepo-проект для публичной витрины бухгалтерских мероприятий, календаря, Telegram/API-импорта, напоминаний, административной панели и аналитики посещаемости.
 
 ## Что внутри
 - **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS
 - **Backend**: NestJS, Prisma, PostgreSQL, JWT
 - **Интеграции**: Telegram-канал, API-коннекторы, Telegram-бот для напоминаний
 - **Админка**: события, импорт, reminders, аналитика, посещаемость
+- **Публичная витрина**: highlights, фильтры по формату/городу/теме/источнику/периоду, компактный режим
 
 ## Структура
 ```text
@@ -50,7 +51,7 @@ npm run lint       # typecheck frontend + backend
 npm run build      # production build
 ```
 
-## Импорт из Telegram
+## Что умеет Telegram-парсер
 Поддерживаются два основных формата:
 
 ### 1) Подборка недели
@@ -112,16 +113,6 @@ Password: Admin12345!
 - `.gitignore`
 - `.editorconfig`
 - GitHub Actions workflow `.github/workflows/ci.yml`
-
-Рекомендуемый порядок публикации:
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <YOUR_GITHUB_REPO_URL>
-git push -u origin main
-```
 
 ## Ограничения
 Текущий Telegram-коннектор использует публичную HTML-ленту канала. Для приватных каналов и production-режима лучше использовать промежуточный ingestion API или worker через Telegram Bot API / MTProto.
