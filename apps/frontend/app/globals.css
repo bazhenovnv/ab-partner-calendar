@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f4f5f7;
+  --text: #111111;
+  --muted: #6b7280;
+  --line: #e6e7eb;
+  --card: #ffffff;
+  --dark: #050607;
+  --dark-2: #0a0b0f;
+  --accent: #8BE2BE;
+  --accent-strong: #79d7b1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+  background: linear-gradient(180deg, #f6f7f8 0%, #f1f3f5 100%);
+  color: var(--text);
+}
+
+.container-shell {
+  @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
+}
+
+.surface-card {
+  @apply rounded-[18px] border border-[#e8eaee] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.06)];
+}
+
+.dark-card {
+  @apply rounded-[18px] border border-black/60 bg-black text-white shadow-[0_10px_28px_rgba(0,0,0,0.18)];
+}
+
+.icon-chip {
+  @apply inline-flex items-center justify-center rounded-full border border-[#dfe4ea] bg-white;
+}
+
+.select-clean {
+  @apply h-11 w-full rounded-xl border border-[#dde2e8] bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-slate-500 focus:ring-4 focus:ring-slate-200;
+}
+
+.day-cell {
+  @apply relative min-h-[92px] border-r border-b px-2.5 py-2 transition;
+  border-color: rgba(255,255,255,0.12);
+}
+
+.day-cell:hover {
+  background: rgba(139, 226, 190, 0.08);
+}
+
+.day-cell-selected {
+  background: rgba(139, 226, 190, 0.92);
+  color: #04110a;
+}
+
+.text-muted {
+  color: #6b7280;
+}
+
+.tag-chip {
+  @apply inline-flex items-center rounded-[10px] border border-[#B7E8D1] px-3 py-1 text-xs font-medium text-[#2c8d67] bg-[#eefbf4];
+}
+
+.utility-divider:not(:last-child) {
+  @apply border-r border-[#e6e8ec];
+}
+
+::selection {
+  background: rgba(139, 226, 190, 0.38);
+}
