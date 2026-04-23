@@ -20,6 +20,8 @@ export function EventModal({
 }) {
   if (!item) return null;
   const status = item.runtimeStatus ?? item.status;
+  const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/ABletter_bot';
+  const telegramReminderUrl = `${telegramBotDeepLink}?start=afisha_${item.id}`;
 
   return (
     <Modal open={open} onOpenChange={onOpenChange} title={item.title}>
@@ -49,8 +51,8 @@ export function EventModal({
 
           <div className='flex flex-wrap gap-3 pt-4'>
             <Button asChild>
-              <a href='https://t.me/ABletter_bot' target='_blank' rel='noreferrer'>
-                <BellRing className='h-4 w-4' />Напомнить
+              <a href={telegramReminderUrl} target='_blank' rel='noreferrer'>
+                <BellRing className='h-4 w-4' />Напомнить в Telegram
               </a>
             </Button>
             <Button asChild variant='ghost'>

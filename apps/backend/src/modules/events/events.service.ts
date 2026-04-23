@@ -61,6 +61,16 @@ export class EventsService {
     return events.map((event) => this.withComputedStatus(event));
   }
 
+  async detailById(id: string) {
+    const event = await this.prisma.event.findUnique({
+      where: { id },
+      include: { category: true },
+    });
+
+    if (!event) throw new NotFoundException('Мероприятие не найдено');
+    return this.withComputedStatus(event);
+  }
+
   async detailBySlug(slug: string) {
     const event = await this.prisma.event.findUnique({
       where: { slug },
