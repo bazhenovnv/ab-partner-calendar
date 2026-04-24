@@ -36,7 +36,7 @@ ADMIN_EMAIL=admin@ab-partner.ru
 ADMIN_PASSWORD=Admin12345!
 TELEGRAM_CHANNEL_URL=https://t.me/ab_afisha_buh
 TELEGRAM_CHANNEL_USERNAME=ab_afisha_buh
-TELEGRAM_BOT_DEEP_LINK=https://t.me/ABletter_bot
+TELEGRAM_BOT_DEEP_LINK=https://t.me/PartnersTogether_bot
 TELEGRAM_SYNC_ENABLED=true
 SOURCE_CONNECTORS_JSON=[]
 ```
@@ -116,3 +116,4 @@ Password: Admin12345!
 
 ## Ограничения
 Текущий Telegram-коннектор использует публичную HTML-ленту канала. Для приватных каналов и production-режима лучше использовать промежуточный ingestion API или worker через Telegram Bot API / MTProto.
+

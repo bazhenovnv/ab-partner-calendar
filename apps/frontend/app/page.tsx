@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarRange, Flame, Layers3, MapPin, MonitorPlay, RadioTower, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
+import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, MonitorPlay, RadioTower, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HighlightCarousel } from '@/components/highlight-carousel';
 import { EventsCalendarBoard } from '@/components/events-calendar-board';
 import { EventModal } from '@/components/event-modal';
 import { ReminderPanel } from '@/components/reminder-panel';
 import { api } from '@/lib/api';
-import { EventItem, TopicCollection } from '@/lib/types';
+import { EventItem } from '@/lib/types';
 import { extractRussianCity, RUSSIAN_CITIES } from '@/lib/russian-cities';
 import { Button } from '@/components/ui/button';
 
@@ -23,8 +23,22 @@ type FormatFilter = (typeof formatOptions)[number]['value'];
 type PriceFilter = 'ALL' | 'FREE' | 'PAID';
 type PeriodFilter = 'ALL' | 'TODAY' | 'WEEK' | 'MONTH';
 type ViewMode = 'SHOWCASE' | 'COMPACT';
+type TopicPreset = {
+  value: string;
+  label: string;
+  cardLabel: string;
+  icon: string;
+  aliases: string[];
+};
 
-const topicIcons = ['📄', '1C', '☁️', '🧴', '▥'];
+const topicPresets: TopicPreset[] = [
+  { value: '54-ФЗ', label: '54-ФЗ', cardLabel: '54-ФЗ', icon: '🧾', aliases: ['54-фз', '54 фз', 'фискаль', 'чек', 'ккт'] },
+  { value: '1С', label: '1С', cardLabel: '1С', icon: '1С', aliases: ['1с', '1 c', '1с:'] },
+  { value: 'ОФД', label: 'ОФД', cardLabel: 'ОФД', icon: '☁️', aliases: ['офд', 'оператор фискальных данных'] },
+  { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', aliases: ['егаис'] },
+  { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', aliases: ['маркировка', 'честный знак'] },
+  { value: 'Онлайн кассы', label: 'Онлайн кассы', cardLabel: 'Онлайн кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+];
 
 function sameDay(dateA: Date, dateB: Date) {
   return dateA.getFullYear() === dateB.getFullYear() && dateA.getMonth() === dateB.getMonth() && dateA.getDate() === dateB.getDate();
@@ -41,28 +55,80 @@ function getAnonId() {
   return value;
 }
 
-function getTopicList(events: EventItem[]) {
-  const base = ['54-ФЗ', '1С', 'ОФД', 'ЕГАИС', 'Маркировка', 'Налоги', 'Отчетность', 'Кадры'];
-  const matched = new Set<string>();
-  for (const event of events) {
-    const haystack = `${event.title} ${event.descriptionShort} ${event.tags.join(' ')}`.toLowerCase();
-    for (const topic of base) {
-      if (haystack.includes(topic.toLowerCase())) matched.add(topic);
-    }
-  }
-  return Array.from(matched.size ? matched : new Set(base));
+function eventToSearchText(event: EventItem) {
+  return [
+    event.title,
+    event.descriptionShort,
+    event.descriptionFull,
+    event.location,
+    event.category?.title,
+    ...(event.tags || []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
 }
 
 function eventMatchesTopic(event: EventItem, topic: string) {
-  const haystack = `${event.title} ${event.descriptionShort} ${event.descriptionFull} ${event.tags.join(' ')}`.toLowerCase();
-  return haystack.includes(topic.toLowerCase());
+  if (topic === 'ALL') return true;
+  const normalized = topic.trim().toLowerCase();
+  const preset = topicPresets.find((item) => item.value.toLowerCase() === normalized);
+  const haystack = eventToSearchText(event);
+  if (preset) {
+    return preset.aliases.some((alias) => haystack.includes(alias.toLowerCase()));
+  }
+  return haystack.includes(normalized);
+}
+
+function getTopicList(events: EventItem[]) {
+  const dynamicTopics = new Set<string>();
+
+  for (const event of events) {
+    const categoryTitle = event.category?.title?.trim();
+    if (!categoryTitle) continue;
+    if (!topicPresets.some((topic) => topic.value.toLowerCase() === categoryTitle.toLowerCase())) {
+      dynamicTopics.add(categoryTitle);
+    }
+  }
+
+  return [...topicPresets.map((item) => item.value), ...Array.from(dynamicTopics)];
+}
+
+function getTopicCount(events: EventItem[], topic: string) {
+  return events.filter((event) => eventMatchesTopic(event, topic)).length;
+}
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  children,
+  icon,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+}) {
+  return (
+    <label className='grid min-w-0 gap-1'>
+      <span className='text-sm font-medium text-slate-600'>{label}</span>
+      <div className='relative'>
+        {icon ? <span className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400'>{icon}</span> : null}
+        <select value={value} onChange={(e) => onChange(e.target.value)} className={`select-clean ${icon ? 'pl-11' : ''}`}>
+          {children}
+        </select>
+        <ChevronDown className='pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
+      </div>
+    </label>
+  );
 }
 
 export default function HomePage() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [highlights, setHighlights] = useState<EventItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [collections, setCollections] = useState<TopicCollection[]>([]);
   const [activeEvent, setActiveEvent] = useState<EventItem | null>(null);
   const [formatFilter, setFormatFilter] = useState<FormatFilter>('ALL');
   const [cityFilter, setCityFilter] = useState<string>('ALL');
@@ -77,11 +143,10 @@ export default function HomePage() {
     api.publicSync()
       .catch(() => null)
       .finally(() => {
-        Promise.all([api.events(), api.highlights(), api.collections().catch(() => [])])
-          .then(([eventsData, highlightsData, collectionsData]) => {
+        Promise.all([api.events(), api.highlights()])
+          .then(([eventsData, highlightsData]) => {
             setEvents(eventsData);
             setHighlights(highlightsData);
-            setCollections(collectionsData);
           })
           .catch(console.error);
       });
@@ -128,16 +193,6 @@ export default function HomePage() {
     return highlights.filter((item) => filteredEvents.some((event) => event.id === item.id));
   }, [highlights, filteredEvents]);
 
-  const visibleCollections = collections.length
-    ? collections.slice(0, 5)
-    : [
-        { slug: '54-fz', title: '54-ФЗ', count: 0, events: [] },
-        { slug: '1c', title: '1С', count: 0, events: [] },
-        { slug: 'ofd', title: 'ОФД', count: 0, events: [] },
-        { slug: 'egais', title: 'ЕГАИС', count: 0, events: [] },
-        { slug: 'marking', title: 'Маркировка', count: 0, events: [] },
-      ];
-
   const metrics = useMemo(() => {
     const now = new Date();
     const weekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -157,6 +212,12 @@ export default function HomePage() {
   const compactEvents = useMemo(() => {
     return [...filteredEvents].sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt)).slice(0, 12);
   }, [filteredEvents]);
+
+  const topicCards = useMemo(() => {
+    return topicPresets.map((topic) => ({ ...topic, count: getTopicCount(events, topic.value) }));
+  }, [events]);
+
+  const highlightedTopic = topicFilter === 'ALL' ? 'Все темы' : topicFilter;
 
   return (
     <main className='pb-8'>
@@ -188,13 +249,13 @@ export default function HomePage() {
 
       {viewMode === 'SHOWCASE' && (
         <section className='container-shell mt-4'>
-          <HighlightCarousel items={filteredHighlights} onOpen={setActiveEvent} />
+          <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
         </section>
       )}
 
       <section className='container-shell mt-4'>
         <div className='surface-card p-4'>
-          <div className='grid gap-4 xl:grid-cols-[1.05fr_repeat(5,minmax(0,1fr))]'>
+          <div className='grid gap-4 md:grid-cols-2 2xl:grid-cols-[1.05fr_repeat(5,minmax(0,1fr))]'>
             <div className='flex items-center gap-3'>
               <div className='icon-chip h-12 w-12'>
                 <SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' />
@@ -205,63 +266,39 @@ export default function HomePage() {
               </div>
             </div>
 
-            <label className='grid gap-1'>
-              <span className='text-sm font-medium text-slate-600'>Формат</span>
-              <div className='relative'>
-                <MonitorPlay className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                <select value={formatFilter} onChange={(e) => setFormatFilter(e.target.value as FormatFilter)} className='select-clean pl-11'>
-                  {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-                </select>
-              </div>
-            </label>
+            <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
+              {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </FilterSelect>
 
-            <label className='grid gap-1'>
-              <span className='text-sm font-medium text-slate-600'>Город</span>
-              <div className='relative'>
-                <MapPin className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className='select-clean pl-11'>
-                  <option value='ALL'>Все города</option>
-                  {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
-                </select>
-              </div>
-            </label>
+            <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter} icon={<MapPin className='h-4 w-4' />}>
+              <option value='ALL'>Все города</option>
+              {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
+            </FilterSelect>
 
-            <label className='grid gap-1'>
-              <span className='text-sm font-medium text-slate-600'>Тема</span>
-              <select value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)} className='select-clean'>
-                <option value='ALL'>Все темы</option>
-                {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
-              </select>
-            </label>
+            <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}>
+              <option value='ALL'>Все темы</option>
+              {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+            </FilterSelect>
 
-            <label className='grid gap-1'>
-              <span className='text-sm font-medium text-slate-600'>Источник</span>
-              <div className='relative'>
-                <RadioTower className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className='select-clean pl-11'>
-                  <option value='ALL'>Все источники</option>
-                  {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
-                </select>
-              </div>
-            </label>
+            <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter} icon={<RadioTower className='h-4 w-4' />}>
+              <option value='ALL'>Все источники</option>
+              {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
+            </FilterSelect>
 
-            <label className='grid gap-1'>
-              <span className='text-sm font-medium text-slate-600'>Период</span>
-              <select value={periodFilter} onChange={(e) => setPeriodFilter(e.target.value as PeriodFilter)} className='select-clean'>
-                <option value='ALL'>Все даты</option>
-                <option value='TODAY'>Сегодня</option>
-                <option value='WEEK'>7 дней</option>
-                <option value='MONTH'>Месяц</option>
-              </select>
-            </label>
+            <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}>
+              <option value='ALL'>Все даты</option>
+              <option value='TODAY'>Сегодня</option>
+              <option value='WEEK'>7 дней</option>
+              <option value='MONTH'>Месяц</option>
+            </FilterSelect>
           </div>
 
           <div className='mt-4 flex flex-wrap items-center gap-3'>
             <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')}>Витрина</Button>
             <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')}>Компактный режим</Button>
             <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}>Только бесплатно</Button>
-            <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только #Хит</Button>
-            <span className='ml-auto text-sm text-slate-500'>Найдено событий: {filteredEvents.length}</span>
+            <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только важные</Button>
+            <span className='ml-auto text-sm text-slate-500'>Текущая тема: {highlightedTopic} · Найдено событий: {filteredEvents.length}</span>
           </div>
         </div>
       </section>
@@ -290,7 +327,7 @@ export default function HomePage() {
                     </div>
                     <div className='flex items-center gap-2'>
                       <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
-                      {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>#Хит</span> : null}
+                      {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>Важное</span> : null}
                     </div>
                   </div>
                 </button>
@@ -306,21 +343,30 @@ export default function HomePage() {
 
       <section className='container-shell mt-4'>
         <div className='surface-card p-4'>
-          <div className='grid gap-3 lg:grid-cols-[220px_repeat(5,minmax(0,1fr))_150px]'>
+          <div className='grid gap-3 lg:grid-cols-[220px_repeat(7,minmax(0,1fr))]'>
             <div className='flex items-center px-2 text-[16px] font-medium text-[#17191e]'>Подборки по темам</div>
-            {visibleCollections.map((collection, index) => (
-              <button key={collection.slug} className='surface-card flex items-center gap-4 px-4 py-4 text-left shadow-none transition hover:-translate-y-[1px]'>
-                <div className='flex h-12 w-12 items-center justify-center rounded-full bg-[#eefbf4] text-[22px] text-[#2a8f68]'>
-                  {topicIcons[index] || <Layers3 className='h-5 w-5' />}
+            {topicCards.map((topic) => (
+              <button
+                key={topic.value}
+                type='button'
+                onClick={() => setTopicFilter(topic.value)}
+                className={`flex min-h-[96px] min-w-0 items-center gap-4 rounded-[18px] border px-4 py-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+              >
+                <div className={`flex h-12 w-12 flex-none items-center justify-center rounded-full text-[22px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                  {topic.icon}
                 </div>
-                <div>
-                  <div className='text-[19px] font-medium text-[#17191e]'>{collection.title}</div>
-                  <div className='text-sm text-slate-500'>Мероприятия</div>
+                <div className='min-w-0'>
+                  <div className='truncate text-[18px] font-medium'>{topic.cardLabel}</div>
+                  <div className={`text-sm ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
                 </div>
               </button>
             ))}
-            <button className='surface-card flex items-center justify-center gap-3 px-4 py-4 text-[#17191e] shadow-none transition hover:-translate-y-[1px]'>
-              <Layers3 className='h-5 w-5' />
+            <button
+              type='button'
+              onClick={() => setTopicFilter('ALL')}
+              className={`flex min-h-[96px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-4 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+            >
+              <Layers3 className='h-5 w-5 flex-none' />
               <span className='text-sm font-medium'>Все подборки</span>
             </button>
           </div>

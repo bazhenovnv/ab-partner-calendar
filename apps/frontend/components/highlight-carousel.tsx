@@ -32,10 +32,10 @@ export function HighlightCarousel({
       <div className='dark-card overflow-hidden'>
         <div className='grid min-h-[320px] gap-6 px-8 py-7 lg:grid-cols-[1.1fr_0.9fr]'>
           <div className='flex flex-col justify-center'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важное событие</div>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
             <h2 className='max-w-3xl text-4xl font-medium leading-tight text-white'>Важные события загружаются из Telegram-канала и API-источников</h2>
             <p className='mt-5 max-w-2xl text-lg leading-8 text-white/78'>
-              После синхронизации здесь появятся главные события с пометкой #Хит и приоритетные публикации из подключённых источников.
+              После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
             </p>
           </div>
           <div className='hidden items-center justify-center lg:flex'>
@@ -62,7 +62,7 @@ export function HighlightCarousel({
         </button>
 
         <div className='flex flex-col justify-center lg:pl-8'>
-          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важное событие</div>
+          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
           <h2 className='max-w-3xl text-[34px] font-medium leading-tight text-white xl:text-[46px]'>
             {item.title}
           </h2>
@@ -95,7 +95,7 @@ export function HighlightCarousel({
               Подробнее
             </Button>
             <Button asChild className='min-w-[170px]'>
-              <a href='https://t.me/ABletter_bot' target='_blank' rel='noreferrer'>
+              <a href={`${process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot'}?start=afisha_${item.id}`} target='_blank' rel='noreferrer'>
                 <Bell className='h-4 w-4' />Напомнить
               </a>
             </Button>
@@ -134,3 +134,4 @@ export function HighlightCarousel({
   if (embedded) return content;
   return <section className='container-shell mt-4'>{content}</section>;
 }
+

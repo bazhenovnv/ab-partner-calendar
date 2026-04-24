@@ -20,7 +20,7 @@ export function EventModal({
 }) {
   if (!item) return null;
   const status = item.runtimeStatus ?? item.status;
-  const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/ABletter_bot';
+  const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot';
   const telegramReminderUrl = `${telegramBotDeepLink}?start=afisha_${item.id}`;
 
   return (

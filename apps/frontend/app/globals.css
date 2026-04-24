@@ -45,7 +45,7 @@ body {
 }
 
 .select-clean {
-  @apply h-11 w-full rounded-xl border border-[#dde2e8] bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-slate-500 focus:ring-4 focus:ring-slate-200;
+  @apply h-11 w-full appearance-none rounded-xl border border-[#dde2e8] bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-slate-500 focus:ring-4 focus:ring-slate-200;
 }
 
 .day-cell {
