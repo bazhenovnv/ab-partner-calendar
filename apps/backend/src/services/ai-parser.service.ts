@@ -1,8 +1,5 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { Injectable, Logger } from '@nestjs/common';
+import OpenAI from 'openai';
 
 export type ParsedEvent = {
   title: string;
@@ -14,40 +11,56 @@ export type ParsedEvent = {
   link?: string;
 };
 
-export async function aiParseEvent(text: string): Promise<ParsedEvent | null> {
-  try {
-    const res = await openai.chat.completions.create({
-      model: "gpt-5-mini",
-      temperature: 0,
-      messages: [
-        {
-          role: "system",
-          content: `
-Ты парсер событий. Извлеки данные из текста.
+@Injectable()
+export class AiParserService {
+  private readonly logger = new Logger(AiParserService.name);
+  private readonly openai: OpenAI;
+
+  constructor() {
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+
+  async parse(text: string): Promise<ParsedEvent | null> {
+    try {
+      const res = await this.openai.chat.completions.create({
+        model: 'gpt-5-mini',
+        temperature: 0,
+        messages: [
+          {
+            role: 'system',
+            content: `
+Ты парсер событий. Из текста извлеки структуру.
+
 Верни строго JSON:
 
 {
-  "title": "",
-  "city": "",
-  "date": "",
-  "time": "",
-  "format": "",
-  "isFree": true/false,
-  "link": ""
+  "title": "string",
+  "city": "string",
+  "date": "YYYY-MM-DD",
+  "time": "HH:mm",
+  "format": "online/offline",
+  "isFree": true,
+  "link": "url"
 }
 `,
-        },
-        {
-          role: "user",
-          content: text,
-        },
-      ],
-    });
+          },
+          {
+            role: 'user',
+            content: text,
+          },
+        ],
+      });
 
-    const content = res.choices[0]?.message?.content || "{}";
-    return JSON.parse(content);
-  } catch (e) {
-    console.error("AI parse error:", e);
-    return null;
+      const content = res.choices[0]?.message?.content ?? '{}';
+
+      const parsed = JSON.parse(content);
+
+      return parsed;
+    } catch (e) {
+      this.logger.error('AI parse error', e as any);
+      return null;
+    }
   }
 }

@@ -1,46 +1,59 @@
-import axios from "axios";
-import { aiParseEvent } from "./ai-parser.service";
-import { Pool } from "pg";
+import { Injectable, Logger } from '@nestjs/common';
+import axios from 'axios';
+import { Pool } from 'pg';
+import { AiParserService } from './ai-parser.service';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+@Injectable()
+export class TelegramSyncService {
+  private readonly logger = new Logger(TelegramSyncService.name);
 
-const CHANNEL = process.env.TELEGRAM_CHANNEL_USERNAME;
+  private readonly pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
 
-export async function syncTelegram() {
-  console.log("🔄 Telegram sync started");
+  constructor(private readonly ai: AiParserService) {}
 
-  // ⚠️ Telegram Bot API НЕ читает канал → используем tg RSS bridge
-  const url = `https://api.rss2json.com/v1/api.json?rss_url=https://tg.i-c-a.su/rss/${CHANNEL}`;
+  async sync() {
+    try {
+      const channel = process.env.TELEGRAM_CHANNEL_USERNAME;
 
-  const res = await axios.get(url);
-  const posts = res.data.items || [];
+      if (!channel) {
+        this.logger.warn('No channel specified');
+        return;
+      }
 
-  for (const post of posts.slice(0, 10)) {
-    const text = post.title + "\n" + post.description;
+      const url = `https://api.rss2json.com/v1/api.json?rss_url=https://tg.i-c-a.su/rss/${channel}`;
 
-    const parsed = await aiParseEvent(text);
+      const res = await axios.get(url);
 
-    if (!parsed) continue;
+      const posts = res.data.items || [];
 
-    await pool.query(
-      `
-      INSERT INTO events (title, city, date, link, is_free)
-      VALUES ($1, $2, $3, $4, $5)
-      ON CONFLICT DO NOTHING
-      `,
-      [
-        parsed.title,
-        parsed.city || null,
-        parsed.date || null,
-        parsed.link || post.link,
-        parsed.isFree ?? false,
-      ]
-    );
+      for (const post of posts.slice(0, 10)) {
+        const text = `${post.title}\n${post.description}`;
 
-    console.log("✅ Saved:", parsed.title);
+        const parsed = await this.ai.parse(text);
+
+        if (!parsed?.title) continue;
+
+        await this.pool.query(
+          `
+          INSERT INTO events (title, city, date, link, is_free)
+          VALUES ($1, $2, $3, $4, $5)
+          ON CONFLICT DO NOTHING
+          `,
+          [
+            parsed.title,
+            parsed.city || null,
+            parsed.date || null,
+            parsed.link || post.link,
+            parsed.isFree ?? false,
+          ],
+        );
+
+        this.logger.log(`Saved: ${parsed.title}`);
+      }
+    } catch (e) {
+      this.logger.error('Telegram sync error', e as any);
+    }
   }
-
-  console.log("✅ Telegram sync done");
 }

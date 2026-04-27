@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AiParserService } from './services/ai-parser.service';
+import { TelegramSyncService } from './services/telegram-sync.service';
 
 @Module({
   imports: [
@@ -8,5 +10,6 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '../../../.env',
     }),
   ],
+  providers: [AiParserService, TelegramSyncService],
 })
 export class AppModule {}
