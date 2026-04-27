@@ -15,6 +15,8 @@
     "generate": "npm run prisma:generate -w apps/backend"
   },
   "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.14",
+    "@types/pg": "^8.20.0",
     "concurrently": "^9.0.1"
   }
 }

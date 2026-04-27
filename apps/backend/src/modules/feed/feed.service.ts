@@ -31,8 +31,8 @@ export async function getFeed(chatId: number) {
 
   const events = eventsRes.rows;
 
-  return events.map((e) => ({
-    ...e,
-    score: score(e, user),
-  }));
+  return events.map((e: any) => ({
+  ...e,
+  score: score(e, user),
+}));
 }
