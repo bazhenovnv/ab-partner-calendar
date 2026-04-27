@@ -7,16 +7,8 @@ async function bootstrap() {
 
   await app.listen(process.env.BACKEND_PORT || 4000);
 
-  console.log(`🚀 Backend started on port ${process.env.BACKEND_PORT || 4000}`);
-
-  // 🔄 авто-синхронизация Telegram
-  if (process.env.TELEGRAM_SYNC_ENABLED === "true") {
-    console.log("📡 Telegram sync enabled");
-
-    setInterval(() => {
-      syncTelegram();
-    }, 10 * 60 * 1000);
-
+  if (process.env.TELEGRAM_SYNC_ENABLED === 'true') {
+    setInterval(syncTelegram, 10 * 60 * 1000);
     syncTelegram();
   }
 }
