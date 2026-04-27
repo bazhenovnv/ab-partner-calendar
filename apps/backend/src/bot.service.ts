@@ -1,19 +1,45 @@
-import TelegramBot, { Message } from "node-telegram-bot-api";
-import { getFeed } from "../modules/feed/feed.service";
+import TelegramBot from "node-telegram-bot-api";
+import { getFeed } from "./modules/feed/feed.service";
 
-const bot = new TelegramBot(process.env.BOT_TOKEN!, { polling: true });
+const token = process.env.BOT_TOKEN;
 
-bot.onText(/\/start/, (msg: Message) => {
-  bot.sendMessage(msg.chat.id, "Подписка оформлена");
+if (!token) {
+  throw new Error("BOT_TOKEN is not defined");
+}
+
+const bot = new TelegramBot(token, { polling: true });
+
+// Старт
+bot.onText(/\/start/, (msg: any) => {
+  bot.sendMessage(
+    msg.chat.id,
+    "👋 Привет! Я бот календаря мероприятий.\n\nКоманда /feed — получить подборку событий"
+  );
 });
 
-bot.onText(/\/feed/, async (msg: Message) => {
-  const feed = await getFeed(msg.chat.id);
+// Лента событий
+bot.onText(/\/feed/, async (msg: any) => {
+  try {
+    const feed = await getFeed(msg.chat.id);
 
-  for (const e of feed.slice(0, 5)) {
-    await bot.sendMessage(
-      msg.chat.id,
-      `${e.title}\n${e.city} ${e.date}\n${e.link}`
-    );
+    if (!feed.length) {
+      return bot.sendMessage(msg.chat.id, "Нет событий 😢");
+    }
+
+    for (const e of feed.slice(0, 5)) {
+      const text = `
+📌 ${e.title || "Без названия"}
+🏙 ${e.city || "Не указан"}
+📅 ${e.date || "Не указана"}
+🔗 ${e.link || ""}
+      `;
+
+      await bot.sendMessage(msg.chat.id, text);
+    }
+  } catch (err) {
+    console.error(err);
+    bot.sendMessage(msg.chat.id, "Ошибка загрузки событий");
   }
 });
+
+export default bot;
