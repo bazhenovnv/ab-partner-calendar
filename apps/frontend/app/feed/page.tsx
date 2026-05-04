@@ -1,19 +1,24 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 
-export default function Feed() {
-  const [events,setEvents]=useState([]);
+type Event = {
+  id: number;
+  title: string;
+};
 
-  useEffect(()=>{
+export default function Feed() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
     fetch("/api/feed?chatId=1")
-      .then(r=>r.json())
+      .then((r) => r.json())
       .then(setEvents);
-  },[]);
+  }, []);
 
   return (
     <div>
-      {events.map(e=>(
+      {events.map((e) => (
         <div key={e.id}>
           <h2>{e.title}</h2>
         </div>

@@ -1,16 +1,27 @@
-version: "3.9"
 services:
   postgres:
     image: postgres:16
     container_name: ab-partner-postgres
-    restart: unless-stopped
+    restart: always
     environment:
-      POSTGRES_DB: ab_partner_calendar
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: app
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: ab-partner-backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
+
 volumes:
   postgres_data:
