@@ -3,7 +3,7 @@ import { EventsService } from '../events/events.service';
 
 @Injectable()
 export class FeedService {
-  constructor(private readonly events: EventsService) {}
+  constructor(private events: EventsService) {}
 
   async getFeed() {
     const events = await this.events.listPublished(undefined, 20);

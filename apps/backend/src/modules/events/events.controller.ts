@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { EventsService } from './events.service';
 
 @Controller('events')
@@ -6,7 +6,7 @@ export class EventsController {
   constructor(private readonly events: EventsService) {}
 
   @Get()
-  getAll() {
-    return this.events.getAll();
+  list(@Query('date') date?: string) {
+    return this.events.listPublished(date, 50);
   }
 }
