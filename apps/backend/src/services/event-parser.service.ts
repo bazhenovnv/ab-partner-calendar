@@ -1,56 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../services/prisma.service';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
-export class EventsService {
+export class EventParserService {
   constructor(private prisma: PrismaService) {}
 
-  private withComputedStatus(event: any) {
-    return {
-      ...event,
-      status: event.date > new Date() ? 'upcoming' : 'past',
-    };
+  async getLatestEvents() {
+    return this.prisma.event.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+    });
   }
 
-  async getAll() {
-    const events: any[] = await this.prisma.event.findMany({
-      orderBy: { date: 'asc' },
+  async getPopularEvents() {
+    return this.prisma.event.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
     });
-
-    return events.map((event: any) => this.withComputedStatus(event));
   }
 
-  async getFeed() {
-    const events: any[] = await this.prisma.event.findMany({
-      orderBy: { date: 'asc' },
+  async getAllEvents() {
+    return this.prisma.event.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
-
-    return events.map((event: any) => this.withComputedStatus(event));
-  }
-
-  async grouped() {
-    const events: any[] = await this.prisma.event.findMany({
-      orderBy: { date: 'asc' },
-    });
-
-    const now = new Date();
-
-    return {
-      upcoming: events
-        .filter((event: any) => new Date(event.date) >= now)
-        .slice(0, 4)
-        .map((event: any) => ({
-          id: event.id,
-          title: event.title,
-        })),
-
-      past: events
-        .filter((event: any) => new Date(event.date) < now)
-        .slice(0, 4)
-        .map((event: any) => ({
-          id: event.id,
-          title: event.title,
-        })),
-    };
   }
 }
