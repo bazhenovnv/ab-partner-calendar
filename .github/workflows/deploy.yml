@@ -20,18 +20,15 @@ jobs:
             set -e
 
             echo "=== GO TO PROJECT ==="
-            cd /var/www/ab-partner-calendar
+            cd /root/deploy/app
 
-            echo "=== GIT PULL ==="
-            git reset --hard
+            echo "=== UPDATE CODE ==="
             git pull origin main
 
-            echo "=== DOCKER REBUILD ==="
-            cd docker
-            docker compose down
+            echo "=== BUILD DOCKER ==="
             docker compose up -d --build
 
-            echo "=== CLEAN ==="
-            docker system prune -f
+            echo "=== CLEAN OLD IMAGES ==="
+            docker image prune -f
 
             echo "=== DONE ==="

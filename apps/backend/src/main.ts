@@ -1,21 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { TelegramSyncService } from './services/telegram-sync.service';
+import { TelegramService } from './modules/telegram/telegram.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   await app.listen(process.env.BACKEND_PORT || 4000);
 
-  const syncService = app.get(TelegramSyncService);
+  const tg = app.get(TelegramService);
 
-  if (process.env.TELEGRAM_SYNC_ENABLED === 'true') {
-    setInterval(() => {
-      syncService.sync();
-    }, 10 * 60 * 1000);
+  console.log('🔥 Запускаем Telegram sync...');
 
-    syncService.sync();
-  }
+  await tg.sync(); // 👈 ВАЖНО await
+
+  setInterval(() => tg.sync(), 600000);
 
   console.log('🚀 Backend started');
 }

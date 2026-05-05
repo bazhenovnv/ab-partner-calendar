@@ -1,10 +1,12 @@
-﻿import { Controller, Get, Query } from "@nestjs/common";
-import { getFeed } from "./feed.service";
+﻿import { Controller, Get } from '@nestjs/common';
+import { FeedService } from './feed.service';
 
-@Controller("feed")
+@Controller('feed')
 export class FeedController {
+  constructor(private readonly feed: FeedService) {}
+
   @Get()
-  async get(@Query("chatId") chatId: string) {
-    return getFeed(Number(chatId));
+  getFeed() {
+    return this.feed.getFeed();
   }
 }
