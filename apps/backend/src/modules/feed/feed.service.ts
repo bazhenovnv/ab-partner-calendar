@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../services/prisma.service';
+import { EventsService } from '../events/events.service';
 
 @Injectable()
 export class FeedService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly events: EventsService) {}
 
   async getFeed() {
-    const events = await this.prisma.event.findMany({
-      where: { published: true },
-      orderBy: { startAt: 'asc' },
-    });
+    const events = await this.events.listPublished(undefined, 20);
 
-    return events;
+    return {
+      items: events,
+      total: events.length,
+    };
   }
 }
