@@ -8,6 +8,8 @@ import { FeedModule } from './modules/feed/feed.module';
 import { AiModule } from './modules/ai/ai.module';
 import { TelegramModule } from './modules/telegram/telegram.module';
 
+import { BotService } from './bot.service';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -17,5 +19,6 @@ import { TelegramModule } from './modules/telegram/telegram.module';
     AiModule,
     TelegramModule,
   ],
+  providers: [BotService],
 })
 export class AppModule {}

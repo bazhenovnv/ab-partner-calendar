@@ -7,6 +7,6 @@ export class EventsController {
 
   @Get()
   list(@Query('date') date?: string) {
-    return this.events.listPublished(date, 50);
+    return this.events.listPublished(date);
   }
 }
