@@ -22,10 +22,14 @@ jobs:
             echo "=== GO TO PROJECT ==="
             cd /root/deploy/app
 
-            echo "=== UPDATE CODE ==="
-            git pull origin main
+            echo "=== FORCE SYNC CODE ==="
+            git fetch origin
+            git reset --hard origin/main
 
-            echo "=== BUILD DOCKER ==="
+            echo "=== STOP OLD CONTAINERS ==="
+            docker compose down
+
+            echo "=== BUILD & START ==="
             docker compose up -d --build
 
             echo "=== CLEAN OLD IMAGES ==="
