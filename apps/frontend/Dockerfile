@@ -12,21 +12,23 @@ COPY . .
 
 WORKDIR /app/apps/frontend
 
+ENV NEXT_TELEMETRY_DISABLED=1
+
 RUN npm run build
 
 
 # ---------- PRODUCTION ----------
-FROM node:18-alpine
+FROM node:18-alpine AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/frontend/.next ./.next
 COPY --from=builder /app/apps/frontend/public ./public
-COPY --from=builder /app/apps/frontend/package*.json ./
-
-RUN npm ci --omit=dev
+COPY --from=builder /app/apps/frontend/package.json ./package.json
 
 EXPOSE 3000
 
