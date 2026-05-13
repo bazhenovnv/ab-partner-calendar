@@ -1,28 +1,33 @@
+# ---------- BUILD ----------
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY apps/backend/package*.json apps/backend/
+
+RUN npm ci
+
+COPY . .
+
+WORKDIR /app/apps/backend
+
+RUN npx prisma generate --schema=./prisma/schema.prisma
+RUN npm run build
+
+
+# ---------- PRODUCTION ----------
 FROM node:18-alpine
 
 WORKDIR /app
 
-# зависимости
-COPY package*.json ./
-COPY apps/backend/package*.json apps/backend/
+ENV NODE_ENV=production
 
-RUN npm install
-
-# копируем всё
-COPY . .
-
-# 🔥 ПЕРЕХОДИМ В backend
-WORKDIR /app/apps/backend
-
-# 🔥 ЯВНО УКАЗЫВАЕМ ПУТЬ К SCHEMA
-RUN npx prisma generate --schema=./prisma/schema.prisma
-
-# обратно
-WORKDIR /app
-
-# билд backend
-RUN npm run build -w apps/backend
+# только нужное
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/backend/dist ./dist
+COPY --from=builder /app/apps/backend/prisma ./prisma
 
 EXPOSE 3000
 
-CMD ["node", "apps/backend/dist/src/main.js"]
+CMD sh -c "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/main.js"

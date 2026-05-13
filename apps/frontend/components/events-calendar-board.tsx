@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, Bookmark, CalendarDays, ChevronLeft, ChevronRight, Clock3, Globe, MapPin } from 'lucide-react';
+import { ArrowLeft, CalendarDays, ChevronLeft, ChevronRight, Clock3, Globe, MapPin } from 'lucide-react';
 import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
+import { ReminderButton } from './reminder-button';
 
 const weekdayLabels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
 
@@ -118,24 +119,32 @@ export function EventsCalendarBoard({
         <div className='p-3'>
           <div className='space-y-2'>
             {selectedDayEvents.length ? selectedDayEvents.map((event) => (
-              <button
+              <div
                 key={event.id}
-                onClick={() => {
-                  setSelectedEventId(event.id);
-                  setDetailsMode(true);
-                }}
-                className={`w-full rounded-xl p-3 text-left transition ${selectedEvent?.id === event.id ? 'bg-[#dff6e8] border border-[#bde8d0]' : 'hover:bg-[#f7f9fb]'}`}
+                className={`w-full rounded-xl p-3 text-left transition ${selectedEvent?.id === event.id ? 'border border-[#bde8d0] bg-[#dff6e8]' : 'hover:bg-[#f7f9fb]'}`}
               >
-                <div className='flex gap-3'>
-                  <div className={`pt-1 text-[13px] font-medium ${eventColor(event)}`}>{formatTime(event.startAt)}</div>
-                  <div className='flex-1'>
-                    <div className='text-[15px] leading-5 text-[#222] line-clamp-3'>{event.title}</div>
-                    <div className='mt-2 flex items-center gap-2'>
-                      <span className={`h-2 w-2 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`} />
+                <button
+                  type='button'
+                  onClick={() => {
+                    setSelectedEventId(event.id);
+                    setDetailsMode(true);
+                  }}
+                  className='w-full text-left'
+                >
+                  <div className='flex gap-3'>
+                    <div className={`pt-1 text-[13px] font-medium ${eventColor(event)}`}>{formatTime(event.startAt)}</div>
+                    <div className='flex-1'>
+                      <div className='line-clamp-3 text-[15px] leading-5 text-[#222]'>{event.title}</div>
+                      <div className='mt-2 flex items-center gap-2'>
+                        <span className={`h-2 w-2 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`} />
+                      </div>
                     </div>
                   </div>
+                </button>
+                <div className='mt-3'>
+                  <ReminderButton event={event} variant='secondary' className='h-9 w-full px-3 py-2 text-xs' />
                 </div>
-              </button>
+              </div>
             )) : (
               <div className='rounded-xl bg-[#f8fafb] px-4 py-8 text-center text-sm text-slate-500'>На эту дату событий нет</div>
             )}
@@ -189,9 +198,7 @@ export function EventsCalendarBoard({
                     <ChevronRight className='h-4 w-4' />
                   </a>
                 </Button>
-                <button className='inline-flex h-[46px] w-[46px] items-center justify-center rounded-xl border border-[#d8dde3] bg-white text-slate-600 transition hover:bg-slate-50'>
-                  <Bookmark className='h-5 w-5' />
-                </button>
+                <ReminderButton event={selectedEvent} variant='secondary' className='min-w-[170px] rounded-[12px]' />
               </div>
             </>
           ) : (

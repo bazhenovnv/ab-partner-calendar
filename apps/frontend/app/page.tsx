@@ -11,6 +11,7 @@ import { api } from '@/lib/api';
 import { EventItem } from '@/lib/types';
 import { extractRussianCity, RUSSIAN_CITIES } from '@/lib/russian-cities';
 import { Button } from '@/components/ui/button';
+import { ReminderButton } from '@/components/reminder-button';
 
 const formatOptions = [
   { value: 'ALL', label: 'Все форматы' },
@@ -315,22 +316,28 @@ export default function HomePage() {
             </div>
             <div className='grid gap-3'>
               {compactEvents.map((event) => (
-                <button key={event.id} onClick={() => setActiveEvent(event)} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
-                  <div className='flex flex-wrap items-center justify-between gap-3'>
-                    <div>
-                      <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>
-                      <div className='mt-2 text-sm text-slate-500'>
-                        {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(event.startAt))}
-                        {' · '}
-                        {event.location}
+                <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
+                  <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
+                    <div className='flex flex-wrap items-center justify-between gap-3'>
+                      <div>
+                        <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>
+                        <div className='mt-2 text-sm text-slate-500'>
+                          {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(event.startAt))}
+                          {' · '}
+                          {event.location}
+                        </div>
+                      </div>
+                      <div className='flex items-center gap-2'>
+                        <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
+                        {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>Важное</span> : null}
                       </div>
                     </div>
-                    <div className='flex items-center gap-2'>
-                      <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
-                      {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>Важное</span> : null}
-                    </div>
+                  </button>
+                  <div className='mt-4 flex flex-wrap gap-3'>
+                    <Button variant='secondary' onClick={() => setActiveEvent(event)} className='px-4 py-2'>Подробнее</Button>
+                    <ReminderButton event={event} variant='primary' className='px-4 py-2' />
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>

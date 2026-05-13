@@ -2,7 +2,12 @@
   "name": "ab-partner-calendar-frontend",
   "version": "1.0.0",
   "private": true,
-  "scripts": {"dev":"next dev --port 3000","build":"next build","start":"next start -p 3000","lint":"tsc --noEmit"},
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "tsc --noEmit"
+  },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.1",

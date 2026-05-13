@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, MonitorPlay, Bell } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, MonitorPlay } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
+import { ReminderButton } from './reminder-button';
 
 export function HighlightCarousel({
   items,
@@ -94,11 +95,7 @@ export function HighlightCarousel({
             <Button variant='secondary' onClick={() => onOpen(item)} className='min-w-[170px]'>
               Подробнее
             </Button>
-            <Button asChild className='min-w-[170px]'>
-              <a href={`${process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot'}?start=afisha_${item.id}`} target='_blank' rel='noreferrer'>
-                <Bell className='h-4 w-4' />Напомнить
-              </a>
-            </Button>
+            <ReminderButton event={item} className='min-w-[170px]' />
           </div>
         </div>
 
