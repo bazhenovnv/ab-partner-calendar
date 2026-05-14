@@ -8,6 +8,8 @@ import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
+const IMPORTANT_EVENTS_PHOTO = '/important-events-photo.png';
+
 export function HighlightCarousel({
   items,
   onOpen,
@@ -31,16 +33,23 @@ export function HighlightCarousel({
   if (!slides.length) {
     const fallback = (
       <div className='dark-card overflow-hidden'>
-        <div className='grid min-h-[320px] gap-6 px-8 py-7 lg:grid-cols-[1.1fr_0.9fr]'>
-          <div className='flex flex-col justify-center'>
+        <div className='grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
+          <div className='flex flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-6 lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
-            <h2 className='max-w-3xl text-4xl font-medium leading-tight text-white'>Важные события загружаются из Telegram-канала и API-источников</h2>
+            <h2 className='max-w-2xl text-3xl font-medium leading-tight text-white lg:text-4xl'>
+              Важные события загружаются из Telegram-канала и API-источников
+            </h2>
             <p className='mt-5 max-w-2xl text-lg leading-8 text-white/78'>
               После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
             </p>
           </div>
-          <div className='hidden items-center justify-center lg:flex'>
-            <div className='h-[260px] w-full rounded-[18px] bg-[radial-gradient(circle_at_30%_20%,rgba(139,226,190,0.3),transparent_25%),linear-gradient(135deg,#111,#040404)]' />
+
+          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505]'>
+            <img
+              src={IMPORTANT_EVENTS_PHOTO}
+              alt='Важные события'
+              className='h-full w-full object-cover object-center'
+            />
           </div>
         </div>
       </div>
@@ -52,7 +61,7 @@ export function HighlightCarousel({
 
   const content = (
     <div className='dark-card overflow-hidden'>
-      <div className='relative grid min-h-[320px] gap-4 px-6 py-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8'>
+      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
@@ -62,9 +71,9 @@ export function HighlightCarousel({
           <ChevronLeft className='h-5 w-5' />
         </button>
 
-        <div className='flex flex-col justify-center lg:pl-8'>
+        <div className='flex flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-6 lg:p-8'>
           <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
-          <h2 className='max-w-3xl text-[34px] font-medium leading-tight text-white xl:text-[46px]'>
+          <h2 className='max-w-2xl text-[30px] font-medium leading-tight text-white xl:text-[42px]'>
             {item.title}
           </h2>
 
@@ -99,10 +108,12 @@ export function HighlightCarousel({
           </div>
         </div>
 
-        <div className='flex items-center justify-center lg:justify-end'>
-          <div className='h-full min-h-[250px] w-full overflow-hidden rounded-[18px] border border-white/10 bg-[#090909]'>
-            <img src={item.imageUrl || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop'} alt={item.title} className='h-full w-full object-cover opacity-90' />
-          </div>
+        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505]'>
+          <img
+            src={IMPORTANT_EVENTS_PHOTO}
+            alt='Важные события'
+            className='h-full w-full object-cover object-center'
+          />
         </div>
 
         <button
@@ -131,4 +142,3 @@ export function HighlightCarousel({
   if (embedded) return content;
   return <section className='container-shell mt-4'>{content}</section>;
 }
-
