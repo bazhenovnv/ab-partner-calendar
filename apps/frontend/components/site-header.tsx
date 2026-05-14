@@ -7,17 +7,15 @@ export function SiteHeader() {
     <header className='container-shell pt-5'>
       <div className='surface-card px-5 py-3'>
         <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
-          <a href='/' className='flex items-center' aria-label='АБ Партнер — на главную'>
-            <div className='flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-[16px] bg-black p-1.5'>
-              <Image
-                src='/logo-ab-partner.png'
-                alt='АБ Партнер'
-                width={64}
-                height={64}
-                className='h-full w-full object-contain'
-                priority
-              />
-            </div>
+          <a href='/' className='flex items-center' aria-label='Афиша бухгалтера — на главную'>
+            <Image
+              src='/logo-ab-partner.png'
+              alt='Афиша бухгалтера'
+              width={423}
+              height={154}
+              className='h-[72px] w-auto rounded-[22px] object-contain'
+              priority
+            />
           </a>
 
           <div className='flex flex-wrap items-center gap-3'>

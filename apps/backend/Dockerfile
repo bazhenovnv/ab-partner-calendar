@@ -3,6 +3,8 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+RUN apk add --no-cache openssl libc6-compat
+
 COPY package*.json ./
 COPY apps/backend/package*.json apps/backend/
 
@@ -17,13 +19,14 @@ RUN npm run build
 
 
 # ---------- PRODUCTION ----------
-FROM node:18-alpine
+FROM node:18-alpine AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# только нужное
+RUN apk add --no-cache openssl libc6-compat
+
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/backend/dist ./dist
 COPY --from=builder /app/apps/backend/prisma ./prisma

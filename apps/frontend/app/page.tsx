@@ -263,7 +263,6 @@ export default function HomePage() {
               </div>
               <div>
                 <div className='text-sm font-medium text-slate-500'>Фильтры и режимы</div>
-                <div className='text-[18px] font-medium text-[#16181d]'>Рабочий режим календаря</div>
               </div>
             </div>
 
@@ -350,8 +349,7 @@ export default function HomePage() {
 
       <section className='container-shell mt-4'>
         <div className='surface-card p-4'>
-          <div className='grid gap-3 lg:grid-cols-[220px_repeat(7,minmax(0,1fr))]'>
-            <div className='flex items-center px-2 text-[16px] font-medium text-[#17191e]'>Подборки по темам</div>
+          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7'>
             {topicCards.map((topic) => (
               <button
                 key={topic.value}

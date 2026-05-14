@@ -3,9 +3,10 @@ import { EventsModule } from '../events/events.module';
 import { ImportsController } from './imports.controller';
 import { PublicImportsController } from './public-imports.controller';
 import { SourceConnectorsService } from './source-connectors.service';
+import { PrismaModule } from '../../services/prisma.module';
 
 @Module({
-  imports: [EventsModule],
+  imports: [PrismaModule, EventsModule],
   controllers: [ImportsController, PublicImportsController],
   providers: [SourceConnectorsService],
 })

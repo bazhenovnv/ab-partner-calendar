@@ -26,7 +26,7 @@ const items = [
 export function ReminderPanel() {
   return (
     <section className='surface-card overflow-hidden px-3 py-2 sm:px-4'>
-      <div className='grid gap-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_64px]'>
+      <div className='grid gap-2 lg:grid-cols-4'>
         {items.map((item) => {
           const Icon = item.icon;
           return (
@@ -41,9 +41,6 @@ export function ReminderPanel() {
             </div>
           );
         })}
-        <div className='hidden items-center justify-center lg:flex'>
-          <div className='h-10 w-10 rounded-[4px] bg-black' />
-        </div>
       </div>
     </section>
   );
