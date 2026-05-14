@@ -8,7 +8,7 @@ import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
-const IMPORTANT_EVENTS_PHOTO = '/important-events-photo.png';
+const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
@@ -58,7 +58,7 @@ export function HighlightCarousel({
             <img
               src={IMPORTANT_EVENTS_PHOTO}
               alt='Важные события'
-              className='h-full w-full object-cover object-center'
+              className='h-full w-full object-contain object-center'
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ export function HighlightCarousel({
           <img
             src={IMPORTANT_EVENTS_PHOTO}
             alt='Важные события'
-            className='h-full w-full object-cover object-center'
+            className='h-full w-full object-contain object-center'
           />
         </div>
 
