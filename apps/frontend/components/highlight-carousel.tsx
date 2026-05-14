@@ -10,6 +10,16 @@ import { ReminderButton } from './reminder-button';
 
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo.png';
 
+function cleanDescriptionText(value?: string) {
+  if (!value) return '';
+  return value
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 export function HighlightCarousel({
   items,
   onOpen,
@@ -97,7 +107,7 @@ export function HighlightCarousel({
           </div>
 
           <p className='mt-6 max-w-2xl text-[18px] leading-8 text-white/78'>
-            {item.descriptionShort || item.descriptionFull}
+            {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
