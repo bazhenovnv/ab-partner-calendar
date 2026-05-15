@@ -47,10 +47,18 @@ function formatTime(date: string) {
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
+
   return value
     .replace(/https?:\/\/\S+/g, '')
     .replace(/#[\p{L}\p{N}_-]+/gu, '')
-    .replace(/(?:^|\n)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
+    .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
+    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
+    .filter((line) => !/^\(?\??\)?$/.test(line))
+    .join('\n')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -115,15 +123,15 @@ export function EventsCalendarBoard({
   }, [currentMonth]);
 
   return (
-    <section className='grid items-start gap-4 xl:grid-cols-[minmax(520px,1.15fr)_minmax(480px,0.85fr)]'>
-      <div className='surface-card self-start overflow-hidden bg-white xl:h-[680px]'>
+    <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1.18fr)_minmax(430px,0.82fr)]'>
+      <div className='surface-card self-start overflow-hidden bg-white xl:h-[630px]'>
         <div className='h-full overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
             <>
-              <div className='mb-4 flex items-start justify-between gap-4'>
+              <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
                 <div>
                   <div className='mb-2 text-sm font-medium text-slate-500'>{formatDate(selectedDate)}</div>
-                  <h3 className='max-w-[780px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>{selectedEvent.title}</h3>
+                  <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>{selectedEvent.title}</h3>
                 </div>
                 <div className='shrink-0 rounded-full bg-[#e7f7ee] px-4 py-2 text-sm font-medium text-[#356b51]'>
                   {selectedEvent.format === 'ONLINE' ? 'Онлайн' : selectedEvent.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
@@ -137,7 +145,26 @@ export function EventsCalendarBoard({
                 <span className='inline-flex items-center gap-2'><MapPin className='h-4 w-4' /> {selectedEvent.location || 'Адрес уточняется'}</span>
               </div>
 
-              <div className='mt-7 whitespace-pre-line rounded-[18px] bg-white text-[17px] leading-8 text-[#404552]'>
+              {selectedDayEvents.length > 1 && (
+                <div className='mt-5 rounded-[16px] border border-[#e8eaee] bg-[#f8fafb] p-3'>
+                  <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500'>Мероприятия выбранного дня</div>
+                  <div className='flex flex-wrap gap-2'>
+                    {selectedDayEvents.map((event, index) => (
+                      <button
+                        key={event.id}
+                        type='button'
+                        onClick={() => setSelectedEventId(event.id)}
+                        className={`inline-flex max-w-[360px] items-center gap-2 rounded-xl border px-3 py-2 text-left text-[13px] leading-4 transition ${selectedEvent.id === event.id ? 'border-[#7CD8B3] bg-white text-black shadow-sm' : 'border-[#e8eaee] bg-white text-slate-700 hover:border-[#7CD8B3]'}`}
+                      >
+                        <span className='inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1.5 text-[11px] font-semibold text-white'>{index + 1}</span>
+                        <span className='line-clamp-1'>{event.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className='mt-6 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
                 {cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort) || 'Описание мероприятия будет добавлено позже.'}
               </div>
 
@@ -157,35 +184,7 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='dark-card self-start overflow-hidden px-4 pb-4 pt-4'>
-        <div className='mb-3 rounded-[16px] bg-white p-3 text-[#1a1a1a]'>
-          <div className='mb-3 flex items-center justify-between gap-3'>
-            <div className='text-[14px] font-semibold'>{formatDate(selectedDate)}</div>
-            <div className='inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#8BE2BE] px-2 text-xs font-semibold text-[#163120]'>
-              {selectedDayEvents.length}
-            </div>
-          </div>
-
-          {selectedDayEvents.length ? (
-            <div className='grid gap-2'>
-              {selectedDayEvents.map((event, index) => (
-                <button
-                  key={event.id}
-                  type='button'
-                  onClick={() => setSelectedEventId(event.id)}
-                  className={`flex w-full items-start gap-3 rounded-xl border px-3 py-2.5 text-left transition ${selectedEvent?.id === event.id ? 'border-[#7CD8B3] bg-[#e8f8f1]' : 'border-[#e8eaee] bg-white hover:bg-[#f7f9fb]'}`}
-                >
-                  <span className='mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1.5 text-[11px] font-semibold text-white'>{index + 1}</span>
-                  <span className='line-clamp-2 flex-1 text-[14px] leading-5 text-[#222]'>{event.title}</span>
-                  <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className='rounded-xl bg-[#f8fafb] px-4 py-5 text-center text-sm text-slate-500'>На эту дату событий нет</div>
-          )}
-        </div>
-
+      <div className='dark-card self-start overflow-visible px-3 pb-3 pt-3'>
         <div className='mb-3 flex items-center justify-between gap-4 border-b border-white/10 pb-3'>
           <div className='flex items-center gap-2'>
             <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition hover:bg-white/10'>
@@ -250,6 +249,12 @@ export function EventsCalendarBoard({
               </div>
             );
           })}
+        </div>
+
+        <div className='flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-2 pt-3 text-[12px] text-white/82'>
+          <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#39c285]' />Запланировано</span>
+          <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#f7c948]' />Идёт сегодня</span>
+          <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#ef4444]' />Прошло</span>
         </div>
       </div>
     </section>
