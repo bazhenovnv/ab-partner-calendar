@@ -54,12 +54,12 @@ export class AnalyticsController {
       this.prisma.visitHit.count({ where: { createdAt: { gte: startOf7d } } }),
       this.prisma.visitHit.count({ where: { createdAt: { gte: startOf30d } } }),
       this.prisma.visitHit.groupBy({ by: ['anonId'] }),
-      this.prisma.visitHit.groupBy({ by: ['path'], _count: { _all: true }, take: 50 }),
-      this.prisma.visitHit.groupBy({ by: ['city'], _count: { _all: true }, take: 50 }),
+      this.prisma.visitHit.groupBy({ by: ['path'], _count: { _all: true } }),
+      this.prisma.visitHit.groupBy({ by: ['city'], _count: { _all: true } }),
     ]);
 
-    const topPathRows = (topPathRowsRaw as PathCountRow[]).sort((a, b) => b._count._all - a._count._all).slice(0, 10);
-    const visitCityRows = (visitCityRowsRaw as CityCountRow[]).sort((a, b) => b._count._all - a._count._all).slice(0, 10);
+    const topPathRows = (topPathRowsRaw as unknown as PathCountRow[]).sort((a, b) => b._count._all - a._count._all).slice(0, 10);
+    const visitCityRows = (visitCityRowsRaw as unknown as CityCountRow[]).sort((a, b) => b._count._all - a._count._all).slice(0, 10);
 
     const byCity = countBy(events, (event) => normalizeCity(event.location)).map(({ key, count }) => ({ city: key, count })).slice(0, 12);
     const byTopic = countBy(events, (event) => event.tags?.length ? event.tags : event.category?.title || 'Без категории').map(({ key, count }) => ({ topic: key, count })).slice(0, 12);

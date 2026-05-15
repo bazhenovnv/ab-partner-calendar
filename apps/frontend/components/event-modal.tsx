@@ -13,6 +13,10 @@ function cleanDescriptionText(value?: string) {
   if (!value) return '';
   return value
     .replace(/https?:\/\/\S+/g, '')
+    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .split('\n')
+    .filter((line) => !/^(Источник|Телеграм|Зарегистрироваться|Регистрация)\b/iu.test(line.trim()))
+    .join('\n')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
