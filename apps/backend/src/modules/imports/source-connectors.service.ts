@@ -504,7 +504,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const slug = this.slugify(event.title, sourcePostId);
     const tags = Array.from(new Set([...(event.tags || []), 'telegram', 'import'])).slice(0, 12);
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
-    const imageUrl = event.imageUrl || '/important-events-photo.png';
+    const imageUrl = event.imageUrl || '/important-events-photo-v2.png';
 
     return this.prisma.event.upsert({
       where: { slug },
