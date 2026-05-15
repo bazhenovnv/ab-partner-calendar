@@ -51,15 +51,12 @@ function cleanDescriptionText(value?: string) {
   return value
     .replace(/https?:\/\/\S+/g, '')
     .replace(/#[\p{L}\p{N}_-]+/gu, '')
-    .split('\n')
-    .filter((line) => !/^(Источник|Телеграм|Зарегистрироваться|Регистрация)\b/iu.test(line.trim()))
-    .join('\n')
+    .replace(/(?:^|\n)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
-
 function eventColor(event?: EventItem) {
   if (!event) return '';
   if (event.runtimeStatus === 'LIVE') return 'text-[#f7c948]';
