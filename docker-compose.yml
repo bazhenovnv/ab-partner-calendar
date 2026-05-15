@@ -24,6 +24,12 @@ services:
       - "4000:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
+      JWT_SECRET: change_me
+      TELEGRAM_SYNC_ENABLED: "true"
+      TELEGRAM_CHANNEL_URL: https://t.me/ab_afisha_buh
+      AUTO_SYNC_ON_START: "true"
+      TELEGRAM_SYNC_INTERVAL_MINUTES: "60"
+      IMPORT_FALLBACK_ENABLED: "false"
     depends_on:
       - postgres
 
@@ -31,6 +37,9 @@ services:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:4000/api
+        NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK: https://t.me/PartnersTogether_bot
     container_name: dev-frontend
     restart: always
     ports:

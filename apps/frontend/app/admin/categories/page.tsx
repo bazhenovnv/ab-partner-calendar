@@ -1,8 +1,19 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { mockCategories } from '@/components/admin/admin-data';
 import { SectionHeader } from '@/components/admin/section-header';
 import { Badge } from '@/components/ui/badge';
+import { api } from '@/lib/api';
+import { Category } from '@/lib/types';
 
 export default function AdminCategoriesPage() {
+  const [items, setItems] = useState<Category[]>(mockCategories);
+
+  useEffect(() => {
+    api.categories().then(setItems).catch(() => undefined);
+  }, []);
+
   return (
     <div className='space-y-6'>
       <SectionHeader
@@ -12,7 +23,7 @@ export default function AdminCategoriesPage() {
       />
 
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
-        {mockCategories.map((category) => (
+        {items.map((category) => (
           <article key={category.id} className='rounded-[28px] bg-white p-5 shadow-panel'>
             <div className='h-2 rounded-full' style={{ background: category.color }} />
             <h2 className='mt-4 text-lg font-semibold text-slate-950'>{category.title}</h2>

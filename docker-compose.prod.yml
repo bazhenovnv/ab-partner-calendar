@@ -45,6 +45,9 @@ services:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: /api
+        NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK: https://t.me/PartnersTogether_bot
     restart: unless-stopped
     environment:
       NEXT_PUBLIC_API_URL: /api

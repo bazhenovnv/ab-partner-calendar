@@ -74,4 +74,69 @@ export class CreateEventDto {
   tags?: string[];
 }
 
-export class UpdateEventDto extends CreateEventDto {}
+export class UpdateEventDto {
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  slug?: string;
+
+  @IsOptional()
+  @IsString()
+  descriptionShort?: string;
+
+  @IsOptional()
+  @IsString()
+  descriptionFull?: string;
+
+  @IsOptional()
+  @IsDateString()
+  startAt?: string;
+
+  @IsOptional()
+  @IsDateString()
+  endAt?: string;
+
+  @IsOptional()
+  @IsString()
+  location?: string;
+
+  @IsOptional()
+  @IsIn(EVENT_FORMATS)
+  format?: EventFormatValue;
+
+  @IsOptional()
+  @IsUUID()
+  categoryId?: string;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  source?: string;
+
+  @IsOptional()
+  @IsString()
+  sourceUrl?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isImportant?: boolean;
+
+  @IsOptional()
+  @IsIn(EVENT_STATUSES)
+  status?: EventStatusValue;
+
+  @IsOptional()
+  @IsBoolean()
+  published?: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
+}

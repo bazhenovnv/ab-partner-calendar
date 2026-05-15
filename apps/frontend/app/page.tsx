@@ -160,7 +160,7 @@ export default function HomePage() {
 
   const availableCities = useMemo(() => {
     const fromEvents = events.map((item) => extractRussianCity(item.location)).filter(Boolean) as string[];
-    return RUSSIAN_CITIES.filter((value, index, arr) => arr.indexOf(value) === index && (fromEvents.includes(value) || true));
+    return RUSSIAN_CITIES.filter((value, index, arr) => arr.indexOf(value) === index && fromEvents.includes(value));
   }, [events]);
 
   const availableTopics = useMemo(() => getTopicList(events), [events]);

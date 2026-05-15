@@ -12,10 +12,11 @@ import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { api } from '@/lib/api';
 import { getAdminToken } from '@/lib/admin-utils';
-import { EventItem } from '@/lib/types';
+import { Category, EventItem } from '@/lib/types';
 
 export default function AdminEventsPage() {
   const [items, setItems] = useState<EventItem[]>(mockEvents);
+  const [categories, setCategories] = useState<Category[]>(mockCategories);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('ALL');
   const [categoryId, setCategoryId] = useState('ALL');
@@ -24,6 +25,7 @@ export default function AdminEventsPage() {
 
   useEffect(() => {
     const token = getAdminToken();
+    api.categories().then(setCategories).catch(() => undefined);
     if (!token) return;
     api.adminEvents(token).then(setItems).catch(() => undefined);
   }, []);
@@ -44,23 +46,19 @@ export default function AdminEventsPage() {
     const payload = { ...value, startAt: new Date(value.startAt).toISOString(), endAt: new Date(value.endAt).toISOString() };
 
     if (token) {
-      try {
-        if (current) {
-          const updated = await api.updateEvent(token, current.id, payload);
-          setItems((prev) => prev.map((item) => (item.id === current.id ? { ...item, ...updated } : item)));
-        } else {
-          const created = await api.createEvent(token, payload);
-          setItems((prev) => [created, ...prev]);
-        }
-        setCreating(false);
-        setEditing(null);
-        return;
-      } catch {
-        // fallback to local mock update
+      if (current) {
+        const updated = await api.updateEvent(token, current.id, payload);
+        setItems((prev) => prev.map((item) => (item.id === current.id ? updated : item)));
+      } else {
+        const created = await api.createEvent(token, payload);
+        setItems((prev) => [created, ...prev]);
       }
+      setCreating(false);
+      setEditing(null);
+      return;
     }
 
-    const category = mockCategories.find((item) => item.id === value.categoryId) || mockCategories[0];
+    const category = categories.find((item) => item.id === value.categoryId) || categories[0] || mockCategories[0];
     const record: EventItem = {
       id: current?.id || `local-${Date.now()}`,
       title: value.title,
@@ -92,6 +90,14 @@ export default function AdminEventsPage() {
     setEditing(null);
   }
 
+  async function deleteItem(item: EventItem) {
+    const token = getAdminToken();
+    if (token && !item.id.startsWith('local-')) {
+      await api.deleteEvent(token, item.id);
+    }
+    setItems((prev) => prev.filter((record) => record.id !== item.id));
+  }
+
   return (
     <div className='space-y-6'>
       <SectionHeader
@@ -111,7 +117,7 @@ export default function AdminEventsPage() {
         </Select>
         <Select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
           <option value='ALL'>Все категории</option>
-          {mockCategories.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}
+          {categories.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}
         </Select>
       </section>
 
@@ -154,7 +160,7 @@ export default function AdminEventsPage() {
                   <td className='px-5 py-4'>
                     <div className='flex gap-2'>
                       <Button variant='ghost' onClick={() => setEditing(item)}><Edit3 className='h-4 w-4' />Изменить</Button>
-                      <Button variant='ghost' className='text-rose-700 hover:bg-rose-50' onClick={() => setItems((prev) => prev.filter((record) => record.id !== item.id))}><Trash2 className='h-4 w-4' />Удалить</Button>
+                      <Button variant='ghost' className='text-rose-700 hover:bg-rose-50' onClick={() => deleteItem(item)}><Trash2 className='h-4 w-4' />Удалить</Button>
                     </div>
                   </td>
                 </tr>
@@ -170,7 +176,7 @@ export default function AdminEventsPage() {
             <h2 className='text-2xl font-semibold text-slate-950'>{editing ? 'Редактирование мероприятия' : 'Создание мероприятия'}</h2>
             <p className='mt-2 text-sm text-slate-600'>Заполните основные поля события, настройте статусы и публикацию на витрине.</p>
           </div>
-          <EventForm categories={mockCategories} initial={editing} submitLabel={editing ? 'Сохранить изменения' : 'Создать мероприятие'} onSubmit={(value) => submitForm(value, editing)} />
+          <EventForm categories={categories} initial={editing} submitLabel={editing ? 'Сохранить изменения' : 'Создать мероприятие'} onSubmit={(value) => submitForm(value, editing)} />
         </DialogContent>
       </Dialog>
     </div>

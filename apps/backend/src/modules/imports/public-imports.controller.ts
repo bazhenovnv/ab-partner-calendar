@@ -32,7 +32,7 @@ export class PublicImportsController {
       },
     });
 
-    return categories
+    return (categories as Array<{ id: string; title: string; slug: string; events: unknown[] }>)
       .filter((category) => category.events.length > 0)
       .map((category) => ({
         id: category.id,

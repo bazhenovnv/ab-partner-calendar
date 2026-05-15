@@ -133,7 +133,7 @@ export class SourceConnectorsService implements OnModuleInit {
   private decodeHtml(value: string): string {
     return value
       .replace(/<br\s*\/?>/gi, '\n')
-      .replace(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, '$2 ($1)')
+      .replace(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, '$2')
       .replace(/<[^>]+>/g, ' ')
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
@@ -259,6 +259,20 @@ export class SourceConnectorsService implements OnModuleInit {
     return this.normalizeTitle(line || 'Импортированное мероприятие');
   }
 
+
+  private sanitizeImportedText(text: string): string {
+    return text
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/#[\p{L}\p{N}_-]+/gu, '')
+      .replace(/(?:^|
+)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
+      .replace(/
+{3,}/g, '
+
+')
+      .trim();
+  }
+
   private isImportant(text: string, tags: string[], importantTag: string, indexFromChannel: number) {
     const normalizedTag = importantTag.replace('#', '').toLowerCase();
     const explicit = tags.some((tag) => tag.toLowerCase() === normalizedTag);
@@ -266,9 +280,58 @@ export class SourceConnectorsService implements OnModuleInit {
     return explicit || keyword || indexFromChannel < 5;
   }
 
+
+  private isCollectionHeader(line: string) {
+    return /^(?:\d{1,2}[.\-/]\d{1,2}(?:[.\-/]\d{2,4})?|\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря))[^\n]{0,80}(?:\d{1,2}:\d{2})?/iu.test(line);
+  }
+
+  private parseTelegramCollection(lines: string[], baseId: string, sourceUrl: string, importantTag: string, indexFromChannel: number): ExternalEvent[] {
+    const headerIndexes = lines
+      .map((line, index) => ({ line, index }))
+      .filter(({ line }) => this.isCollectionHeader(line))
+      .map(({ index }) => index);
+
+    if (headerIndexes.length < 2) return [];
+
+    const events: ExternalEvent[] = [];
+    for (let i = 0; i < headerIndexes.length; i += 1) {
+      const startIndex = headerIndexes[i];
+      const endIndex = headerIndexes[i + 1] ?? lines.length;
+      const block = lines.slice(startIndex, endIndex).filter(Boolean);
+      const header = block[0] || '';
+      const titleLine = block.find((line, idx) => idx > 0 && !/^стоимость\s*:/iu.test(line) && !/^формат\s*:/iu.test(line) && !/^где\s*:/iu.test(line) && !line.startsWith('#'));
+      const title = this.normalizeTitle(titleLine || this.fallbackTitle(block));
+      if (!title) continue;
+
+      const joined = block.join('\n');
+      const dateInfo = this.parseDateTimeRange(header) || this.parseDateTimeRange(joined);
+      if (!dateInfo.startAt) continue;
+
+      const format = this.deriveFormat(joined);
+      const tags = this.extractTags(joined);
+      events.push({
+        externalId: `${baseId}-${i + 1}`,
+        title,
+        description: joined,
+        startAt: dateInfo.startAt,
+        endAt: dateInfo.endAt,
+        location: this.parseLocation(joined, format),
+        sourceUrl,
+        tags,
+        isImportant: this.isImportant(joined, tags, importantTag, indexFromChannel),
+        format,
+      });
+    }
+
+    return events;
+  }
+
   private parseTelegramPost(rawText: string, baseId: string, sourceUrl: string, importantTag: string, indexFromChannel: number): ExternalEvent[] {
     const lines = this.cleanLines(rawText);
     if (!lines.length) return [];
+
+    const collectionEvents = this.parseTelegramCollection(lines, baseId, sourceUrl, importantTag, indexFromChannel);
+    if (collectionEvents.length) return collectionEvents;
 
     const joined = lines.join('\n');
     const dateInfo = this.parseDateTimeRange(joined);
@@ -296,67 +359,26 @@ export class SourceConnectorsService implements OnModuleInit {
   private async fetchTelegramPublic(connector: ConnectorConfig): Promise<ExternalEvent[]> {
     const normalized = (connector.channelUrl || 'https://t.me/ab_afisha_buh').replace(/\/$/, '');
     const publicFeedUrl = normalized.includes('/s/') ? normalized : normalized.replace('https://t.me/', 'https://t.me/s/');
-    const sourceBaseUrl = normalized.replace('https://t.me/s/', 'https://t.me/');
-
     const response = await fetch(publicFeedUrl, {
-      headers: {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36',
-        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
+      headers: { 'user-agent': 'Mozilla/5.0 (compatible; ABPartnerCalendarBot/1.0)' },
     });
-
-    if (!response.ok) {
-      throw new Error(`Не удалось получить канал ${publicFeedUrl}: HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Не удалось получить канал ${publicFeedUrl}: HTTP ${response.status}`);
 
     const html = await response.text();
+    const blocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?<\/article>[\s\S]*?<\/div>/g) || [];
     const importantTag = connector.importantTag || '#Хит';
 
-    const splitBlocks = html
-      .split(/(?=<div class="tgme_widget_message_wrap\b)/gi)
-      .filter((block) => /data-post="[^"]+"/i.test(block));
-
-    const fallbackBlocks = Array.from(
-      html.matchAll(/<div[^>]+data-post="[^"]+"[\s\S]*?(?=<div[^>]+data-post="[^"]+"|<\/main>|<\/body>|$)/gi),
-    ).map((match) => match[0]);
-
-    const blocks = splitBlocks.length ? splitBlocks : fallbackBlocks;
-
-    this.logger.log(`Telegram ${publicFeedUrl}: html=${html.length}, blocks=${blocks.length}`);
-
     return blocks.slice(0, 80).flatMap((block, index): ExternalEvent[] => {
-      const postMatch = block.match(/data-post="([^"]+)"/i);
-      const textMatch = block.match(/<div class="[^"]*\btgme_widget_message_text\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-      const photoMatch = block.match(/background-image:\s*url\(['"]?([^'")]+)['"]?\)/i);
-
-      if (!postMatch || !textMatch?.[1]) {
-        if (index < 5) {
-          this.logger.warn(`Telegram block ${index}: text not found`);
-        }
-        return [];
-      }
-
-      const rawText = this.decodeHtml(textMatch[1]);
-
-      if (!rawText) {
-        if (index < 5) {
-          this.logger.warn(`Telegram block ${index}: empty text`);
-        }
-        return [];
-      }
+      const postMatch = block.match(/data-post="([^"]+)"/);
+      const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/);
+      const photoMatch = block.match(/background-image:url\('([^']+)'\)/);
+      const rawText = this.decodeHtml(textMatch?.[1] || '');
+      if (!postMatch || !rawText) return [];
 
       const sourcePostId = postMatch[1].split('/').pop() || postMatch[1];
-      const sourceUrl = `${sourceBaseUrl}/${sourcePostId}`;
+      const sourceUrl = `${normalized}/${sourcePostId}`;
       const events = this.parseTelegramPost(rawText, sourcePostId, sourceUrl, importantTag, index);
-
-      if (!events.length && index < 5) {
-        this.logger.warn(`Telegram block ${index}: parsed 0 events. Text sample: ${rawText.slice(0, 300)}`);
-      }
-
-      return events.map((item) => ({
-        ...item,
-        imageUrl: item.imageUrl || photoMatch?.[1],
-      }));
+      return events.map((item) => ({ ...item, imageUrl: item.imageUrl || photoMatch?.[1] }));
     });
   }
 
@@ -452,6 +474,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const category = await this.getDefaultCategory();
     const sourcePostId = `${connector.id}:${event.externalId}`;
     const rawText = event.description || event.title;
+    const cleanDescription = this.sanitizeImportedText(event.description || event.title);
 
     await this.prisma.telegramImport.upsert({
       where: { sourcePostId },
@@ -461,7 +484,7 @@ export class SourceConnectorsService implements OnModuleInit {
         parsedTitle: event.title,
         parsedStartAt: event.startAt,
         parsedLocation: event.location,
-        parsedDescription: event.description,
+        parsedDescription: cleanDescription,
         status: event.startAt ? 'CONFIRMED' : 'REVIEW',
       },
       create: {
@@ -471,7 +494,7 @@ export class SourceConnectorsService implements OnModuleInit {
         parsedTitle: event.title,
         parsedStartAt: event.startAt,
         parsedLocation: event.location,
-        parsedDescription: event.description,
+        parsedDescription: cleanDescription,
         status: event.startAt ? 'CONFIRMED' : 'REVIEW',
       },
     });
@@ -487,8 +510,8 @@ export class SourceConnectorsService implements OnModuleInit {
       where: { slug },
       update: {
         title: event.title,
-        descriptionShort: event.description.slice(0, 180),
-        descriptionFull: event.description,
+        descriptionShort: cleanDescription.slice(0, 180),
+        descriptionFull: cleanDescription,
         startAt: event.startAt,
         endAt,
         location: event.location ?? 'Онлайн',
@@ -505,8 +528,8 @@ export class SourceConnectorsService implements OnModuleInit {
       create: {
         title: event.title,
         slug,
-        descriptionShort: event.description.slice(0, 180),
-        descriptionFull: event.description,
+        descriptionShort: cleanDescription.slice(0, 180),
+        descriptionFull: cleanDescription,
         startAt: event.startAt,
         endAt,
         location: event.location ?? 'Онлайн',

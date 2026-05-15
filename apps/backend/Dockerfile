@@ -33,4 +33,4 @@ COPY --from=builder /app/apps/backend/prisma ./prisma
 
 EXPOSE 3000
 
-CMD sh -c "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/main.js"
+CMD sh -c "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/src/main.js"

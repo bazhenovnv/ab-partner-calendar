@@ -45,6 +45,18 @@ function formatTime(date: string) {
   return new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' }).format(new Date(date));
 }
 
+
+function cleanDescriptionText(value?: string) {
+  if (!value) return '';
+  return value
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .replace(/(?:^|\n)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
 function eventColor(event?: EventItem) {
   if (!event) return '';
   if (event.runtimeStatus === 'LIVE') return 'text-[#f7c948]';
@@ -103,8 +115,8 @@ export function EventsCalendarBoard({
   }, [currentMonth]);
 
   return (
-    <section className='grid gap-4 xl:grid-cols-[240px_minmax(380px,1fr)_minmax(560px,1.1fr)]'>
-      <div className='surface-card overflow-hidden'>
+    <section className='grid items-start gap-4 xl:grid-cols-[240px_minmax(380px,1fr)_minmax(560px,1.1fr)]'>
+      <div className='surface-card self-start overflow-hidden xl:h-[760px]'>
         <div className='border-b border-[#ebedf0] px-5 py-4'>
           <div className='flex items-center justify-between gap-2'>
             <div>
@@ -116,49 +128,30 @@ export function EventsCalendarBoard({
           </div>
         </div>
 
-        <div className='p-3'>
-          <div className='space-y-2'>
+        <div className='flex h-[calc(100%-73px)] flex-col p-3'>
+          <div className='flex-1 space-y-2 overflow-y-auto pr-1'>
             {selectedDayEvents.length ? selectedDayEvents.map((event) => (
-              <div
+              <button
                 key={event.id}
-                className={`w-full rounded-xl p-3 text-left transition ${selectedEvent?.id === event.id ? 'border border-[#bde8d0] bg-[#dff6e8]' : 'hover:bg-[#f7f9fb]'}`}
+                type='button'
+                onClick={() => {
+                  setSelectedEventId(event.id);
+                  setDetailsMode(true);
+                }}
+                className={`flex w-full items-start gap-3 rounded-xl border px-3 py-3 text-left transition ${selectedEvent?.id === event.id ? 'border-[#bde8d0] bg-[#dff6e8]' : 'border-transparent bg-white hover:bg-[#f7f9fb]'}`}
               >
-                <button
-                  type='button'
-                  onClick={() => {
-                    setSelectedEventId(event.id);
-                    setDetailsMode(true);
-                  }}
-                  className='w-full text-left'
-                >
-                  <div className='flex gap-3'>
-                    <div className={`pt-1 text-[13px] font-medium ${eventColor(event)}`}>{formatTime(event.startAt)}</div>
-                    <div className='flex-1'>
-                      <div className='line-clamp-3 text-[15px] leading-5 text-[#222]'>{event.title}</div>
-                      <div className='mt-2 flex items-center gap-2'>
-                        <span className={`h-2 w-2 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`} />
-                      </div>
-                    </div>
-                  </div>
-                </button>
-                <div className='mt-3'>
-                  <ReminderButton event={event} variant='secondary' className='h-9 w-full px-3 py-2 text-xs' />
-                </div>
-              </div>
+                <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`} />
+                <span className='line-clamp-2 text-[15px] leading-5 text-[#222]'>{event.title}</span>
+              </button>
             )) : (
               <div className='rounded-xl bg-[#f8fafb] px-4 py-8 text-center text-sm text-slate-500'>На эту дату событий нет</div>
             )}
           </div>
-
-          <Button variant='secondary' className='mt-5 w-full justify-between'>
-            Все события дня
-            <CalendarDays className='h-4 w-4' />
-          </Button>
         </div>
       </div>
 
-      <div className='surface-card overflow-hidden'>
-        <div className='min-h-full px-6 py-5'>
+      <div className='surface-card self-start overflow-hidden xl:h-[760px]'>
+        <div className='h-full overflow-y-auto px-6 py-5'>
           {detailsMode && selectedEvent ? (
             <button onClick={() => setDetailsMode(false)} className='mb-4 inline-flex items-center gap-2 text-sm text-slate-600 transition hover:text-black'>
               <ArrowLeft className='h-4 w-4' /> Назад
@@ -182,14 +175,9 @@ export function EventsCalendarBoard({
               </div>
 
               <div className='mt-7 text-[17px] leading-8 text-[#404552]'>
-                {selectedEvent.descriptionFull || selectedEvent.descriptionShort || 'Описание мероприятия будет добавлено позже.'}
+                {cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort) || 'Описание мероприятия будет добавлено позже.'}
               </div>
 
-              <div className='mt-6 flex flex-wrap gap-2'>
-                {selectedEvent.tags?.slice(0, 3).map((tag) => (
-                  <span key={tag} className='tag-chip'>{tag}</span>
-                ))}
-              </div>
 
               <div className='mt-8 flex items-center gap-3'>
                 <Button asChild variant='dark' className='min-w-[300px] justify-between rounded-[12px]'>
@@ -207,7 +195,7 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='dark-card overflow-hidden px-4 py-4'>
+      <div className='dark-card self-start overflow-hidden px-4 py-4 xl:h-[760px]'>
         <div className='mb-4 flex items-center justify-between gap-4 border-b border-white/10 pb-3'>
           <div className='flex items-center gap-2'>
             <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition hover:bg-white/10'>
@@ -233,7 +221,6 @@ export function EventsCalendarBoard({
           {days.map((day) => {
             const dayKey = keyOf(day);
             const dayEvents = eventsByDay.get(dayKey) ?? [];
-            const nearest = dayEvents[0];
             const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
             const isSelected = isSameDay(day, selectedDate);
             return (
@@ -246,15 +233,19 @@ export function EventsCalendarBoard({
               >
                 <div className='mb-2 flex items-start justify-between gap-1'>
                   <div className={`text-[15px] font-medium ${isSelected ? 'text-black' : isCurrentMonth ? 'text-white' : 'text-white/35'}`}>{day.getDate()}</div>
-                  {dayEvents.length > 0 && (
-                    <span className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[11px] font-semibold ${isSelected ? 'bg-white text-[#163120]' : 'bg-[#8BE2BE] text-[#163120]'}`}>{dayEvents.length}</span>
-                  )}
                 </div>
 
-                {nearest && (
-                  <div className={`max-w-full text-[12px] leading-4 ${isSelected ? 'text-[#163120]' : 'text-white/88'}`}>
-                    <div className={`font-medium ${eventColor(nearest)}`}>{formatTime(nearest.startAt)}</div>
-                    <div className='mt-1 line-clamp-2'>{nearest.title}</div>
+                {dayEvents.length > 0 && (
+                  <div className='mt-3 flex flex-wrap gap-1.5'>
+                    {dayEvents.slice(0, 4).map((event) => (
+                      <span
+                        key={event.id}
+                        className={`h-2.5 w-2.5 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`}
+                      />
+                    ))}
+                    {dayEvents.length > 4 && (
+                      <span className={`text-[11px] font-medium ${isSelected ? 'text-[#163120]' : 'text-white/72'}`}>+{dayEvents.length - 4}</span>
+                    )}
                   </div>
                 )}
 
@@ -263,13 +254,12 @@ export function EventsCalendarBoard({
                     <div className='text-[13px] font-medium text-white'>{formatDate(day)}</div>
                     <div className='mt-2 space-y-2'>
                       {dayEvents.map((event) => (
-                        <div key={event.id} className='text-[12px] leading-5 text-white/86'>
-                          <div>{formatTime(event.startAt)} · {event.title}</div>
-                          <div className='text-white/55'>{event.location || 'Адрес уточняется'}</div>
+                        <div key={event.id} className='flex items-start gap-2 text-[12px] leading-5 text-white/86'>
+                          <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${event.runtimeStatus === 'LIVE' ? 'bg-[#f7c948]' : event.runtimeStatus === 'COMPLETED' ? 'bg-[#ef4444]' : 'bg-[#39c285]'}`} />
+                          <div className='line-clamp-2'>{event.title}</div>
                         </div>
                       ))}
                     </div>
-                    <div className='mt-2 text-[12px] text-white/70'>Все события дня</div>
                   </div>
                 )}
               </div>

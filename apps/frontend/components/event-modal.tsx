@@ -9,6 +9,16 @@ import { api } from '@/lib/api';
 import { Modal } from './ui/dialog';
 import { Button } from './ui/button';
 
+function cleanDescriptionText(value?: string) {
+  if (!value) return '';
+  return value
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 export function EventModal({
   item,
   open,
@@ -28,7 +38,7 @@ export function EventModal({
       <div className='grid gap-6 lg:grid-cols-[1.08fr_0.92fr]'>
         <div>
           <img src={item.imageUrl} alt={item.title} className='h-64 w-full rounded-[24px] object-cover' />
-          <p className='mt-5 text-sm leading-7 text-slate-600'>{item.descriptionFull}</p>
+          <p className='mt-5 text-sm leading-7 text-slate-600'>{cleanDescriptionText(item.descriptionFull)}</p>
         </div>
         <div className='space-y-4 rounded-[24px] bg-slate-50 p-5'>
           <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />

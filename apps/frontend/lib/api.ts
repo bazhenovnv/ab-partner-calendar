@@ -30,7 +30,7 @@ async function fetcher<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  publicSync: () => fetcher<{ synced: boolean; imports: number; upserted: number }>('/public/sync', { method: 'POST' }),
+  publicSync: () => fetcher<{ synced: boolean; connectors?: number; imported?: number; upserted?: number; skipped?: boolean; reason?: string }>('/public/sync', { method: 'POST' }),
   trackVisit: (payload: { anonId: string; path: string; source?: string; city?: string }) =>
     fetcher<{ tracked: boolean }>('/public/visit', { method: 'POST', body: JSON.stringify(payload) }),
   events: () => fetcher<EventItem[]>('/events'),
@@ -89,7 +89,7 @@ export const api = {
       headers: { Authorization: `Bearer ${token}` },
     }),
   syncImports: (token: string) =>
-    fetcher<TelegramImport[]>('/admin/imports/sync', {
+    fetcher<{ synced: boolean; connectors: number; imported: number; upserted: number; details?: unknown[] }>('/admin/imports/sync', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     }),

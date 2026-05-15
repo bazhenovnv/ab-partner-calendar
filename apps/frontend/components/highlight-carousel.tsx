@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, MonitorPlay } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { EventItem } from '@/lib/types';
@@ -14,6 +14,8 @@ function cleanDescriptionText(value?: string) {
   if (!value) return '';
   return value
     .replace(/https?:\/\/\S+/g, '')
+    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .replace(/(?:^|\n)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -55,11 +57,7 @@ export function HighlightCarousel({
           </div>
 
           <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505]'>
-            <img
-              src={IMPORTANT_EVENTS_PHOTO}
-              alt='Важные события'
-              className='h-full w-full object-contain object-center'
-            />
+            <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
         </div>
       </div>
@@ -68,10 +66,11 @@ export function HighlightCarousel({
   }
 
   const item = slides[active];
+  const slideImage = item.imageUrl || IMPORTANT_EVENTS_PHOTO;
 
   const content = (
     <div className='dark-card overflow-hidden'>
-      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
+      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-[1fr_0.95fr] lg:p-8'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
@@ -83,7 +82,7 @@ export function HighlightCarousel({
 
         <div className='flex flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-6 lg:p-8'>
           <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
-          <h2 className='max-w-2xl text-[30px] font-medium leading-tight text-white xl:text-[42px]'>
+          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-white xl:text-[36px]'>
             {item.title}
           </h2>
 
@@ -101,12 +100,12 @@ export function HighlightCarousel({
               {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
             </span>
             <span className='inline-flex items-center gap-2 text-[15px]'>
-              <CalendarDays className='h-5 w-5 text-[#8BE2BE]' />
+              <MapPin className='h-5 w-5 text-[#8BE2BE]' />
               {item.location || 'Локация уточняется'}
             </span>
           </div>
 
-          <p className='mt-6 max-w-2xl text-[18px] leading-8 text-white/78'>
+          <p className='mt-6 max-w-2xl text-[16px] leading-7 text-white/78'>
             {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
           </p>
 
@@ -118,12 +117,8 @@ export function HighlightCarousel({
           </div>
         </div>
 
-        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505]'>
-          <img
-            src={IMPORTANT_EVENTS_PHOTO}
-            alt='Важные события'
-            className='h-full w-full object-contain object-center'
-          />
+        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505] p-4'>
+          <img src={slideImage} alt={item.title} className='h-full w-full object-contain object-center' />
         </div>
 
         <button

@@ -1,16 +1,38 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../common/jwt-auth.guard';
 import { PrismaService } from '../../services/prisma.service';
 
-@Controller('dashboard')
+@Controller('admin/dashboard')
+@UseGuards(JwtAuthGuard)
 export class DashboardController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   async getStats() {
-    const eventsCount = await this.prisma.event.count();
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOf7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const [events, importsCount, reminders, users, visitsTotal, visits7d, visitsToday, uniqueRows] = await Promise.all([
+      this.prisma.event.count(),
+      this.prisma.telegramImport.count(),
+      this.prisma.reminder.count({ where: { isActive: true } }),
+      this.prisma.user.count(),
+      this.prisma.visitHit.count(),
+      this.prisma.visitHit.count({ where: { createdAt: { gte: startOf7d } } }),
+      this.prisma.visitHit.count({ where: { createdAt: { gte: startOfToday } } }),
+      this.prisma.visitHit.groupBy({ by: ['anonId'] }),
+    ]);
 
     return {
-      events: eventsCount,
+      events,
+      imports: importsCount,
+      reminders,
+      users,
+      visitsTotal,
+      visits7d,
+      visitsToday,
+      uniqueVisitors: uniqueRows.length,
     };
   }
 }
