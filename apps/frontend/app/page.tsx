@@ -39,6 +39,7 @@ const topicPresets: TopicPreset[] = [
   { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', aliases: ['егаис'] },
   { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', aliases: ['маркировка', 'честный знак'] },
   { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+  { value: 'СНО', label: 'СНО', cardLabel: 'СНО', icon: '🧩', aliases: ['сно', 'система налогообложения', 'специальный налоговый режим', 'усн', 'осно', 'патент', 'псн', 'нпд'] },
 ];
 
 function sameDay(dateA: Date, dateB: Date) {
@@ -92,11 +93,17 @@ function getTopicList(events: EventItem[]) {
     }
   }
 
-  return [...topicPresets.map((item) => item.value), ...Array.from(dynamicTopics)];
+  return [...topicPresets.map((item) => item.value), ...Array.from(dynamicTopics)].filter((topic) => !/^telegram$/i.test(topic));
 }
 
 function getTopicCount(events: EventItem[], topic: string) {
   return events.filter((event) => eventMatchesTopic(event, topic)).length;
+}
+
+function sourceLabel(source: string) {
+  if (/^telegram$/i.test(source)) return 'Telegram';
+  if (/^max$/i.test(source)) return 'Max';
+  return source;
 }
 
 function FilterSelect({
@@ -133,6 +140,7 @@ export default function HomePage() {
   const [activeEvent, setActiveEvent] = useState<EventItem | null>(null);
   const [formatFilter, setFormatFilter] = useState<FormatFilter>('ALL');
   const [cityFilter, setCityFilter] = useState<string>('ALL');
+  const [citySearch, setCitySearch] = useState('');
   const [topicFilter, setTopicFilter] = useState<string>('ALL');
   const [priceFilter, setPriceFilter] = useState<PriceFilter>('ALL');
   const [sourceFilter, setSourceFilter] = useState<string>('ALL');
@@ -180,11 +188,17 @@ export default function HomePage() {
 
   const availableCities = useMemo(() => {
     const fromEvents = Array.from(new Set(events.map((item) => extractRussianCity(item.location)).filter((value): value is string => Boolean(value))));
-    return fromEvents.filter((value) => value === 'Онлайн' || RUSSIAN_CITIES.includes(value as (typeof RUSSIAN_CITIES)[number]));
+    return fromEvents.filter((value) => RUSSIAN_CITIES.includes(value as (typeof RUSSIAN_CITIES)[number]));
   }, [events]);
 
   const availableTopics = useMemo(() => getTopicList(events), [events]);
-  const availableSources = useMemo(() => Array.from(new Set(events.map((item) => item.source || 'TELEGRAM'))), [events]);
+  const availableSources = useMemo(() => Array.from(new Set([...events.map((item) => item.source || 'TELEGRAM'), 'MAX'])), [events]);
+
+  const searchedCities = useMemo(() => {
+    const query = citySearch.trim().toLowerCase();
+    if (!query) return availableCities;
+    return availableCities.filter((city) => city.toLowerCase().includes(query));
+  }, [availableCities, citySearch]);
 
   const filteredEvents = useMemo(() => {
     const now = new Date();
@@ -263,10 +277,22 @@ export default function HomePage() {
           {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </FilterSelect>
 
-        <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter}>
-          <option value='ALL'>Все города</option>
-          {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
-        </FilterSelect>
+        <label className='grid min-w-0 gap-1'>
+          <span className='text-sm font-medium text-slate-600'>Город</span>
+          <input
+            value={citySearch}
+            onChange={(event) => setCitySearch(event.target.value)}
+            placeholder='Поиск города'
+            className='mb-2 h-10 rounded-xl border border-[#7CD8B3] bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30'
+          />
+          <div className='relative'>
+            <select value={cityFilter} onChange={(event) => setCityFilter(event.target.value)} className='select-clean'>
+              <option value='ALL'>Все города</option>
+              {searchedCities.map((city) => <option key={city} value={city}>{city}</option>)}
+            </select>
+            <ChevronDown className='pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
+          </div>
+        </label>
 
         <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}>
           <option value='ALL'>Все темы</option>
@@ -275,13 +301,13 @@ export default function HomePage() {
 
         <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter}>
           <option value='ALL'>Все источники</option>
-          {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
+          {availableSources.map((source) => <option key={source} value={source}>{sourceLabel(source)}</option>)}
         </FilterSelect>
 
         <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}>
           <option value='ALL'>Все даты</option>
           <option value='TODAY'>Сегодня</option>
-          <option value='WEEK'>7 дней</option>
+          <option value='WEEK'>Неделя</option>
           <option value='MONTH'>Месяц</option>
         </FilterSelect>
       </div>
