@@ -12,10 +12,18 @@ const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
+
   return value
     .replace(/https?:\/\/\S+/g, '')
     .replace(/#[\p{L}\p{N}_-]+/gu, '')
-    .replace(/(?:^|\n)(Источник|Телеграм|Зарегистрироваться|Регистрация).*$/gimu, '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
+    .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
+    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
+    .filter((line) => !/^\(?\??\)?$/.test(line))
+    .join('\n')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -46,18 +54,18 @@ export function HighlightCarousel({
     const fallback = (
       <div className='dark-card overflow-hidden'>
         <div className='grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
-          <div className='flex flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-6 lg:p-8'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
-            <h2 className='max-w-2xl text-3xl font-medium leading-tight text-white lg:text-4xl'>
-              Важные события загружаются из Telegram-канала и API-источников
-            </h2>
-            <p className='mt-5 max-w-2xl text-lg leading-8 text-white/78'>
-              После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
-            </p>
+          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
+            <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
 
-          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505]'>
-            <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
+          <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+            <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
+              Важные события загружаются из Telegram-канала и API-источников
+            </h2>
+            <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
+              После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
+            </p>
           </div>
         </div>
       </div>
@@ -70,7 +78,7 @@ export function HighlightCarousel({
 
   const content = (
     <div className='dark-card overflow-hidden'>
-      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-[1fr_0.95fr] lg:p-8'>
+      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-[0.95fr_1fr] lg:p-8'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
@@ -80,45 +88,45 @@ export function HighlightCarousel({
           <ChevronLeft className='h-5 w-5' />
         </button>
 
-        <div className='flex flex-col justify-center rounded-[22px] border border-white/10 bg-black/20 p-6 lg:p-8'>
-          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#8BE2BE]'>Важные события</div>
-          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-white xl:text-[36px]'>
+        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
+          <img src={slideImage} alt={item.title} className='h-full w-full object-contain object-center' />
+        </div>
+
+        <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
             {item.title}
           </h2>
 
-          <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-white/88'>
+          <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
             <span className='inline-flex items-center gap-2 text-[15px]'>
-              <CalendarDays className='h-5 w-5 text-[#8BE2BE]' />
+              <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
               {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
             </span>
             <span className='inline-flex items-center gap-2 text-[15px]'>
-              <Clock3 className='h-5 w-5 text-[#8BE2BE]' />
+              <Clock3 className='h-5 w-5 text-[#2c8d67]' />
               {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
             </span>
             <span className='inline-flex items-center gap-2 text-[15px]'>
-              <MonitorPlay className='h-5 w-5 text-[#8BE2BE]' />
+              <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
               {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
             </span>
             <span className='inline-flex items-center gap-2 text-[15px]'>
-              <MapPin className='h-5 w-5 text-[#8BE2BE]' />
+              <MapPin className='h-5 w-5 text-[#2c8d67]' />
               {item.location || 'Локация уточняется'}
             </span>
           </div>
 
-          <p className='mt-6 max-w-2xl text-[16px] leading-7 text-white/78'>
+          <p className='mt-6 max-w-2xl whitespace-pre-line text-[16px] leading-7 text-slate-700'>
             {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='secondary' onClick={() => onOpen(item)} className='min-w-[170px]'>
+            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px]'>
               Подробнее
             </Button>
-            <ReminderButton event={item} className='min-w-[170px]' />
+            <ReminderButton event={item} variant='secondary' className='min-w-[170px]' />
           </div>
-        </div>
-
-        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-white/10 bg-[#050505] p-4'>
-          <img src={slideImage} alt={item.title} className='h-full w-full object-contain object-center' />
         </div>
 
         <button

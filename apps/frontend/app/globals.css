@@ -33,7 +33,7 @@ body {
 }
 
 .surface-card {
-  @apply rounded-[18px] border border-[#e8eaee] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.06)];
+  @apply rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.06)];
 }
 
 .dark-card {
@@ -41,24 +41,23 @@ body {
 }
 
 .icon-chip {
-  @apply inline-flex items-center justify-center rounded-full border border-[#dfe4ea] bg-white;
+  @apply inline-flex items-center justify-center rounded-full border border-[#7CD8B3] bg-white;
 }
 
 .select-clean {
-  @apply h-11 w-full appearance-none rounded-xl border border-[#dde2e8] bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-slate-500 focus:ring-4 focus:ring-slate-200;
+  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
 }
 
 .day-cell {
-  @apply relative h-[54px] border-r border-b px-2 py-1.5 transition;
-  border-color: rgba(255,255,255,0.12);
+  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-white px-2 py-1.5 text-black transition;
 }
 
 .day-cell:hover {
-  background: rgba(139, 226, 190, 0.08);
+  background: rgba(124, 216, 179, 0.16);
 }
 
 .day-cell-selected {
-  background: rgba(139, 226, 190, 0.92);
+  background: rgba(124, 216, 179, 0.72);
   color: #04110a;
 }
 
@@ -67,7 +66,7 @@ body {
 }
 
 .tag-chip {
-  @apply inline-flex items-center rounded-[10px] border border-[#B7E8D1] px-3 py-1 text-xs font-medium text-[#2c8d67] bg-[#eefbf4];
+  @apply inline-flex items-center rounded-[10px] border border-[#7CD8B3] px-3 py-1 text-xs font-medium text-[#2c8d67] bg-[#eefbf4];
 }
 
 .utility-divider:not(:last-child) {

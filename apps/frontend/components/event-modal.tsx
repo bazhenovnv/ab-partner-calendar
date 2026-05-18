@@ -11,8 +11,18 @@ import { Button } from './ui/button';
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
+
   return value
     .replace(/https?:\/\/\S+/g, '')
+    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
+    .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
+    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
+    .filter((line) => !/^\(?\??\)?$/.test(line))
+    .join('\n')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -37,27 +47,16 @@ export function EventModal({
     <Modal open={open} onOpenChange={onOpenChange} title={item.title}>
       <div className='grid gap-6 lg:grid-cols-[1.08fr_0.92fr]'>
         <div>
-          <img src={item.imageUrl} alt={item.title} className='h-64 w-full rounded-[24px] object-cover' />
-          <p className='mt-5 text-sm leading-7 text-slate-600'>{cleanDescriptionText(item.descriptionFull)}</p>
+          <img src={item.imageUrl} alt={item.title} className='h-64 w-full rounded-[24px] border border-[#7CD8B3] object-cover' />
+          <p className='mt-5 whitespace-pre-line break-words text-sm leading-7 text-slate-600 [overflow-wrap:anywhere]'>{cleanDescriptionText(item.descriptionFull)}</p>
         </div>
-        <div className='space-y-4 rounded-[24px] bg-slate-50 p-5'>
+        <div className='space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
           <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />
           <InfoRow label='Окончание' value={format(new Date(item.endAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<Clock4 className='h-4 w-4' />} />
           <InfoRow label='Место проведения' value={item.location} icon={<MapPin className='h-4 w-4' />} />
           <InfoRow label='Формат' value={formatLabelMap[item.format]} icon={<Tag className='h-4 w-4' />} />
           <InfoRow label='Организатор' value='АБ Партнер' icon={<Send className='h-4 w-4' />} />
           <InfoRow label='Статус' value={statusLabelMap[status]} icon={<BellRing className='h-4 w-4' />} />
-
-          <div>
-            <div className='mb-2 text-sm font-medium text-slate-700'>Теги</div>
-            <div className='flex flex-wrap gap-2'>
-              {item.tags.map((tag) => (
-                <span key={tag} className='rounded-full bg-white px-3 py-1 text-xs text-slate-700 ring-1 ring-slate-200'>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
 
           <div className='flex flex-wrap gap-3 pt-4'>
             <Button asChild>
@@ -84,7 +83,7 @@ export function EventModal({
 
 function InfoRow({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
-    <div className='rounded-2xl bg-white p-4 ring-1 ring-slate-200'>
+    <div className='rounded-2xl border border-[#7CD8B3] bg-white p-4'>
       <div className='mb-1 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-400'>
         {icon}
         {label}

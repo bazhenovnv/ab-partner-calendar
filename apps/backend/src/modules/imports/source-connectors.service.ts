@@ -361,10 +361,27 @@ export class SourceConnectorsService implements OnModuleInit {
     }];
   }
 
+  private async fetchWithRetry(url: string, init: RequestInit, attempts = 3): Promise<Response> {
+    let lastError: unknown;
+
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+      try {
+        return await fetch(url, init);
+      } catch (error) {
+        lastError = error;
+        if (attempt < attempts) {
+          await new Promise((resolve) => setTimeout(resolve, attempt * 1500));
+        }
+      }
+    }
+
+    throw lastError instanceof Error ? lastError : new Error('fetch failed');
+  }
+
   private async fetchTelegramPublic(connector: ConnectorConfig): Promise<ExternalEvent[]> {
     const normalized = (connector.channelUrl || 'https://t.me/ab_afisha_buh').replace(/\/$/, '');
     const publicFeedUrl = normalized.includes('/s/') ? normalized : normalized.replace('https://t.me/', 'https://t.me/s/');
-    const response = await fetch(publicFeedUrl, {
+    const response = await this.fetchWithRetry(publicFeedUrl, {
       headers: { 'user-agent': 'Mozilla/5.0 (compatible; ABPartnerCalendarBot/1.0)' },
     });
     if (!response.ok) throw new Error(`Не удалось получить канал ${publicFeedUrl}: HTTP ${response.status}`);

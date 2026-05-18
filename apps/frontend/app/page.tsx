@@ -141,16 +141,36 @@ export default function HomePage() {
   const [viewMode, setViewMode] = useState<ViewMode>('SHOWCASE');
 
   useEffect(() => {
-    api.publicSync()
-      .catch(() => null)
-      .finally(() => {
-        Promise.all([api.events(), api.highlights()])
-          .then(([eventsData, highlightsData]) => {
-            setEvents(eventsData);
-            setHighlights(highlightsData);
-          })
-          .catch(console.error);
-      });
+    let cancelled = false;
+
+    const loadCalendarData = async (syncBeforeLoad = false) => {
+      try {
+        if (syncBeforeLoad) {
+          await api.publicSync().catch(() => null);
+        }
+
+        const [eventsData, highlightsData] = await Promise.all([api.events(), api.highlights()]);
+        if (!cancelled) {
+          setEvents(eventsData);
+          setHighlights(highlightsData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const today = new Date();
+    setSelectedDate(today);
+    loadCalendarData(true);
+
+    const refreshTimer = window.setInterval(() => {
+      loadCalendarData(true);
+    }, 30 * 60 * 1000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(refreshTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -220,6 +240,60 @@ export default function HomePage() {
 
   const highlightedTopic = topicFilter === 'ALL' ? 'Все темы' : topicFilter;
 
+  const filtersPanel = (
+    <div className='surface-card p-4'>
+      <div className='mb-4 flex items-center gap-3'>
+        <div className='icon-chip h-12 w-12'>
+          <SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' />
+        </div>
+        <div>
+          <div className='text-sm font-medium text-slate-500'>Фильтры и режимы</div>
+          <div className='text-lg font-semibold text-[#17191e]'>Параметры календаря</div>
+        </div>
+      </div>
+
+      <div className='grid gap-3'>
+        <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
+          {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+        </FilterSelect>
+
+        <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter} icon={<MapPin className='h-4 w-4' />}>
+          <option value='ALL'>Все города</option>
+          {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
+        </FilterSelect>
+
+        <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}>
+          <option value='ALL'>Все темы</option>
+          {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+        </FilterSelect>
+
+        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter} icon={<RadioTower className='h-4 w-4' />}>
+          <option value='ALL'>Все источники</option>
+          {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
+        </FilterSelect>
+
+        <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}>
+          <option value='ALL'>Все даты</option>
+          <option value='TODAY'>Сегодня</option>
+          <option value='WEEK'>7 дней</option>
+          <option value='MONTH'>Месяц</option>
+        </FilterSelect>
+      </div>
+
+      <div className='mt-4 grid gap-2'>
+        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')}>Витрина</Button>
+        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')}>Компактный режим</Button>
+        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}>Только бесплатно</Button>
+        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только важные</Button>
+      </div>
+
+      <div className='mt-4 rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>
+        Текущая тема: {highlightedTopic}<br />
+        Найдено событий: {filteredEvents.length}
+      </div>
+    </div>
+  );
+
   return (
     <main className='pb-8'>
       <SiteHeader />
@@ -254,57 +328,12 @@ export default function HomePage() {
         </section>
       )}
 
-      <section className='container-shell mt-4'>
-        <div className='surface-card p-4'>
-          <div className='grid gap-4 md:grid-cols-2 2xl:grid-cols-[1.05fr_repeat(5,minmax(0,1fr))]'>
-            <div className='flex items-center gap-3'>
-              <div className='icon-chip h-12 w-12'>
-                <SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' />
-              </div>
-              <div>
-                <div className='text-sm font-medium text-slate-500'>Фильтры и режимы</div>
-              </div>
-            </div>
-
-            <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
-              {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-            </FilterSelect>
-
-            <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter} icon={<MapPin className='h-4 w-4' />}>
-              <option value='ALL'>Все города</option>
-              {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
-            </FilterSelect>
-
-            <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}>
-              <option value='ALL'>Все темы</option>
-              {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
-            </FilterSelect>
-
-            <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter} icon={<RadioTower className='h-4 w-4' />}>
-              <option value='ALL'>Все источники</option>
-              {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
-            </FilterSelect>
-
-            <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}>
-              <option value='ALL'>Все даты</option>
-              <option value='TODAY'>Сегодня</option>
-              <option value='WEEK'>7 дней</option>
-              <option value='MONTH'>Месяц</option>
-            </FilterSelect>
-          </div>
-
-          <div className='mt-4 flex flex-wrap items-center gap-3'>
-            <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')}>Витрина</Button>
-            <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')}>Компактный режим</Button>
-            <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}>Только бесплатно</Button>
-            <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только важные</Button>
-            <span className='ml-auto text-sm text-slate-500'>Текущая тема: {highlightedTopic} · Найдено событий: {filteredEvents.length}</span>
-          </div>
-        </div>
-      </section>
-
       {viewMode === 'COMPACT' ? (
-        <section className='container-shell mt-4'>
+        <>
+          <section className='container-shell mt-4'>
+            {filtersPanel}
+          </section>
+          <section className='container-shell mt-4'>
           <div className='surface-card p-5'>
             <div className='mb-4 flex items-center justify-between gap-4'>
               <div>
@@ -341,9 +370,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </>
       ) : (
         <section className='container-shell mt-4'>
-          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={filtersPanel} />
         </section>
       )}
 
