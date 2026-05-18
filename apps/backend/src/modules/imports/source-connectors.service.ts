@@ -361,6 +361,39 @@ export class SourceConnectorsService implements OnModuleInit {
     }];
   }
 
+  private normalizeTelegramImageUrl(value?: string): string | undefined {
+    if (!value) return undefined;
+
+    const decoded = value
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .trim();
+
+    if (!decoded) return undefined;
+    if (decoded.startsWith('//')) return `https:${decoded}`;
+    if (decoded.startsWith('/')) return `https://t.me${decoded}`;
+    return decoded;
+  }
+
+  private extractTelegramImage(block: string): string | undefined {
+    const patterns = [
+      /background-image\s*:\s*url\(\s*['"]?([^'"\)]+)['"]?\s*\)/iu,
+      /tgme_widget_message_photo_wrap[\s\S]*?background-image\s*:\s*url\(\s*['"]?([^'"\)]+)['"]?\s*\)/iu,
+      /<img[^>]+src=["']([^"']+)["']/iu,
+      /<img[^>]+data-src=["']([^"']+)["']/iu,
+      /srcset=["']([^"'\s,]+)[^"']*["']/iu,
+    ];
+
+    for (const pattern of patterns) {
+      const match = block.match(pattern);
+      const image = this.normalizeTelegramImageUrl(match?.[1]);
+      if (image) return image;
+    }
+
+    return undefined;
+  }
+
   private async fetchWithRetry(url: string, init: RequestInit, attempts = 3): Promise<Response> {
     let lastError: unknown;
 
@@ -393,14 +426,14 @@ export class SourceConnectorsService implements OnModuleInit {
     return blocks.slice(0, 80).flatMap((block, index): ExternalEvent[] => {
       const postMatch = block.match(/data-post="([^"]+)"/);
       const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/);
-      const photoMatch = block.match(/background-image:url\('([^']+)'\)/);
+      const postImageUrl = this.extractTelegramImage(block);
       const rawText = this.decodeHtml(textMatch?.[1] || '');
       if (!postMatch || !rawText) return [];
 
       const sourcePostId = postMatch[1].split('/').pop() || postMatch[1];
       const sourceUrl = `${normalized}/${sourcePostId}`;
       const events = this.parseTelegramPost(rawText, sourcePostId, sourceUrl, importantTag, index);
-      return events.map((item) => ({ ...item, imageUrl: item.imageUrl || photoMatch?.[1] }));
+      return events.map((item) => ({ ...item, imageUrl: item.imageUrl || postImageUrl }));
     });
   }
 

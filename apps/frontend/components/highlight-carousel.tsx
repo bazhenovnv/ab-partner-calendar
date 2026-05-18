@@ -89,7 +89,15 @@ export function HighlightCarousel({
         </button>
 
         <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
-          <img src={slideImage} alt={item.title} className='h-full w-full object-contain object-center' />
+          <img
+            src={slideImage}
+            alt={item.title}
+            className='h-full w-full object-contain object-center'
+            onError={(event) => {
+              const image = event.currentTarget;
+              if (!image.src.endsWith(IMPORTANT_EVENTS_PHOTO)) image.src = IMPORTANT_EVENTS_PHOTO;
+            }}
+          />
         </div>
 
         <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
