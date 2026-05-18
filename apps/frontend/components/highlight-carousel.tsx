@@ -60,8 +60,8 @@ export function HighlightCarousel({
 
   if (!slides.length) {
     const fallback = (
-      <div className='dark-card overflow-hidden'>
-        <div className='grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
+      <div className='overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
+        <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
           <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
             <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
@@ -85,8 +85,8 @@ export function HighlightCarousel({
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
-    <div className='dark-card overflow-hidden'>
-      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-[0.95fr_1fr] lg:p-8'>
+    <div className='overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
+      <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-10'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
@@ -154,7 +154,7 @@ export function HighlightCarousel({
           <ChevronRight className='h-5 w-5' />
         </button>
 
-        <div className='absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3'>
+        <div className='absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-3'>
           {slides.map((_, idx) => (
             <button
               key={idx}
