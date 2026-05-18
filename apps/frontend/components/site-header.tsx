@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
 const HEADER_BUTTON_CLASS =
-  'inline-flex h-[52px] w-[200px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] border border-black bg-[#7CD8B3] px-5 py-3 text-sm font-medium text-black transition hover:opacity-90';
+  'inline-flex h-[44px] w-[190px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] border border-black bg-[#7CD8B3] px-4 py-2 text-[14px] font-medium text-black transition hover:opacity-90';
 
 function TelegramCircleIcon() {
   return (
@@ -32,7 +32,7 @@ export function SiteHeader() {
   return (
     <header className='container-shell pt-5'>
       <div className='surface-card rounded-[18px] bg-white px-5 py-3 shadow-[0_3px_12px_rgba(15,23,42,0.08)]'>
-        <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
+        <div className='flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between'>
           <a
             href='/'
             className='flex min-h-[72px] items-center'
@@ -48,7 +48,7 @@ export function SiteHeader() {
             />
           </a>
 
-          <div className='flex flex-wrap items-center justify-end gap-3'>
+          <div className='flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
             <a
               href='https://t.me/ab_afisha_buh'
               target='_blank'
