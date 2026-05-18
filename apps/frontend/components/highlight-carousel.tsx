@@ -30,6 +30,14 @@ function cleanDescriptionText(value?: string) {
     .trim();
 }
 
+
+function isActualEventImage(value?: string) {
+  if (!value) return false;
+  if (value === IMPORTANT_EVENTS_PHOTO) return false;
+  if (value.startsWith('/important-events-photo')) return false;
+  return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
+}
+
 export function HighlightCarousel({
   items,
   onOpen,
@@ -74,7 +82,7 @@ export function HighlightCarousel({
   }
 
   const item = slides[active];
-  const slideImage = item.imageUrl || IMPORTANT_EVENTS_PHOTO;
+  const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
     <div className='dark-card overflow-hidden'>

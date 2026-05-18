@@ -414,24 +414,36 @@ export class SourceConnectorsService implements OnModuleInit {
   private async fetchTelegramPublic(connector: ConnectorConfig): Promise<ExternalEvent[]> {
     const normalized = (connector.channelUrl || 'https://t.me/ab_afisha_buh').replace(/\/$/, '');
     const publicFeedUrl = normalized.includes('/s/') ? normalized : normalized.replace('https://t.me/', 'https://t.me/s/');
+    const sourceBaseUrl = normalized.replace('https://t.me/s/', 'https://t.me/');
     const response = await this.fetchWithRetry(publicFeedUrl, {
-      headers: { 'user-agent': 'Mozilla/5.0 (compatible; ABPartnerCalendarBot/1.0)' },
+      headers: {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
     });
     if (!response.ok) throw new Error(`Не удалось получить канал ${publicFeedUrl}: HTTP ${response.status}`);
 
     const html = await response.text();
-    const blocks = html.match(/<div class="tgme_widget_message_wrap[\s\S]*?<\/article>[\s\S]*?<\/div>/g) || [];
+    const splitBlocks = html
+      .split(/(?=<div class="tgme_widget_message_wrap\b)/gi)
+      .filter((block) => /data-post="[^"]+"/i.test(block));
+    const fallbackBlocks = Array.from(
+      html.matchAll(/<div[^>]+data-post="[^"]+"[\s\S]*?(?=<div[^>]+data-post="[^"]+"|<\/main>|<\/body>|$)/gi),
+    ).map((match) => match[0]);
+    const blocks = splitBlocks.length ? splitBlocks : fallbackBlocks;
     const importantTag = connector.importantTag || '#Хит';
 
+    this.logger.log(`Telegram ${publicFeedUrl}: html=${html.length}, blocks=${blocks.length}`);
+
     return blocks.slice(0, 80).flatMap((block, index): ExternalEvent[] => {
-      const postMatch = block.match(/data-post="([^"]+)"/);
-      const textMatch = block.match(/<div class="tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/);
+      const postMatch = block.match(/data-post="([^"]+)"/i);
+      const textMatch = block.match(/<div class="[^"]*\btgme_widget_message_text\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
       const postImageUrl = this.extractTelegramImage(block);
       const rawText = this.decodeHtml(textMatch?.[1] || '');
       if (!postMatch || !rawText) return [];
 
       const sourcePostId = postMatch[1].split('/').pop() || postMatch[1];
-      const sourceUrl = `${normalized}/${sourcePostId}`;
+      const sourceUrl = `${sourceBaseUrl}/${sourcePostId}`;
       const events = this.parseTelegramPost(rawText, sourcePostId, sourceUrl, importantTag, index);
       return events.map((item) => ({ ...item, imageUrl: item.imageUrl || postImageUrl }));
     });
@@ -559,7 +571,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const slug = this.slugify(event.title, sourcePostId);
     const tags = Array.from(new Set([...(event.tags || []), 'telegram', 'import'])).slice(0, 12);
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
-    const imageUrl = event.imageUrl || '/important-events-photo-v2.png';
+    const imageUrl = event.imageUrl || null;
 
     return this.prisma.event.upsert({
       where: { slug },

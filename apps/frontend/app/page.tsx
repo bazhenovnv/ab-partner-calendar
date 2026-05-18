@@ -240,19 +240,25 @@ export default function HomePage() {
 
   const highlightedTopic = topicFilter === 'ALL' ? 'Все темы' : topicFilter;
 
-  const filtersPanel = (
+  const advancedFiltersPanel = (
     <div className='surface-card p-4'>
-      <div className='mb-4 flex items-center gap-3'>
-        <div className='icon-chip h-12 w-12'>
-          <SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' />
+      <div className='mb-4 flex flex-wrap items-center justify-between gap-4'>
+        <div className='flex items-center gap-3'>
+          <div className='icon-chip h-12 w-12'>
+            <SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' />
+          </div>
+          <div>
+            <div className='text-sm font-medium text-slate-500'>Фильтры</div>
+            <div className='text-lg font-semibold text-[#17191e]'>Формат, город, тема, источник и период</div>
+          </div>
         </div>
-        <div>
-          <div className='text-sm font-medium text-slate-500'>Фильтры и режимы</div>
-          <div className='text-lg font-semibold text-[#17191e]'>Параметры календаря</div>
+        <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>
+          Текущая тема: {highlightedTopic}<br />
+          Найдено событий: {filteredEvents.length}
         </div>
       </div>
 
-      <div className='grid gap-3'>
+      <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-5'>
         <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
           {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </FilterSelect>
@@ -279,17 +285,17 @@ export default function HomePage() {
           <option value='MONTH'>Месяц</option>
         </FilterSelect>
       </div>
+    </div>
+  );
 
-      <div className='mt-4 grid gap-2'>
+  const modePanel = (
+    <div className='surface-card p-4'>
+      <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
+      <div className='grid gap-2'>
         <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')}>Витрина</Button>
         <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')}>Компактный режим</Button>
         <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}>Только бесплатно</Button>
         <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только важные</Button>
-      </div>
-
-      <div className='mt-4 rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>
-        Текущая тема: {highlightedTopic}<br />
-        Найдено событий: {filteredEvents.length}
       </div>
     </div>
   );
@@ -322,6 +328,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className='container-shell mt-4'>
+        {advancedFiltersPanel}
+      </section>
+
       {viewMode === 'SHOWCASE' && (
         <section className='container-shell mt-4'>
           <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
@@ -331,7 +341,7 @@ export default function HomePage() {
       {viewMode === 'COMPACT' ? (
         <>
           <section className='container-shell mt-4'>
-            {filtersPanel}
+            {modePanel}
           </section>
           <section className='container-shell mt-4'>
           <div className='surface-card p-5'>
@@ -373,7 +383,7 @@ export default function HomePage() {
         </>
       ) : (
         <section className='container-shell mt-4'>
-          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={filtersPanel} />
+          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={modePanel} />
         </section>
       )}
 
