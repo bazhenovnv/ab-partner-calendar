@@ -4,7 +4,7 @@ import { Send, UsersRound } from 'lucide-react';
 export function SiteHeader() {
   return (
     <header className='container-shell pt-5'>
-      <div className='rounded-[18px] bg-black px-5 py-3 shadow-[0_3px_12px_rgba(15,23,42,0.16)]'>
+      <div className='surface-card rounded-[18px] bg-white px-5 py-3 shadow-[0_3px_12px_rgba(15,23,42,0.08)]'>
         <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
           <a href='/' className='flex min-h-[72px] items-center' aria-label='Афиша бухгалтера — на главную'>
             <Image
