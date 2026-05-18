@@ -106,6 +106,22 @@ function sourceLabel(source: string) {
   return source;
 }
 
+function isFreeEvent(event: EventItem) {
+  const text = [
+    event.title,
+    event.descriptionShort,
+    event.descriptionFull,
+    event.location,
+    event.category?.title,
+    ...(event.tags || []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return /бесплат|free|0\s*₽|0\s*руб/.test(text);
+}
+
 function FilterSelect({
   label,
   value,
@@ -302,7 +318,7 @@ export default function HomePage() {
       const cityMatches = cityFilter === 'ALL' || extractRussianCity(item.location) === cityFilter;
       const topicMatches = eventMatchesTopic(item, topicFilter);
       const sourceMatches = sourceFilter === 'ALL' || (item.source || 'TELEGRAM').toUpperCase() === sourceFilter.toUpperCase();
-      const priceMatches = priceFilter === 'ALL' || (priceFilter === 'FREE' ? item.priceLabel?.toLowerCase().includes('бесплат') : !item.priceLabel?.toLowerCase().includes('бесплат'));
+      const priceMatches = priceFilter === 'ALL' || (priceFilter === 'FREE' ? isFreeEvent(item) : !isFreeEvent(item));
       const importantMatches = !onlyImportant || item.isImportant;
       const periodMatches =
         periodFilter === 'ALL' ||
@@ -332,7 +348,7 @@ export default function HomePage() {
         return start >= now && start <= weekEnd;
       }).length,
       important: filteredEvents.filter((item) => item.isImportant).length,
-      free: filteredEvents.filter((item) => item.priceLabel?.toLowerCase().includes('бесплат')).length,
+      free: filteredEvents.filter((item) => isFreeEvent(item)).length,
       offline: filteredEvents.filter((item) => item.format === 'OFFLINE').length,
       city: filteredEvents.length,
     };
