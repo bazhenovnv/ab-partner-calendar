@@ -22,10 +22,19 @@ export function SiteHeader() {
               href='https://t.me/ab_afisha_buh'
               target='_blank'
               rel='noreferrer'
-              className='inline-flex min-w-[120px] items-center justify-center gap-2 rounded-[14px] bg-[#7CD8B3] px-5 py-3 text-sm font-medium text-black transition hover:opacity-90'
+              className='inline-flex min-w-[132px] items-center justify-center gap-2 rounded-[14px] bg-[#7CD8B3] px-5 py-3 text-sm font-medium text-black transition hover:opacity-90'
             >
               <Send className='h-4 w-4' />
-              Канал
+              Telegram
+            </a>
+            <a
+              href='https://max.ru/join/LNPW5HIAqvWwUH1vQtB5V1kytLpmG18IsNURG4is4B0'
+              target='_blank'
+              rel='noreferrer'
+              className='inline-flex min-w-[112px] items-center justify-center gap-2 rounded-[14px] bg-[#7CD8B3] px-5 py-3 text-sm font-medium text-black transition hover:opacity-90'
+            >
+              <span className='inline-flex h-5 min-w-[20px] items-center justify-center rounded-full border border-black/25 px-1 text-[10px] font-bold leading-none'>M</span>
+              Max
             </a>
             <a
               href='https://ab-buhpartner.ru'

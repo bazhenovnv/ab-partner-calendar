@@ -38,7 +38,7 @@ const topicPresets: TopicPreset[] = [
   { value: 'ОФД', label: 'ОФД', cardLabel: 'ОФД', icon: '☁️', aliases: ['офд', 'оператор фискальных данных'] },
   { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', aliases: ['егаис'] },
   { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', aliases: ['маркировка', 'честный знак'] },
-  { value: 'Онлайн кассы', label: 'Онлайн кассы', cardLabel: 'Онлайн кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+  { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
 ];
 
 function sameDay(dateA: Date, dateB: Date) {
@@ -179,8 +179,8 @@ export default function HomePage() {
   }, []);
 
   const availableCities = useMemo(() => {
-    const fromEvents = events.map((item) => extractRussianCity(item.location)).filter(Boolean) as string[];
-    return RUSSIAN_CITIES.filter((value, index, arr) => arr.indexOf(value) === index && fromEvents.includes(value));
+    const fromEvents = Array.from(new Set(events.map((item) => extractRussianCity(item.location)).filter((value): value is string => Boolean(value))));
+    return fromEvents.filter((value) => value === 'Онлайн' || RUSSIAN_CITIES.includes(value as (typeof RUSSIAN_CITIES)[number]));
   }, [events]);
 
   const availableTopics = useMemo(() => getTopicList(events), [events]);
@@ -259,11 +259,11 @@ export default function HomePage() {
       </div>
 
       <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-5'>
-        <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
+        <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)}>
           {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </FilterSelect>
 
-        <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter} icon={<MapPin className='h-4 w-4' />}>
+        <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter}>
           <option value='ALL'>Все города</option>
           {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
         </FilterSelect>
@@ -273,7 +273,7 @@ export default function HomePage() {
           {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
         </FilterSelect>
 
-        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter} icon={<RadioTower className='h-4 w-4' />}>
+        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter}>
           <option value='ALL'>Все источники</option>
           {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
         </FilterSelect>
@@ -292,10 +292,10 @@ export default function HomePage() {
     <div className='surface-card p-4'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
       <div className='grid gap-3 md:grid-cols-2'>
-        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full'>Витрина</Button>
-        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full'>Полный режим</Button>
-        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full'>Только бесплатные</Button>
-        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full'>Только важные</Button>
+        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3]'>Витрина</Button>
+        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3]'>Полный режим</Button>
+        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3]'>Только бесплатные</Button>
+        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3]'>Только важные</Button>
       </div>
     </div>
   );
@@ -316,11 +316,11 @@ export default function HomePage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.label} className='surface-card flex items-center gap-4 p-4'>
-                <div className='icon-chip h-12 w-12'><Icon className='h-5 w-5 text-[#2c8d67]' /></div>
+              <div key={item.label} className='surface-card flex items-center gap-3 px-4 py-3'>
+                <div className='icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
-                  <div className='text-2xl font-semibold text-[#14171c]'>{item.value}</div>
+                  <div className='text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div>
                 </div>
               </div>
             );
@@ -389,27 +389,27 @@ export default function HomePage() {
 
       <section className='container-shell mt-4'>
         <div className='surface-card p-4'>
-          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7'>
+          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
             {topicCards.map((topic) => (
               <button
                 key={topic.value}
                 type='button'
                 onClick={() => setTopicFilter(topic.value)}
-                className={`flex min-h-[96px] min-w-0 items-center gap-4 rounded-[18px] border px-4 py-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+                className={`flex min-h-[84px] min-w-0 items-center gap-3 rounded-[18px] border px-4 py-3 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-[#17191e]'}`}
               >
-                <div className={`flex h-12 w-12 flex-none items-center justify-center rounded-full text-[22px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
                   {topic.icon}
                 </div>
                 <div className='min-w-0'>
-                  <div className='truncate text-[18px] font-medium'>{topic.cardLabel}</div>
-                  <div className={`text-sm ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
+                  <div className='text-[16px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
+                  <div className={`text-xs ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
                 </div>
               </button>
             ))}
             <button
               type='button'
               onClick={() => setTopicFilter('ALL')}
-              className={`flex min-h-[96px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-4 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+              className={`flex min-h-[84px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-3 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-[#17191e]'}`}
             >
               <Layers3 className='h-5 w-5 flex-none' />
               <span className='text-sm font-medium'>Все подборки</span>

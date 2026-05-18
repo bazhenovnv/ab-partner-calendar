@@ -54,7 +54,7 @@ export function HighlightCarousel({
     if (slides.length <= 1) return;
     const timer = window.setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 10000);
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
