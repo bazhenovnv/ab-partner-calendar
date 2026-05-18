@@ -198,15 +198,15 @@ export function EventsCalendarBoard({
           <div className='rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-white text-black transition hover:bg-[#eefbf4]'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-white text-black transition hover:bg-[#eefbf4]'>
                   <ChevronLeft className='h-4 w-4' />
                 </button>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-white text-black transition hover:bg-[#eefbf4]'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-white text-black transition hover:bg-[#eefbf4]'>
                   <ChevronRight className='h-4 w-4' />
                 </button>
                 <div className='ml-3 text-[17px] font-medium text-black'>{formatMonth(currentMonth)}</div>
               </div>
-              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-[#7CD8B3] bg-white px-3 py-1.5 text-sm text-black transition hover:bg-[#eefbf4]'>
+              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-black bg-white px-3 py-1.5 text-sm text-black transition hover:bg-[#eefbf4]'>
                 Сегодня
               </button>
             </div>
