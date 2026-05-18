@@ -268,7 +268,11 @@ export function EventsCalendarBoard({
           </div>
         </div>
 
-        {filtersPanel ? <div>{filtersPanel}</div> : null}
+        {filtersPanel ? <div><div className='calendar-mode-panel-shell rounded-[24px] border border-black bg-[#7CD8B3] p-3'>
+              <div className='rounded-[20px] border border-black bg-white'>
+                {filtersPanel}
+              </div>
+            </div></div> : null}
       </div>
     </section>
   );
