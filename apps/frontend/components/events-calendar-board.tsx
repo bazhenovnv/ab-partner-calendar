@@ -188,7 +188,16 @@ export function EventsCalendarBoard({
               </div>
             </>
           ) : (
-            <div className='flex min-h-[420px] items-center justify-center rounded-[18px] bg-white text-slate-500'>Выберите дату с событиями</div>
+            <div className='flex min-h-[560px] flex-col items-center justify-center rounded-[18px] bg-white px-6 py-10 text-center'>
+              <img
+                src='/calendar-empty-state.png'
+                alt='Выберите дату с событиями'
+                className='h-[260px] w-[260px] object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.18)]'
+              />
+              <div className='mt-6 text-[28px] font-semibold leading-tight text-black'>
+                Выберите дату с событиями
+              </div>
+            </div>
           )}
         </div>
       </div>
