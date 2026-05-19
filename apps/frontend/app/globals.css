@@ -19,14 +19,18 @@
 }
 
 html {
-  scroll-behavior: smooth;
+scroll-behavior: smooth;
+  background: #000;
 }
 
+
 body {
-  @apply antialiased;
-  background: linear-gradient(180deg, #f6f7f8 0%, #f1f3f5 100%);
+@apply antialiased;
+  
   color: var(--text);
+  background: #000;
 }
+
 
 .container-shell {
   @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
