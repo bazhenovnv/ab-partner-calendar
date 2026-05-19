@@ -133,7 +133,7 @@ export function EventsCalendarBoard({
 
   return (
     <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1.18fr)_minmax(430px,0.82fr)]'>
-      <div className='surface-card self-start overflow-hidden bg-[#E8E7E3] xl:h-[680px]'>
+      <div className='surface-card self-start overflow-hidden bg-white xl:h-[680px]'>
         <div className='h-full overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
             <>
@@ -155,7 +155,7 @@ export function EventsCalendarBoard({
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='mt-5 rounded-[16px] border border-black bg-[#E8E7E3] p-3'>
+                <div className='mt-5 rounded-[16px] border border-black bg-white p-3'>
                   <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>События выбранного дня</div>
                   <div className='flex flex-wrap gap-2'>
                     {selectedDayEvents.map((event, index) => (
@@ -163,7 +163,7 @@ export function EventsCalendarBoard({
                         key={event.id}
                         type='button'
                         onClick={() => setSelectedEventId(event.id)}
-                        className={`inline-flex max-w-[380px] items-center gap-2 rounded-xl border px-3 py-2 text-left text-[13px] leading-4 transition ${selectedEvent.id === event.id ? 'border-black bg-black text-white shadow-sm' : 'border-[#7CD8B3] bg-[#E8E7E3] text-slate-700 hover:bg-[#eefbf4]'}`}
+                        className={`inline-flex max-w-[380px] items-center gap-2 rounded-xl border px-3 py-2 text-left text-[13px] leading-4 transition ${selectedEvent.id === event.id ? 'border-black bg-black text-white shadow-sm' : 'border-[#7CD8B3] bg-white text-slate-700 hover:bg-[#eefbf4]'}`}
                       >
                         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
                         <span className='line-clamp-1'>{index + 1}. {event.title}</span>
@@ -188,14 +188,14 @@ export function EventsCalendarBoard({
               </div>
             </>
           ) : (
-            <div className='flex min-h-[420px] items-center justify-center rounded-[18px] bg-[#E8E7E3] text-slate-500'>Выберите дату с событиями</div>
+            <div className='flex min-h-[420px] items-center justify-center rounded-[18px] bg-white text-slate-500'>Выберите дату с событиями</div>
           )}
         </div>
       </div>
 
-      <div className='right-calendar-shell grid gap-3 self-start rounded-[24px] border border-black bg-[#E8E7E3] p-3 shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
-        <div className='w-full self-start overflow-visible rounded-[20px] border border-black bg-[#E8E7E3] p-3'>
-          <div className='w-full rounded-[18px] border border-black bg-[#E8E7E3] p-3'>
+      <div className='right-calendar-shell grid gap-3 self-start rounded-[24px] border border-black bg-white p-3 shadow-[0_10px_28px_rgba(0,0,0,0.12)] calendar-single-surface'>
+        <div className='w-full self-start overflow-visible rounded-[20px] border border-black bg-white p-3'>
+          <div className='w-full rounded-[18px] border border-black bg-white p-3'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
                 <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-[#7CD8B3] text-black transition hover:opacity-90'>
@@ -243,7 +243,7 @@ export function EventsCalendarBoard({
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-black bg-[#E8E7E3] p-3 text-black shadow-2xl'>
+                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-black bg-white p-3 text-black shadow-2xl'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (
@@ -268,8 +268,8 @@ export function EventsCalendarBoard({
           </div>
         </div>
 
-        {filtersPanel ? <div><div className='w-full rounded-[20px] border border-black bg-[#E8E7E3] overflow-hidden'>
-              <div className='rounded-[20px] border border-black bg-[#E8E7E3]'>
+        {filtersPanel ? <div><div className='w-full rounded-[20px] border border-black bg-white overflow-hidden'>
+              <div className='rounded-[20px] border border-black bg-white'>
                 {filtersPanel}
               </div>
             </div></div> : null}

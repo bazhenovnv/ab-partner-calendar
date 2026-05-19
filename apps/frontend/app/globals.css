@@ -108,3 +108,46 @@ body {
 .container-shell + .container-shell {
   margin-top: 1rem;
 }
+
+
+/* === white sections fix === */
+.surface-card,
+.mini-important-strip,
+.right-calendar-shell,
+.calendar-single-surface {
+  background: #ffffff !important;
+}
+
+.calendar-single-surface {
+  border: 1px solid #000 !important;
+  border-radius: 26px !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16) !important;
+}
+
+/* убираем второй внутренний фон у календаря */
+.calendar-single-surface .surface-card,
+.calendar-single-surface .dark-card,
+.calendar-single-surface .right-calendar-shell,
+.calendar-single-surface .calendar-inner,
+.calendar-single-surface .calendar-card,
+.calendar-single-surface .calendar-shell {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* точки/индикаторы важных событий */
+.carousel-dot,
+.carousel-indicator,
+.highlight-dot {
+  border: 1px solid #000 !important;
+}
+
+/* кнопки дат мини-блока */
+.mini-important-strip button {
+  border-color: #000 !important;
+}
+
+.mini-important-strip button:not(.keep-white-button) {
+  background: #7CD8B3;
+}
+
