@@ -12,6 +12,7 @@ import { EventItem } from '@/lib/types';
 import { extractRussianCity, RUSSIAN_CITIES } from '@/lib/russian-cities';
 import { Button } from '@/components/ui/button';
 import { ReminderButton } from '@/components/reminder-button';
+import { ImportantDatesMiniStrip } from '@/components/important-dates-mini-strip';
 
 const formatOptions = [
   { value: 'ALL', label: 'Все форматы' },
@@ -337,6 +338,13 @@ export default function HomePage() {
     return [...base, ...fallback].slice(0, 10);
   }, [filteredEvents, highlights]);
 
+  const importantEvents = useMemo(() => {
+    return [...filteredEvents]
+      .filter((item) => item.isImportant)
+      .sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt))
+      .slice(0, 12);
+  }, [filteredEvents]);
+
   const metrics = useMemo(() => {
     const now = new Date();
     const weekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -422,7 +430,8 @@ export default function HomePage() {
   );
 
   return (
-    <main className='pb-8'>
+    <main className='min-h-screen bg-black px-4 py-6 lg:px-6 lg:py-8'>
+      <div className='page-shell mx-auto max-w-[1500px] px-4 py-5 lg:px-6 lg:py-6'>
       <SiteHeader />
 
       <section className='container-shell mt-4'>
@@ -454,9 +463,19 @@ export default function HomePage() {
       </section>
 
       {viewMode === 'SHOWCASE' && (
-        <section className='container-shell mt-4'>
-          <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
-        </section>
+        <>
+          <section id='important-events-section' className='container-shell mt-4'>
+            <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
+          </section>
+
+          <section className='container-shell mt-4'>
+            <ImportantDatesMiniStrip
+              events={importantEvents}
+              onSelect={(event) => setSelectedDate(new Date(event.startAt))}
+              onOpenAll={() => document.getElementById('important-events-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            />
+          </section>
+        </>
       )}
 
       {viewMode === 'COMPACT' ? (
@@ -544,6 +563,7 @@ export default function HomePage() {
       </section>
 
       <EventModal item={activeEvent} open={!!activeEvent} onOpenChange={(open) => !open && setActiveEvent(null)} />
+      </div>
     </main>
   );
 }

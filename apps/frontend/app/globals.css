@@ -34,6 +34,7 @@ body {
 
 
 
+
 .container-shell {
   @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
 }
@@ -81,6 +82,27 @@ body {
 
 ::selection {
   background: rgba(139, 226, 190, 0.38);
+}
+
+.container-shell + .container-shell {
+  margin-top: 1rem;
+}
+
+
+.page-shell {
+  background: #fff;
+  border: 1px solid rgba(232, 231, 227, 0.9);
+  border-radius: 34px;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.55);
+}
+
+.surface-card,
+.dark-card,
+.mini-important-strip,
+.right-calendar-shell {
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.16),
+    0 8px 20px rgba(0, 0, 0, 0.10);
 }
 
 .container-shell + .container-shell {
