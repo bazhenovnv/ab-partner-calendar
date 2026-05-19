@@ -257,19 +257,15 @@ const currentMonthImportantEvents = useMemo(() => {
     const baseDate = selectedDate ? new Date(selectedDate) : new Date();
     const month = baseDate.getMonth();
     const year = baseDate.getFullYear();
-    const now = new Date();
+    const today = new Date();
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
     return events
       .filter((item) => {
         if (!item.isImportant) return false;
-
         const startDate = new Date(item.startAt);
         if (Number.isNaN(startDate.getTime())) return false;
-
-        const sameMonth = startDate.getMonth() === month && startDate.getFullYear() === year;
-        const planned = startDate >= new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-        return sameMonth && planned;
+        return startDate.getMonth() === month && startDate.getFullYear() === year && startDate >= todayStart;
       })
       .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
   }, [events, selectedDate]);
@@ -492,6 +488,7 @@ const currentMonthImportantEvents = useMemo(() => {
           <section className='container-shell mt-4'>
             <ImportantDatesMiniStrip
               events={importantEvents}
+              selectedDate={selectedDate}
               onSelect={(event) => setSelectedDate(new Date(event.startAt))}
               onOpenAll={() => document.getElementById('important-events-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             />

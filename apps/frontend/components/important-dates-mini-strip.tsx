@@ -11,6 +11,7 @@ type MiniEvent = {
 
 type Props = {
   events: MiniEvent[];
+  selectedDate?: string | Date;
   className?: string;
   onSelect?: (event: MiniEvent) => void;
   onOpenAll?: () => void;
@@ -23,7 +24,9 @@ function dateKey(value: string | Date) {
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 }
 
-export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOpenAll }: Props) {
+export function ImportantDatesMiniStrip({ events, selectedDate, className = '', onSelect, onOpenAll }: Props) {
+  const activeKey = selectedDate ? dateKey(selectedDate) : '';
+
   const uniqueDates = useMemo(() => {
     const seen = new Set<string>();
 
@@ -49,7 +52,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
         <button
           type='button'
           onClick={onOpenAll}
-          className='inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-white px-4 py-2 text-sm font-medium text-[#1a1a1a] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-[1px]'
+          className='inline-flex items-center gap-2 rounded-full border border-[#4FAF8C] bg-white px-4 py-2 text-sm font-medium text-[#1a1a1a] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-[1px]'
         >
           Смотреть все
           <ArrowRight className='h-4 w-4' />
@@ -68,7 +71,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
                 key={event.id}
                 type='button'
                 onClick={() => onSelect?.(event)}
-                className='group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border border-[#7CD8B3] bg-[#7CD8B3] text-center shadow-[0_14px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-[2px] hover:shadow-[0_14px_26px_rgba(0,0,0,0.16)]'
+                className={`important-date-chip group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border bg-[#7CD8B3] text-center shadow-[0_18px_38px_rgba(0,0,0,0.22)] transition hover:-translate-y-[2px] ${dateKey(event.startAt) === activeKey ? 'border-[2px] border-[#E04B4B]' : 'border-[#4FAF8C]'}`}
                 title={event.title}
               >
                 <span className='text-[22px] font-semibold leading-none text-[#1a1a1a]'>{day}</span>

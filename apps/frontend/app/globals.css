@@ -354,3 +354,275 @@ a[role="button"],
 }
 
 /* === end ui final polish === */
+
+
+/* === important-events-final-fix === */
+
+:root {
+  --mint-main: #7CD8B3;
+  --mint-dark: #4FAF8C;
+  --danger-red: #E04B4B;
+}
+
+/* Усиленные тени на всех основных разделах */
+.surface-card,
+.right-calendar-shell,
+.highlight-common-shell,
+.important-events-shell,
+.calendar-common-shell,
+section,
+article {
+  box-shadow: 0 18px 42px rgba(0,0,0,0.18) !important;
+}
+
+/* Главный общий фон блока "Важные события" */
+.important-events-shell,
+.highlight-common-shell {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18) !important;
+}
+
+/* Два внутренних окна важных событий */
+.important-event-inner,
+.highlight-panel-card,
+.highlight-carousel-card {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.16) !important;
+}
+
+/* Общий фон для календаря + описания событий */
+.calendar-common-shell {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18) !important;
+  padding: 12px !important;
+}
+
+/* Внутренние карточки календаря и описания */
+.calendar-common-shell .surface-card,
+.calendar-common-shell .right-calendar-shell,
+.calendar-common-shell .calendar-panel,
+.calendar-common-shell .event-details-panel {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.14) !important;
+}
+
+/* Все кнопки в стиле приложения */
+button,
+a[role="button"],
+[role="button"],
+.btn,
+.button {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18) !important;
+}
+
+/* Мятные кнопки — тёмно-мятная обводка */
+.bg-\[\#7CD8B3\],
+[class*="bg-[#7CD8B3]"],
+.mint-button,
+button[class*="bg-[#7CD8B3]"] {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18) !important;
+}
+
+/* Стрелки в важных событиях */
+.important-nav-btn,
+.highlight-nav-btn,
+.carousel-arrow-btn {
+  background: rgba(124, 216, 179, 0.45) !important;
+  border: 1px solid var(--mint-dark) !important;
+  color: var(--mint-dark) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.16) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* Если внутри svg / icon */
+.important-nav-btn svg,
+.highlight-nav-btn svg,
+.carousel-arrow-btn svg {
+  color: var(--mint-dark) !important;
+  stroke: var(--mint-dark) !important;
+}
+
+/* Кнопки дат в важныx событиях */
+.important-date-chip,
+.important-date-pill,
+.important-event-date-btn {
+  border: 1px solid var(--mint-dark) !important;
+  background: #7CD8B3 !important;
+  color: #000 !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12) !important;
+}
+
+/* Активная дата текущего важного события */
+.important-date-chip.active,
+.important-date-pill.active,
+.important-event-date-btn.active,
+.important-date-chip[data-active="true"],
+.important-date-pill[data-active="true"],
+.important-event-date-btn[data-active="true"] {
+  border: 2px solid var(--danger-red) !important;
+  box-shadow: 0 0 0 2px rgba(224,75,75,0.15), 0 10px 24px rgba(0,0,0,0.15) !important;
+}
+
+/* Выбор даты в календаре — квадратная красная обводка */
+.calendar-selected-day,
+.calendar-day.selected,
+.calendar-day[data-selected="true"] {
+  border: 2px solid var(--danger-red) !important;
+  border-radius: 6px !important;
+  box-shadow: inset 0 0 0 1px rgba(224,75,75,0.10) !important;
+}
+
+/* Точки событий в календаре — чётче */
+.calendar-day-dot,
+.calendar-dot {
+  border: 1px solid #000 !important;
+}
+
+/* Нижние карточки разделов: иконки с мятной обводкой */
+.category-icon-shell,
+.topic-icon-shell,
+.direction-icon-shell,
+.export-icon-shell {
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* Важные события — чуть более выразительный заголовок */
+.important-events-title {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+}
+
+/* Кнопки "Подробнее" / "Напомнить" в важныx событиях */
+.important-events-shell button,
+.highlight-common-shell button {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18) !important;
+}
+
+/* === end important-events-final-fix === */
+
+
+/* === hard-final-visual-patch === */
+
+:root {
+  --mint-main: #7CD8B3;
+  --mint-dark: #4FAF8C;
+  --danger-red: #E04B4B;
+}
+
+/* Общие глубокие тени */
+.page-shell,
+.surface-card,
+.important-events-shell,
+.important-event-inner,
+.calendar-common-shell,
+.right-calendar-shell,
+.mini-important-strip {
+  box-shadow: 0 28px 70px rgba(0,0,0,0.28) !important;
+}
+
+/* Важные события */
+.important-events-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+}
+
+.important-event-inner {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.24) !important;
+}
+
+/* Стрелки карусели важных событий */
+.highlight-nav-btn,
+.important-nav-btn {
+  background: rgba(124,216,179,0.42) !important;
+  border: 1px solid var(--mint-dark) !important;
+  color: var(--mint-dark) !important;
+  backdrop-filter: blur(6px);
+}
+
+.highlight-nav-btn svg,
+.important-nav-btn svg {
+  color: var(--mint-dark) !important;
+  stroke: var(--mint-dark) !important;
+}
+
+/* Календарь + описание: один общий фон */
+.calendar-common-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  border-radius: 24px !important;
+  padding: 12px !important;
+}
+
+.calendar-common-shell .surface-card,
+.calendar-common-shell .right-calendar-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  border-radius: 22px !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22) !important;
+}
+
+/* Календарь: выбранная дата — красная квадратная обводка */
+.day-cell-selected {
+  border: 2px solid var(--danger-red) !important;
+  border-radius: 4px !important;
+  outline: none !important;
+}
+
+/* Мятные кнопки — тёмно-мятная обводка */
+button,
+a[role="button"],
+[role="button"] {
+  border-color: var(--mint-dark) !important;
+}
+
+button[class*="bg-[#7CD8B3]"],
+a[class*="bg-[#7CD8B3]"],
+.bg-\[\#7CD8B3\] {
+  border: 1px solid var(--mint-dark) !important;
+}
+
+/* Круглые даты мини-панели */
+.important-date-chip {
+  border-color: var(--mint-dark) !important;
+  background: var(--mint-main) !important;
+  color: #000 !important;
+}
+
+.important-date-chip.border-\[\#E04B4B\],
+.important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: var(--danger-red) !important;
+}
+
+/* Нижняя панель направлений: иконки с мятной обводкой */
+.icon-chip,
+.topic-icon-shell,
+.category-icon-shell {
+  border: 1px solid var(--mint-main) !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
+}
+
+/* Точки/индикаторы карусели заметнее */
+.highlight-carousel-dot,
+.carousel-dot,
+.carousel-indicator,
+.important-events-shell span[class*="rounded-full"] {
+  border-color: #000 !important;
+}
+
+/* === end hard-final-visual-patch === */

@@ -60,7 +60,7 @@ export function HighlightCarousel({
 
   if (!slides.length) {
     const fallback = (
-      <div className='overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
+      <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_22px_48px_rgba(0,0,0,0.18)]'>
         <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
           <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
             <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
@@ -85,12 +85,12 @@ export function HighlightCarousel({
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
-    <div className='overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
+    <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_22px_48px_rgba(0,0,0,0.18)]'>
       <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-10'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-          className='absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
+          className='important-nav-btn absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Предыдущий слайд'
         >
           <ChevronLeft className='h-5 w-5' />
@@ -146,7 +146,7 @@ export function HighlightCarousel({
         <button
           type='button'
           onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-          className='absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
+          className='important-nav-btn absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Следующий слайд'
         >
           <ChevronRight className='h-5 w-5' />
