@@ -50,7 +50,7 @@ export function EventModal({
           <img src={item.imageUrl} alt={item.title} className='h-64 w-full rounded-[24px] border border-[#7CD8B3] object-cover' />
           <p className='mt-5 whitespace-pre-line break-words text-sm leading-7 text-slate-600 [overflow-wrap:anywhere]'>{cleanDescriptionText(item.descriptionFull)}</p>
         </div>
-        <div className='space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
+        <div className='space-y-4 rounded-[24px] border border-[#7CD8B3] bg-[#E8E7E3] p-5'>
           <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />
           <InfoRow label='Окончание' value={format(new Date(item.endAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<Clock4 className='h-4 w-4' />} />
           <InfoRow label='Место проведения' value={item.location} icon={<MapPin className='h-4 w-4' />} />
@@ -83,7 +83,7 @@ export function EventModal({
 
 function InfoRow({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
-    <div className='rounded-2xl border border-[#7CD8B3] bg-white p-4'>
+    <div className='rounded-2xl border border-[#7CD8B3] bg-[#E8E7E3] p-4'>
       <div className='mb-1 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-400'>
         {icon}
         {label}

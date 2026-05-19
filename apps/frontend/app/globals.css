@@ -33,12 +33,13 @@ body {
 
 
 
+
 .container-shell {
   @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
 }
 
 .surface-card {
-  @apply rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.06)];
+  @apply rounded-[18px] border border-[#7CD8B3] bg-[#E8E7E3] shadow-[0_3px_12px_rgba(15,23,42,0.06)];
 }
 
 .dark-card {
@@ -50,11 +51,11 @@ body {
 }
 
 .select-clean {
-  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
+  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-[#E8E7E3] px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
 }
 
 .day-cell {
-  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-white px-2 py-1.5 text-black transition;
+  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-[#E8E7E3] px-2 py-1.5 text-black transition;
 }
 
 .day-cell:hover {
