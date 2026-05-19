@@ -138,9 +138,7 @@ export function HighlightCarousel({
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold'>
-              Подробнее
-            </Button>
+            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold'>Подробнее</Button>
             <ReminderButton event={item} variant='secondary' className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold' />
           </div>
         </div>

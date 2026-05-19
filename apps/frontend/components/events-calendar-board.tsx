@@ -132,7 +132,7 @@ export function EventsCalendarBoard({
   }, [currentMonth]);
 
   return (
-    <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1fr)_minmax(560px,0.95fr)]'>
+    <section className='grid items-stretch gap-4 xl:grid-cols-[minmax(720px,1.08fr)_minmax(560px,0.92fr)]'>
       <div className='surface-card self-start overflow-hidden bg-white xl:h-[680px]'>
         <div className='h-full overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
@@ -193,7 +193,7 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='right-calendar-shell grid h-full gap-4 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)]'>
+      <div className='right-calendar-shell grid h-full gap-4 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)] h-full'>
         <div className='w-full self-start overflow-visible'>
           <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>

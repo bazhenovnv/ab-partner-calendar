@@ -255,3 +255,102 @@ a[class*='bg-[#7CD8B3]'] {
 .carousel-indicator {
   border: 1px solid #000 !important;
 }
+
+
+/* === ui final polish === */
+
+/* Панель фильтров: текст чёрный и не жирный */
+.select-clean,
+.select-clean select,
+.select-clean option {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* Если select отображается через button/div */
+[data-slot="select-trigger"],
+[data-slot="select-value"],
+.filter-panel select,
+.filter-panel button {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* Все кнопки приложения: чёрная обводка и не жирные */
+button,
+a[role="button"],
+[role="button"] {
+  border: 1px solid #000 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.20) !important;
+}
+
+/* Календарные кнопки и "Смотреть все" — не жирные */
+.view-all-btn,
+.calendar-soft-btn,
+.day-nav-btn,
+.calendar-nav-btn,
+.calendar-today-btn {
+  font-weight: 500 !important;
+  border: 1px solid #000 !important;
+}
+
+/* Кнопка "Подробнее" в важный событиях — не жирная */
+.highlight-carousel button,
+.highlight-carousel a,
+.important-panel-card button,
+.important-panel-card a {
+  font-weight: 500 !important;
+  border: 1px solid #000 !important;
+}
+
+/* Заголовок "ВАЖНЫЕ СОБЫТИЯ" крупнее */
+.important-events-title {
+  font-size: 24px !important;
+  line-height: 1.1 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Тени на окнах важных событий */
+.highlight-panel-card,
+.important-panel-card,
+.highlight-carousel > div,
+.highlight-carousel .rounded-\[28px\],
+.highlight-carousel .rounded-\[24px\] {
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+/* Правая колонка календаря и левая колонка событий — одинаково цельно */
+.right-calendar-shell {
+  height: 100% !important;
+  align-self: stretch !important;
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+.surface-card {
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+/* Левая карточка событий тянется вниз визуально */
+.surface-card.h-full,
+.surface-card.min-h-\[860px\] {
+  min-height: 860px !important;
+}
+
+/* Панель режимов и календарь внутри одного стиля */
+.right-calendar-shell > div,
+.right-calendar-shell .surface-card {
+  border-radius: 22px !important;
+}
+
+/* Текст фильтров сверху — черный и обычный */
+.filter-panel label,
+.filter-panel .select-clean,
+.filter-panel [data-slot="select-trigger"],
+.filter-panel [data-slot="select-value"] {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* === end ui final polish === */
