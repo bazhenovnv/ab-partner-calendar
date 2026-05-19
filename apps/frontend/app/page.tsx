@@ -443,6 +443,14 @@ const currentMonthImportantEvents = useMemo(() => {
         <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только бесплатные</Button>
         <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только важные</Button>
       </div>
+
+      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+        <img
+          src='/calendar-sticker-note.png'
+          alt='Меньше хаоса — больше пользы'
+          className='h-auto w-full max-w-[320px] object-contain'
+        />
+      </div>
     </div>
   );
 

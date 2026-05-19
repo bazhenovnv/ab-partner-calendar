@@ -252,7 +252,7 @@ export function EventsCalendarBoard({
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-2xl'>
+                      <div className='pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-[0_18px_38px_rgba(0,0,0,0.18)]'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (
