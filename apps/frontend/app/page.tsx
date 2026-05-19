@@ -252,6 +252,27 @@ export default function HomePage() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [highlights, setHighlights] = useState<EventItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+const currentMonthImportantEvents = useMemo(() => {
+    const baseDate = selectedDate ? new Date(selectedDate) : new Date();
+    const month = baseDate.getMonth();
+    const year = baseDate.getFullYear();
+    const now = new Date();
+
+    return events
+      .filter((item) => {
+        if (!item.isImportant) return false;
+
+        const startDate = new Date(item.startAt);
+        if (Number.isNaN(startDate.getTime())) return false;
+
+        const sameMonth = startDate.getMonth() === month && startDate.getFullYear() === year;
+        const planned = startDate >= new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        return sameMonth && planned;
+      })
+      .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
+  }, [events, selectedDate]);
   const [activeEvent, setActiveEvent] = useState<EventItem | null>(null);
   const [formatFilter, setFormatFilter] = useState<FormatFilter>('ALL');
   const [cityFilter, setCityFilter] = useState<string>('ALL');
