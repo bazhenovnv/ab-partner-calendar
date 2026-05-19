@@ -410,7 +410,7 @@ export default function HomePage() {
   );
 
   const modePanel = (
-    <div className='rounded-[20px] bg-[#E8E7E3] p-4'>
+    <div className='rounded-[18px] bg-[#E8E7E3] p-4'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
       <div className='grid gap-3 md:grid-cols-2'>
         <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-black bg-[#7CD8B3]'>Витрина</Button>

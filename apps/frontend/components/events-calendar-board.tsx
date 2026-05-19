@@ -193,9 +193,9 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='grid gap-4'>
-        <div className='dark-card self-start overflow-visible p-3'>
-          <div className='rounded-[16px] border border-black bg-[#E8E7E3] p-3'>
+      <div className='right-calendar-shell grid gap-3 self-start rounded-[24px] border border-black bg-[#E8E7E3] p-3 shadow-[0_10px_28px_rgba(0,0,0,0.12)]'>
+        <div className='w-full self-start overflow-visible rounded-[20px] border border-black bg-[#E8E7E3] p-3'>
+          <div className='w-full rounded-[18px] border border-black bg-[#E8E7E3] p-3'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
                 <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-[#7CD8B3] text-black transition hover:opacity-90'>
