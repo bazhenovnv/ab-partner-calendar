@@ -155,7 +155,7 @@ export function EventsCalendarBoard({
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='mt-5 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
+                <div className='mt-2 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
                   <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>События выбранного дня</div>
                   <div className='flex flex-wrap gap-2'>
                     {selectedDayEvents.map((event, index) => (
@@ -173,7 +173,7 @@ export function EventsCalendarBoard({
                 </div>
               )}
 
-              <div className='mt-6 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
+              <div className='mt-2 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
                 {cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort) || 'Описание мероприятия будет добавлено позже.'}
               </div>
 
@@ -194,7 +194,7 @@ export function EventsCalendarBoard({
                 alt='Выберите дату с событиями'
                 className='h-[260px] w-[260px] object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.18)]'
               />
-              <div className='mt-6 text-[28px] font-semibold leading-tight text-black'>
+              <div className='mt-2 text-[28px] font-semibold leading-tight text-black'>
                 Выберите дату с событиями
               </div>
             </div>
@@ -202,7 +202,7 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='calendar-panel right-calendar-shell grid h-full gap-4 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)] h-full'>
+      <div className='calendar-panel right-calendar-shell grid h-full gap-2 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)] h-full'>
         <div className='w-full self-start overflow-visible'>
           <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
