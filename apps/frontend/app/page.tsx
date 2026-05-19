@@ -200,7 +200,7 @@ function CityFilterSelect({
         <ChevronDown className={`pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
 
         {open ? (
-          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-[#E8E7E3] shadow-[0_16px_34px_rgba(15,23,42,0.12)]'>
+          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_16px_34px_rgba(15,23,42,0.12)]'>
             <div className='border-b border-[#7CD8B3]/70 p-2'>
               <div className='relative'>
                 <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
@@ -208,7 +208,7 @@ function CityFilterSelect({
                   ref={inputRef}
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  className='h-10 w-full rounded-xl border border-[#7CD8B3] bg-[#E8E7E3] pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30'
+                  className='h-10 w-full rounded-xl border border-[#7CD8B3] bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30'
                 />
               </div>
             </div>
@@ -384,7 +384,7 @@ export default function HomePage() {
             <div className='text-lg font-semibold text-[#17191e]'>Формат, город, тема, источник и период</div>
           </div>
         </div>
-        <div className='rounded-[14px] border border-[#7CD8B3] bg-[#E8E7E3] px-3 py-2 text-sm text-slate-500'>
+        <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>
           Текущая тема: {highlightedTopic}<br />
           Найдено событий: {filteredEvents.length}
         </div>
@@ -418,13 +418,13 @@ export default function HomePage() {
   );
 
   const modePanel = (
-    <div className='rounded-[18px] bg-[#E8E7E3] p-4'>
+    <div className='rounded-[18px] bg-white p-4 text-black font-semibold'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
       <div className='grid gap-3 md:grid-cols-2'>
-        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-black bg-[#7CD8B3]'>Витрина</Button>
-        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full border-black bg-[#7CD8B3]'>Полный режим</Button>
-        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-black bg-[#7CD8B3]'>Только бесплатные</Button>
-        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-black bg-[#7CD8B3]'>Только важные</Button>
+        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold text-black'>Витрина</Button>
+        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold text-black'>Полный режим</Button>
+        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold text-black'>Только бесплатные</Button>
+        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold text-black'>Только важные</Button>
       </div>
     </div>
   );
@@ -446,7 +446,7 @@ export default function HomePage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3'>
+              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.20)]'>
                 <div className='icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
@@ -494,7 +494,7 @@ export default function HomePage() {
               </div>
               <div className='grid gap-3'>
                 {compactEvents.map((event) => (
-                  <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-[#E8E7E3] p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
+                  <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
                     <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
                       <div className='flex flex-wrap items-center justify-between gap-3'>
                         <div>
@@ -535,9 +535,9 @@ export default function HomePage() {
                 key={topic.value}
                 type='button'
                 onClick={() => setTopicFilter(topic.value)}
-                className={`flex min-h-[84px] min-w-0 items-center gap-3 rounded-[18px] border px-4 py-3 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-[#E8E7E3] text-[#17191e]'}`}
+                className={`flex min-h-[84px] min-w-0 items-center gap-3 rounded-[18px] border px-4 py-3 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
               >
-                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-[#E8E7E3]/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
                   {topic.icon}
                 </div>
                 <div className='min-w-0'>
@@ -549,7 +549,7 @@ export default function HomePage() {
             <button
               type='button'
               onClick={() => setTopicFilter('ALL')}
-              className={`flex min-h-[84px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-3 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-[#E8E7E3] text-[#17191e]'}`}
+              className={`flex min-h-[84px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-3 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
             >
               <Layers3 className='h-5 w-5 flex-none' />
               <span className='text-sm font-medium'>Все подборки</span>

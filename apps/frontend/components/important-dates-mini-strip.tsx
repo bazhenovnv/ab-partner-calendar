@@ -40,7 +40,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
   }, [events]);
 
   return (
-    <div className={`mini-important-strip rounded-[26px] border border-black bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)] ${className}`}>
+    <div className={`mini-important-strip rounded-[26px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)] ${className}`}>
       <div className='flex items-center justify-between gap-4'>
         <h3 className='text-[14px] font-semibold uppercase tracking-[0.08em] text-[#1a1a1a]'>
           Важные события
@@ -49,7 +49,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
         <button
           type='button'
           onClick={onOpenAll}
-          className='inline-flex items-center gap-2 rounded-full border border-black bg-white px-4 py-2 text-sm font-medium text-[#1a1a1a] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-[1px]'
+          className='inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-white px-4 py-2 text-sm font-medium text-[#1a1a1a] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-[1px]'
         >
           Смотреть все
           <ArrowRight className='h-4 w-4' />
@@ -68,7 +68,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
                 key={event.id}
                 type='button'
                 onClick={() => onSelect?.(event)}
-                className='group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border border-black bg-[#7CD8B3] text-center shadow-[0_8px_18px_rgba(0,0,0,0.10)] transition hover:-translate-y-[2px] hover:shadow-[0_14px_26px_rgba(0,0,0,0.16)]'
+                className='group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border border-[#7CD8B3] bg-[#7CD8B3] text-center shadow-[0_14px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-[2px] hover:shadow-[0_14px_26px_rgba(0,0,0,0.16)]'
                 title={event.title}
               >
                 <span className='text-[22px] font-semibold leading-none text-[#1a1a1a]'>{day}</span>
@@ -78,7 +78,7 @@ export function ImportantDatesMiniStrip({ events, className = '', onSelect, onOp
           })}
         </div>
       ) : (
-        <div className='mt-4 rounded-[18px] border border-black bg-white px-4 py-3 text-sm text-slate-500'>
+        <div className='mt-4 rounded-[18px] border border-[#7CD8B3] bg-white px-4 py-3 text-sm text-slate-500'>
           Важные даты появятся после загрузки событий.
         </div>
       )}

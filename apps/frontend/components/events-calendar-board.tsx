@@ -132,7 +132,7 @@ export function EventsCalendarBoard({
   }, [currentMonth]);
 
   return (
-    <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1.18fr)_minmax(430px,0.82fr)]'>
+    <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1fr)_minmax(560px,0.95fr)]'>
       <div className='surface-card self-start overflow-hidden bg-white xl:h-[680px]'>
         <div className='h-full overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
@@ -142,7 +142,7 @@ export function EventsCalendarBoard({
                   <div className='mb-2 text-sm font-medium text-slate-500'>{formatDate(selectedDate)}</div>
                   <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>{selectedEvent.title}</h3>
                 </div>
-                <div className='shrink-0 rounded-full border border-black bg-[#eefbf4] px-4 py-2 text-sm font-medium text-[#356b51]'>
+                <div className='shrink-0 rounded-full border border-[#7CD8B3] bg-[#eefbf4] px-4 py-2 text-sm font-medium text-[#356b51]'>
                   {selectedEvent.format === 'ONLINE' ? 'Онлайн' : selectedEvent.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
                 </div>
               </div>
@@ -155,7 +155,7 @@ export function EventsCalendarBoard({
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='mt-5 rounded-[16px] border border-black bg-white p-3'>
+                <div className='mt-5 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
                   <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>События выбранного дня</div>
                   <div className='flex flex-wrap gap-2'>
                     {selectedDayEvents.map((event, index) => (
@@ -193,25 +193,25 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='right-calendar-shell grid gap-3 self-start rounded-[24px] border border-black bg-white p-3 shadow-[0_10px_28px_rgba(0,0,0,0.12)] calendar-single-surface'>
-        <div className='w-full self-start overflow-visible rounded-[20px] border border-black bg-white p-3'>
-          <div className='w-full rounded-[18px] border border-black bg-white p-3'>
+      <div className='right-calendar-shell grid h-full gap-4 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)]'>
+        <div className='w-full self-start overflow-visible'>
+          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-[#7CD8B3] text-black transition hover:opacity-90'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
                   <ChevronLeft className='h-4 w-4' />
                 </button>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black bg-[#7CD8B3] text-black transition hover:opacity-90'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
                   <ChevronRight className='h-4 w-4' />
                 </button>
                 <div className='ml-3 text-[17px] font-medium text-black'>{formatMonth(currentMonth)}</div>
               </div>
-              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-black bg-[#7CD8B3] px-3 py-1.5 text-sm text-black transition hover:opacity-90'>
+              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-[#7CD8B3] bg-[#7CD8B3] px-3 py-1.5 text-sm text-black transition hover:opacity-90'>
                 Сегодня
               </button>
             </div>
 
-            <div className='grid grid-cols-7 border border-black border-b-0 text-center text-[12px] font-semibold text-black'>
+            <div className='grid grid-cols-7 border border-[#7CD8B3] border-b-0 text-center text-[12px] font-semibold text-black'>
               {weekdayLabels.map((day) => (
                 <div key={day} className='border-r border-[#7CD8B3] py-2 last:border-r-0'>{day}</div>
               ))}
@@ -243,7 +243,7 @@ export function EventsCalendarBoard({
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-black bg-white p-3 text-black shadow-2xl'>
+                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-2xl'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (
@@ -268,8 +268,8 @@ export function EventsCalendarBoard({
           </div>
         </div>
 
-        {filtersPanel ? <div><div className='w-full rounded-[20px] border border-black bg-white overflow-hidden'>
-              <div className='rounded-[20px] border border-black bg-white'>
+        {filtersPanel ? <div><div className='w-full rounded-[20px] border border-[#7CD8B3] bg-white overflow-hidden'>
+              <div className='rounded-[20px] border border-[#7CD8B3] bg-white'>
                 {filtersPanel}
               </div>
             </div></div> : null}

@@ -151,3 +151,107 @@ body {
   background: #7CD8B3;
 }
 
+
+
+/* === final visual polish: mint borders, white sections, bigger calendar === */
+
+body {
+  background: #000 !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.page-shell {
+  background: #fff !important;
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.58) !important;
+}
+
+.surface-card,
+.mini-important-strip,
+.right-calendar-shell {
+  background: #fff !important;
+  border-color: #7CD8B3 !important;
+  color: #000 !important;
+  font-weight: 600;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.page-shell,
+.page-shell * {
+  font-weight: 600;
+}
+
+.page-shell .text-slate-400,
+.page-shell .text-slate-500,
+.page-shell .text-slate-600,
+.page-shell .text-slate-700,
+.page-shell .text-[#404552],
+.page-shell .text-[#17191e],
+.page-shell .text-[#1a1a1a] {
+  color: #000 !important;
+}
+
+.select-clean {
+  color: #2c8d67 !important;
+  font-weight: 800 !important;
+  border-color: #7CD8B3 !important;
+  background: #fff !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+.select-clean option {
+  color: #2c8d67;
+  font-weight: 800;
+}
+
+button,
+.app-btn,
+[role='button'] {
+  font-weight: 800 !important;
+}
+
+button:not(.day-cell),
+.app-btn,
+a[class*='bg-[#7CD8B3]'] {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+}
+
+.icon-chip {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16) !important;
+}
+
+.right-calendar-shell {
+  align-self: stretch;
+  width: 100%;
+}
+
+.right-calendar-shell > div {
+  width: 100%;
+}
+
+.day-cell {
+  min-height: 64px !important;
+  padding: 10px !important;
+  background: #fff !important;
+  border-color: #7CD8B3 !important;
+}
+
+.day-cell-selected {
+  background: #7CD8B3 !important;
+}
+
+.mini-important-strip button {
+  background: #7CD8B3 !important;
+  border-color: #7CD8B3 !important;
+  color: #000 !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* точки/индикаторы важных событий */
+.highlight-carousel-dot,
+.carousel-dot,
+.carousel-indicator {
+  border: 1px solid #000 !important;
+}
