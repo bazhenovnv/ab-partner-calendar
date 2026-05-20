@@ -10,16 +10,9 @@ import { ReminderButton } from './reminder-button';
 
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
 
-function isActualEventImage(value?: string | null) {
-  if (!value) return false;
-  const lower = value.toLowerCase();
-  if (lower.includes('important-events-photo')) return false;
-  if (lower.includes('placeholder')) return false;
-  return /^https?:\/\//i.test(value) || value.startsWith('/');
-}
-
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
+
   return value
     .replace(/https?:\/\/\S+/g, '')
     .replace(/#[\p{L}\p{N}_-]+/gu, '')
@@ -28,34 +21,53 @@ function cleanDescriptionText(value?: string) {
     .filter(Boolean)
     .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
     .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
-    .slice(0, 7)
+    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
+    .filter((line) => !/^\(?\??\)?$/.test(line))
     .join('\n')
+    .replace(/\(\s*\)/g, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
-export function HighlightCarousel({ items, onOpen, embedded = false }: { items: EventItem[]; onOpen: (item: EventItem) => void; embedded?: boolean }) {
-  const slides = useMemo(() => items.filter((item) => item.isImportant).slice(0, 12), [items]);
+
+function isActualEventImage(value?: string) {
+  if (!value) return false;
+  if (value === IMPORTANT_EVENTS_PHOTO) return false;
+  if (value.startsWith('/important-events-photo')) return false;
+  return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
+}
+
+export function HighlightCarousel({
+  items,
+  onOpen,
+  embedded = false,
+}: {
+  items: EventItem[];
+  onOpen: (item: EventItem) => void;
+  embedded?: boolean;
+}) {
+  const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    setActive(0);
-  }, [slides.length]);
-
-  useEffect(() => {
-    if (slides.length <= 1) return undefined;
-    const timer = window.setInterval(() => setActive((prev) => (prev + 1) % slides.length), 10000);
+    if (slides.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setActive((prev) => (prev + 1) % slides.length);
+    }, 5000);
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
   if (!slides.length) {
     const fallback = (
-      <div className='important-events-shell overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white shadow-[0_28px_70px_rgba(0,0,0,0.24)]'>
-        <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
-          <div className='important-event-inner min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_60px_rgba(0,0,0,0.20)]'>
+      <div className='dark-card overflow-hidden'>
+        <div className='grid min-h-[320px] gap-6 p-6 lg:grid-cols-2 lg:p-8'>
+          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
             <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
-          <div className='important-event-inner flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black shadow-[0_24px_60px_rgba(0,0,0,0.20)] lg:p-8'>
-            <div className='important-events-title mb-4 text-[24px] font-semibold text-black'>Важные события</div>
+
+          <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
             <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
               Важные события загружаются из Telegram-канала и API-источников
             </h2>
@@ -73,20 +85,18 @@ export function HighlightCarousel({ items, onOpen, embedded = false }: { items: 
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
-    <div id='important-events-section' className='important-events-shell overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white shadow-[0_28px_70px_rgba(0,0,0,0.24)]'>
-      <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-10'>
-        {slides.length > 1 ? (
-          <button
-            type='button'
-            onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-            className='highlight-nav-btn absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#4FAF8C] bg-[#7CD8B3]/45 text-[#4FAF8C] shadow-[0_12px_26px_rgba(0,0,0,0.18)] backdrop-blur transition hover:bg-[#7CD8B3]/70 lg:inline-flex'
-            aria-label='Предыдущий слайд'
-          >
-            <ChevronLeft className='h-5 w-5' />
-          </button>
-        ) : null}
+    <div className='dark-card overflow-hidden'>
+      <div className='relative grid min-h-[320px] gap-6 p-6 lg:grid-cols-[0.95fr_1fr] lg:p-8'>
+        <button
+          type='button'
+          onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
+          className='absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
+          aria-label='Предыдущий слайд'
+        >
+          <ChevronLeft className='h-5 w-5' />
+        </button>
 
-        <div className='important-event-inner min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_60px_rgba(0,0,0,0.20)]'>
+        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
           <img
             src={slideImage}
             alt={item.title}
@@ -98,9 +108,11 @@ export function HighlightCarousel({ items, onOpen, embedded = false }: { items: 
           />
         </div>
 
-        <div className='important-event-inner flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black shadow-[0_24px_60px_rgba(0,0,0,0.20)] lg:p-8'>
-          <div className='important-events-title mb-4 text-[24px] font-semibold text-black'>Важные события</div>
-          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>{item.title}</h2>
+        <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
+            {item.title}
+          </h2>
 
           <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
             <span className='inline-flex items-center gap-2 text-[15px]'>
@@ -126,29 +138,29 @@ export function HighlightCarousel({ items, onOpen, embedded = false }: { items: 
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px] font-medium'>Подробнее</Button>
+            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px]'>
+              Подробнее
+            </Button>
             <ReminderButton event={item} variant='secondary' className='min-w-[170px]' />
           </div>
         </div>
 
-        {slides.length > 1 ? (
-          <button
-            type='button'
-            onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-            className='highlight-nav-btn absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#4FAF8C] bg-[#7CD8B3]/45 text-[#4FAF8C] shadow-[0_12px_26px_rgba(0,0,0,0.18)] backdrop-blur transition hover:bg-[#7CD8B3]/70 lg:inline-flex'
-            aria-label='Следующий слайд'
-          >
-            <ChevronRight className='h-5 w-5' />
-          </button>
-        ) : null}
+        <button
+          type='button'
+          onClick={() => setActive((prev) => (prev + 1) % slides.length)}
+          className='absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
+          aria-label='Следующий слайд'
+        >
+          <ChevronRight className='h-5 w-5' />
+        </button>
 
-        <div className='absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-3'>
+        <div className='absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3'>
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActive(idx)}
               aria-label={`Слайд ${idx + 1}`}
-              className={`rounded-full border border-black transition-all ${idx === active ? 'h-2.5 w-8 bg-[#7CD8B3]' : 'h-2.5 w-2.5 bg-[#7CD8B3]/40 hover:bg-[#7CD8B3]/70'}`}
+              className={`h-2.5 rounded-full transition-all ${idx === active ? 'w-8 bg-[#8BE2BE]' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
             />
           ))}
         </div>
