@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Edit3, Plus, Trash2 } from 'lucide-react';
+import { Edit3, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import { mockCategories, mockEvents } from '@/components/admin/admin-data';
 import { EventForm, EventFormValue } from '@/components/admin/event-form';
 import { SectionHeader } from '@/components/admin/section-header';
@@ -20,14 +20,22 @@ export default function AdminEventsPage() {
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('ALL');
   const [categoryId, setCategoryId] = useState('ALL');
+  const [includeDeleted, setIncludeDeleted] = useState(false);
   const [editing, setEditing] = useState<EventItem | null>(null);
   const [creating, setCreating] = useState(false);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
+  async function loadEvents(nextIncludeDeleted = includeDeleted) {
     const token = getAdminToken();
     api.categories().then(setCategories).catch(() => undefined);
     if (!token) return;
-    api.adminEvents(token).then(setItems).catch(() => undefined);
+    const data = await api.adminEvents(token, nextIncludeDeleted);
+    setItems(data);
+  }
+
+  useEffect(() => {
+    loadEvents().catch(() => undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filtered = useMemo(
@@ -81,21 +89,39 @@ export default function AdminEventsPage() {
       _count: current?._count || { reminders: 0 },
     };
 
-    if (current) {
-      setItems((prev) => prev.map((item) => (item.id === current.id ? record : item)));
-    } else {
-      setItems((prev) => [record, ...prev]);
-    }
+    if (current) setItems((prev) => prev.map((item) => (item.id === current.id ? record : item)));
+    else setItems((prev) => [record, ...prev]);
     setCreating(false);
     setEditing(null);
   }
 
   async function deleteItem(item: EventItem) {
+    if (!confirm(`Удалить событие «${item.title}»? После удаления оно не будет повторно загружено синхронизацией.`)) return;
     const token = getAdminToken();
+    setError('');
     if (token && !item.id.startsWith('local-')) {
       await api.deleteEvent(token, item.id);
+      await loadEvents(includeDeleted);
+      return;
     }
     setItems((prev) => prev.filter((record) => record.id !== item.id));
+  }
+
+  async function restoreItem(item: EventItem) {
+    const token = getAdminToken();
+    if (!token) return setError('Нет токена администратора.');
+    setError('');
+    try {
+      await api.restoreEvent(token, item.id);
+      await loadEvents(includeDeleted);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось восстановить событие');
+    }
+  }
+
+  async function toggleIncludeDeleted(value: boolean) {
+    setIncludeDeleted(value);
+    await loadEvents(value);
   }
 
   return (
@@ -103,11 +129,13 @@ export default function AdminEventsPage() {
       <SectionHeader
         eyebrow='Каталог событий'
         title='Мероприятия'
-        description='Полноценное управление афишей: создание, редактирование, публикация, фильтрация по статусу и категории, а также работа с важными карточками для hero-блока.'
+        description='Создание, редактирование, мягкое удаление, восстановление и защита от повторного импорта удалённых событий.'
         actions={<Button onClick={() => setCreating(true)}><Plus className='h-4 w-4' />Создать мероприятие</Button>}
       />
 
-      <section className='grid gap-4 rounded-[28px] bg-white p-5 shadow-panel lg:grid-cols-[1fr_180px_220px]'>
+      {error ? <div className='rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700'>{error}</div> : null}
+
+      <section className='grid gap-4 rounded-[28px] bg-white p-5 shadow-panel lg:grid-cols-[1fr_180px_220px_220px]'>
         <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Поиск по названию, месту или описанию' />
         <Select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value='ALL'>Все статусы</option>
@@ -119,6 +147,10 @@ export default function AdminEventsPage() {
           <option value='ALL'>Все категории</option>
           {categories.map((category) => <option key={category.id} value={category.id}>{category.title}</option>)}
         </Select>
+        <label className='inline-flex items-center justify-center gap-3 rounded-2xl border border-[#7CD8B3] bg-white px-4 text-sm text-slate-700'>
+          <input type='checkbox' checked={includeDeleted} onChange={(e) => toggleIncludeDeleted(e.target.checked)} />
+          Показывать удалённые
+        </label>
       </section>
 
       <section className='overflow-hidden rounded-[28px] bg-white shadow-panel'>
@@ -136,12 +168,13 @@ export default function AdminEventsPage() {
             </thead>
             <tbody>
               {filtered.map((item) => (
-                <tr key={item.id} className='border-t border-slate-100 align-top'>
+                <tr key={item.id} className={`border-t border-slate-100 align-top ${item.deletedAt ? 'bg-rose-50/50' : ''}`}>
                   <td className='px-5 py-4'>
                     <div className='font-medium text-slate-950'>{item.title}</div>
                     <div className='mt-1 max-w-md text-slate-500'>{item.descriptionShort}</div>
                     <div className='mt-3 flex flex-wrap gap-2'>
                       {item.isImportant ? <Badge tone='mint'>Важное</Badge> : null}
+                      {item.deletedAt ? <Badge tone='red'>Удалено</Badge> : null}
                       <Badge tone='default'>{item.format}</Badge>
                       <Badge tone='blue'>{item._count?.reminders || 0} напоминаний</Badge>
                     </div>
@@ -158,9 +191,13 @@ export default function AdminEventsPage() {
                   </td>
                   <td className='px-5 py-4'>{item.published ? <Badge tone='mint'>Опубликовано</Badge> : <Badge tone='amber'>Черновик</Badge>}</td>
                   <td className='px-5 py-4'>
-                    <div className='flex gap-2'>
-                      <Button variant='ghost' onClick={() => setEditing(item)}><Edit3 className='h-4 w-4' />Изменить</Button>
-                      <Button variant='ghost' className='text-rose-700 hover:bg-rose-50' onClick={() => deleteItem(item)}><Trash2 className='h-4 w-4' />Удалить</Button>
+                    <div className='flex flex-wrap gap-2'>
+                      <Button variant='ghost' disabled={Boolean(item.deletedAt)} onClick={() => setEditing(item)}><Edit3 className='h-4 w-4' />Изменить</Button>
+                      {item.deletedAt ? (
+                        <Button variant='ghost' className='text-emerald-700 hover:bg-emerald-50' onClick={() => restoreItem(item)}><RotateCcw className='h-4 w-4' />Восстановить</Button>
+                      ) : (
+                        <Button variant='ghost' className='text-rose-700 hover:bg-rose-50' onClick={() => deleteItem(item)}><Trash2 className='h-4 w-4' />Удалить</Button>
+                      )}
                     </div>
                   </td>
                 </tr>

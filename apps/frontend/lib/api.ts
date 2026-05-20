@@ -63,8 +63,8 @@ export const api = {
     fetcher<AnalyticsSummary>('/admin/analytics', {
       headers: { Authorization: `Bearer ${token}` },
     }),
-  adminEvents: (token: string) =>
-    fetcher<EventItem[]>('/admin/events', {
+  adminEvents: (token: string, includeDeleted = false) =>
+    fetcher<EventItem[]>(`/admin/events${includeDeleted ? '?includeDeleted=true' : ''}`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
   createEvent: (token: string, payload: unknown) =>
@@ -82,6 +82,11 @@ export const api = {
   deleteEvent: (token: string, id: string) =>
     fetcher(`/admin/events/${id}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  restoreEvent: (token: string, id: string) =>
+    fetcher<EventItem>(`/admin/events/${id}/restore`, {
+      method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     }),
   imports: (token: string) =>
@@ -109,6 +114,23 @@ export const api = {
     }),
   users: (token: string) =>
     fetcher<AdminUser[]>('/admin/users', {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  createUser: (token: string, payload: { email: string; name: string; password: string; role: 'ADMIN' | 'SUPERADMIN' }) =>
+    fetcher<AdminUser>('/admin/users', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  updateUser: (token: string, id: string, payload: { email?: string; name?: string; password?: string; role?: 'ADMIN' | 'SUPERADMIN' }) =>
+    fetcher<AdminUser>(`/admin/users/${id}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  deleteUser: (token: string, id: string) =>
+    fetcher<AdminUser>(`/admin/users/${id}`, {
+      method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     }),
 };

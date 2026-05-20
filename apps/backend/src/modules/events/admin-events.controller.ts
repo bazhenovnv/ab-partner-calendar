@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/jwt-auth.guard';
 import { CreateEventDto, UpdateEventDto } from './dto';
 import { EventsService } from './events.service';
@@ -9,8 +9,8 @@ export class AdminEventsController {
   constructor(private readonly events: EventsService) {}
 
   @Get()
-  list() {
-    return this.events.listAdmin();
+  list(@Query('includeDeleted') includeDeleted?: string) {
+    return this.events.listAdmin(includeDeleted === 'true');
   }
 
   @Post()
@@ -25,7 +25,12 @@ export class AdminEventsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    await this.events.remove(id);
-    return { deleted: true, id };
+    const event = await this.events.remove(id);
+    return { deleted: true, id, event };
+  }
+
+  @Post(':id/restore')
+  restore(@Param('id') id: string) {
+    return this.events.restore(id);
   }
 }

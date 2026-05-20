@@ -19,6 +19,8 @@ export type EventItem = {
   imageUrl?: string;
   source?: string;
   sourceUrl?: string;
+  sourcePostId?: string | null;
+  deletedAt?: string | null;
   isImportant: boolean;
   status: 'SCHEDULED' | 'LIVE' | 'COMPLETED';
   runtimeStatus?: 'SCHEDULED' | 'LIVE' | 'COMPLETED';
@@ -58,6 +60,7 @@ export type AdminUser = {
   name: string;
   role: 'ADMIN' | 'SUPERADMIN';
   createdAt: string;
+  updatedAt?: string;
 };
 
 export type DashboardStats = {

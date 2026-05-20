@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/admin/rich-text-editor';
 import { Category, EventItem } from '@/lib/types';
 
 function toDatetimeLocal(value?: string) {
@@ -110,10 +111,13 @@ export function EventForm({
         <Textarea value={form.descriptionShort} onChange={(e) => setForm((current) => ({ ...current, descriptionShort: e.target.value }))} />
       </label>
 
-      <label className='grid gap-2 text-sm text-slate-600'>
-        Полное описание
-        <Textarea value={form.descriptionFull} onChange={(e) => setForm((current) => ({ ...current, descriptionFull: e.target.value }))} className='min-h-[180px]' />
-      </label>
+      <RichTextEditor
+        label='Полное описание'
+        value={form.descriptionFull || ''}
+        onChange={(value) => setForm((current) => ({ ...current, descriptionFull: value }))}
+        placeholder='Добавьте описание мероприятия, форматирование, списки, ссылки и акценты...'
+        minHeight={280}
+      />
 
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
         <label className='grid gap-2 text-sm text-slate-600'>

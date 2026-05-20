@@ -35,7 +35,7 @@ export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async listPublished(date?: string, limit = 200) {
-    const where: any = { published: true };
+    const where: any = { published: true, deletedAt: null };
 
     if (date) {
       const start = new Date(`${date}T00:00:00`);
@@ -53,8 +53,9 @@ export class EventsService {
     return events.map(withRuntimeStatus);
   }
 
-  async listAdmin() {
+  async listAdmin(includeDeleted = false) {
     const events = await this.prisma.event.findMany({
+      where: includeDeleted ? undefined : { deletedAt: null },
       include: { category: true, _count: { select: { reminders: true } } },
       orderBy: { startAt: 'desc' },
     });
@@ -67,6 +68,7 @@ export class EventsService {
       where: {
         published: true,
         isImportant: true,
+        deletedAt: null,
       },
       take: limit,
       include: { category: true, _count: { select: { reminders: true } } },
@@ -77,8 +79,8 @@ export class EventsService {
   }
 
   async findBySlug(slug: string) {
-    const event = await this.prisma.event.findUnique({
-      where: { slug },
+    const event = await this.prisma.event.findFirst({
+      where: { slug, deletedAt: null, published: true },
       include: { category: true, _count: { select: { reminders: true } } },
     });
 
@@ -100,10 +102,12 @@ export class EventsService {
         imageUrl: dto.imageUrl || null,
         source: dto.source || 'MANUAL',
         sourceUrl: dto.sourceUrl || null,
+        sourcePostId: dto.sourcePostId || null,
         isImportant: dto.isImportant ?? false,
         status: dto.status || 'SCHEDULED',
         published: dto.published ?? true,
         tags: dto.tags || [],
+        deletedAt: null,
       },
       include: { category: true, _count: { select: { reminders: true } } },
     });
@@ -125,6 +129,7 @@ export class EventsService {
       imageUrl: dto.imageUrl === '' ? null : dto.imageUrl,
       source: dto.source === '' ? null : dto.source,
       sourceUrl: dto.sourceUrl === '' ? null : dto.sourceUrl,
+      sourcePostId: dto.sourcePostId === '' ? null : dto.sourcePostId,
       isImportant: dto.isImportant,
       status: dto.status,
       published: dto.published,
@@ -145,7 +150,32 @@ export class EventsService {
 
   async remove(id: string) {
     try {
-      return await this.prisma.event.delete({ where: { id } });
+      const event = await this.prisma.event.update({
+        where: { id },
+        data: {
+          deletedAt: new Date(),
+          published: false,
+        },
+        include: { category: true, _count: { select: { reminders: true } } },
+      });
+      return withRuntimeStatus(event);
+    } catch {
+      throw new NotFoundException('Event not found');
+    }
+  }
+
+  async restore(id: string) {
+    try {
+      const event = await this.prisma.event.update({
+        where: { id },
+        data: {
+          deletedAt: null,
+          published: true,
+          status: 'SCHEDULED',
+        },
+        include: { category: true, _count: { select: { reminders: true } } },
+      });
+      return withRuntimeStatus(event);
     } catch {
       throw new NotFoundException('Event not found');
     }

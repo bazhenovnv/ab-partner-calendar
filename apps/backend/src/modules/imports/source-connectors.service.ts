@@ -573,42 +573,64 @@ export class SourceConnectorsService implements OnModuleInit {
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
     const imageUrl = event.imageUrl || null;
 
-    return this.prisma.event.upsert({
-      where: { slug },
-      update: {
-        title: event.title,
-        descriptionShort: cleanDescription.slice(0, 180),
-        descriptionFull: cleanDescription,
-        startAt: event.startAt,
-        endAt,
-        location: event.location ?? 'Онлайн',
-        format: event.format ?? 'ONLINE',
-        source: 'TELEGRAM',
-        sourceUrl: event.sourceUrl,
-        published: true,
-        isImportant: Boolean(event.isImportant),
-        status: 'SCHEDULED',
-        imageUrl,
-        tags,
-        categoryId: category.id,
+    const existingDeleted = await this.prisma.event.findFirst({
+      where: {
+        deletedAt: { not: null },
+        OR: [
+          { sourcePostId },
+          { sourceUrl: event.sourceUrl },
+          { slug },
+        ],
       },
-      create: {
-        title: event.title,
+    });
+
+    if (existingDeleted) {
+      this.logger.log(`Импорт пропущен: событие ранее удалено вручную (${sourcePostId}).`);
+      return null;
+    }
+
+    const data = {
+      title: event.title,
+      descriptionShort: cleanDescription.slice(0, 180),
+      descriptionFull: cleanDescription,
+      startAt: event.startAt,
+      endAt,
+      location: event.location ?? 'Онлайн',
+      format: event.format ?? 'ONLINE',
+      source: connector.type === 'telegram-public-html' ? 'TELEGRAM' : connector.name,
+      sourceUrl: event.sourceUrl,
+      sourcePostId,
+      published: true,
+      isImportant: Boolean(event.isImportant),
+      status: 'SCHEDULED' as const,
+      imageUrl,
+      tags,
+      categoryId: category.id,
+      deletedAt: null,
+    };
+
+    const existing = await this.prisma.event.findFirst({
+      where: {
+        deletedAt: null,
+        OR: [
+          { sourcePostId },
+          { sourceUrl: event.sourceUrl },
+          { slug },
+        ],
+      },
+    });
+
+    if (existing) {
+      return this.prisma.event.update({
+        where: { id: existing.id },
+        data,
+      });
+    }
+
+    return this.prisma.event.create({
+      data: {
+        ...data,
         slug,
-        descriptionShort: cleanDescription.slice(0, 180),
-        descriptionFull: cleanDescription,
-        startAt: event.startAt,
-        endAt,
-        location: event.location ?? 'Онлайн',
-        format: event.format ?? 'ONLINE',
-        categoryId: category.id,
-        source: 'TELEGRAM',
-        sourceUrl: event.sourceUrl,
-        published: true,
-        isImportant: Boolean(event.isImportant),
-        status: 'SCHEDULED',
-        imageUrl,
-        tags,
       },
     });
   }

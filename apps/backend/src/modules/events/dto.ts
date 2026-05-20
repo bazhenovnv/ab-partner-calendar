@@ -57,6 +57,10 @@ export class CreateEventDto {
   sourceUrl?: string;
 
   @IsOptional()
+  @IsString()
+  sourcePostId?: string;
+
+  @IsOptional()
   @IsBoolean()
   isImportant?: boolean;
 
@@ -122,6 +126,10 @@ export class UpdateEventDto {
   @IsOptional()
   @IsString()
   sourceUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  sourcePostId?: string;
 
   @IsOptional()
   @IsBoolean()

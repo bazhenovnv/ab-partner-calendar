@@ -42,15 +42,10 @@ export function RichTextEditor({
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor) return;
-
-    if ((value || '') !== editor.innerHTML) {
-      editor.innerHTML = value || '';
-    }
+    if ((value || '') !== editor.innerHTML) editor.innerHTML = value || '';
   }, [value]);
 
-  const sync = () => {
-    onChange(editorRef.current?.innerHTML || '');
-  };
+  const sync = () => onChange(editorRef.current?.innerHTML || '');
 
   const run = (command: string, commandValue?: string) => {
     editorRef.current?.focus();
@@ -61,13 +56,8 @@ export function RichTextEditor({
   const insertLink = () => {
     const url = window.prompt('Вставьте ссылку');
     if (!url) return;
-
     const safeUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
     run('createLink', safeUrl);
-  };
-
-  const setBlock = (tag: 'p' | 'h1' | 'h2') => {
-    run('formatBlock', tag);
   };
 
   return (
@@ -79,41 +69,54 @@ export function RichTextEditor({
           <button type='button' className='admin-editor-btn' title='Жирный' onClick={() => run('bold')}>
             <Bold className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='Курсив' onClick={() => run('italic')}>
             <Italic className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='Подчеркнуть' onClick={() => run('underline')}>
             <Underline className='h-4 w-4' />
           </button>
 
           <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
 
-          <button type='button' className='admin-editor-btn' title='Заголовок 1' onClick={() => setBlock('h1')}>
+          <button type='button' className='admin-editor-btn' title='Заголовок 1' onClick={() => run('formatBlock', 'h1')}>
             <Heading1 className='h-4 w-4' />
           </button>
-
-          <button type='button' className='admin-editor-btn' title='Заголовок 2' onClick={() => setBlock('h2')}>
+          <button type='button' className='admin-editor-btn' title='Заголовок 2' onClick={() => run('formatBlock', 'h2')}>
             <Heading2 className='h-4 w-4' />
           </button>
-
-          <button type='button' className='admin-editor-btn' title='Обычный текст' onClick={() => setBlock('p')}>
+          <button type='button' className='admin-editor-btn' title='Обычный текст' onClick={() => run('formatBlock', 'p')}>
             <Type className='h-4 w-4' />
           </button>
 
           <select
             className='h-9 rounded-xl border border-[#7CD8B3] bg-white px-3 text-sm text-black outline-none'
             defaultValue=''
+            title='Шрифт'
+            onChange={(event) => {
+              if (!event.target.value) return;
+              run('fontName', event.target.value);
+              event.target.value = '';
+            }}
+          >
+            <option value='' disabled>Шрифт</option>
+            <option value='Arial'>Arial</option>
+            <option value='Times New Roman'>Times New Roman</option>
+            <option value='Verdana'>Verdana</option>
+            <option value='Georgia'>Georgia</option>
+            <option value='Courier New'>Courier New</option>
+          </select>
+
+          <select
+            className='h-9 rounded-xl border border-[#7CD8B3] bg-white px-3 text-sm text-black outline-none'
+            defaultValue=''
+            title='Размер текста'
             onChange={(event) => {
               if (!event.target.value) return;
               run('fontSize', event.target.value);
               event.target.value = '';
             }}
           >
-            <option value='' disabled>
-              Размер
-            </option>
+            <option value='' disabled>Размер</option>
             <option value='2'>Мелкий</option>
             <option value='3'>Обычный</option>
             <option value='4'>Крупный</option>
@@ -123,11 +126,7 @@ export function RichTextEditor({
 
           <label className='admin-editor-btn cursor-pointer' title='Цвет текста'>
             <Paintbrush className='h-4 w-4' />
-            <input
-              type='color'
-              className='sr-only'
-              onChange={(event) => run('foreColor', event.target.value)}
-            />
+            <input type='color' className='sr-only' onChange={(event) => run('foreColor', event.target.value)} />
           </label>
 
           <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
@@ -135,7 +134,6 @@ export function RichTextEditor({
           <button type='button' className='admin-editor-btn' title='Маркированный список' onClick={() => run('insertUnorderedList')}>
             <List className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='Нумерованный список' onClick={() => run('insertOrderedList')}>
             <ListOrdered className='h-4 w-4' />
           </button>
@@ -145,11 +143,9 @@ export function RichTextEditor({
           <button type='button' className='admin-editor-btn' title='По левому краю' onClick={() => run('justifyLeft')}>
             <AlignLeft className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='По центру' onClick={() => run('justifyCenter')}>
             <AlignCenter className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='По правому краю' onClick={() => run('justifyRight')}>
             <AlignRight className='h-4 w-4' />
           </button>
@@ -159,7 +155,6 @@ export function RichTextEditor({
           <button type='button' className='admin-editor-btn' title='Ссылка' onClick={insertLink}>
             <LinkIcon className='h-4 w-4' />
           </button>
-
           <button type='button' className='admin-editor-btn' title='Очистить форматирование' onClick={() => run('removeFormat')}>
             <RemoveFormatting className='h-4 w-4' />
           </button>

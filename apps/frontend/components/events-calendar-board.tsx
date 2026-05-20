@@ -132,8 +132,8 @@ export function EventsCalendarBoard({
   }, [currentMonth]);
 
   return (
-    <section className='calendar-common-shell grid items-stretch gap-4 xl:grid-cols-[minmax(720px,1.08fr)_minmax(560px,0.92fr)]'>
-      <div className='event-details-panel surface-card self-start overflow-hidden bg-white h-full min-h-[860px]'>
+    <section className='grid items-start gap-4 xl:grid-cols-[minmax(620px,1.18fr)_minmax(430px,0.82fr)]'>
+      <div className='surface-card self-start overflow-hidden bg-white xl:h-[680px]'>
         <div className='h-full overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
             <>
@@ -155,7 +155,7 @@ export function EventsCalendarBoard({
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='mt-2 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
+                <div className='mt-5 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
                   <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>События выбранного дня</div>
                   <div className='flex flex-wrap gap-2'>
                     {selectedDayEvents.map((event, index) => (
@@ -173,7 +173,7 @@ export function EventsCalendarBoard({
                 </div>
               )}
 
-              <div className='mt-2 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
+              <div className='mt-6 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
                 {cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort) || 'Описание мероприятия будет добавлено позже.'}
               </div>
 
@@ -188,34 +188,25 @@ export function EventsCalendarBoard({
               </div>
             </>
           ) : (
-            <div className='flex min-h-[560px] flex-col items-center justify-center rounded-[18px] bg-white px-6 py-10 text-center'>
-              <img
-                src='/calendar-empty-state.png'
-                alt='Выберите дату с событиями'
-                className='h-[260px] w-[260px] object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.18)]'
-              />
-              <div className='mt-2 text-[28px] font-semibold leading-tight text-black'>
-                Выберите дату с событиями
-              </div>
-            </div>
+            <div className='flex min-h-[420px] items-center justify-center rounded-[18px] bg-white text-slate-500'>Выберите дату с событиями</div>
           )}
         </div>
       </div>
 
-      <div className='calendar-panel right-calendar-shell grid h-full gap-2 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)] h-full'>
-        <div className='w-full self-start overflow-visible'>
-          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+      <div className='grid gap-4'>
+        <div className='dark-card self-start overflow-visible p-3'>
+          <div className='rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-white text-black transition hover:bg-[#eefbf4]'>
                   <ChevronLeft className='h-4 w-4' />
                 </button>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-white text-black transition hover:bg-[#eefbf4]'>
                   <ChevronRight className='h-4 w-4' />
                 </button>
                 <div className='ml-3 text-[17px] font-medium text-black'>{formatMonth(currentMonth)}</div>
               </div>
-              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-[#7CD8B3] bg-[#7CD8B3] px-3 py-1.5 text-sm text-black transition hover:opacity-90'>
+              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-[#7CD8B3] bg-white px-3 py-1.5 text-sm text-black transition hover:bg-[#eefbf4]'>
                 Сегодня
               </button>
             </div>
@@ -252,7 +243,7 @@ export function EventsCalendarBoard({
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-[0_18px_38px_rgba(0,0,0,0.18)]'>
+                      <div className='absolute bottom-4 left-1/2 z-20 w-[250px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-2xl'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (
@@ -277,11 +268,7 @@ export function EventsCalendarBoard({
           </div>
         </div>
 
-        {filtersPanel ? <div><div className='w-full rounded-[20px] border border-[#7CD8B3] bg-white overflow-hidden'>
-              <div className='rounded-[20px] border border-[#7CD8B3] bg-white'>
-                {filtersPanel}
-              </div>
-            </div></div> : null}
+        {filtersPanel ? <div>{filtersPanel}</div> : null}
       </div>
     </section>
   );

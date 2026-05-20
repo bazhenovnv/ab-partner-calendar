@@ -65,12 +65,14 @@ model Event {
   imageUrl         String?
   source           String?
   sourceUrl        String?
+  sourcePostId     String?     @unique
   isImportant      Boolean     @default(false)
   status           EventStatus @default(SCHEDULED)
   published        Boolean     @default(true)
   tags             String[]
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+  deletedAt        DateTime?
   categoryId       String
   category         Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   reminders        Reminder[]
