@@ -100,7 +100,7 @@ function FilterSelect({
   value: string;
   onChange: (value: string) => void;
   children: ReactNode;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }) {
   return (
     <label className='grid min-w-0 gap-1'>
