@@ -1,32 +1,308 @@
-import { SectionHeader } from '@/components/admin/section-header';
+'use client';
+
+import { useMemo, useState } from 'react';
+import {
+  Activity,
+  Bell,
+  Bot,
+  CheckCircle2,
+  Database,
+  ExternalLink,
+  RefreshCw,
+  Send,
+  Settings,
+  ShieldCheck,
+  XCircle,
+} from 'lucide-react';
+
+type CheckResult = {
+  title: string;
+  ok: boolean;
+  status?: number;
+  message: string;
+  data?: unknown;
+};
+
+function getToken() {
+  if (typeof window === 'undefined') return '';
+
+  return (
+    localStorage.getItem('accessToken') ||
+    localStorage.getItem('adminToken') ||
+    localStorage.getItem('token') ||
+    ''
+  );
+}
+
+async function requestJson(path: string, options: RequestInit = {}) {
+  const token = getToken();
+
+  const response = await fetch(path, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(options.headers || {}),
+    },
+  });
+
+  const text = await response.text();
+
+  let data: unknown = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
+  }
+
+  return {
+    response,
+    data,
+  };
+}
 
 export default function AdminSettingsPage() {
+  const [loadingKey, setLoadingKey] = useState<string | null>(null);
+  const [results, setResults] = useState<CheckResult[]>([]);
+
+  const cards = useMemo(
+    () => [
+      {
+        title: 'Telegram-интеграция',
+        icon: Send,
+        rows: [
+          ['Канал', 't.me/ab_afisha_buh'],
+          ['Импорт', 'безопасный парсинг + ручное подтверждение'],
+          ['Дубли', 'sourcePostId + slug события'],
+        ],
+      },
+      {
+        title: 'Напоминания и бот',
+        icon: Bot,
+        rows: [
+          ['Интервалы', '5m, 15m, 30m, 1h, 1d'],
+          ['Подписки', 'Reminder: eventId + telegramUserId + remindBefore'],
+          ['Telegram bot', 'статус зависит от TELEGRAM_BOT_TOKEN в .env'],
+        ],
+      },
+      {
+        title: 'Безопасность',
+        icon: ShieldCheck,
+        rows: [
+          ['Авторизация', 'JWT Bearer token'],
+          ['Секреты', 'редактируются только через .env на сервере'],
+          ['Роли', 'ADMIN'],
+        ],
+      },
+    ],
+    [],
+  );
+
+  async function runCheck(key: string, title: string, path: string, options: RequestInit = {}) {
+    setLoadingKey(key);
+
+    try {
+      const { response, data } = await requestJson(path, options);
+
+      setResults((current) => [
+        {
+          title,
+          ok: response.ok,
+          status: response.status,
+          message: response.ok ? 'Успешно' : 'Ошибка запроса',
+          data,
+        },
+        ...current,
+      ]);
+    } catch (error) {
+      setResults((current) => [
+        {
+          title,
+          ok: false,
+          message: error instanceof Error ? error.message : 'Неизвестная ошибка',
+        },
+        ...current,
+      ]);
+    } finally {
+      setLoadingKey(null);
+    }
+  }
+
+  const actions = [
+    {
+      key: 'dashboard',
+      title: 'Проверить дашборд',
+      description: 'Проверка /api/admin/dashboard',
+      icon: Activity,
+      onClick: () => runCheck('dashboard', 'Дашборд', '/api/admin/dashboard'),
+    },
+    {
+      key: 'events',
+      title: 'Проверить мероприятия',
+      description: 'Проверка /api/admin/events',
+      icon: Database,
+      onClick: () => runCheck('events', 'Мероприятия', '/api/admin/events'),
+    },
+    {
+      key: 'imports',
+      title: 'Проверить импорт',
+      description: 'Проверка /api/admin/imports',
+      icon: RefreshCw,
+      onClick: () => runCheck('imports', 'Импорты', '/api/admin/imports'),
+    },
+    {
+      key: 'sync',
+      title: 'Запустить синхронизацию',
+      description: 'POST /api/admin/imports/sync',
+      icon: RefreshCw,
+      onClick: () => runCheck('sync', 'Синхронизация Telegram', '/api/admin/imports/sync', { method: 'POST' }),
+    },
+    {
+      key: 'reminders',
+      title: 'Проверить напоминания',
+      description: 'Проверка /api/admin/reminders',
+      icon: Bell,
+      onClick: () => runCheck('reminders', 'Напоминания', '/api/admin/reminders'),
+    },
+    {
+      key: 'users',
+      title: 'Проверить пользователей',
+      description: 'Проверка /api/admin/users',
+      icon: Settings,
+      onClick: () => runCheck('users', 'Пользователи', '/api/admin/users'),
+    },
+  ];
+
   return (
     <div className='space-y-6'>
-      <SectionHeader
-        eyebrow='Configuration'
-        title='Настройки'
-        description='Точка управления системными параметрами: URL Telegram-канала, сценарий напоминаний, параметры JWT, поведение импортера и визуальные настройки проекта.'
-      />
-
-      <section className='grid gap-6 xl:grid-cols-2'>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
-          <h2 className='text-xl font-semibold text-slate-950'>Telegram-интеграция</h2>
-          <div className='mt-4 space-y-3 text-sm leading-6 text-slate-600'>
-            <p>Канал: <span className='font-medium text-slate-900'>t.me/ab_afisha_buh</span></p>
-            <p>Режим импорта: безопасный парсинг + ручное подтверждение публикации.</p>
-            <p>Защита от дублей: сравнение по sourcePostId и slug события.</p>
-          </div>
+      <section className='rounded-[30px] bg-white p-7 shadow-[0_26px_70px_rgba(0,0,0,0.16)]'>
+        <div className='text-[13px] font-semibold uppercase tracking-[0.35em] text-slate-400'>
+          Configuration
         </div>
 
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
-          <h2 className='text-xl font-semibold text-slate-950'>Напоминания и боты</h2>
-          <div className='mt-4 space-y-3 text-sm leading-6 text-slate-600'>
-            <p>Поддерживаемые интервалы: 5m, 15m, 30m, 1h, 1d.</p>
-            <p>Поведение при отсутствии Telegram-бота: вывод понятного сценария подключения пользователю.</p>
-            <p>Хранение подписок: таблица Reminder с уникальностью по eventId + telegramUserId + remindBefore.</p>
+        <h1 className='mt-3 text-4xl font-bold text-black'>Настройки</h1>
+
+        <p className='mt-3 max-w-4xl text-base leading-7 text-slate-700'>
+          Панель диагностики системных параметров: Telegram-импорт, напоминания, API администратора,
+          JWT-авторизация и сервисные проверки. Секретные значения не выводятся и не редактируются из браузера.
+        </p>
+      </section>
+
+      <section className='grid gap-5 xl:grid-cols-3'>
+        {cards.map((card) => {
+          const Icon = card.icon;
+
+          return (
+            <article
+              key={card.title}
+              className='rounded-[26px] border border-[#7CD8B3] bg-white p-6 shadow-[0_22px_54px_rgba(0,0,0,0.14)]'
+            >
+              <div className='flex items-center gap-3'>
+                <div className='flex h-11 w-11 items-center justify-center rounded-2xl border border-[#7CD8B3] bg-[#effcf6] text-black'>
+                  <Icon className='h-5 w-5' />
+                </div>
+                <h2 className='text-xl font-bold text-black'>{card.title}</h2>
+              </div>
+
+              <div className='mt-5 space-y-3'>
+                {card.rows.map(([label, value]) => (
+                  <div key={label} className='rounded-2xl border border-[#d8f3e7] bg-[#fbfffd] p-4'>
+                    <div className='text-xs font-semibold uppercase tracking-[0.12em] text-slate-400'>
+                      {label}
+                    </div>
+                    <div className='mt-1 text-sm font-semibold text-black'>{value}</div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          );
+        })}
+      </section>
+
+      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6 shadow-[0_24px_64px_rgba(0,0,0,0.16)]'>
+        <div className='flex flex-wrap items-start justify-between gap-4'>
+          <div>
+            <h2 className='text-2xl font-bold text-black'>Проверка функций кабинета</h2>
+            <p className='mt-2 text-sm leading-6 text-slate-600'>
+              Эти кнопки проверяют реальные API-разделы. Если токен администратора истёк, выйдите и войдите снова.
+            </p>
           </div>
+
+          <a
+            href='/admin/events'
+            className='inline-flex items-center gap-2 rounded-2xl border border-black bg-[#7CD8B3] px-5 py-3 text-sm font-semibold text-black shadow-[0_14px_30px_rgba(0,0,0,0.18)]'
+          >
+            Открыть мероприятия
+            <ExternalLink className='h-4 w-4' />
+          </a>
         </div>
+
+        <div className='mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
+          {actions.map((action) => {
+            const Icon = action.icon;
+            const isLoading = loadingKey === action.key;
+
+            return (
+              <button
+                key={action.key}
+                type='button'
+                onClick={action.onClick}
+                disabled={Boolean(loadingKey)}
+                className='group rounded-[22px] border border-[#7CD8B3] bg-white p-5 text-left shadow-[0_16px_38px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#f5fffa] disabled:cursor-not-allowed disabled:opacity-60'
+              >
+                <div className='flex items-center gap-3'>
+                  <div className='flex h-11 w-11 items-center justify-center rounded-2xl border border-[#7CD8B3] bg-[#7CD8B3] text-black'>
+                    {isLoading ? <RefreshCw className='h-5 w-5 animate-spin' /> : <Icon className='h-5 w-5' />}
+                  </div>
+
+                  <div>
+                    <div className='text-base font-bold text-black'>{action.title}</div>
+                    <div className='mt-1 text-sm text-slate-500'>{action.description}</div>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6 shadow-[0_24px_64px_rgba(0,0,0,0.16)]'>
+        <h2 className='text-2xl font-bold text-black'>Результаты проверок</h2>
+
+        {results.length === 0 ? (
+          <div className='mt-5 rounded-[22px] border border-dashed border-[#7CD8B3] bg-[#fbfffd] p-6 text-sm text-slate-500'>
+            Проверки ещё не запускались.
+          </div>
+        ) : (
+          <div className='mt-5 space-y-4'>
+            {results.map((result, index) => (
+              <div
+                key={`${result.title}-${index}`}
+                className='rounded-[22px] border border-[#d8f3e7] bg-[#fbfffd] p-5'
+              >
+                <div className='flex items-center gap-3'>
+                  {result.ok ? (
+                    <CheckCircle2 className='h-5 w-5 text-emerald-500' />
+                  ) : (
+                    <XCircle className='h-5 w-5 text-red-500' />
+                  )}
+
+                  <div>
+                    <div className='text-base font-bold text-black'>
+                      {result.title}
+                      {result.status ? ` · HTTP ${result.status}` : ''}
+                    </div>
+                    <div className='mt-1 text-sm text-slate-600'>{result.message}</div>
+                  </div>
+                </div>
+
+                <pre className='mt-4 max-h-[300px] overflow-auto rounded-2xl bg-black p-4 text-xs leading-5 text-[#7CD8B3]'>
+                  {JSON.stringify(result.data, null, 2)}
+                </pre>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

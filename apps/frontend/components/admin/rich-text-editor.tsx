@@ -2,19 +2,20 @@
 
 import { useEffect, useRef } from 'react';
 import {
-  Bold,
-  Italic,
-  Underline,
-  List,
-  ListOrdered,
-  AlignLeft,
   AlignCenter,
+  AlignLeft,
   AlignRight,
-  LinkIcon,
-  Type,
+  Bold,
   Heading1,
   Heading2,
+  Italic,
+  LinkIcon,
+  List,
+  ListOrdered,
+  Paintbrush,
   RemoveFormatting,
+  Type,
+  Underline,
 } from 'lucide-react';
 
 type RichTextEditorProps = {
@@ -22,9 +23,10 @@ type RichTextEditorProps = {
   onChange: (value: string) => void;
   label?: string;
   placeholder?: string;
+  minHeight?: number;
 };
 
-function run(command: string, value?: string) {
+function exec(command: string, value?: string) {
   document.execCommand(command, false, value);
 }
 
@@ -33,15 +35,16 @@ export function RichTextEditor({
   onChange,
   label = 'Описание',
   placeholder = 'Введите описание мероприятия...',
+  minHeight = 260,
 }: RichTextEditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const el = editorRef.current;
-    if (!el) return;
+    const editor = editorRef.current;
+    if (!editor) return;
 
-    if (el.innerHTML !== value) {
-      el.innerHTML = value || '';
+    if ((value || '') !== editor.innerHTML) {
+      editor.innerHTML = value || '';
     }
   }, [value]);
 
@@ -49,104 +52,115 @@ export function RichTextEditor({
     onChange(editorRef.current?.innerHTML || '');
   };
 
-  const setLink = () => {
+  const run = (command: string, commandValue?: string) => {
+    editorRef.current?.focus();
+    exec(command, commandValue);
+    sync();
+  };
+
+  const insertLink = () => {
     const url = window.prompt('Вставьте ссылку');
     if (!url) return;
-    run('createLink', url);
-    sync();
+
+    const safeUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
+    run('createLink', safeUrl);
   };
 
-  const setFontSize = (size: string) => {
-    run('fontSize', size);
-    sync();
-  };
-
-  const setBlock = (tag: string) => {
+  const setBlock = (tag: 'p' | 'h1' | 'h2') => {
     run('formatBlock', tag);
-    sync();
   };
 
   return (
     <div className='space-y-2'>
-      <div className='text-sm font-semibold text-slate-700'>{label}</div>
+      <div className='text-sm font-semibold text-black'>{label}</div>
 
-      <div className='overflow-hidden rounded-2xl border border-[#7CD8B3] bg-white shadow-[0_14px_34px_rgba(0,0,0,0.10)]'>
-        <div className='flex flex-wrap items-center gap-1 border-b border-[#d8f3e7] bg-[#f7fffb] p-2'>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('bold'); sync(); }} title='Жирный'>
+      <div className='overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.14)]'>
+        <div className='flex flex-wrap items-center gap-2 border-b border-[#d8f3e7] bg-[#f7fffb] p-3'>
+          <button type='button' className='admin-editor-btn' title='Жирный' onClick={() => run('bold')}>
             <Bold className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('italic'); sync(); }} title='Курсив'>
+
+          <button type='button' className='admin-editor-btn' title='Курсив' onClick={() => run('italic')}>
             <Italic className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('underline'); sync(); }} title='Подчеркнутый'>
+
+          <button type='button' className='admin-editor-btn' title='Подчеркнуть' onClick={() => run('underline')}>
             <Underline className='h-4 w-4' />
           </button>
 
-          <span className='mx-1 h-6 w-px bg-[#d8f3e7]' />
+          <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
 
-          <button type='button' className='admin-editor-btn' onClick={() => { setBlock('h1'); }} title='Заголовок 1'>
+          <button type='button' className='admin-editor-btn' title='Заголовок 1' onClick={() => setBlock('h1')}>
             <Heading1 className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { setBlock('h2'); }} title='Заголовок 2'>
+
+          <button type='button' className='admin-editor-btn' title='Заголовок 2' onClick={() => setBlock('h2')}>
             <Heading2 className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { setBlock('p'); }} title='Обычный текст'>
+
+          <button type='button' className='admin-editor-btn' title='Обычный текст' onClick={() => setBlock('p')}>
             <Type className='h-4 w-4' />
           </button>
 
           <select
-            className='h-9 rounded-xl border border-[#7CD8B3] bg-white px-2 text-sm text-black'
+            className='h-9 rounded-xl border border-[#7CD8B3] bg-white px-3 text-sm text-black outline-none'
             defaultValue=''
             onChange={(event) => {
               if (!event.target.value) return;
-              setFontSize(event.target.value);
+              run('fontSize', event.target.value);
               event.target.value = '';
             }}
           >
-            <option value='' disabled>Размер</option>
+            <option value='' disabled>
+              Размер
+            </option>
             <option value='2'>Мелкий</option>
             <option value='3'>Обычный</option>
             <option value='4'>Крупный</option>
             <option value='5'>Очень крупный</option>
+            <option value='6'>Максимальный</option>
           </select>
 
-          <input
-            type='color'
-            className='h-9 w-10 rounded-xl border border-[#7CD8B3] bg-white p-1'
-            title='Цвет текста'
-            onChange={(event) => {
-              run('foreColor', event.target.value);
-              sync();
-            }}
-          />
+          <label className='admin-editor-btn cursor-pointer' title='Цвет текста'>
+            <Paintbrush className='h-4 w-4' />
+            <input
+              type='color'
+              className='sr-only'
+              onChange={(event) => run('foreColor', event.target.value)}
+            />
+          </label>
 
-          <span className='mx-1 h-6 w-px bg-[#d8f3e7]' />
+          <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
 
-          <button type='button' className='admin-editor-btn' onClick={() => { run('insertUnorderedList'); sync(); }} title='Список'>
+          <button type='button' className='admin-editor-btn' title='Маркированный список' onClick={() => run('insertUnorderedList')}>
             <List className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('insertOrderedList'); sync(); }} title='Нумерованный список'>
+
+          <button type='button' className='admin-editor-btn' title='Нумерованный список' onClick={() => run('insertOrderedList')}>
             <ListOrdered className='h-4 w-4' />
           </button>
 
-          <span className='mx-1 h-6 w-px bg-[#d8f3e7]' />
+          <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
 
-          <button type='button' className='admin-editor-btn' onClick={() => { run('justifyLeft'); sync(); }} title='По левому краю'>
+          <button type='button' className='admin-editor-btn' title='По левому краю' onClick={() => run('justifyLeft')}>
             <AlignLeft className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('justifyCenter'); sync(); }} title='По центру'>
+
+          <button type='button' className='admin-editor-btn' title='По центру' onClick={() => run('justifyCenter')}>
             <AlignCenter className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('justifyRight'); sync(); }} title='По правому краю'>
+
+          <button type='button' className='admin-editor-btn' title='По правому краю' onClick={() => run('justifyRight')}>
             <AlignRight className='h-4 w-4' />
           </button>
 
-          <span className='mx-1 h-6 w-px bg-[#d8f3e7]' />
+          <span className='mx-1 h-7 w-px bg-[#d8f3e7]' />
 
-          <button type='button' className='admin-editor-btn' onClick={setLink} title='Ссылка'>
+          <button type='button' className='admin-editor-btn' title='Ссылка' onClick={insertLink}>
             <LinkIcon className='h-4 w-4' />
           </button>
-          <button type='button' className='admin-editor-btn' onClick={() => { run('removeFormat'); sync(); }} title='Очистить форматирование'>
+
+          <button type='button' className='admin-editor-btn' title='Очистить форматирование' onClick={() => run('removeFormat')}>
             <RemoveFormatting className='h-4 w-4' />
           </button>
         </div>
@@ -155,8 +169,9 @@ export function RichTextEditor({
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
-          className='min-h-[240px] px-4 py-3 text-[15px] leading-7 text-black outline-none empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]'
           data-placeholder={placeholder}
+          className='rich-text-editor-content px-4 py-4 text-[15px] leading-7 text-black outline-none empty:before:text-slate-400 empty:before:content-[attr(data-placeholder)]'
+          style={{ minHeight }}
           onInput={sync}
           onBlur={sync}
         />

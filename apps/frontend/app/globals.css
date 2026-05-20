@@ -645,3 +645,65 @@ a[class*="bg-[#7CD8B3]"],
   background: #7CD8B3;
   transform: translateY(-1px);
 }
+
+/* === Admin rich text editor === */
+
+.admin-editor-btn {
+  display: inline-flex;
+  height: 36px;
+  min-width: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid #7CD8B3;
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+  transition: 0.15s ease;
+}
+
+.admin-editor-btn:hover {
+  background: #7CD8B3;
+  transform: translateY(-1px);
+}
+
+.rich-text-editor-content h1 {
+  margin: 0.6rem 0;
+  font-size: 1.75rem;
+  line-height: 2.1rem;
+  font-weight: 800;
+}
+
+.rich-text-editor-content h2 {
+  margin: 0.55rem 0;
+  font-size: 1.35rem;
+  line-height: 1.8rem;
+  font-weight: 750;
+}
+
+.rich-text-editor-content p {
+  margin: 0.45rem 0;
+}
+
+.rich-text-editor-content ul,
+.rich-text-editor-content ol {
+  margin: 0.6rem 0 0.6rem 1.4rem;
+}
+
+.rich-text-editor-content ul {
+  list-style: disc;
+}
+
+.rich-text-editor-content ol {
+  list-style: decimal;
+}
+
+.rich-text-editor-content a {
+  color: #1677ff;
+  text-decoration: underline;
+}
+
+.rich-text-editor-content b,
+.rich-text-editor-content strong {
+  font-weight: 800;
+}
