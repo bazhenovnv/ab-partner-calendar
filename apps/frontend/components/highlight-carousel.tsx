@@ -90,7 +90,7 @@ export function HighlightCarousel({
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-          className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+          className='important-nav-btn absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Предыдущий слайд'
         >
           <ChevronLeft className='h-5 w-5' />
@@ -138,15 +138,15 @@ export function HighlightCarousel({
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='primary' onClick={() => onOpen(item)} className='min-w-[170px]'>Подробнее</Button>
-            <ReminderButton event={item} variant='primary' className='min-w-[170px]' />
+            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold'>Подробнее</Button>
+            <ReminderButton event={item} variant='secondary' className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold' />
           </div>
         </div>
 
         <button
           type='button'
           onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-          className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+          className='important-nav-btn absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Следующий слайд'
         >
           <ChevronRight className='h-5 w-5' />

@@ -111,6 +111,36 @@ export const api = {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     }),
+
+  broadcasts: (token: string) =>
+    fetcher<BroadcastItem[]>('/admin/broadcasts', {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  broadcastSubscribers: (token: string) =>
+    fetcher<TelegramSubscriber[]>('/admin/broadcasts/subscribers', {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  createBroadcast: (token: string, payload: { title?: string; text: string }) =>
+    fetcher<BroadcastItem>('/admin/broadcasts', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  updateBroadcast: (token: string, id: string, payload: { title?: string; text?: string; status?: string }) =>
+    fetcher<BroadcastItem>(`/admin/broadcasts/${id}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  sendBroadcast: (token: string, id: string) =>
+    fetcher<{ id: string; sent: number; failed: number }>(`/admin/broadcasts/${id}/send`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  broadcastDeliveries: (token: string, id: string) =>
+    fetcher<BroadcastDelivery[]>(`/admin/broadcasts/${id}/deliveries`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
   reminders: (token: string) =>
     fetcher<ReminderItem[]>('/admin/reminders', {
       headers: { Authorization: `Bearer ${token}` },
@@ -134,36 +164,6 @@ export const api = {
   deleteUser: (token: string, id: string) =>
     fetcher<AdminUser>(`/admin/users/${id}`, {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-
-  broadcasts: (token: string) =>
-    fetcher<BroadcastItem[]>('/admin/broadcasts', {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-  broadcastSubscribers: (token: string) =>
-    fetcher<TelegramSubscriber[]>('/admin/broadcasts/subscribers', {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-  createBroadcast: (token: string, payload: { title: string; text: string }) =>
-    fetcher<BroadcastItem>('/admin/broadcasts', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(payload),
-    }),
-  updateBroadcast: (token: string, id: string, payload: { title?: string; text?: string }) =>
-    fetcher<BroadcastItem>(`/admin/broadcasts/${id}`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(payload),
-    }),
-  sendBroadcast: (token: string, id: string) =>
-    fetcher<BroadcastItem>(`/admin/broadcasts/${id}/send`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-  broadcastDeliveries: (token: string, id: string) =>
-    fetcher<BroadcastDelivery[]>(`/admin/broadcasts/${id}/deliveries`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
 };

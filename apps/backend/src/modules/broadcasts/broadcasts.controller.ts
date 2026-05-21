@@ -23,7 +23,7 @@ export class BroadcastsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: { title?: string; text?: string }) {
+  update(@Param('id') id: string, @Body() body: { title?: string; text?: string; status?: string }) {
     return this.broadcasts.update(id, body);
   }
 

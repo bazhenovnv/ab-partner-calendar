@@ -130,11 +130,10 @@ export type BroadcastItem = {
 export type BroadcastDelivery = {
   id: string;
   broadcastId: string;
-  subscriberId: string;
+  subscriberId?: string | null;
   chatId: string;
   status: string;
   error?: string | null;
   sentAt?: string | null;
   createdAt: string;
-  subscriber?: TelegramSubscriber;
 };

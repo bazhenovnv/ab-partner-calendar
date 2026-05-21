@@ -127,7 +127,7 @@ export default function AdminSettingsPage() {
         icon: Bot,
         rows: [
           ['Интервалы', '5m, 15m, 30m, 1h, 1d'],
-          ['Подписки', 'TelegramSubscriber + Reminder'],
+          ['Подписки', 'Reminder: eventId + telegramUserId + remindBefore'],
           ['Telegram bot', 'статус зависит от TELEGRAM_BOT_TOKEN в .env'],
         ],
       },
@@ -169,7 +169,6 @@ export default function AdminSettingsPage() {
     { key: 'imports', title: 'Проверить импорт', description: '/api/admin/imports', icon: RefreshCw, onClick: () => runCheck('imports', 'Импорты', '/api/admin/imports') },
     { key: 'sync', title: 'Запустить синхронизацию', description: 'POST /api/admin/imports/sync', icon: RefreshCw, onClick: () => runCheck('sync', 'Синхронизация Telegram', '/api/admin/imports/sync', { method: 'POST' }) },
     { key: 'reminders', title: 'Проверить напоминания', description: '/api/admin/reminders', icon: Bell, onClick: () => runCheck('reminders', 'Напоминания', '/api/admin/reminders') },
-    { key: 'broadcasts', title: 'Проверить рассылку', description: '/api/admin/broadcasts', icon: Send, onClick: () => runCheck('broadcasts', 'Рассылка', '/api/admin/broadcasts') },
     { key: 'users', title: 'Проверить пользователей', description: '/api/admin/users', icon: Settings, onClick: () => runCheck('users', 'Пользователи', '/api/admin/users') },
   ];
 

@@ -77,21 +77,15 @@ export function EventsCalendarBoard({
   selectedDate,
   onSelectDate,
   filtersPanel,
-  onMonthChange,
 }: {
   events: EventItem[];
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   filtersPanel?: ReactNode;
-  onMonthChange?: (date: Date) => void;
 }) {
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [hoverKey, setHoverKey] = useState<string | null>(null);
-
-  useEffect(() => {
-    onMonthChange?.(currentMonth);
-  }, [currentMonth, onMonthChange]);
 
   useEffect(() => {
     setCurrentMonth((current) => {
@@ -169,7 +163,7 @@ export function EventsCalendarBoard({
                         key={event.id}
                         type='button'
                         onClick={() => setSelectedEventId(event.id)}
-                        className={`mint-btn mint-btn--event-tab pressable max-w-[380px] text-left text-[13px] leading-4 ${selectedEvent.id === event.id ? 'mint-btn--active' : ''}`}
+                        className={`inline-flex max-w-[380px] items-center gap-2 rounded-xl border px-3 py-2 text-left text-[13px] leading-4 transition ${selectedEvent.id === event.id ? 'border-black bg-black text-white shadow-sm' : 'border-[#7CD8B3] bg-white text-slate-700 hover:bg-[#eefbf4]'}`}
                       >
                         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
                         <span className='line-clamp-1'>{index + 1}. {event.title}</span>
@@ -213,15 +207,15 @@ export function EventsCalendarBoard({
           <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='mint-btn mint-btn--icon pressable'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
                   <ChevronLeft className='h-4 w-4' />
                 </button>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='mint-btn mint-btn--icon pressable'>
+                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#7CD8B3] bg-[#7CD8B3] text-black shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:opacity-90'>
                   <ChevronRight className='h-4 w-4' />
                 </button>
                 <div className='ml-3 text-[17px] font-medium text-black'>{formatMonth(currentMonth)}</div>
               </div>
-              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='mint-btn mint-btn--sm pressable'>
+              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='rounded-xl border border-[#7CD8B3] bg-[#7CD8B3] px-3 py-1.5 text-sm text-black transition hover:opacity-90'>
                 Сегодня
               </button>
             </div>
@@ -246,7 +240,7 @@ export function EventsCalendarBoard({
                     onClick={() => { onSelectDate(day); setSelectedEventId(dayEvents[0]?.id ?? null); }}
                     className={`day-cell ${isSelected ? 'day-cell-selected' : ''}`}
                   >
-                    <div className={`calendar-day-number ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
+                    <div className={`text-[13px] font-medium ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
 
                     {dayEvents.length > 0 && (
                       <div className='mt-2 flex flex-wrap gap-1.5'>

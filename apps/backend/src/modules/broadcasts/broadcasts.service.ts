@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../services/prisma.service';
 import { TelegramService } from '../telegram/telegram.service';
 
@@ -18,105 +18,50 @@ export class BroadcastsService {
 
   subscribers() {
     return this.prisma.telegramSubscriber.findMany({
-      orderBy: { updatedAt: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
-  create(dto: { title?: string; text?: string }) {
-    const title = dto.title?.trim();
-    const text = dto.text?.trim();
-
-    if (!title) throw new BadRequestException('Укажите заголовок рассылки.');
-    if (!text) throw new BadRequestException('Укажите текст рассылки.');
-
+  async create(body: { title?: string; text?: string }) {
+    const text = body.text?.trim();
+    if (!text) throw new BadRequestException('Текст рассылки обязателен');
+    const title = body.title?.trim() || text.split('\n')[0].slice(0, 80) || 'Рассылка';
     return this.prisma.broadcast.create({
-      data: { title, text, status: 'DRAFT' },
-      include: { _count: { select: { deliveries: true } } },
+      data: {
+        title,
+        text,
+        status: 'DRAFT',
+      },
     });
   }
 
-  update(id: string, dto: { title?: string; text?: string }) {
-    const data: { title?: string; text?: string; status?: string } = {};
-    if (dto.title !== undefined) data.title = dto.title.trim();
-    if (dto.text !== undefined) data.text = dto.text.trim();
-    data.status = 'DRAFT';
+  async update(id: string, body: { title?: string; text?: string; status?: string }) {
+    const broadcast = await this.prisma.broadcast.findUnique({ where: { id } });
+    if (!broadcast) throw new NotFoundException('Рассылка не найдена');
+    if (broadcast.status === 'SENT') throw new BadRequestException('Отправленную рассылку нельзя редактировать');
 
     return this.prisma.broadcast.update({
       where: { id },
-      data,
-      include: { _count: { select: { deliveries: true } } },
+      data: {
+        ...(body.title !== undefined ? { title: body.title.trim() || broadcast.title } : {}),
+        ...(body.text !== undefined ? { text: body.text.trim() } : {}),
+        ...(body.status !== undefined ? { status: body.status } : {}),
+      },
     });
   }
 
   async send(id: string) {
     const broadcast = await this.prisma.broadcast.findUnique({ where: { id } });
-    if (!broadcast) throw new BadRequestException('Рассылка не найдена.');
-
-    const subscribers = await this.prisma.telegramSubscriber.findMany({ where: { isActive: true } });
-
-    await this.prisma.broadcast.update({
-      where: { id },
-      data: { status: 'SENDING', sentCount: 0, failedCount: 0, sentAt: null },
-    });
-
-    let sentCount = 0;
-    let failedCount = 0;
-
-    for (const subscriber of subscribers) {
-      try {
-        await this.telegram.sendBroadcastMessage(subscriber.chatId, broadcast.text);
-        sentCount += 1;
-
-        await this.prisma.broadcastDelivery.create({
-          data: {
-            broadcastId: broadcast.id,
-            subscriberId: subscriber.id,
-            chatId: subscriber.chatId,
-            status: 'SENT',
-            sentAt: new Date(),
-          },
-        });
-      } catch (error) {
-        failedCount += 1;
-        const message = error instanceof Error ? error.message : String(error);
-
-        await this.prisma.broadcastDelivery.create({
-          data: {
-            broadcastId: broadcast.id,
-            subscriberId: subscriber.id,
-            chatId: subscriber.chatId,
-            status: 'FAILED',
-            error: message.slice(0, 500),
-          },
-        });
-
-        if (message.includes('403') || message.toLowerCase().includes('bot was blocked')) {
-          await this.prisma.telegramSubscriber.update({
-            where: { id: subscriber.id },
-            data: { isActive: false },
-          });
-        }
-      }
-    }
-
-    return this.prisma.broadcast.update({
-      where: { id },
-      data: {
-        status: 'SENT',
-        sentCount,
-        failedCount,
-        sentAt: new Date(),
-      },
-      include: { _count: { select: { deliveries: true } } },
-    });
+    if (!broadcast) throw new NotFoundException('Рассылка не найдена');
+    if (!this.telegram.isEnabled()) throw new BadRequestException('Telegram bot не запущен');
+    const result = await this.telegram.sendBroadcastById(id);
+    return { id, ...result };
   }
 
   deliveries(id: string) {
     return this.prisma.broadcastDelivery.findMany({
       where: { broadcastId: id },
       orderBy: { createdAt: 'desc' },
-      take: 200,
-      include: { subscriber: true },
     });
   }
 }
