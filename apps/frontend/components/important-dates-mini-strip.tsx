@@ -38,8 +38,7 @@ export function ImportantDatesMiniStrip({ events, selectedDate, className = '', 
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
-      })
-      .slice(0, 6);
+      });
   }, [events]);
 
   return (
@@ -52,7 +51,7 @@ export function ImportantDatesMiniStrip({ events, selectedDate, className = '', 
         <button
           type='button'
           onClick={onOpenAll}
-          className='inline-flex items-center gap-2 rounded-full border border-[#4FAF8C] bg-white px-4 py-2 text-sm font-medium text-[#1a1a1a] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-[1px]'
+          className='mint-btn mint-btn--sm pressable'
         >
           Смотреть все
           <ArrowRight className='h-4 w-4' />
@@ -71,7 +70,7 @@ export function ImportantDatesMiniStrip({ events, selectedDate, className = '', 
                 key={event.id}
                 type='button'
                 onClick={() => onSelect?.(event)}
-                className={`important-date-chip group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border bg-[#7CD8B3] text-center shadow-[0_18px_38px_rgba(0,0,0,0.22)] transition hover:-translate-y-[2px] ${dateKey(event.startAt) === activeKey ? 'border-[2px] border-[#E04B4B]' : 'border-[#4FAF8C]'}`}
+                className={`mint-date-pill important-date-chip pressable ${dateKey(event.startAt) === activeKey ? 'mint-date-pill--active' : ''}`}
                 title={event.title}
               >
                 <span className='text-[22px] font-semibold leading-none text-[#1a1a1a]'>{day}</span>

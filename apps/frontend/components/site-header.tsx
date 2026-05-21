@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
 const HEADER_BUTTON_CLASS =
-  'inline-flex h-[44px] w-[190px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] border border-black bg-[#7CD8B3] px-4 py-2 text-[14px] font-medium text-black transition hover:opacity-90';
+  'mint-btn mint-btn--header pressable';
 
 function TelegramCircleIcon() {
   return (
@@ -43,7 +43,7 @@ export function SiteHeader() {
               alt='Афиша бухгалтера'
               width={2048}
               height={336}
-              className='h-[72px] w-auto max-w-full object-contain'
+              className='logo-shadow h-[72px] w-auto max-w-full object-contain'
               priority
             />
           </a>
