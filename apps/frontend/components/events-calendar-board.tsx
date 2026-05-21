@@ -246,7 +246,7 @@ export function EventsCalendarBoard({
                     onClick={() => { onSelectDate(day); setSelectedEventId(dayEvents[0]?.id ?? null); }}
                     className={`day-cell ${isSelected ? 'day-cell-selected' : ''}`}
                   >
-                    <div className={`text-[13px] font-medium ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
+                    <div className={`calendar-day-number ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
 
                     {dayEvents.length > 0 && (
                       <div className='mt-2 flex flex-wrap gap-1.5'>

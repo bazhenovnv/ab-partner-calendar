@@ -740,3 +740,34 @@ a[role='button'],
   transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
 }
 /* === end v23 unified mint buttons === */
+
+/* === Larger calendar date numbers === */
+.calendar-day-number {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+}
+
+.day-cell {
+  min-height: 72px !important;
+  padding: 12px !important;
+}
+
+.day-cell .calendar-day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+}
+
+@media (max-width: 768px) {
+  .calendar-day-number {
+    font-size: 16px !important;
+  }
+
+  .day-cell {
+    min-height: 64px !important;
+    padding: 8px !important;
+  }
+}
