@@ -19,21 +19,28 @@
 }
 
 html {
-  scroll-behavior: smooth;
+scroll-behavior: smooth;
+  background: #000;
 }
 
+
 body {
-  @apply antialiased;
-  background: linear-gradient(180deg, #f6f7f8 0%, #f1f3f5 100%);
+@apply antialiased;
+  
   color: var(--text);
+  background: #000;
 }
+
+
+
+
 
 .container-shell {
   @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
 }
 
 .surface-card {
-  @apply rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.06)];
+  @apply rounded-[18px] border border-[#7CD8B3] bg-[#E8E7E3] shadow-[0_3px_12px_rgba(15,23,42,0.06)];
 }
 
 .dark-card {
@@ -45,11 +52,11 @@ body {
 }
 
 .select-clean {
-  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
+  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-[#E8E7E3] px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
 }
 
 .day-cell {
-  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-white px-2 py-1.5 text-black transition;
+  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-[#E8E7E3] px-2 py-1.5 text-black transition;
 }
 
 .day-cell:hover {
@@ -77,63 +84,545 @@ body {
   background: rgba(139, 226, 190, 0.38);
 }
 
-/* === Admin rich text editor === */
-.admin-editor-btn {
-  display: inline-flex;
-  height: 36px;
-  min-width: 36px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  border: 1px solid #7CD8B3;
-  background: #ffffff;
-  color: #000000;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
-  transition: 0.15s ease;
+.container-shell + .container-shell {
+  margin-top: 1rem;
 }
 
-.admin-editor-btn:hover {
+
+.page-shell {
+  background: #fff;
+  border: 1px solid rgba(232, 231, 227, 0.9);
+  border-radius: 34px;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.55);
+}
+
+.surface-card,
+.dark-card,
+.mini-important-strip,
+.right-calendar-shell {
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.16),
+    0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+.container-shell + .container-shell {
+  margin-top: 1rem;
+}
+
+
+/* === white sections fix === */
+.surface-card,
+.mini-important-strip,
+.right-calendar-shell,
+.calendar-single-surface {
+  background: #ffffff !important;
+}
+
+.calendar-single-surface {
+  border: 1px solid #000 !important;
+  border-radius: 26px !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16) !important;
+}
+
+/* убираем второй внутренний фон у календаря */
+.calendar-single-surface .surface-card,
+.calendar-single-surface .dark-card,
+.calendar-single-surface .right-calendar-shell,
+.calendar-single-surface .calendar-inner,
+.calendar-single-surface .calendar-card,
+.calendar-single-surface .calendar-shell {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* точки/индикаторы важных событий */
+.carousel-dot,
+.carousel-indicator,
+.highlight-dot {
+  border: 1px solid #000 !important;
+}
+
+/* кнопки дат мини-блока */
+.mini-important-strip button {
+  border-color: #000 !important;
+}
+
+.mini-important-strip button:not(.keep-white-button) {
   background: #7CD8B3;
-  transform: translateY(-1px);
 }
 
-.rich-text-editor-content h1 {
-  margin: 0.6rem 0;
-  font-size: 1.75rem;
-  line-height: 2.1rem;
+
+
+/* === final visual polish: mint borders, white sections, bigger calendar === */
+
+body {
+  background: #000 !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.page-shell {
+  background: #fff !important;
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.58) !important;
+}
+
+.surface-card,
+.mini-important-strip,
+.right-calendar-shell {
+  background: #fff !important;
+  border-color: #7CD8B3 !important;
+  color: #000 !important;
+  font-weight: 600;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.page-shell,
+.page-shell * {
+  font-weight: 600;
+}
+
+.page-shell .text-slate-400,
+.page-shell .text-slate-500,
+.page-shell .text-slate-600,
+.page-shell .text-slate-700,
+.page-shell .text-[#404552],
+.page-shell .text-[#17191e],
+.page-shell .text-[#1a1a1a] {
+  color: #000 !important;
+}
+
+.select-clean {
+  color: #2c8d67 !important;
+  font-weight: 800 !important;
+  border-color: #7CD8B3 !important;
+  background: #fff !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+.select-clean option {
+  color: #2c8d67;
   font-weight: 800;
 }
 
-.rich-text-editor-content h2 {
-  margin: 0.55rem 0;
-  font-size: 1.35rem;
-  line-height: 1.8rem;
-  font-weight: 750;
+button,
+.app-btn,
+[role='button'] {
+  font-weight: 800 !important;
 }
 
-.rich-text-editor-content p {
-  margin: 0.45rem 0;
+button:not(.day-cell),
+.app-btn,
+a[class*='bg-[#7CD8B3]'] {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
 }
 
-.rich-text-editor-content ul,
-.rich-text-editor-content ol {
-  margin: 0.6rem 0 0.6rem 1.4rem;
+.icon-chip {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16) !important;
 }
 
-.rich-text-editor-content ul {
-  list-style: disc;
+.right-calendar-shell {
+  align-self: stretch;
+  width: 100%;
 }
 
-.rich-text-editor-content ol {
-  list-style: decimal;
+.right-calendar-shell > div {
+  width: 100%;
 }
 
-.rich-text-editor-content a {
-  color: #1677ff;
-  text-decoration: underline;
+.day-cell {
+  min-height: 64px !important;
+  padding: 10px !important;
+  background: #fff !important;
+  border-color: #7CD8B3 !important;
 }
 
-.rich-text-editor-content b,
-.rich-text-editor-content strong {
-  font-weight: 800;
+.day-cell-selected {
+  background: #7CD8B3 !important;
 }
+
+.mini-important-strip button {
+  background: #7CD8B3 !important;
+  border-color: #7CD8B3 !important;
+  color: #000 !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* точки/индикаторы важных событий */
+.highlight-carousel-dot,
+.carousel-dot,
+.carousel-indicator {
+  border: 1px solid #000 !important;
+}
+
+
+/* === ui final polish === */
+
+/* Панель фильтров: текст чёрный и не жирный */
+.select-clean,
+.select-clean select,
+.select-clean option {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* Если select отображается через button/div */
+[data-slot="select-trigger"],
+[data-slot="select-value"],
+.filter-panel select,
+.filter-panel button {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* Все кнопки приложения: чёрная обводка и не жирные */
+button,
+a[role="button"],
+[role="button"] {
+  border: 1px solid #000 !important;
+  font-weight: 500 !important;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.20) !important;
+}
+
+/* Календарные кнопки и "Смотреть все" — не жирные */
+.view-all-btn,
+.calendar-soft-btn,
+.day-nav-btn,
+.calendar-nav-btn,
+.calendar-today-btn {
+  font-weight: 500 !important;
+  border: 1px solid #000 !important;
+}
+
+/* Кнопка "Подробнее" в важный событиях — не жирная */
+.highlight-carousel button,
+.highlight-carousel a,
+.important-panel-card button,
+.important-panel-card a {
+  font-weight: 500 !important;
+  border: 1px solid #000 !important;
+}
+
+/* Заголовок "ВАЖНЫЕ СОБЫТИЯ" крупнее */
+.important-events-title {
+  font-size: 24px !important;
+  line-height: 1.1 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Тени на окнах важных событий */
+.highlight-panel-card,
+.important-panel-card,
+.highlight-carousel > div,
+.highlight-carousel .rounded-\[28px\],
+.highlight-carousel .rounded-\[24px\] {
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+/* Правая колонка календаря и левая колонка событий — одинаково цельно */
+.right-calendar-shell {
+  height: 100% !important;
+  align-self: stretch !important;
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+.surface-card {
+  box-shadow: 0 22px 52px rgba(0,0,0,0.18) !important;
+}
+
+/* Левая карточка событий тянется вниз визуально */
+.surface-card.h-full,
+.surface-card.min-h-\[860px\] {
+  min-height: 860px !important;
+}
+
+/* Панель режимов и календарь внутри одного стиля */
+.right-calendar-shell > div,
+.right-calendar-shell .surface-card {
+  border-radius: 22px !important;
+}
+
+/* Текст фильтров сверху — черный и обычный */
+.filter-panel label,
+.filter-panel .select-clean,
+.filter-panel [data-slot="select-trigger"],
+.filter-panel [data-slot="select-value"] {
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+/* === end ui final polish === */
+
+
+/* === important-events-final-fix === */
+
+:root {
+  --mint-main: #7CD8B3;
+  --mint-dark: #4FAF8C;
+  --danger-red: #E04B4B;
+}
+
+/* Усиленные тени на всех основных разделах */
+.surface-card,
+.right-calendar-shell,
+.highlight-common-shell,
+.important-events-shell,
+.calendar-common-shell,
+section,
+article {
+  box-shadow: 0 18px 42px rgba(0,0,0,0.18) !important;
+}
+
+/* Главный общий фон блока "Важные события" */
+.important-events-shell,
+.highlight-common-shell {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18) !important;
+}
+
+/* Два внутренних окна важных событий */
+.important-event-inner,
+.highlight-panel-card,
+.highlight-carousel-card {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.16) !important;
+}
+
+/* Общий фон для календаря + описания событий */
+.calendar-common-shell {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18) !important;
+  padding: 12px !important;
+}
+
+/* Внутренние карточки календаря и описания */
+.calendar-common-shell .surface-card,
+.calendar-common-shell .right-calendar-shell,
+.calendar-common-shell .calendar-panel,
+.calendar-common-shell .event-details-panel {
+  background: #fff !important;
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.14) !important;
+}
+
+/* Все кнопки в стиле приложения */
+button,
+a[role="button"],
+[role="button"],
+.btn,
+.button {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18) !important;
+}
+
+/* Мятные кнопки — тёмно-мятная обводка */
+.bg-\[\#7CD8B3\],
+[class*="bg-[#7CD8B3]"],
+.mint-button,
+button[class*="bg-[#7CD8B3]"] {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18) !important;
+}
+
+/* Стрелки в важных событиях */
+.important-nav-btn,
+.highlight-nav-btn,
+.carousel-arrow-btn {
+  background: rgba(124, 216, 179, 0.45) !important;
+  border: 1px solid var(--mint-dark) !important;
+  color: var(--mint-dark) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.16) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* Если внутри svg / icon */
+.important-nav-btn svg,
+.highlight-nav-btn svg,
+.carousel-arrow-btn svg {
+  color: var(--mint-dark) !important;
+  stroke: var(--mint-dark) !important;
+}
+
+/* Кнопки дат в важныx событиях */
+.important-date-chip,
+.important-date-pill,
+.important-event-date-btn {
+  border: 1px solid var(--mint-dark) !important;
+  background: #7CD8B3 !important;
+  color: #000 !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12) !important;
+}
+
+/* Активная дата текущего важного события */
+.important-date-chip.active,
+.important-date-pill.active,
+.important-event-date-btn.active,
+.important-date-chip[data-active="true"],
+.important-date-pill[data-active="true"],
+.important-event-date-btn[data-active="true"] {
+  border: 2px solid var(--danger-red) !important;
+  box-shadow: 0 0 0 2px rgba(224,75,75,0.15), 0 10px 24px rgba(0,0,0,0.15) !important;
+}
+
+/* Выбор даты в календаре — квадратная красная обводка */
+.calendar-selected-day,
+.calendar-day.selected,
+.calendar-day[data-selected="true"] {
+  border: 2px solid var(--danger-red) !important;
+  border-radius: 6px !important;
+  box-shadow: inset 0 0 0 1px rgba(224,75,75,0.10) !important;
+}
+
+/* Точки событий в календаре — чётче */
+.calendar-day-dot,
+.calendar-dot {
+  border: 1px solid #000 !important;
+}
+
+/* Нижние карточки разделов: иконки с мятной обводкой */
+.category-icon-shell,
+.topic-icon-shell,
+.direction-icon-shell,
+.export-icon-shell {
+  border: 1px solid var(--mint-main) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* Важные события — чуть более выразительный заголовок */
+.important-events-title {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+}
+
+/* Кнопки "Подробнее" / "Напомнить" в важныx событиях */
+.important-events-shell button,
+.highlight-common-shell button {
+  border: 1px solid var(--mint-dark) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18) !important;
+}
+
+/* === end important-events-final-fix === */
+
+
+/* === hard-final-visual-patch === */
+
+:root {
+  --mint-main: #7CD8B3;
+  --mint-dark: #4FAF8C;
+  --danger-red: #E04B4B;
+}
+
+/* Общие глубокие тени */
+.page-shell,
+.surface-card,
+.important-events-shell,
+.important-event-inner,
+.calendar-common-shell,
+.right-calendar-shell,
+.mini-important-strip {
+  box-shadow: 0 28px 70px rgba(0,0,0,0.28) !important;
+}
+
+/* Важные события */
+.important-events-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+}
+
+.important-event-inner {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.24) !important;
+}
+
+/* Стрелки карусели важных событий */
+.highlight-nav-btn,
+.important-nav-btn {
+  background: rgba(124,216,179,0.42) !important;
+  border: 1px solid var(--mint-dark) !important;
+  color: var(--mint-dark) !important;
+  backdrop-filter: blur(6px);
+}
+
+.highlight-nav-btn svg,
+.important-nav-btn svg {
+  color: var(--mint-dark) !important;
+  stroke: var(--mint-dark) !important;
+}
+
+/* Календарь + описание: один общий фон */
+.calendar-common-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  border-radius: 24px !important;
+  padding: 12px !important;
+}
+
+.calendar-common-shell .surface-card,
+.calendar-common-shell .right-calendar-shell {
+  border: 1px solid var(--mint-main) !important;
+  background: #fff !important;
+  border-radius: 22px !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22) !important;
+}
+
+/* Календарь: выбранная дата — красная квадратная обводка */
+.day-cell-selected {
+  border: 2px solid var(--danger-red) !important;
+  border-radius: 4px !important;
+  outline: none !important;
+}
+
+/* Мятные кнопки — тёмно-мятная обводка */
+button,
+a[role="button"],
+[role="button"] {
+  border-color: var(--mint-dark) !important;
+}
+
+button[class*="bg-[#7CD8B3]"],
+a[class*="bg-[#7CD8B3]"],
+.bg-\[\#7CD8B3\] {
+  border: 1px solid var(--mint-dark) !important;
+}
+
+/* Круглые даты мини-панели */
+.important-date-chip {
+  border-color: var(--mint-dark) !important;
+  background: var(--mint-main) !important;
+  color: #000 !important;
+}
+
+.important-date-chip.border-\[\#E04B4B\],
+.important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: var(--danger-red) !important;
+}
+
+/* Нижняя панель направлений: иконки с мятной обводкой */
+.icon-chip,
+.topic-icon-shell,
+.category-icon-shell {
+  border: 1px solid var(--mint-main) !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12) !important;
+}
+
+/* Точки/индикаторы карусели заметнее */
+.highlight-carousel-dot,
+.carousel-dot,
+.carousel-indicator,
+.important-events-shell span[class*="rounded-full"] {
+  border-color: #000 !important;
+}
+
+/* === end hard-final-visual-patch === */

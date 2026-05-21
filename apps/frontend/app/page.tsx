@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, MonitorPlay, RadioTower, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, Search, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HighlightCarousel } from '@/components/highlight-carousel';
 import { EventsCalendarBoard } from '@/components/events-calendar-board';
@@ -12,6 +12,7 @@ import { EventItem } from '@/lib/types';
 import { extractRussianCity, RUSSIAN_CITIES } from '@/lib/russian-cities';
 import { Button } from '@/components/ui/button';
 import { ReminderButton } from '@/components/reminder-button';
+import { ImportantDatesMiniStrip } from '@/components/important-dates-mini-strip';
 
 const formatOptions = [
   { value: 'ALL', label: 'Все форматы' },
@@ -38,7 +39,8 @@ const topicPresets: TopicPreset[] = [
   { value: 'ОФД', label: 'ОФД', cardLabel: 'ОФД', icon: '☁️', aliases: ['офд', 'оператор фискальных данных'] },
   { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', aliases: ['егаис'] },
   { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', aliases: ['маркировка', 'честный знак'] },
-  { value: 'Онлайн кассы', label: 'Онлайн кассы', cardLabel: 'Онлайн кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+  { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+  { value: 'СНО', label: 'СНО', cardLabel: 'СНО', icon: '🧩', aliases: ['сно', 'система налогообложения', 'спецрежим', 'усн', 'осно', 'патент', 'псн', 'нпд'] },
 ];
 
 function sameDay(dateA: Date, dateB: Date) {
@@ -92,11 +94,33 @@ function getTopicList(events: EventItem[]) {
     }
   }
 
-  return [...topicPresets.map((item) => item.value), ...Array.from(dynamicTopics)];
+  return [...topicPresets.map((item) => item.value), ...Array.from(dynamicTopics)].filter((topic) => !/^telegram$/i.test(topic));
 }
 
 function getTopicCount(events: EventItem[], topic: string) {
   return events.filter((event) => eventMatchesTopic(event, topic)).length;
+}
+
+function sourceLabel(source: string) {
+  if (/^telegram$/i.test(source)) return 'Telegram';
+  if (/^max$/i.test(source)) return 'Max';
+  return source;
+}
+
+function isFreeEvent(event: EventItem) {
+  const text = [
+    event.title,
+    event.descriptionShort,
+    event.descriptionFull,
+    event.location,
+    event.category?.title,
+    ...(event.tags || []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return /бесплат|free|0\s*₽|0\s*руб/.test(text);
 }
 
 function FilterSelect({
@@ -126,10 +150,125 @@ function FilterSelect({
   );
 }
 
+function CityFilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setQuery('');
+      return;
+    }
+    const timer = window.setTimeout(() => inputRef.current?.focus(), 0);
+    const handlePointerDown = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener('mousedown', handlePointerDown);
+    };
+  }, [open]);
+
+  const filteredOptions = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return options;
+    return options.filter((city) => city.toLowerCase().includes(normalized));
+  }, [options, query]);
+
+  return (
+    <label className='grid min-w-0 gap-1'>
+      <span className='text-sm font-medium text-slate-600'>{label}</span>
+      <div ref={containerRef} className='relative'>
+        <button type='button' onClick={() => setOpen((current) => !current)} className='select-clean pr-11 text-left'>
+          {value === 'ALL' ? 'Все города' : value}
+        </button>
+        <ChevronDown className={`pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
+
+        {open ? (
+          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_16px_34px_rgba(15,23,42,0.12)]'>
+            <div className='border-b border-[#7CD8B3]/70 p-2'>
+              <div className='relative'>
+                <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
+                <input
+                  ref={inputRef}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  className='h-10 w-full rounded-xl border border-[#7CD8B3] bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30'
+                />
+              </div>
+            </div>
+
+            <div className='max-h-64 overflow-auto py-1'>
+              <button
+                type='button'
+                onClick={() => {
+                  onChange('ALL');
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center px-4 py-2 text-left text-sm transition hover:bg-[#eefbf4] ${value === 'ALL' ? 'bg-[#eefbf4] text-[#17191e]' : 'text-slate-700'}`}
+              >
+                Все города
+              </button>
+
+              {filteredOptions.map((city) => (
+                <button
+                  key={city}
+                  type='button'
+                  onClick={() => {
+                    onChange(city);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center px-4 py-2 text-left text-sm transition hover:bg-[#eefbf4] ${value === city ? 'bg-[#eefbf4] text-[#17191e]' : 'text-slate-700'}`}
+                >
+                  {city}
+                </button>
+              ))}
+
+              {filteredOptions.length === 0 ? <div className='px-4 py-3 text-sm text-slate-400'>Город не найден</div> : null}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </label>
+  );
+}
+
 export default function HomePage() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [highlights, setHighlights] = useState<EventItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+const currentMonthImportantEvents = useMemo(() => {
+    const baseDate = selectedDate ? new Date(selectedDate) : new Date();
+    const month = baseDate.getMonth();
+    const year = baseDate.getFullYear();
+    const today = new Date();
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    return events
+      .filter((item) => {
+        if (!item.isImportant) return false;
+        const startDate = new Date(item.startAt);
+        if (Number.isNaN(startDate.getTime())) return false;
+        return startDate.getMonth() === month && startDate.getFullYear() === year && startDate >= todayStart;
+      })
+      .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
+  }, [events, selectedDate]);
   const [activeEvent, setActiveEvent] = useState<EventItem | null>(null);
   const [formatFilter, setFormatFilter] = useState<FormatFilter>('ALL');
   const [cityFilter, setCityFilter] = useState<string>('ALL');
@@ -179,12 +318,12 @@ export default function HomePage() {
   }, []);
 
   const availableCities = useMemo(() => {
-    const fromEvents = events.map((item) => extractRussianCity(item.location)).filter(Boolean) as string[];
-    return RUSSIAN_CITIES.filter((value, index, arr) => arr.indexOf(value) === index && fromEvents.includes(value));
+    const fromEvents = Array.from(new Set(events.map((item) => extractRussianCity(item.location)).filter((value): value is string => Boolean(value))));
+    return fromEvents.filter((value) => RUSSIAN_CITIES.includes(value as (typeof RUSSIAN_CITIES)[number]));
   }, [events]);
 
   const availableTopics = useMemo(() => getTopicList(events), [events]);
-  const availableSources = useMemo(() => Array.from(new Set(events.map((item) => item.source || 'TELEGRAM'))), [events]);
+  const availableSources = useMemo(() => Array.from(new Set([...events.map((item) => item.source || 'TELEGRAM'), 'MAX'])), [events]);
 
   const filteredEvents = useMemo(() => {
     const now = new Date();
@@ -194,29 +333,39 @@ export default function HomePage() {
     return events.filter((item) => {
       const start = new Date(item.startAt);
       const formatMatches = formatFilter === 'ALL' || item.format === formatFilter;
-      const city = extractRussianCity(item.location);
-      const cityMatches = cityFilter === 'ALL' || city === cityFilter;
-      const topicMatches = topicFilter === 'ALL' || eventMatchesTopic(item, topicFilter);
-      const priceMatches = priceFilter === 'ALL' || (priceFilter === 'FREE' ? /бесплат/i.test(`${item.descriptionShort} ${item.descriptionFull}`) : !/бесплат/i.test(`${item.descriptionShort} ${item.descriptionFull}`));
-      const sourceMatches = sourceFilter === 'ALL' || (item.source || 'TELEGRAM') === sourceFilter;
+      const cityMatches = cityFilter === 'ALL' || extractRussianCity(item.location) === cityFilter;
+      const topicMatches = eventMatchesTopic(item, topicFilter);
+      const sourceMatches = sourceFilter === 'ALL' || (item.source || 'TELEGRAM').toUpperCase() === sourceFilter.toUpperCase();
+      const priceMatches = priceFilter === 'ALL' || (priceFilter === 'FREE' ? isFreeEvent(item) : !isFreeEvent(item));
       const importantMatches = !onlyImportant || item.isImportant;
       const periodMatches =
-        periodFilter === 'ALL'
-        || (periodFilter === 'TODAY' && sameDay(start, now))
-        || (periodFilter === 'WEEK' && start >= now && start <= weekEnd)
-        || (periodFilter === 'MONTH' && start >= now && start <= monthEnd);
+        periodFilter === 'ALL' ||
+        (periodFilter === 'TODAY' && sameDay(start, now)) ||
+        (periodFilter === 'WEEK' && start >= now && start <= weekEnd) ||
+        (periodFilter === 'MONTH' && start >= now && start <= monthEnd);
 
       return formatMatches && cityMatches && topicMatches && priceMatches && sourceMatches && importantMatches && periodMatches;
     });
-  }, [events, formatFilter, cityFilter, topicFilter, priceFilter, sourceFilter, onlyImportant, periodFilter]);
+  }, [cityFilter, events, formatFilter, onlyImportant, periodFilter, priceFilter, sourceFilter, topicFilter]);
 
   const filteredHighlights = useMemo(() => {
-    return highlights.filter((item) => filteredEvents.some((event) => event.id === item.id));
-  }, [highlights, filteredEvents]);
+    const base = filteredEvents.filter((item) => item.isImportant);
+    if (base.length >= 10) return base;
+    const fallback = highlights.filter((item) => !base.some((event) => event.id === item.id));
+    return [...base, ...fallback].slice(0, 10);
+  }, [filteredEvents, highlights]);
+
+  const importantEvents = useMemo(() => {
+    return [...filteredEvents]
+      .filter((item) => item.isImportant)
+      .sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt))
+      .slice(0, 12);
+  }, [filteredEvents]);
 
   const metrics = useMemo(() => {
     const now = new Date();
     const weekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
     return {
       today: filteredEvents.filter((item) => sameDay(new Date(item.startAt), now)).length,
       week: filteredEvents.filter((item) => {
@@ -224,11 +373,11 @@ export default function HomePage() {
         return start >= now && start <= weekEnd;
       }).length,
       important: filteredEvents.filter((item) => item.isImportant).length,
-      free: filteredEvents.filter((item) => /бесплат/i.test(`${item.descriptionShort} ${item.descriptionFull}`)).length,
+      free: filteredEvents.filter((item) => isFreeEvent(item)).length,
       offline: filteredEvents.filter((item) => item.format === 'OFFLINE').length,
-      city: cityFilter === 'ALL' ? filteredEvents.length : filteredEvents.filter((item) => extractRussianCity(item.location) === cityFilter).length,
+      city: filteredEvents.length,
     };
-  }, [filteredEvents, cityFilter]);
+  }, [filteredEvents]);
 
   const compactEvents = useMemo(() => {
     return [...filteredEvents].sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt)).slice(0, 12);
@@ -259,29 +408,26 @@ export default function HomePage() {
       </div>
 
       <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-5'>
-        <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)} icon={<MonitorPlay className='h-4 w-4' />}>
+        <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)}>
           {formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </FilterSelect>
 
-        <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter} icon={<MapPin className='h-4 w-4' />}>
-          <option value='ALL'>Все города</option>
-          {availableCities.map((city) => <option key={city} value={city}>{city}</option>)}
-        </FilterSelect>
+        <CityFilterSelect label='Город' value={cityFilter} onChange={setCityFilter} options={availableCities} />
 
         <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}>
           <option value='ALL'>Все темы</option>
           {availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
         </FilterSelect>
 
-        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter} icon={<RadioTower className='h-4 w-4' />}>
+        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter}>
           <option value='ALL'>Все источники</option>
-          {availableSources.map((source) => <option key={source} value={source}>{source}</option>)}
+          {availableSources.map((source) => <option key={source} value={source}>{sourceLabel(source)}</option>)}
         </FilterSelect>
 
         <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}>
           <option value='ALL'>Все даты</option>
           <option value='TODAY'>Сегодня</option>
-          <option value='WEEK'>7 дней</option>
+          <option value='WEEK'>Неделя</option>
           <option value='MONTH'>Месяц</option>
         </FilterSelect>
       </div>
@@ -289,19 +435,28 @@ export default function HomePage() {
   );
 
   const modePanel = (
-    <div className='surface-card p-4'>
+    <div className='rounded-[18px] bg-white p-4 text-black font-semibold'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
-      <div className='grid gap-2'>
-        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')}>Витрина</Button>
-        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')}>Компактный режим</Button>
-        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}>Только бесплатно</Button>
-        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)}>Только важные</Button>
+      <div className='grid gap-3 md:grid-cols-2'>
+        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Витрина</Button>
+        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Полный режим</Button>
+        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только бесплатные</Button>
+        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только важные</Button>
+      </div>
+
+      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+        <img
+          src='/calendar-sticker-note.png'
+          alt='Меньше хаоса — больше пользы'
+          className='h-auto w-full max-w-[320px] object-contain'
+        />
       </div>
     </div>
   );
 
   return (
-    <main className='pb-8'>
+    <main className='min-h-screen bg-black px-4 py-6 lg:px-6 lg:py-8'>
+      <div className='page-shell mx-auto max-w-[1500px] px-4 py-5 lg:px-6 lg:py-6'>
       <SiteHeader />
 
       <section className='container-shell mt-4'>
@@ -316,11 +471,11 @@ export default function HomePage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.label} className='surface-card flex items-center gap-4 p-4'>
-                <div className='icon-chip h-12 w-12'><Icon className='h-5 w-5 text-[#2c8d67]' /></div>
+              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.20)]'>
+                <div className='icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
-                  <div className='text-2xl font-semibold text-[#14171c]'>{item.value}</div>
+                  <div className='text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div>
                 </div>
               </div>
             );
@@ -333,9 +488,20 @@ export default function HomePage() {
       </section>
 
       {viewMode === 'SHOWCASE' && (
-        <section className='container-shell mt-4'>
-          <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
-        </section>
+        <>
+          <section id='important-events-section' className='container-shell mt-4'>
+            <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
+          </section>
+
+          <section className='container-shell mt-4'>
+            <ImportantDatesMiniStrip
+              events={importantEvents}
+              selectedDate={selectedDate}
+              onSelect={(event) => setSelectedDate(new Date(event.startAt))}
+              onOpenAll={() => document.getElementById('important-events-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            />
+          </section>
+        </>
       )}
 
       {viewMode === 'COMPACT' ? (
@@ -344,42 +510,42 @@ export default function HomePage() {
             {modePanel}
           </section>
           <section className='container-shell mt-4'>
-          <div className='surface-card p-5'>
-            <div className='mb-4 flex items-center justify-between gap-4'>
-              <div>
-                <div className='text-sm font-medium text-slate-500'>Компактный режим</div>
-                <div className='text-2xl font-semibold text-[#17191e]'>Быстрый список событий</div>
+            <div className='surface-card p-5'>
+              <div className='mb-4 flex items-center justify-between gap-4'>
+                <div>
+                  <div className='text-sm font-medium text-slate-500'>Компактный режим</div>
+                  <div className='text-2xl font-semibold text-[#17191e]'>Быстрый список событий</div>
+                </div>
+                <div className='text-sm text-slate-500'>Без лишней графики, только ближайшие события</div>
               </div>
-              <div className='text-sm text-slate-500'>Без лишней графики, только ближайшие события</div>
-            </div>
-            <div className='grid gap-3'>
-              {compactEvents.map((event) => (
-                <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
-                  <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
-                    <div className='flex flex-wrap items-center justify-between gap-3'>
-                      <div>
-                        <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>
-                        <div className='mt-2 text-sm text-slate-500'>
-                          {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(event.startAt))}
-                          {' · '}
-                          {event.location}
+              <div className='grid gap-3'>
+                {compactEvents.map((event) => (
+                  <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
+                    <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
+                      <div className='flex flex-wrap items-center justify-between gap-3'>
+                        <div>
+                          <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>
+                          <div className='mt-2 text-sm text-slate-500'>
+                            {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(event.startAt))}
+                            {' · '}
+                            {event.location}
+                          </div>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                          <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
+                          {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>Важное</span> : null}
                         </div>
                       </div>
-                      <div className='flex items-center gap-2'>
-                        <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
-                        {event.isImportant ? <span className='rounded-full bg-black px-3 py-1 text-xs font-semibold text-white'>Важное</span> : null}
-                      </div>
+                    </button>
+                    <div className='mt-4 flex flex-wrap gap-3'>
+                      <Button variant='secondary' onClick={() => setActiveEvent(event)} className='px-4 py-2'>Подробнее</Button>
+                      <ReminderButton event={event} variant='primary' className='px-4 py-2' />
                     </div>
-                  </button>
-                  <div className='mt-4 flex flex-wrap gap-3'>
-                    <Button variant='secondary' onClick={() => setActiveEvent(event)} className='px-4 py-2'>Подробнее</Button>
-                    <ReminderButton event={event} variant='primary' className='px-4 py-2' />
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         </>
       ) : (
         <section className='container-shell mt-4'>
@@ -389,27 +555,27 @@ export default function HomePage() {
 
       <section className='container-shell mt-4'>
         <div className='surface-card p-4'>
-          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7'>
+          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
             {topicCards.map((topic) => (
               <button
                 key={topic.value}
                 type='button'
                 onClick={() => setTopicFilter(topic.value)}
-                className={`flex min-h-[96px] min-w-0 items-center gap-4 rounded-[18px] border px-4 py-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+                className={`flex min-h-[84px] min-w-0 items-center gap-3 rounded-[18px] border px-4 py-3 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === topic.value ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
               >
-                <div className={`flex h-12 w-12 flex-none items-center justify-center rounded-full text-[22px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
                   {topic.icon}
                 </div>
                 <div className='min-w-0'>
-                  <div className='truncate text-[18px] font-medium'>{topic.cardLabel}</div>
-                  <div className={`text-sm ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
+                  <div className='text-[16px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
+                  <div className={`text-xs ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
                 </div>
               </button>
             ))}
             <button
               type='button'
               onClick={() => setTopicFilter('ALL')}
-              className={`flex min-h-[96px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-4 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-black bg-black text-white' : 'border-[#e8eaee] bg-white text-[#17191e]'}`}
+              className={`flex min-h-[84px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-3 text-center transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)] ${topicFilter === 'ALL' ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
             >
               <Layers3 className='h-5 w-5 flex-none' />
               <span className='text-sm font-medium'>Все подборки</span>
@@ -423,6 +589,7 @@ export default function HomePage() {
       </section>
 
       <EventModal item={activeEvent} open={!!activeEvent} onOpenChange={(open) => !open && setActiveEvent(null)} />
+      </div>
     </main>
   );
 }
