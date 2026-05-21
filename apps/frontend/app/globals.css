@@ -717,10 +717,6 @@ a[class*="bg-[#7CD8B3]"],
   box-shadow: 0 0 0 3px rgba(224,75,75,0.16), 0 18px 42px rgba(0,0,0,0.25) !important;
 }
 
-.logo-shadow {
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.26)) drop-shadow(0 3px 7px rgba(0,0,0,0.16));
-}
-
 .important-nav-btn {
   background: rgba(124,216,179,0.55) !important;
   border: 1.5px solid var(--mint-dark, #4FAF8C) !important;

@@ -43,7 +43,7 @@ export function SiteHeader() {
               alt='Афиша бухгалтера'
               width={2048}
               height={336}
-              className='logo-shadow h-[72px] w-auto max-w-full object-contain'
+              className='h-[72px] w-auto max-w-full object-contain'
               priority
             />
           </a>
