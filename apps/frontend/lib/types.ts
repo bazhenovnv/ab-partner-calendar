@@ -99,3 +99,42 @@ export type AnalyticsSummary = {
     byVisitCity: { city: string; count: number }[];
   };
 };
+
+
+export type TelegramSubscriber = {
+  id: string;
+  telegramUserId: string;
+  chatId: string;
+  username?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastSeenAt?: string | null;
+};
+
+export type BroadcastItem = {
+  id: string;
+  title: string;
+  text: string;
+  status: string;
+  sentCount: number;
+  failedCount: number;
+  createdAt: string;
+  updatedAt: string;
+  sentAt?: string | null;
+  _count?: { deliveries: number };
+};
+
+export type BroadcastDelivery = {
+  id: string;
+  broadcastId: string;
+  subscriberId: string;
+  chatId: string;
+  status: string;
+  error?: string | null;
+  sentAt?: string | null;
+  createdAt: string;
+  subscriber?: TelegramSubscriber;
+};
