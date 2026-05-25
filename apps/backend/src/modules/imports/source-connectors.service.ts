@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../services/prisma.service';
 
-type ConnectorType = 'telegram-public-html' | 'json-api';
+type ConnectorType = 'telegram-public-html' | 'json-api' | 'max-api';
 
 type ConnectorConfig = {
   id: string;
@@ -14,6 +14,7 @@ type ConnectorConfig = {
   method?: 'GET' | 'POST';
   headers?: Record<string, string>;
   importantTag?: string;
+  chatId?: string;
 };
 
 type ExternalEvent = {
@@ -72,7 +73,13 @@ export class SourceConnectorsService implements OnModuleInit {
 
   onModuleInit() {
     const autoSync = this.config.get<string>('AUTO_SYNC_ON_START', 'true') !== 'false';
-    const intervalMinutes = Number(this.config.get<string>('TELEGRAM_SYNC_INTERVAL_MINUTES', '60'));
+
+    const intervalMinutes = Number(
+      this.config.get<string>('SYNC_INTERVAL_MINUTES') ||
+        this.config.get<string>('TELEGRAM_SYNC_INTERVAL_MINUTES') ||
+        this.config.get<string>('MAX_SYNC_INTERVAL_MINUTES') ||
+        '60',
+    );
 
     if (autoSync) {
       setTimeout(() => {
@@ -94,17 +101,40 @@ export class SourceConnectorsService implements OnModuleInit {
 
   private getConnectors(): ConnectorConfig[] {
     const connectors: ConnectorConfig[] = [];
-    const syncEnabled = this.config.get<string>('TELEGRAM_SYNC_ENABLED', 'true') !== 'false';
+
+    const telegramSyncEnabled = this.config.get<string>('TELEGRAM_SYNC_ENABLED', 'true') !== 'false';
     const telegramUrl = this.config.get<string>('TELEGRAM_CHANNEL_URL', 'https://t.me/ab_afisha_buh');
 
     connectors.push({
       id: 'telegram-main',
       name: 'АБ Афиша Бухгалтера / Telegram',
       type: 'telegram-public-html',
-      enabled: syncEnabled,
+      enabled: telegramSyncEnabled,
       channelUrl: telegramUrl,
       importantTag: '#Хит',
     });
+
+    const maxSyncEnabled = this.config.get<string>('MAX_SYNC_ENABLED', 'false') === 'true';
+    const maxToken = this.config.get<string>('MAX_BOT_TOKEN', '').trim();
+    const maxChatId = this.config.get<string>('MAX_CHAT_ID', '').trim();
+    const maxChannelUrl = this.config.get<string>(
+      'MAX_CHANNEL_URL',
+      'https://max.ru/join/LNPW5HIAqvWwUH1vQtB5V1kytLpmG18IsNURG4is4B0',
+    );
+
+    connectors.push({
+      id: 'max-main',
+      name: 'АБ Афиша Бухгалтера / MAX',
+      type: 'max-api',
+      enabled: maxSyncEnabled && Boolean(maxToken) && Boolean(maxChatId),
+      channelUrl: maxChannelUrl,
+      chatId: maxChatId,
+      importantTag: '#Хит',
+    });
+
+    if (maxSyncEnabled && (!maxToken || !maxChatId)) {
+      this.logger.warn('MAX_SYNC_ENABLED=true, но MAX_BOT_TOKEN или MAX_CHAT_ID не заданы. MAX-коннектор отключён.');
+    }
 
     const raw = this.config.get<string>('SOURCE_CONNECTORS_JSON', '[]');
     try {
@@ -121,6 +151,7 @@ export class SourceConnectorsService implements OnModuleInit {
           method: item.method === 'POST' ? 'POST' : 'GET',
           headers: item.headers || {},
           importantTag: item.importantTag || '#Хит',
+          chatId: item.chatId,
         });
       }
     } catch (error) {
@@ -130,8 +161,16 @@ export class SourceConnectorsService implements OnModuleInit {
     return connectors;
   }
 
+  private normalizeEventText(text: string): string {
+    return text
+      .replace(/([0-9])\uFE0F?\u20E3/g, '$1')
+      .replace(/\u00A0/g, ' ')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n');
+  }
+
   private decodeHtml(value: string): string {
-    return value
+    return this.normalizeEventText(value)
       .replace(/<br\s*\/?>/gi, '\n')
       .replace(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, '$2')
       .replace(/<[^>]+>/g, ' ')
@@ -150,11 +189,12 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private cleanLines(text: string): string[] {
-    return text
+    return this.normalizeEventText(text)
       .split('\n')
       .map((line) => line.replace(/\u00A0/g, ' ').trim())
       .filter(Boolean)
       .filter((line) => !/^AB\s*\|/i.test(line))
+      .filter((line) => !/^АБ\s*\|/i.test(line))
       .filter((line) => !/^please open telegram/i.test(line))
       .filter((line) => !/^view in telegram/i.test(line));
   }
@@ -167,7 +207,16 @@ export class SourceConnectorsService implements OnModuleInit {
   private deriveFormat(text: string): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
     const lower = text.toLowerCase();
     if (lower.includes('гибрид')) return 'HYBRID';
-    if (lower.includes('офлайн') || lower.includes('оффлайн') || lower.includes('москва') || lower.includes('краснодар') || lower.includes('екатеринбург') || lower.includes('ростов')) return 'OFFLINE';
+    if (
+      lower.includes('офлайн') ||
+      lower.includes('оффлайн') ||
+      lower.includes('москва') ||
+      lower.includes('краснодар') ||
+      lower.includes('екатеринбург') ||
+      lower.includes('ростов')
+    ) {
+      return 'OFFLINE';
+    }
     return 'ONLINE';
   }
 
@@ -179,7 +228,9 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private parseDateTimeRange(text: string): { startAt?: Date; endAt?: Date } {
-    const dotted = text.match(/(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4}).{0,40}?(\d{1,2}):(\d{2})(?:\s*[–—-]\s*(\d{1,2}):(\d{2}))?/u);
+    const normalized = this.normalizeEventText(text);
+
+    const dotted = normalized.match(/(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4}).{0,40}?(\d{1,2}):(\d{2})(?:\s*[–—-]\s*(\d{1,2}):(\d{2}))?/u);
     if (dotted) {
       const [, dd, mm, yyyy, hh, min, endHh, endMin] = dotted;
       const year = yyyy.length === 2 ? `20${yyyy}` : yyyy;
@@ -188,7 +239,7 @@ export class SourceConnectorsService implements OnModuleInit {
       return { startAt, endAt };
     }
 
-    const russianWithTime = text.match(/(?:когда\s*:\s*)?(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)[^\d]{0,40}(\d{1,2}):(\d{2})(?:\s*[–—-]\s*(\d{1,2}):(\d{2}))?/iu);
+    const russianWithTime = normalized.match(/(?:когда\s*:\s*)?(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)[^\d]{0,40}(\d{1,2}):(\d{2})(?:\s*[–—-]\s*(\d{1,2}):(\d{2}))?/iu);
     if (russianWithTime) {
       const [, dd, monthRus, hh, min, endHh, endMin] = russianWithTime;
       const monthIndex = MONTHS[monthRus.toLowerCase()];
@@ -198,7 +249,7 @@ export class SourceConnectorsService implements OnModuleInit {
       return { startAt, endAt };
     }
 
-    const russianNoTime = text.match(/(?:когда\s*:\s*)?(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)/iu);
+    const russianNoTime = normalized.match(/(?:когда\s*:\s*)?(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)/iu);
     if (russianNoTime) {
       const [, dd, monthRus] = russianNoTime;
       const monthIndex = MONTHS[monthRus.toLowerCase()];
@@ -210,12 +261,7 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private parseLocation(text: string, format: 'ONLINE' | 'OFFLINE' | 'HYBRID'): string | undefined {
-    const patterns = [
-      /где\s*:\s*(.+)/iu,
-      /место\s*:\s*(.+)/iu,
-      /адрес\s*:\s*(.+)/iu,
-      /формат\s*:\s*(.+)/iu,
-    ];
+    const patterns = [/где\s*:\s*(.+)/iu, /место\s*:\s*(.+)/iu, /адрес\s*:\s*(.+)/iu, /формат\s*:\s*(.+)/iu];
 
     for (const pattern of patterns) {
       const match = text.match(pattern);
@@ -259,9 +305,8 @@ export class SourceConnectorsService implements OnModuleInit {
     return this.normalizeTitle(line || 'Импортированное мероприятие');
   }
 
-
   private sanitizeImportedText(text: string): string {
-    return text
+    return this.normalizeEventText(text)
       .replace(/https?:\/\/\S+/g, '')
       .replace(/#[\p{L}\p{N}_-]+/gu, '')
       .split('\n')
@@ -285,9 +330,8 @@ export class SourceConnectorsService implements OnModuleInit {
     return explicit || keyword || indexFromChannel < 5;
   }
 
-
   private isCollectionHeader(line: string) {
-    return /^(?:\d{1,2}[.\-/]\d{1,2}(?:[.\-/]\d{2,4})?|\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря))[^\n]{0,80}(?:\d{1,2}:\d{2})?/iu.test(line);
+    return /^(?:\d{1,2}[.\-/]\d{1,2}(?:[.\-/]\d{2,4})?|\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря))[^\n]{0,80}(?:\d{1,2}:\d{2})?/iu.test(this.normalizeEventText(line));
   }
 
   private parseTelegramCollection(lines: string[], baseId: string, sourceUrl: string, importantTag: string, indexFromChannel: number): ExternalEvent[] {
@@ -304,7 +348,9 @@ export class SourceConnectorsService implements OnModuleInit {
       const endIndex = headerIndexes[i + 1] ?? lines.length;
       const block = lines.slice(startIndex, endIndex).filter(Boolean);
       const header = block[0] || '';
-      const titleLine = block.find((line, idx) => idx > 0 && !/^стоимость\s*:/iu.test(line) && !/^формат\s*:/iu.test(line) && !/^где\s*:/iu.test(line) && !line.startsWith('#'));
+      const titleLine = block.find(
+        (line, idx) => idx > 0 && !/^стоимость\s*:/iu.test(line) && !/^формат\s*:/iu.test(line) && !/^где\s*:/iu.test(line) && !line.startsWith('#'),
+      );
       const title = this.normalizeTitle(titleLine || this.fallbackTitle(block));
       if (!title) continue;
 
@@ -347,28 +393,26 @@ export class SourceConnectorsService implements OnModuleInit {
 
     if (!title) return [];
 
-    return [{
-      externalId: baseId,
-      title,
-      description: joined,
-      startAt: dateInfo.startAt,
-      endAt: dateInfo.endAt,
-      location: this.parseLocation(joined, format),
-      sourceUrl,
-      tags,
-      isImportant: this.isImportant(joined, tags, importantTag, indexFromChannel),
-      format,
-    }];
+    return [
+      {
+        externalId: baseId,
+        title,
+        description: joined,
+        startAt: dateInfo.startAt,
+        endAt: dateInfo.endAt,
+        location: this.parseLocation(joined, format),
+        sourceUrl,
+        tags,
+        isImportant: this.isImportant(joined, tags, importantTag, indexFromChannel),
+        format,
+      },
+    ];
   }
 
   private normalizeTelegramImageUrl(value?: string): string | undefined {
     if (!value) return undefined;
 
-    const decoded = value
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .trim();
+    const decoded = value.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
 
     if (!decoded) return undefined;
     if (decoded.startsWith('//')) return `https:${decoded}`;
@@ -392,6 +436,33 @@ export class SourceConnectorsService implements OnModuleInit {
     }
 
     return undefined;
+  }
+
+  private extractMaxImage(attachments: unknown): string | undefined {
+    if (!Array.isArray(attachments)) return undefined;
+
+    for (const attachment of attachments) {
+      const item = attachment as any;
+      const payload = item?.payload || item;
+      const url = payload?.url || payload?.photo?.url || payload?.image?.url || payload?.thumbnail?.url || payload?.preview?.url;
+
+      if (typeof url === 'string' && url.trim()) return url.trim();
+    }
+
+    return undefined;
+  }
+
+  private extractMaxLinks(text: string, markup: unknown): string[] {
+    if (!Array.isArray(markup)) return [];
+
+    const links: string[] = [];
+    for (const item of markup as any[]) {
+      if (item?.type === 'link' && typeof item.url === 'string' && item.url.trim()) {
+        links.push(item.url.trim());
+      }
+    }
+
+    return Array.from(new Set(links)).filter((url) => !text.includes(url));
   }
 
   private async fetchWithRetry(url: string, init: RequestInit, attempts = 3): Promise<Response> {
@@ -449,6 +520,64 @@ export class SourceConnectorsService implements OnModuleInit {
     });
   }
 
+  private async fetchMaxApi(connector: ConnectorConfig): Promise<ExternalEvent[]> {
+    const token = this.config.get<string>('MAX_BOT_TOKEN', '').trim();
+    const chatId = connector.chatId || this.config.get<string>('MAX_CHAT_ID', '').trim();
+    const channelUrl = connector.channelUrl || this.config.get<string>('MAX_CHANNEL_URL', '').trim() || 'https://max.ru';
+    const count = Number(this.config.get<string>('MAX_MESSAGES_COUNT', '50'));
+
+    if (!token) throw new Error('MAX_BOT_TOKEN не задан.');
+    if (!chatId) throw new Error('MAX_CHAT_ID не задан.');
+
+    const safeCount = Number.isFinite(count) && count > 0 ? Math.min(count, 100) : 50;
+    const url = `https://platform-api.max.ru/messages?chat_id=${encodeURIComponent(chatId)}&count=${safeCount}`;
+
+    const response = await this.fetchWithRetry(url, {
+      headers: {
+        Authorization: token,
+        accept: 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(`MAX API messages вернул HTTP ${response.status}: ${body.slice(0, 240)}`);
+    }
+
+    const payload = (await response.json()) as any;
+    const messages = Array.isArray(payload?.messages)
+      ? payload.messages
+      : Array.isArray(payload?.items)
+        ? payload.items
+        : Array.isArray(payload)
+          ? payload
+          : [];
+
+    const importantTag = connector.importantTag || '#Хит';
+
+    this.logger.log(`MAX ${chatId}: messages=${messages.length}`);
+
+    return messages.slice(0, 80).flatMap((message: any, index: number): ExternalEvent[] => {
+      const body = message?.body || message?.message?.body || message;
+      const rawText = String(body?.text || message?.text || '').trim();
+      if (!rawText) return [];
+
+      const externalId = String(body?.mid || body?.seq || message?.mid || message?.seq || `${chatId}-${index}`);
+      const sourceUrl = channelUrl.includes('#') ? channelUrl : `${channelUrl}#${encodeURIComponent(externalId)}`;
+      const imageUrl = this.extractMaxImage(body?.attachments || message?.attachments);
+
+      const links = this.extractMaxLinks(rawText, body?.markup || message?.markup);
+      const rawTextWithLinks = links.length ? `${rawText}\n\n${links.join('\n')}` : rawText;
+
+      const events = this.parseTelegramPost(rawTextWithLinks, externalId, sourceUrl, importantTag, index);
+      return events.map((item) => ({
+        ...item,
+        imageUrl: item.imageUrl || imageUrl,
+        tags: Array.from(new Set([...(item.tags || []), 'max'])),
+      }));
+    });
+  }
+
   private async fetchJsonApi(connector: ConnectorConfig): Promise<ExternalEvent[]> {
     if (!connector.url) return [];
     const response = await fetch(connector.url, {
@@ -471,19 +600,21 @@ export class SourceConnectorsService implements OnModuleInit {
         ? (String(item.format).toUpperCase() as 'ONLINE' | 'OFFLINE' | 'HYBRID')
         : this.deriveFormat(description);
 
-      return [{
-        externalId: String(item.externalId || item.id || `${connector.id}-${index}`),
-        title,
-        description,
-        startAt,
-        endAt,
-        location: item.location || item.place ? String(item.location || item.place) : this.parseLocation(description, format),
-        sourceUrl: String(item.url || item.sourceUrl || connector.url),
-        imageUrl: item.imageUrl ? String(item.imageUrl) : undefined,
-        tags,
-        isImportant: Boolean(item.isImportant) || this.isImportant(description, tags, importantTag, index),
-        format,
-      }];
+      return [
+        {
+          externalId: String(item.externalId || item.id || `${connector.id}-${index}`),
+          title,
+          description,
+          startAt,
+          endAt,
+          location: item.location || item.place ? String(item.location || item.place) : this.parseLocation(description, format),
+          sourceUrl: String(item.url || item.sourceUrl || connector.url),
+          imageUrl: item.imageUrl ? String(item.imageUrl) : undefined,
+          tags,
+          isImportant: Boolean(item.isImportant) || this.isImportant(description, tags, importantTag, index),
+          format,
+        },
+      ];
     });
   }
 
@@ -506,6 +637,7 @@ export class SourceConnectorsService implements OnModuleInit {
 
   private async fetchFromConnector(connector: ConnectorConfig): Promise<ExternalEvent[]> {
     if (connector.type === 'telegram-public-html') return this.fetchTelegramPublic(connector);
+    if (connector.type === 'max-api') return this.fetchMaxApi(connector);
     if (connector.type === 'json-api') return this.fetchJsonApi(connector);
     return [];
   }
@@ -521,7 +653,7 @@ export class SourceConnectorsService implements OnModuleInit {
       .replace(/[^a-z0-9а-я]+/giu, '-')
       .replace(/^-|-$/g, '')
       .slice(0, 24);
-    return `${base || 'telegram-event'}-${suffix || Date.now()}`.slice(0, 110);
+    return `${base || 'imported-event'}-${suffix || Date.now()}`.slice(0, 110);
   }
 
   private async getDefaultCategory() {
@@ -530,11 +662,23 @@ export class SourceConnectorsService implements OnModuleInit {
 
     return this.prisma.category.create({
       data: {
-        title: 'Telegram',
-        slug: 'telegram',
+        title: 'Импорт',
+        slug: 'import',
         color: '#5eead4',
       },
     });
+  }
+
+  private getSourceName(connector: ConnectorConfig): string {
+    if (connector.type === 'telegram-public-html') return 'TELEGRAM';
+    if (connector.type === 'max-api') return 'MAX';
+    return connector.name;
+  }
+
+  private getSourceTag(connector: ConnectorConfig): string {
+    if (connector.type === 'telegram-public-html') return 'telegram';
+    if (connector.type === 'max-api') return 'max';
+    return connector.id;
   }
 
   private async persistImportedEvent(connector: ConnectorConfig, event: ExternalEvent) {
@@ -569,18 +713,15 @@ export class SourceConnectorsService implements OnModuleInit {
     if (!event.startAt) return null;
 
     const slug = this.slugify(event.title, sourcePostId);
-    const tags = Array.from(new Set([...(event.tags || []), 'telegram', 'import'])).slice(0, 12);
+    const sourceTag = this.getSourceTag(connector);
+    const tags = Array.from(new Set([...(event.tags || []), sourceTag, 'import'])).slice(0, 12);
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
     const imageUrl = event.imageUrl || null;
 
     const existingDeleted = await this.prisma.event.findFirst({
       where: {
         deletedAt: { not: null },
-        OR: [
-          { sourcePostId },
-          { sourceUrl: event.sourceUrl },
-          { slug },
-        ],
+        OR: [{ sourcePostId }, { sourceUrl: event.sourceUrl }, { slug }],
       },
     });
 
@@ -597,7 +738,7 @@ export class SourceConnectorsService implements OnModuleInit {
       endAt,
       location: event.location ?? 'Онлайн',
       format: event.format ?? 'ONLINE',
-      source: connector.type === 'telegram-public-html' ? 'TELEGRAM' : connector.name,
+      source: this.getSourceName(connector),
       sourceUrl: event.sourceUrl,
       sourcePostId,
       published: true,
@@ -612,11 +753,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const existing = await this.prisma.event.findFirst({
       where: {
         deletedAt: null,
-        OR: [
-          { sourcePostId },
-          { sourceUrl: event.sourceUrl },
-          { slug },
-        ],
+        OR: [{ sourcePostId }, { sourceUrl: event.sourceUrl }, { slug }],
       },
     });
 
