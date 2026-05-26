@@ -14,6 +14,9 @@ import { BroadcastItem, TelegramSubscriber } from '@/lib/types';
 export default function AdminBroadcastsPage() {
   const [items, setItems] = useState<BroadcastItem[]>([]);
   const [subscribers, setSubscribers] = useState<TelegramSubscriber[]>([]);
+  const [subscriberQuery, setSubscriberQuery] = useState('');
+  const [selectedSubscriberId, setSelectedSubscriberId] = useState('');
+  const [replyText, setReplyText] = useState('');
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [error, setError] = useState('');
@@ -81,13 +84,39 @@ export default function AdminBroadcastsPage() {
   }
 
   const activeSubscribers = subscribers.filter((item) => item.isActive).length;
+  const filteredSubscribers = subscribers.filter((item) => {
+    const haystack = [item.username, item.firstName, item.lastName, item.telegramUserId, item.chatId].join(' ').toLowerCase();
+    return haystack.includes(subscriberQuery.toLowerCase());
+  });
+  const selectedSubscriber = subscribers.find((item) => item.id === selectedSubscriberId) || filteredSubscribers[0] || null;
+
+  async function replyToSubscriber() {
+    const token = getAdminToken();
+    const subscriberId = selectedSubscriber?.id;
+    if (!token) return setError('Нет токена администратора.');
+    if (!subscriberId) return setError('Выберите подписчика.');
+    if (!replyText.trim()) return setError('Введите текст ответа подписчику.');
+
+    setLoading(true);
+    setError('');
+    setMessage('');
+    try {
+      await api.replyToSubscriber(token, subscriberId, { text: replyText.trim() });
+      setReplyText('');
+      setMessage('Сообщение подписчику отправлено.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось отправить ответ подписчику');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className='space-y-6'>
       <SectionHeader
-        eyebrow='Telegram broadcasts'
+        eyebrow='Broadcast center'
         title='Рассылка'
-        description='Отправка сообщений активным подписчикам Telegram-бота. Пользователи попадают в базу после команды /start.'
+        description='Отправка сообщений активным подписчикам Telegram-бота и быстрые ответы на вопросы подписчиков из админки.'
         actions={<Button onClick={() => load()}><RefreshCw className='h-4 w-4' />Обновить</Button>}
       />
 
@@ -152,17 +181,56 @@ export default function AdminBroadcastsPage() {
       </section>
 
       <section className='rounded-[28px] bg-white p-5 shadow-panel'>
-        <h2 className='text-xl font-semibold text-slate-950'>Подписчики</h2>
-        <div className='mt-4 grid gap-3'>
-          {subscribers.slice(0, 50).map((item) => (
-            <div key={item.id} className='flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-100 p-4'>
-              <div>
-                <div className='font-semibold text-slate-950'>@{item.username || 'без username'}</div>
-                <div className='text-sm text-slate-500'>ID {item.telegramUserId} · chat {item.chatId}</div>
+        <div className='mb-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
+          <div>
+            <h2 className='text-xl font-semibold text-slate-950'>Подписчики</h2>
+            <p className='mt-1 text-sm text-slate-500'>Выберите подписчика, найдите его по имени или username и при необходимости отправьте персональный ответ.</p>
+          </div>
+          <div className='w-full max-w-md'>
+            <Input value={subscriberQuery} onChange={(event) => setSubscriberQuery(event.target.value)} placeholder='Поиск по имени, username, ID или chat ID' />
+          </div>
+        </div>
+
+        <div className='grid gap-5 xl:grid-cols-[1.05fr_0.95fr]'>
+          <div className='grid gap-3'>
+            {filteredSubscribers.slice(0, 50).map((item) => (
+              <button
+                key={item.id}
+                type='button'
+                onClick={() => setSelectedSubscriberId(item.id)}
+                className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 text-left transition ${selectedSubscriber?.id === item.id ? 'border-[#7CD8B3] bg-[#f5fffa] shadow-[0_10px_24px_rgba(15,23,42,0.10)]' : 'border-slate-100 bg-white hover:bg-slate-50'}`}
+              >
+                <div>
+                  <div className='font-semibold text-slate-950'>@{item.username || 'без username'}</div>
+                  <div className='text-sm text-slate-500'>ID {item.telegramUserId} · chat {item.chatId}</div>
+                  <div className='mt-1 text-xs text-slate-400'>{[item.firstName, item.lastName].filter(Boolean).join(' ') || 'Имя не указано'}</div>
+                </div>
+                <Badge tone={item.isActive ? 'mint' : 'default'}>{item.isActive ? 'Активен' : 'Отключен'}</Badge>
+              </button>
+            ))}
+            {filteredSubscribers.length === 0 ? <div className='rounded-2xl border border-dashed border-slate-200 p-6 text-sm text-slate-500'>Подписчики не найдены.</div> : null}
+          </div>
+
+          <div className='rounded-[24px] border border-[#7CD8B3] bg-[#fbfffd] p-5'>
+            <h3 className='text-lg font-semibold text-slate-950'>Ответ подписчику</h3>
+            {selectedSubscriber ? (
+              <div className='mt-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600'>
+                <div className='font-semibold text-slate-950'>@{selectedSubscriber.username || 'без username'}</div>
+                <div className='mt-1'>ID {selectedSubscriber.telegramUserId}</div>
+                <div>chat {selectedSubscriber.chatId}</div>
               </div>
-              <Badge tone={item.isActive ? 'mint' : 'default'}>{item.isActive ? 'Активен' : 'Отключен'}</Badge>
+            ) : (
+              <div className='mt-3 rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500'>Выберите подписчика слева.</div>
+            )}
+
+            <label className='mt-4 grid gap-2 text-sm text-slate-600'>
+              Текст ответа
+              <Textarea className='min-h-[180px]' value={replyText} onChange={(event) => setReplyText(event.target.value)} placeholder='Введите ответ на вопрос подписчика...' />
+            </label>
+            <div className='mt-4 flex justify-end'>
+              <Button disabled={loading || !selectedSubscriber} onClick={replyToSubscriber}><Send className='h-4 w-4' />Отправить ответ</Button>
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </div>

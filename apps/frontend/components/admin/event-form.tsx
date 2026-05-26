@@ -172,10 +172,36 @@ export function EventForm({
       </div>
 
       <div className='grid gap-4 md:grid-cols-2'>
-        <label className='grid gap-2 text-sm text-slate-600'>
-          Изображение
-          <Input value={form.imageUrl} onChange={(e) => setForm((current) => ({ ...current, imageUrl: e.target.value }))} placeholder='https://...' />
-        </label>
+        <div className='grid gap-2 text-sm text-slate-600'>
+          <label className='grid gap-2'>
+            Изображение
+            <Input value={form.imageUrl} onChange={(e) => setForm((current) => ({ ...current, imageUrl: e.target.value }))} placeholder='https://... или data:image/...'
+            />
+          </label>
+          <label className='grid gap-2'>
+            Загрузить файл изображения
+            <Input
+              type='file'
+              accept='image/*'
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const result = typeof reader.result === 'string' ? reader.result : '';
+                  setForm((current) => ({ ...current, imageUrl: result }));
+                };
+                reader.readAsDataURL(file);
+              }}
+            />
+          </label>
+          {form.imageUrl ? (
+            <div className='overflow-hidden rounded-2xl border border-[#d8f3e7] bg-slate-50 p-3'>
+              <div className='mb-2 text-xs uppercase tracking-[0.12em] text-slate-400'>Предпросмотр</div>
+              <img src={form.imageUrl} alt='Предпросмотр изображения' className='max-h-[180px] rounded-xl object-cover' />
+            </div>
+          ) : null}
+        </div>
         <label className='grid gap-2 text-sm text-slate-600'>
           Теги через запятую
           <Input

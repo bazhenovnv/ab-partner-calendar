@@ -17,6 +17,11 @@ export class BroadcastsController {
     return this.broadcasts.subscribers();
   }
 
+  @Post('subscribers/:id/reply')
+  replyToSubscriber(@Param('id') id: string, @Body() body: { text?: string }) {
+    return this.broadcasts.replyToSubscriber(id, body.text || '');
+  }
+
   @Post()
   create(@Body() body: { title?: string; text?: string }) {
     return this.broadcasts.create(body);

@@ -65,7 +65,10 @@ export type AdminUser = {
 
 export type DashboardStats = {
   events: number;
+  publishedEvents?: number;
+  deletedEvents?: number;
   imports: number;
+  pendingImports?: number;
   reminders: number;
   users: number;
   visitsTotal: number;
@@ -136,4 +139,16 @@ export type BroadcastDelivery = {
   error?: string | null;
   sentAt?: string | null;
   createdAt: string;
+};
+
+export type SourceConnector = {
+  id: string;
+  name: string;
+  type: string;
+  enabled: boolean;
+  channelUrl?: string;
+  url?: string;
+  method?: string;
+  chatId?: string;
+  importantTag?: string;
 };

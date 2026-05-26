@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
 const HEADER_BUTTON_CLASS =
-  'mint-btn mint-btn--header pressable';
+  'inline-flex h-[44px] w-[190px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] border border-black bg-[#7CD8B3] px-4 py-2 text-[14px] font-medium text-black transition hover:opacity-90';
 
 function TelegramCircleIcon() {
   return (

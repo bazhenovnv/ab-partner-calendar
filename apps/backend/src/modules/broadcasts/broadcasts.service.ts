@@ -64,4 +64,16 @@ export class BroadcastsService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async replyToSubscriber(subscriberId: string, text: string) {
+    const subscriber = await this.prisma.telegramSubscriber.findUnique({ where: { id: subscriberId } });
+    if (!subscriber) throw new NotFoundException('Подписчик не найден');
+
+    const message = text.trim();
+    if (!message) throw new BadRequestException('Текст ответа обязателен');
+    if (!this.telegram.isEnabled()) throw new BadRequestException('Telegram bot не запущен');
+
+    await this.telegram.sendBroadcastMessage(subscriber.chatId, message);
+    return { ok: true, subscriberId };
+  }
 }

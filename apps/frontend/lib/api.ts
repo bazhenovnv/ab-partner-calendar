@@ -11,6 +11,7 @@ import {
   BroadcastItem,
   BroadcastDelivery,
   TelegramSubscriber,
+  SourceConnector,
 } from './types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
@@ -96,6 +97,10 @@ export const api = {
     fetcher<TelegramImport[]>('/admin/imports', {
       headers: { Authorization: `Bearer ${token}` },
     }),
+  importConnectors: (token: string) =>
+    fetcher<SourceConnector[]>('/admin/imports/connectors', {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
   syncImports: (token: string) =>
     fetcher<{ synced: boolean; connectors: number; imported: number; upserted: number; details?: unknown[] }>('/admin/imports/sync', {
       method: 'POST',
@@ -119,6 +124,12 @@ export const api = {
   broadcastSubscribers: (token: string) =>
     fetcher<TelegramSubscriber[]>('/admin/broadcasts/subscribers', {
       headers: { Authorization: `Bearer ${token}` },
+    }),
+  replyToSubscriber: (token: string, subscriberId: string, payload: { text: string }) =>
+    fetcher<{ ok: boolean; subscriberId: string }>(`/admin/broadcasts/subscribers/${subscriberId}/reply`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
     }),
   createBroadcast: (token: string, payload: { title?: string; text: string }) =>
     fetcher<BroadcastItem>('/admin/broadcasts', {

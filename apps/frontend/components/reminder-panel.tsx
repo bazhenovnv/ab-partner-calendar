@@ -3,8 +3,8 @@ import { BellRing, CalendarPlus2, Send, Share2 } from 'lucide-react';
 const items = [
   {
     icon: Send,
-    title: 'Синхронизация с Telegram',
-    text: 'Получайте напоминания в чате',
+    title: 'Синхронизация с источниками',
+    text: 'Подключайте Telegram, MAX и API',
   },
   {
     icon: Share2,
@@ -25,7 +25,8 @@ const items = [
 
 export function ReminderPanel() {
   return (
-    <section className='surface-card overflow-hidden px-3 py-2 sm:px-4'>
+    <section className='surface-card overflow-hidden px-3 py-3 sm:px-4'>
+      <div className='px-2 pb-3 text-sm font-semibold uppercase tracking-[0.08em] text-slate-500'>Возможности платформы:</div>
       <div className='grid gap-2 lg:grid-cols-4'>
         {items.map((item) => {
           const Icon = item.icon;

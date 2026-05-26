@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   BellRing,
   CalendarDays,
@@ -15,13 +16,13 @@ import {
   BarChart3,
   BriefcaseBusiness,
 } from 'lucide-react';
-import { clearAdminToken } from '@/lib/admin-utils';
+import { clearAdminToken, getAdminToken } from '@/lib/admin-utils';
 import { cn } from '@/lib/utils';
 
 const items = [
   ['Дашборд', '/admin', LayoutDashboard],
   ['Мероприятия', '/admin/events', CalendarDays],
-  ['Импорт из Telegram', '/admin/imports', FolderSync],
+  ['Импорт из источников', '/admin/imports', FolderSync],
   ['Напоминания', '/admin/reminders', BellRing],
   ['Рассылка', '/admin/broadcasts', Megaphone],
   ['Аналитика', '/admin/analytics', BarChart3],
@@ -34,6 +35,26 @@ const items = [
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const token = getAdminToken();
+    if (!token) {
+      router.replace('/admin/login');
+      return;
+    }
+    setReady(true);
+  }, [router]);
+
+  if (!ready) {
+    return (
+      <div className='flex min-h-screen items-center justify-center bg-slate-100'>
+        <div className='rounded-[28px] border border-[#7CD8B3] bg-white px-6 py-5 text-sm font-medium text-slate-600 shadow-panel'>
+          Проверяем доступ к админке...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='min-h-screen bg-slate-100'>
@@ -42,7 +63,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <div className='mb-8'>
             <div className='text-xs uppercase tracking-[0.24em] text-white/50'>АБ ПАРТНЕР</div>
             <div className='mt-2 text-xl font-semibold'>Админ-панель</div>
-            <p className='mt-3 text-sm leading-6 text-white/60'>Управление календарем, импортом из Telegram и подписками на напоминания.</p>
+            <p className='mt-3 text-sm leading-6 text-white/60'>Управление календарем, импортом из источников, подписчиками и аналитикой платформы.</p>
           </div>
 
           <nav className='space-y-2'>

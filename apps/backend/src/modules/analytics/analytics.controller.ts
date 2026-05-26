@@ -48,7 +48,7 @@ export class AnalyticsController {
     const startOf7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const startOf30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-    const events = await this.prisma.event.findMany({ include: { category: true } }) as AnalyticsEvent[];
+    const events = await this.prisma.event.findMany({ where: { deletedAt: null, published: true }, include: { category: true } }) as AnalyticsEvent[];
     const [visitsTotal, visits7d, visits30d, uniqueRows, topPathRowsRaw, visitCityRowsRaw] = await Promise.all([
       this.prisma.visitHit.count(),
       this.prisma.visitHit.count({ where: { createdAt: { gte: startOf7d } } }),

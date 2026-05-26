@@ -63,9 +63,9 @@ export default function AdminImportsPage() {
   return (
     <div className='space-y-6'>
       <SectionHeader
-        eyebrow='Telegram ingestion'
-        title='Импорт из Telegram'
-        description='Поток новых постов из канала t.me/ab_afisha_buh, безопасный парсинг даты/времени/места, защита от дублей и ручное подтверждение публикации.'
+        eyebrow='Source ingestion'
+        title='Импорт из источников'
+        description='Поток новых событий из подключённых источников, безопасный парсинг даты/времени/места, защита от дублей и ручное подтверждение публикации.'
         actions={<Button onClick={sync} disabled={syncing}><RefreshCcw className='h-4 w-4' />{syncing ? 'Синхронизация...' : 'Запустить синхронизацию'}</Button>}
       />
 
@@ -80,7 +80,7 @@ export default function AdminImportsPage() {
                 </div>
                 <p className='text-sm leading-6 text-slate-600'>{item.parsedDescription || item.rawText}</p>
                 <div className='flex flex-wrap gap-2 text-sm text-slate-500'>
-                  <span>Пост: {item.sourcePostId}</span>
+                  <span>Источник: {item.sourceUrl}</span>
                   <span>•</span>
                   <span>{item.parsedLocation || 'Локация не определена'}</span>
                   <span>•</span>

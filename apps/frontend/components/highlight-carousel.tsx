@@ -69,7 +69,7 @@ export function HighlightCarousel({
           <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
             <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
-              Важные события загружаются из Telegram-канала и API-источников
+              Важные события загружаются из подключённых источников и API
             </h2>
             <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
               После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
@@ -90,7 +90,7 @@ export function HighlightCarousel({
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-          className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+          className='important-nav-btn absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Предыдущий слайд'
         >
           <ChevronLeft className='h-5 w-5' />
@@ -138,15 +138,15 @@ export function HighlightCarousel({
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='primary' onClick={() => onOpen(item)} className='min-w-[170px]'>Подробнее</Button>
-            <ReminderButton event={item} variant='primary' className='min-w-[170px]' />
+            <Button variant='dark' onClick={() => onOpen(item)} className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold'>Подробнее</Button>
+            <ReminderButton event={item} variant='secondary' className='min-w-[170px] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-bold' />
           </div>
         </div>
 
         <button
           type='button'
           onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-          className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+          className='important-nav-btn absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur transition hover:bg-white/16 lg:inline-flex'
           aria-label='Следующий слайд'
         >
           <ChevronRight className='h-5 w-5' />

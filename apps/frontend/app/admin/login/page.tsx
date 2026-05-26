@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
         <section className='rounded-[36px] bg-graphite p-8 text-white shadow-premium lg:p-12'>
           <div className='inline-flex rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-white/70'>АБ ПАРТНЕР</div>
           <h1 className='mt-6 max-w-xl text-4xl font-semibold leading-tight'>Безопасный вход в административную панель календаря бухгалтеров</h1>
-          <p className='mt-4 max-w-2xl text-base leading-7 text-white/70'>Управляйте афишей, публикациями, импортом из Telegram-канала, напоминаниями и качеством контента в едином интерфейсе.</p>
+          <p className='mt-4 max-w-2xl text-base leading-7 text-white/70'>Управляйте афишей, публикациями, импортом из внешних источников, напоминаниями и качеством контента в едином интерфейсе.</p>
           <div className='mt-8 grid gap-4 md:grid-cols-2'>
             <div className='rounded-[28px] border border-white/10 bg-white/5 p-5'>
               <ShieldCheck className='h-6 w-6 text-emerald-300' />

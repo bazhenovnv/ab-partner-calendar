@@ -11,7 +11,10 @@ import { getAdminToken } from '@/lib/admin-utils';
 export default function AdminPage() {
   const [stats, setStats] = useState<DashboardStats>({
     events: mockEvents.length,
+    publishedEvents: mockEvents.filter((item) => item.published).length,
+    deletedEvents: 0,
     imports: mockImports.length,
+    pendingImports: mockImports.filter((item) => item.status === 'NEW' || item.status === 'REVIEW').length,
     reminders: mockReminders.length,
     users: mockUsers.length,
     visitsTotal: 0,
@@ -35,8 +38,8 @@ export default function AdminPage() {
       />
 
       <section className='grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>
-        <StatCard label='Мероприятия' value={stats.events} caption='Все записи календаря, включая опубликованные и черновики.' />
-        <StatCard label='Импортов' value={stats.imports} caption='Новые и проверяемые материалы, пришедшие из Telegram-канала.' />
+        <StatCard label='Мероприятия' value={stats.events} caption={`Активные записи календаря. Опубликовано: ${stats.publishedEvents || 0}.`} />
+        <StatCard label='Импортов' value={stats.imports} caption={`Всего импортов из источников. Ожидают проверки: ${stats.pendingImports || 0}.`} />
         <StatCard label='Напоминаний' value={stats.reminders} caption='Активные пользовательские подписки на уведомления в Telegram.' />
         <StatCard label='Пользователей' value={stats.users} caption='Администраторы и редакторы, имеющие доступ к панели.' />
       </section>
@@ -57,8 +60,8 @@ export default function AdminPage() {
               <p className='mt-2 text-sm leading-6 text-emerald-700'>Проверьте актуальность hero-блока и убедитесь, что события с тегом #Хит и приоритетные публикации выделены корректно.</p>
             </div>
             <div className='rounded-[24px] border border-sky-100 bg-sky-50 p-4'>
-              <div className='text-sm font-medium text-sky-800'>Telegram-импорт и API</div>
-              <p className='mt-2 text-sm leading-6 text-sky-700'>Новые посты и внешние коннекторы должны пройти модерацию перед публикацией на витрине.</p>
+              <div className='text-sm font-medium text-sky-800'>Импорт из источников и API</div>
+              <p className='mt-2 text-sm leading-6 text-sky-700'>Новые события из подключённых каналов и внешних коннекторов должны пройти модерацию перед публикацией на витрине.</p>
             </div>
             <div className='rounded-[24px] border border-violet-100 bg-violet-50 p-4'>
               <div className='text-sm font-medium text-violet-800'>Посещаемость</div>
@@ -71,7 +74,7 @@ export default function AdminPage() {
           <h2 className='text-xl font-semibold'>Последняя активность</h2>
           <div className='mt-5 space-y-4'>
             {[
-              'Подтвержден импорт из Telegram: «Практикум по 54-ФЗ»',
+              'Подтвержден импорт из источника: «Практикум по 54-ФЗ»',
               'Создано новое мероприятие категории «1С и автоматизация»',
               'Подписчик @buhgalter_nina оформил напоминание за 1 час',
               `За сегодня зафиксировано ${stats.visitsToday} визитов на витрину календаря`,

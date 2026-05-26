@@ -13,9 +13,12 @@ export class DashboardController {
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const startOf7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-    const [events, importsCount, reminders, users, visitsTotal, visits7d, visitsToday, uniqueRows] = await Promise.all([
-      this.prisma.event.count(),
+    const [events, publishedEvents, deletedEvents, importsCount, pendingImports, reminders, users, visitsTotal, visits7d, visitsToday, uniqueRows] = await Promise.all([
+      this.prisma.event.count({ where: { deletedAt: null } }),
+      this.prisma.event.count({ where: { deletedAt: null, published: true } }),
+      this.prisma.event.count({ where: { deletedAt: { not: null } } }),
       this.prisma.telegramImport.count(),
+      this.prisma.telegramImport.count({ where: { status: { in: ['NEW', 'REVIEW'] } } }),
       this.prisma.reminder.count({ where: { isActive: true } }),
       this.prisma.user.count(),
       this.prisma.visitHit.count(),
@@ -26,7 +29,10 @@ export class DashboardController {
 
     return {
       events,
+      publishedEvents,
+      deletedEvents,
       imports: importsCount,
+      pendingImports,
       reminders,
       users,
       visitsTotal,

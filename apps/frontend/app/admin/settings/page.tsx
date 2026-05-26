@@ -114,10 +114,10 @@ export default function AdminSettingsPage() {
   const cards = useMemo(
     () => [
       {
-        title: 'Telegram-интеграция',
+        title: 'Интеграция источников',
         icon: Send,
         rows: [
-          ['Канал', 't.me/ab_afisha_buh'],
+          ['Источники', 'Telegram / MAX / внешние JSON API'],
           ['Импорт', 'безопасный парсинг + ручное подтверждение'],
           ['Дубли', 'sourcePostId + sourceUrl + slug события'],
         ],
@@ -167,7 +167,7 @@ export default function AdminSettingsPage() {
     { key: 'events', title: 'Проверить мероприятия', description: '/api/admin/events', icon: Database, onClick: () => runCheck('events', 'Мероприятия', '/api/admin/events') },
     { key: 'deleted', title: 'Проверить удалённые', description: '/api/admin/events?includeDeleted=true', icon: Database, onClick: () => runCheck('deleted', 'Удалённые и активные события', '/api/admin/events?includeDeleted=true') },
     { key: 'imports', title: 'Проверить импорт', description: '/api/admin/imports', icon: RefreshCw, onClick: () => runCheck('imports', 'Импорты', '/api/admin/imports') },
-    { key: 'sync', title: 'Запустить синхронизацию', description: 'POST /api/admin/imports/sync', icon: RefreshCw, onClick: () => runCheck('sync', 'Синхронизация Telegram', '/api/admin/imports/sync', { method: 'POST' }) },
+    { key: 'sync', title: 'Запустить синхронизацию', description: 'POST /api/admin/imports/sync', icon: RefreshCw, onClick: () => runCheck('sync', 'Синхронизация источников', '/api/admin/imports/sync', { method: 'POST' }) },
     { key: 'reminders', title: 'Проверить напоминания', description: '/api/admin/reminders', icon: Bell, onClick: () => runCheck('reminders', 'Напоминания', '/api/admin/reminders') },
     { key: 'users', title: 'Проверить пользователей', description: '/api/admin/users', icon: Settings, onClick: () => runCheck('users', 'Пользователи', '/api/admin/users') },
   ];
@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
         <div className='text-[13px] font-semibold uppercase tracking-[0.35em] text-slate-400'>Configuration</div>
         <h1 className='mt-3 text-4xl font-bold text-black'>Настройки</h1>
         <p className='mt-3 max-w-4xl text-base leading-7 text-slate-700'>
-          Панель диагностики системных параметров: Telegram-импорт, напоминания, API администратора,
+          Панель диагностики системных параметров: импорт из источников, напоминания, API администратора,
           JWT-авторизация и защита от повторной загрузки удалённых событий.
         </p>
       </section>
