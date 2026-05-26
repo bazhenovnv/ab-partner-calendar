@@ -1193,3 +1193,38 @@ label[class] {
   border-color: #E04B4B !important;
 }
 /* === end important events ribbon restored === */
+
+/* === important event date buttons: white + hard shadow === */
+
+.important-events-ribbon .important-date-chip {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #7CD8B3 !important;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.28) !important;
+  transform: translateY(0);
+}
+
+.important-events-ribbon .important-date-chip span {
+  color: #000000 !important;
+}
+
+.important-events-ribbon .important-date-chip:hover {
+  background: #ffffff !important;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.30) !important;
+  transform: translateY(-1px);
+}
+
+.important-events-ribbon .important-date-chip:active {
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.28) !important;
+  transform: translateY(2px);
+}
+
+/* активная кнопка */
+.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
+.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
+  background: #ffffff !important;
+  border-color: #E04B4B !important;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.30) !important;
+}
+
+/* === end important event date buttons === */
