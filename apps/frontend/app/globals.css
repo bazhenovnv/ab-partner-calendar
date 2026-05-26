@@ -2852,3 +2852,282 @@ textarea {
 }
 
 /* === END FINAL UNIFIED AB STYLE === */
+
+/* === ABSOLUTE FINAL AB VISUAL SYSTEM === */
+/* black borders everywhere, correct panel backgrounds, important events mint restored */
+
+:root {
+  --ab-black-final: #000000;
+  --ab-white-final: #ffffff;
+  --ab-mint-final: #7CD8B3;
+  --ab-mint-hover-final: #86e1bd;
+  --ab-shadow-final: rgba(0, 0, 0, 0.18);
+}
+
+/* общий фон проекта */
+html,
+body {
+  background: #000000 !important;
+}
+
+main {
+  background: #000000 !important;
+}
+
+.page-shell {
+  background: var(--ab-white-final) !important;
+  border: 1.5px solid var(--ab-black-final) !important;
+  border-radius: 28px !important;
+}
+
+/* главные мятные зоны */
+#important-events-section .important-events-combined,
+.important-events-combined,
+.dashboard-unified-shell {
+  background: var(--ab-mint-final) !important;
+  border: 1.5px solid var(--ab-black-final) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 4px 0 var(--ab-black-final),
+    4px 4px 0 var(--ab-shadow-final) !important;
+}
+
+/* important-events-shell не должен перекрывать мятный фон родителя */
+#important-events-section .important-events-shell,
+.important-events-combined .important-events-shell {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* все основные белые окна */
+.site-header-panel,
+.metric-card,
+.metrics-grid .surface-card,
+.surface-card,
+.highlight-hero-joined,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+.platform-footer-shell,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-white-final) !important;
+  border: 1.5px solid var(--ab-black-final) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 4px 0 var(--ab-black-final),
+    4px 4px 0 var(--ab-shadow-final) !important;
+}
+
+/* ловим Tailwind-панели без специальных классов */
+.page-shell div[class*="rounded"][class*="bg-white"][class*="border"],
+.page-shell section[class*="rounded"][class*="bg-white"][class*="border"],
+.page-shell article[class*="rounded"][class*="bg-white"][class*="border"] {
+  border-color: var(--ab-black-final) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black-final),
+    4px 4px 0 var(--ab-shadow-final) !important;
+}
+
+/* внутренние мелкие информационные панели без тяжёлой тени */
+[role="dialog"] div[class*="rounded"][class*="bg-white"][class*="border"],
+.dashboard-calendar-wrap .calendar-bottom-panel > *,
+.platform-footer-shell > * {
+  border-color: var(--ab-black-final) !important;
+}
+
+/* прозрачные технические контейнеры не должны быть окнами */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* лента важных событий — фон мятный от родителя, рамки чёрные */
+.important-events-ribbon,
+.important-events-combined-strip {
+  background: transparent !important;
+  border-color: var(--ab-black-final) !important;
+}
+
+/* разделитель между картинкой и текстом */
+.highlight-hero-joined > div > div:first-child {
+  border-color: var(--ab-black-final) !important;
+}
+
+/* все кнопки */
+button,
+a[role="button"],
+a.inline-flex,
+a.mint-btn,
+.pressable,
+.mint-btn,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn,
+.page-shell a[class*="rounded"],
+.page-shell button[class*="rounded"] {
+  border: 1.5px solid var(--ab-black-final) !important;
+  box-shadow:
+    0 3px 0 var(--ab-black-final),
+    3px 3px 0 var(--ab-shadow-final) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* hover */
+button:hover,
+a[role="button"]:hover,
+a.inline-flex:hover,
+a.mint-btn:hover,
+.pressable:hover,
+.mint-btn:hover,
+.site-header-action:hover,
+.mint-btn--header:hover,
+.important-event-action-btn:hover,
+.important-events-view-all-btn:hover,
+.important-date-chip:hover,
+.important-nav-btn:hover,
+.page-shell a[class*="rounded"]:hover,
+.page-shell button[class*="rounded"]:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black-final),
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* active */
+button:active,
+a[role="button"]:active,
+a.inline-flex:active,
+a.mint-btn:active,
+.pressable:active,
+.mint-btn:active,
+.site-header-action:active,
+.mint-btn--header:active,
+.important-event-action-btn:active,
+.important-events-view-all-btn:active,
+.important-date-chip:active,
+.important-nav-btn:active,
+.page-shell a[class*="rounded"]:active,
+.page-shell button[class*="rounded"]:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow:
+    0 1px 0 var(--ab-black-final),
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* мятные кнопки */
+.mint-btn,
+.pressable,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+.dashboard-unified-shell button[class*="bg-[#7CD8B3]"],
+.dashboard-unified-shell button[class*="bg-[#86e1bd]"],
+button[class*="bg-[#7CD8B3]"],
+button[class*="bg-[#8BE2BE]"] {
+  background: var(--ab-mint-final) !important;
+  color: var(--ab-black-final) !important;
+}
+
+/* белые кнопки */
+.important-events-view-all-btn,
+.important-date-chip,
+button[class*="bg-white"],
+a[class*="bg-white"] {
+  background: var(--ab-white-final) !important;
+  color: var(--ab-black-final) !important;
+}
+
+/* активные рамки */
+.mint-btn--active,
+button[class*="ring-2"],
+.important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: #E04B4B !important;
+}
+
+/* иконки-счётчики */
+.metric-icon,
+.icon-chip {
+  border: 1.5px solid var(--ab-black-final) !important;
+  box-shadow:
+    0 2px 0 var(--ab-black-final),
+    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
+}
+
+/* фильтры */
+.select-clean,
+select,
+input,
+textarea {
+  border: 1.5px solid var(--ab-black-final) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* dropdown / popover / dialog */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-white-final) !important;
+  border: 1.5px solid var(--ab-black-final) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black-final),
+    4px 4px 0 var(--ab-shadow-final) !important;
+}
+
+/* календарная сетка: не превращаем дни в физические кнопки */
+.day-cell,
+.day-cell:hover,
+.day-cell:active,
+.calendar-day-number,
+.calendar-day-number:hover,
+.calendar-day-number:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* но рамки таблицы календаря чёрные */
+.calendar-top-panel table,
+.calendar-top-panel th,
+.calendar-top-panel td,
+.calendar-grid,
+.calendar-grid * {
+  border-color: var(--ab-black-final) !important;
+}
+
+/* footer-кнопки */
+.platform-footer-shell a,
+.platform-footer-shell button,
+.platform-footer-shell [role="button"] {
+  border: 1.5px solid var(--ab-black-final) !important;
+  box-shadow:
+    0 3px 0 var(--ab-black-final),
+    3px 3px 0 var(--ab-shadow-final) !important;
+}
+
+/* === END ABSOLUTE FINAL AB VISUAL SYSTEM === */
