@@ -1395,3 +1395,92 @@ label[class] {
 }
 
 /* === end black border for important carousel physical buttons === */
+
+/* === unified physical style for important event area === */
+
+/* объединённое главное окно */
+.highlight-hero-joined {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+/* общий физический стиль для всех кнопок блока */
+.important-events-shell .important-nav-btn,
+.important-events-ribbon .important-date-chip,
+.important-events-ribbon .important-events-view-all-btn,
+.important-events-shell .important-event-action-btn,
+.important-events-combined .important-event-action-btn {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+  transform: translate(0, 0);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+/* hover */
+.important-events-shell .important-nav-btn:hover,
+.important-events-ribbon .important-date-chip:hover,
+.important-events-ribbon .important-events-view-all-btn:hover,
+.important-events-shell .important-event-action-btn:hover,
+.important-events-combined .important-event-action-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* active press */
+.important-events-shell .important-nav-btn:active,
+.important-events-ribbon .important-date-chip:active,
+.important-events-ribbon .important-events-view-all-btn:active,
+.important-events-shell .important-event-action-btn:active,
+.important-events-combined .important-event-action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* стрелки */
+.important-events-shell .important-nav-btn {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+/* даты */
+.important-events-ribbon .important-date-chip {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.important-events-ribbon .important-date-chip span {
+  color: #000000 !important;
+}
+
+/* активная дата */
+.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
+.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
+  border: 2px solid #E04B4B !important;
+}
+
+/* смотреть все */
+.important-events-ribbon .important-events-view-all-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* подробнее / напомнить */
+.important-events-shell .important-event-action-btn,
+.important-events-combined .important-event-action-btn {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+/* === end unified physical style for important event area === */

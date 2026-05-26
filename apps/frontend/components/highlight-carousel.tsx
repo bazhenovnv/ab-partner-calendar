@@ -64,11 +64,11 @@ export function HighlightCarousel({
     const fallback = (
       <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
         <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
-          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
+          <div className='min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0 lg:border-r'>
             <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
 
-          <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
             <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
               Важные события загружаются из Telegram-канала и API-источников
@@ -154,6 +154,7 @@ export function HighlightCarousel({
           <ChevronRight className='h-5 w-5' />
         </button>
 
+        </div>
       </div>
 
       <div className='important-events-ribbon border-t border-[#7CD8B3] px-2 pb-4 pt-4'>
