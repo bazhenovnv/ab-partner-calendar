@@ -154,15 +154,41 @@ export function HighlightCarousel({
           <ChevronRight className='h-5 w-5' />
         </button>
 
-        <div className='highlight-carousel-dots absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-3'>
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActive(idx)}
-              aria-label={`Слайд ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all ${idx === active ? 'w-8 bg-[#8BE2BE]' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
-            />
-          ))}
+      </div>
+
+      <div className='important-events-ribbon border-t border-[#7CD8B3] px-2 pb-4 pt-4'>
+        <div className='mb-3 flex items-center justify-between gap-4'>
+          <h3 className='text-[13px] font-semibold uppercase tracking-[0.12em] text-black'>
+            Важные события
+          </h3>
+
+          <button
+            type='button'
+            onClick={() => setActive(0)}
+            className='inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-[#7CD8B3] px-4 py-2 text-sm font-medium text-black transition hover:bg-[#86e1bd]'
+          >
+            Смотреть все
+            <ArrowRight className='h-4 w-4' />
+          </button>
+        </div>
+
+        <div className='flex flex-wrap items-center gap-3'>
+          {slides.map((event, idx) => {
+            const date = new Date(event.startAt);
+
+            return (
+              <button
+                key={event.id}
+                type='button'
+                onClick={() => setActive(idx)}
+                className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-[#7CD8B3] text-center transition hover:bg-[#86e1bd] ${idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'}`}
+                title={event.title}
+              >
+                <span className='text-[18px] font-semibold leading-none text-black'>{date.getDate()}</span>
+                <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>{MONTHS_SHORT[date.getMonth()]}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

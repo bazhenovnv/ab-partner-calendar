@@ -1177,3 +1177,19 @@ label[class] {
 }
 
 /* === end important events ribbon inside carousel === */
+
+/* === important events ribbon restored === */
+.important-events-ribbon {
+  background: transparent !important;
+  border-color: #7CD8B3 !important;
+}
+
+.important-events-ribbon .important-date-chip {
+  border-color: #7CD8B3 !important;
+}
+
+.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
+.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: #E04B4B !important;
+}
+/* === end important events ribbon restored === */
