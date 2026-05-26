@@ -31,7 +31,7 @@ function PartnerCircleIcon() {
 export function SiteHeader() {
   return (
     <header className='container-shell pt-5'>
-      <div className='surface-card rounded-[18px] bg-white px-5 py-3'>
+      <div className='site-header-panel surface-card rounded-[18px] bg-white px-5 py-3'>
         <div className='flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between'>
           <a
             href='/'

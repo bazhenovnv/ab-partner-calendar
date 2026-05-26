@@ -2375,3 +2375,90 @@ textarea,
 }
 
 /* === END HARD FINAL PHYSICAL STYLE OVERRIDE === */
+
+/* === HARD FINAL HEADER AND METRICS PHYSICAL STYLE === */
+
+.site-header-panel,
+.metric-card {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+.site-header-panel {
+  padding: 18px 22px !important;
+}
+
+.metric-card {
+  min-height: 82px !important;
+  padding: 16px 18px !important;
+}
+
+.site-header-action,
+.mint-btn--header,
+.metrics-grid button,
+.metric-card button,
+.metric-card a {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease !important;
+}
+
+.site-header-action:hover,
+.mint-btn--header:hover,
+.metrics-grid button:hover,
+.metric-card button:hover,
+.metric-card a:hover {
+  background: #86e1bd !important;
+  transform: translate(-1px, -1px) !important;
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+.site-header-action:active,
+.mint-btn--header:active,
+.metrics-grid button:active,
+.metric-card button:active,
+.metric-card a:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.metric-icon,
+.site-header-action span:first-child,
+.mint-btn--header span:first-child {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 2px 0 #000000,
+    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
+}
+
+.metric-card .text-xl,
+.metric-card [class*="text-xl"] {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.metric-card .text-sm,
+.metric-card [class*="text-sm"] {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* === END HARD FINAL HEADER AND METRICS PHYSICAL STYLE === */

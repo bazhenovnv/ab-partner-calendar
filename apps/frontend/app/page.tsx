@@ -383,7 +383,7 @@ export default function HomePage() {
       <SiteHeader />
 
       <section className='container-shell mt-4'>
-        <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-6'>
+        <div className='metrics-grid grid gap-3 md:grid-cols-2 xl:grid-cols-6'>
           {[
             { label: 'Сегодня', value: metrics.today, icon: CalendarRange },
             { label: 'На 7 дней', value: metrics.week, icon: Users },
@@ -394,8 +394,8 @@ export default function HomePage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3'>
-                <div className='icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
+              <div key={item.label} className='metric-card surface-card !bg-white flex items-center gap-3 px-4 py-3'>
+                <div className='metric-icon icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
                   <div className='text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div>
