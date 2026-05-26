@@ -24,7 +24,7 @@ export default function OrganizerPage() {
       />
 
       <section className='grid gap-6 xl:grid-cols-[0.9fr_1.1fr]'>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Партнёрские API-интеграции</h2>
           <div className='mt-4 space-y-3 text-sm text-slate-600'>
             <div className='rounded-2xl border border-slate-200 p-4'>Подключайте внешние JSON API через SOURCE_CONNECTORS_JSON в .env и синхронизируйте события в календарь.</div>
@@ -32,7 +32,7 @@ export default function OrganizerPage() {
             <div className='rounded-2xl border border-slate-200 p-4'>Для платного продвижения используйте флаг isImportant как редакторский промо-слой до внедрения отдельного биллинга.</div>
           </div>
         </div>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>События организатора</h2>
           <div className='mt-4 space-y-3'>
             {events.slice(0, 12).map((event) => (

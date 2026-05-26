@@ -38,7 +38,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className='min-h-screen bg-slate-100'>
       <div className='mx-auto grid min-h-screen max-w-7xl gap-6 p-4 lg:grid-cols-[280px_1fr]'>
-        <aside className='rounded-[28px] bg-graphite p-5 text-white shadow-premium'>
+        <aside className='rounded-[28px] bg-graphite p-5 text-white-premium'>
           <div className='mb-8'>
             <div className='text-xs uppercase tracking-[0.24em] text-white/50'>АБ ПАРТНЕР</div>
             <div className='mt-2 text-xl font-semibold'>Админ-панель</div>
@@ -55,7 +55,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   className={cn(
                     'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition',
                     active
-                      ? 'bg-mint text-white shadow-lg shadow-mint/20'
+                      ? 'bg-mint text-white-mint/20'
                       : 'text-white/75 hover:bg-white/10 hover:text-white',
                   )}
                 >

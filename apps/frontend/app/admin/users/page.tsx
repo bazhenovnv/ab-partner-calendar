@@ -122,7 +122,7 @@ export default function AdminUsersPage() {
       {error ? <div className='rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700'>{error}</div> : null}
 
       {editingId ? (
-        <section className='rounded-[28px] border border-[#7CD8B3] bg-white p-5 shadow-panel'>
+        <section className='rounded-[28px] border border-[#7CD8B3] bg-white p-5-panel'>
           <div className='mb-4 flex items-center justify-between'>
             <h2 className='text-xl font-semibold text-slate-950'>{editingId === 'new' ? 'Новый пользователь' : 'Редактирование пользователя'}</h2>
             <Button variant='ghost' onClick={() => setEditingId(null)}><X className='h-4 w-4' />Закрыть</Button>
@@ -166,7 +166,7 @@ export default function AdminUsersPage() {
 
       <div className='grid gap-4'>
         {items.map((item) => (
-          <div key={item.id} className='rounded-[28px] bg-white p-5 shadow-panel'>
+          <div key={item.id} className='rounded-[28px] bg-white p-5-panel'>
             <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
               <div>
                 <div className='text-lg font-semibold text-slate-950'>{item.name}</div>

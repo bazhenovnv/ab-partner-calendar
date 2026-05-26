@@ -64,7 +64,7 @@ export function RichTextEditor({
     <div className='space-y-2'>
       <div className='text-sm font-semibold text-black'>{label}</div>
 
-      <div className='overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.14)]'>
+      <div className='overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white'>
         <div className='flex flex-wrap items-center gap-2 border-b border-[#d8f3e7] bg-[#f7fffb] p-3'>
           <button type='button' className='admin-editor-btn' title='Жирный' onClick={() => run('bold')}>
             <Bold className='h-4 w-4' />

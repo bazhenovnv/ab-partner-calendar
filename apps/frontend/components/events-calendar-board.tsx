@@ -198,7 +198,7 @@ export function EventsCalendarBoard({
               <img
                 src='/calendar-empty-state.png'
                 alt='Выберите дату с событиями'
-                className='h-[260px] w-[260px] object-contain drop-shadow-[0_18px_34px_rgba(0,0,0,0.18)]'
+                className='h-[260px] w-[260px] object-contain'
               />
               <div className='mt-2 text-[28px] font-semibold leading-tight text-black'>
                 Выберите дату с событиями
@@ -208,9 +208,9 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='calendar-panel right-calendar-shell grid h-full gap-2 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 shadow-[0_24px_64px_rgba(0,0,0,0.24)] h-full'>
+      <div className='calendar-panel right-calendar-shell grid h-full gap-2 self-start rounded-[26px] border border-[#7CD8B3] bg-white p-4 h-full'>
         <div className='w-full self-start overflow-visible'>
-          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
                 <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='mint-btn mint-btn--icon pressable'>
@@ -258,7 +258,7 @@ export function EventsCalendarBoard({
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black shadow-[0_18px_38px_rgba(0,0,0,0.18)]'>
+                      <div className='pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (

@@ -200,7 +200,7 @@ function CityFilterSelect({
         <ChevronDown className={`pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
 
         {open ? (
-          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white shadow-[0_16px_34px_rgba(15,23,42,0.12)]'>
+          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
             <div className='border-b border-[#7CD8B3]/70 p-2'>
               <div className='relative'>
                 <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
@@ -436,13 +436,13 @@ export default function HomePage() {
     <div className='rounded-[18px] bg-white p-4 text-black font-semibold'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
       <div className='grid gap-3 md:grid-cols-2'>
-        <Button variant='primary' onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Витрина</Button>
-        <Button variant='primary' onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Полный режим</Button>
-        <Button variant='primary' onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только бесплатные</Button>
-        <Button variant='primary' onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только важные</Button>
+        <Button variant='primary' onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Витрина</Button>
+        <Button variant='primary' onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Полный режим</Button>
+        <Button variant='primary' onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Только бесплатные</Button>
+        <Button variant='primary' onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Только важные</Button>
       </div>
 
-      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3'>
         <img
           src='/calendar-sticker-note.png'
           alt='Меньше хаоса — больше пользы'
@@ -469,7 +469,7 @@ export default function HomePage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.20)]'>
+              <div key={item.label} className='surface-card !bg-white flex items-center gap-3 px-4 py-3'>
                 <div className='icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
@@ -481,20 +481,19 @@ export default function HomePage() {
         </div>
       </section>
       {viewMode === 'SHOWCASE' && (
-        <>
-          <section id='important-events-section' className='container-shell mt-4'>
+        <section id='important-events-section' className='container-shell mt-4'>
+          <div className='important-events-combined overflow-hidden rounded-[26px] border border-[#7CD8B3] bg-white'>
             <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
-          </section>
 
-          <section className='container-shell mt-4'>
             <ImportantDatesMiniStrip
+              className='important-events-combined-strip'
               events={currentMonthImportantEvents}
               selectedDate={selectedDate}
               onSelect={(event) => setSelectedDate(new Date(event.startAt))}
               onOpenAll={() => document.getElementById('important-events-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             />
-          </section>
-        </>
+          </div>
+        </section>
       )}
 
 
@@ -518,7 +517,7 @@ export default function HomePage() {
               </div>
               <div className='grid gap-3'>
                 {compactEvents.map((event) => (
-                  <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]'>
+                  <div key={event.id} className='rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px]'>
                     <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
                       <div className='flex flex-wrap items-center justify-between gap-3'>
                         <div>
@@ -559,21 +558,21 @@ export default function HomePage() {
                 key={topic.value}
                 type='button'
                 onClick={() => setTopicFilter(topic.value)}
-                className={`pressable flex min-h-[84px] min-w-0 items-center gap-3 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-left font-semibold text-black shadow-[0_14px_32px_rgba(0,0,0,0.20)] transition hover:-translate-y-[1px] hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+                className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
               >
-                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
                   {topic.icon}
                 </div>
                 <div className='min-w-0'>
-                  <div className='text-[16px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
-                  <div className={`text-xs ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
+                  <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
+                  <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
                 </div>
               </button>
             ))}
             <button
               type='button'
               onClick={() => setTopicFilter('ALL')}
-              className={`pressable flex min-h-[84px] min-w-0 items-center justify-center gap-3 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-center font-semibold text-black shadow-[0_14px_32px_rgba(0,0,0,0.20)] transition hover:-translate-y-[1px] hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+              className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
             >
               <Layers3 className='h-5 w-5 flex-none' />
               <span className='text-sm font-medium'>Все подборки</span>

@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
   return (
     <main className='min-h-screen bg-[radial-gradient(circle_at_top,_rgba(15,118,110,.18),_transparent_34%),linear-gradient(180deg,#f5f7f6_0%,#edf2f1_100%)] px-4 py-10'>
       <div className='mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_420px]'>
-        <section className='rounded-[36px] bg-graphite p-8 text-white shadow-premium lg:p-12'>
+        <section className='rounded-[36px] bg-graphite p-8 text-white-premium lg:p-12'>
           <div className='inline-flex rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-white/70'>АБ ПАРТНЕР</div>
           <h1 className='mt-6 max-w-xl text-4xl font-semibold leading-tight'>Безопасный вход в административную панель календаря бухгалтеров</h1>
           <p className='mt-4 max-w-2xl text-base leading-7 text-white/70'>Управляйте афишей, публикациями, импортом из Telegram-канала, напоминаниями и качеством контента в едином интерфейсе.</p>
@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
           </div>
         </section>
 
-        <section className='rounded-[36px] bg-white p-8 shadow-panel lg:p-10'>
+        <section className='rounded-[36px] bg-white p-8-panel lg:p-10'>
           <div className='text-xs uppercase tracking-[0.24em] text-slate-400'>Вход</div>
           <h2 className='mt-2 text-3xl font-semibold text-slate-950'>Авторизация администратора</h2>
           <p className='mt-3 text-sm leading-6 text-slate-600'>Используйте тестовые данные из README или ваши значения из базы пользователей.</p>

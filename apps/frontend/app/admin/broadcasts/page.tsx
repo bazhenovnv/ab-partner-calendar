@@ -92,15 +92,15 @@ export default function AdminBroadcastsPage() {
       />
 
       <div className='grid gap-4 md:grid-cols-3'>
-        <div className='rounded-[28px] bg-white p-5 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-5-panel'>
           <div className='flex items-center gap-3 text-slate-500'><Users className='h-5 w-5' />Активные подписчики</div>
           <div className='mt-3 text-3xl font-semibold text-slate-950'>{activeSubscribers}</div>
         </div>
-        <div className='rounded-[28px] bg-white p-5 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-5-panel'>
           <div className='flex items-center gap-3 text-slate-500'><Megaphone className='h-5 w-5' />Рассылки</div>
           <div className='mt-3 text-3xl font-semibold text-slate-950'>{items.length}</div>
         </div>
-        <div className='rounded-[28px] bg-white p-5 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-5-panel'>
           <div className='flex items-center gap-3 text-slate-500'><Send className='h-5 w-5' />Отправлено всего</div>
           <div className='mt-3 text-3xl font-semibold text-slate-950'>{items.reduce((sum, item) => sum + item.sentCount, 0)}</div>
         </div>
@@ -109,7 +109,7 @@ export default function AdminBroadcastsPage() {
       {error ? <div className='rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700'>{error}</div> : null}
       {message ? <div className='rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700'>{message}</div> : null}
 
-      <section className='rounded-[28px] border border-[#7CD8B3] bg-white p-5 shadow-panel'>
+      <section className='rounded-[28px] border border-[#7CD8B3] bg-white p-5-panel'>
         <h2 className='text-xl font-semibold text-slate-950'>Новая рассылка</h2>
         <div className='mt-4 grid gap-4'>
           <label className='grid gap-2 text-sm text-slate-600'>
@@ -127,7 +127,7 @@ export default function AdminBroadcastsPage() {
         </div>
       </section>
 
-      <section className='rounded-[28px] bg-white p-5 shadow-panel'>
+      <section className='rounded-[28px] bg-white p-5-panel'>
         <h2 className='text-xl font-semibold text-slate-950'>История рассылок</h2>
         <div className='mt-4 grid gap-4'>
           {items.map((item) => (
@@ -151,7 +151,7 @@ export default function AdminBroadcastsPage() {
         </div>
       </section>
 
-      <section className='rounded-[28px] bg-white p-5 shadow-panel'>
+      <section className='rounded-[28px] bg-white p-5-panel'>
         <h2 className='text-xl font-semibold text-slate-950'>Подписчики</h2>
         <div className='mt-4 grid gap-3'>
           {subscribers.slice(0, 50).map((item) => (

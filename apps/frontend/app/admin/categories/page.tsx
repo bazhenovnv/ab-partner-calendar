@@ -24,7 +24,7 @@ export default function AdminCategoriesPage() {
 
       <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
         {items.map((category) => (
-          <article key={category.id} className='rounded-[28px] bg-white p-5 shadow-panel'>
+          <article key={category.id} className='rounded-[28px] bg-white p-5-panel'>
             <div className='h-2 rounded-full' style={{ background: category.color }} />
             <h2 className='mt-4 text-lg font-semibold text-slate-950'>{category.title}</h2>
             <div className='mt-2 text-sm text-slate-500'>slug: {category.slug}</div>

@@ -27,7 +27,7 @@ export default function AdminRemindersPage() {
 
       <div className='grid gap-4'>
         {items.map((item) => (
-          <div key={item.id} className='rounded-[28px] bg-white p-5 shadow-panel'>
+          <div key={item.id} className='rounded-[28px] bg-white p-5-panel'>
             <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
               <div>
                 <div className='text-lg font-semibold text-slate-950'>{item.event.title}</div>

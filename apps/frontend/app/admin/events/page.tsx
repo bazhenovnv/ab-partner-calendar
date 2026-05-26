@@ -135,7 +135,7 @@ export default function AdminEventsPage() {
 
       {error ? <div className='rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700'>{error}</div> : null}
 
-      <section className='grid gap-4 rounded-[28px] bg-white p-5 shadow-panel lg:grid-cols-[1fr_180px_220px_220px]'>
+      <section className='grid gap-4 rounded-[28px] bg-white p-5-panel lg:grid-cols-[1fr_180px_220px_220px]'>
         <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder='Поиск по названию, месту или описанию' />
         <Select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value='ALL'>Все статусы</option>
@@ -153,7 +153,7 @@ export default function AdminEventsPage() {
         </label>
       </section>
 
-      <section className='overflow-hidden rounded-[28px] bg-white shadow-panel'>
+      <section className='overflow-hidden rounded-[28px] bg-white-panel'>
         <div className='overflow-x-auto'>
           <table className='min-w-full text-left text-sm'>
             <thead className='bg-slate-50 text-slate-500'>

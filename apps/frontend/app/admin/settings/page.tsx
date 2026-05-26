@@ -174,7 +174,7 @@ export default function AdminSettingsPage() {
 
   return (
     <div className='space-y-6'>
-      <section className='rounded-[30px] bg-white p-7 shadow-[0_26px_70px_rgba(0,0,0,0.16)]'>
+      <section className='rounded-[30px] bg-white p-7'>
         <div className='text-[13px] font-semibold uppercase tracking-[0.35em] text-slate-400'>Configuration</div>
         <h1 className='mt-3 text-4xl font-bold text-black'>Настройки</h1>
         <p className='mt-3 max-w-4xl text-base leading-7 text-slate-700'>
@@ -187,7 +187,7 @@ export default function AdminSettingsPage() {
         {cards.map((card) => {
           const Icon = card.icon;
           return (
-            <article key={card.title} className='rounded-[26px] border border-[#7CD8B3] bg-white p-6 shadow-[0_22px_54px_rgba(0,0,0,0.14)]'>
+            <article key={card.title} className='rounded-[26px] border border-[#7CD8B3] bg-white p-6'>
               <div className='flex items-center gap-3'>
                 <div className='flex h-11 w-11 items-center justify-center rounded-2xl border border-[#7CD8B3] bg-[#effcf6] text-black'><Icon className='h-5 w-5' /></div>
                 <h2 className='text-xl font-bold text-black'>{card.title}</h2>
@@ -205,13 +205,13 @@ export default function AdminSettingsPage() {
         })}
       </section>
 
-      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6 shadow-[0_24px_64px_rgba(0,0,0,0.16)]'>
+      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6'>
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div>
             <h2 className='text-2xl font-bold text-black'>Проверка функций кабинета</h2>
             <p className='mt-2 text-sm leading-6 text-slate-600'>Кнопки проверяют реальные API-разделы. Если токен администратора истёк, выйдите и войдите снова.</p>
           </div>
-          <a href='/admin/events' className='inline-flex items-center gap-2 rounded-2xl border border-black bg-[#7CD8B3] px-5 py-3 text-sm font-semibold text-black shadow-[0_14px_30px_rgba(0,0,0,0.18)]'>
+          <a href='/admin/events' className='inline-flex items-center gap-2 rounded-2xl border border-black bg-[#7CD8B3] px-5 py-3 text-sm font-semibold text-black'>
             Открыть мероприятия <ExternalLink className='h-4 w-4' />
           </a>
         </div>
@@ -220,7 +220,7 @@ export default function AdminSettingsPage() {
             const Icon = action.icon;
             const isLoading = loadingKey === action.key;
             return (
-              <button key={action.key} type='button' onClick={action.onClick} disabled={Boolean(loadingKey)} className='group rounded-[22px] border border-[#7CD8B3] bg-white p-5 text-left shadow-[0_16px_38px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#f5fffa] disabled:cursor-not-allowed disabled:opacity-60'>
+              <button key={action.key} type='button' onClick={action.onClick} disabled={Boolean(loadingKey)} className='group rounded-[22px] border border-[#7CD8B3] bg-white p-5 text-left transition hover:-translate-y-0.5 hover:bg-[#f5fffa] disabled:cursor-not-allowed disabled:opacity-60'>
                 <div className='flex items-center gap-3'>
                   <div className='flex h-11 w-11 items-center justify-center rounded-2xl border border-[#7CD8B3] bg-[#7CD8B3] text-black'>{isLoading ? <RefreshCw className='h-5 w-5 animate-spin' /> : <Icon className='h-5 w-5' />}</div>
                   <div><div className='text-base font-bold text-black'>{action.title}</div><div className='mt-1 text-sm text-slate-500'>{action.description}</div></div>
@@ -231,7 +231,7 @@ export default function AdminSettingsPage() {
         </div>
       </section>
 
-      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6 shadow-[0_24px_64px_rgba(0,0,0,0.16)]'>
+      <section className='rounded-[30px] border border-[#7CD8B3] bg-white p-6'>
         <h2 className='text-2xl font-bold text-black'>Результаты проверок</h2>
         {results.length === 0 ? (
           <div className='mt-5 rounded-[22px] border border-dashed border-[#7CD8B3] bg-[#fbfffd] p-6 text-sm text-slate-500'>Проверки ещё не запускались.</div>

@@ -49,7 +49,7 @@ export default function AdminPage() {
       </section>
 
       <section className='grid gap-6 xl:grid-cols-[1.2fr_0.8fr]'>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Что важно сегодня</h2>
           <div className='mt-5 grid gap-4'>
             <div className='rounded-[24px] border border-emerald-100 bg-emerald-50 p-4'>
@@ -67,7 +67,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Последняя активность</h2>
           <div className='mt-5 space-y-4'>
             {[

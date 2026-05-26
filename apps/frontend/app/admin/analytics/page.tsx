@@ -37,7 +37,7 @@ export default function AnalyticsPage() {
           ['Завершено', data.totals.completed],
           ['Важных событий', data.totals.highlighted],
         ].map(([label, value]) => (
-          <div key={label} className='rounded-[28px] bg-white p-6 shadow-panel'>
+          <div key={label} className='rounded-[28px] bg-white p-6-panel'>
             <div className='text-sm text-slate-500'>{label}</div>
             <div className='mt-3 text-3xl font-semibold'>{value}</div>
           </div>
@@ -51,7 +51,7 @@ export default function AnalyticsPage() {
           ['Посещений за 30 дней', data.attendance.visits30d],
           ['Уникальных посетителей', data.attendance.uniqueVisitors],
         ].map(([label, value]) => (
-          <div key={label} className='rounded-[28px] bg-white p-6 shadow-panel'>
+          <div key={label} className='rounded-[28px] bg-white p-6-panel'>
             <div className='text-sm text-slate-500'>{label}</div>
             <div className='mt-3 text-3xl font-semibold'>{value}</div>
           </div>
@@ -59,7 +59,7 @@ export default function AnalyticsPage() {
       </section>
 
       <section className='grid gap-6 xl:grid-cols-2'>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Популярные города по событиям</h2>
           <div className='mt-4 space-y-3'>
             {data.byCity.map((item) => (
@@ -71,7 +71,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Популярные темы</h2>
           <div className='mt-4 space-y-3'>
             {data.byTopic.map((item) => (
@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
       </section>
 
       <section className='grid gap-6 xl:grid-cols-2'>
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Топ страниц по посещаемости</h2>
           <div className='mt-4 space-y-3'>
             {data.attendance.topPaths.map((item) => (
@@ -97,7 +97,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className='rounded-[28px] bg-white p-6 shadow-panel'>
+        <div className='rounded-[28px] bg-white p-6-panel'>
           <h2 className='text-xl font-semibold'>Города по посещаемости</h2>
           <div className='mt-4 space-y-3'>
             {data.attendance.byVisitCity.map((item) => (

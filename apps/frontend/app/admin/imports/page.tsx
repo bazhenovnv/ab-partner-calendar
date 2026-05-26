@@ -71,7 +71,7 @@ export default function AdminImportsPage() {
 
       <div className='grid gap-4'>
         {items.map((item) => (
-          <article key={item.id} className='rounded-[28px] bg-white p-6 shadow-panel'>
+          <article key={item.id} className='rounded-[28px] bg-white p-6-panel'>
             <div className='flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between'>
               <div className='space-y-3'>
                 <div className='flex flex-wrap items-center gap-3'>
