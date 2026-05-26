@@ -514,9 +514,19 @@ export default function HomePage() {
         </section>
       )}
 
-      <section className='container-shell mt-4'>
-        <ReminderPanel />
-      </section>
+      <footer className='container-shell mt-4'>
+        <div className='platform-footer-shell'>
+          <div className='platform-footer-title'>
+            Возможности с платформой:
+          </div>
+
+          <ReminderPanel />
+
+          <div className='platform-footer-copy'>
+            Отдел по работе с партнерами 2022–{new Date().getFullYear()}
+          </div>
+        </div>
+      </footer>
 
       <EventModal item={activeEvent} open={!!activeEvent} onOpenChange={(open) => !open && setActiveEvent(null)} />
       </div>

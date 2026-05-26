@@ -1830,3 +1830,37 @@ button[disabled],
 }
 
 /* === end dashboard unified shell like important events === */
+
+/* === platform footer === */
+
+.platform-footer-shell {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  padding: 14px !important;
+  display: grid;
+  gap: 12px !important;
+}
+
+.platform-footer-title {
+  color: #000000 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.platform-footer-shell > section,
+.platform-footer-shell > div:not(.platform-footer-title):not(.platform-footer-copy) {
+  margin: 0 !important;
+}
+
+.platform-footer-copy {
+  border-top: 1px solid #7CD8B3 !important;
+  padding-top: 10px !important;
+  color: #000000 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+}
+
+/* === end platform footer === */
