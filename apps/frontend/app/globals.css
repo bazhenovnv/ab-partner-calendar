@@ -1994,3 +1994,199 @@ button[disabled],
 }
 
 /* === end dashboard panels styled like important events === */
+
+/* === GLOBAL PHYSICAL UI: buttons + popups === */
+
+/* Все реальные кнопки проекта */
+button,
+a[role="button"],
+[role="button"],
+.pressable,
+.mint-btn,
+.app-btn,
+.btn,
+.button,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+  transform: translate(0, 0);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* Наведение */
+button:hover,
+a[role="button"]:hover,
+[role="button"]:hover,
+.pressable:hover,
+.mint-btn:hover,
+.app-btn:hover,
+.btn:hover,
+.button:hover,
+.important-event-action-btn:hover,
+.important-events-view-all-btn:hover,
+.important-date-chip:hover,
+.important-nav-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* Нажатие */
+button:active,
+a[role="button"]:active,
+[role="button"]:active,
+.pressable:active,
+.mint-btn:active,
+.app-btn:active,
+.btn:active,
+.button:active,
+.important-event-action-btn:active,
+.important-events-view-all-btn:active,
+.important-date-chip:active,
+.important-nav-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* Disabled */
+button:disabled,
+button[disabled],
+a[role="button"][aria-disabled="true"],
+[role="button"][aria-disabled="true"] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow:
+    0 2px 0 #000000,
+    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Мятные кнопки остаются мятными */
+.mint-btn,
+.pressable,
+.important-event-action-btn,
+button[class*="bg-[#7CD8B3]"],
+button[class*="bg-[#8BE2BE]"] {
+  color: #000000 !important;
+}
+
+/* Белые физические кнопки */
+.important-events-view-all-btn,
+.important-date-chip,
+button[class*="bg-white"],
+a[role="button"][class*="bg-white"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Активные состояния */
+.mint-btn--active,
+button[class*="ring-2"],
+.important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: #E04B4B !important;
+}
+
+/* Календарные ячейки — не физические кнопки */
+.day-cell,
+.day-cell:hover,
+.day-cell:active,
+.calendar-day-number,
+.calendar-day-number:hover,
+.calendar-day-number:active {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Нативные select/input не превращаем в кнопки */
+select,
+input,
+textarea,
+.select-clean {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Всплывающие окна / модалки */
+[role="dialog"],
+[data-radix-dialog-content],
+.fixed.left-1\/2.top-1\/2 {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 6px 0 #000000,
+    6px 6px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Внутренние панели в модалках */
+[role="dialog"] .surface-card,
+[role="dialog"] .rounded-2xl,
+[role="dialog"] .rounded-\[24px\],
+[role="dialog"] .rounded-\[20px\],
+[role="dialog"] .rounded-\[18px\] {
+  border-color: #7CD8B3 !important;
+  box-shadow: none !important;
+}
+
+/* Кнопки внутри модалок — тот же физический стиль */
+[role="dialog"] button,
+[role="dialog"] a[role="button"],
+[role="dialog"] .btn,
+[role="dialog"] .button {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+[role="dialog"] button:hover,
+[role="dialog"] a[role="button"]:hover,
+[role="dialog"] .btn:hover,
+[role="dialog"] .button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+[role="dialog"] button:active,
+[role="dialog"] a[role="button"]:active,
+[role="dialog"] .btn:active,
+[role="dialog"] .button:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* Tooltip/popover/dropdown-панели, если есть */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.16) !important;
+  z-index: 9999 !important;
+}
+
+/* === END GLOBAL PHYSICAL UI === */
