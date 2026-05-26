@@ -1616,3 +1616,54 @@ button[disabled],
 }
 
 /* === end physical border and shadow for important event windows === */
+
+/* === unified calendar panels shell === */
+
+.calendar-unified-shell {
+  background: #7CD8B3 !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 26px !important;
+  padding: 12px !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.calendar-unified-shell .calendar-top-panel,
+.calendar-unified-shell .calendar-bottom-panel {
+  min-width: 0 !important;
+}
+
+.calendar-unified-shell .calendar-bottom-panel > * {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.calendar-unified-shell .calendar-left-panel {
+  height: 100% !important;
+}
+
+@media (max-width: 1280px) {
+  .calendar-unified-shell {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === end unified calendar panels shell === */
