@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, Search, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HighlightCarousel } from '@/components/highlight-carousel';
 import { EventsCalendarBoard } from '@/components/events-calendar-board';
@@ -161,90 +161,15 @@ function CityFilterSelect({
   onChange: (value: string) => void;
   options: string[];
 }) {
-  const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (!open) {
-      setQuery('');
-      return;
-    }
-    const timer = window.setTimeout(() => inputRef.current?.focus(), 0);
-    const handlePointerDown = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handlePointerDown);
-    return () => {
-      window.clearTimeout(timer);
-      document.removeEventListener('mousedown', handlePointerDown);
-    };
-  }, [open]);
-
-  const filteredOptions = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-    if (!normalized) return options;
-    return options.filter((city) => city.toLowerCase().includes(normalized));
-  }, [options, query]);
-
   return (
-    <label className='grid min-w-0 gap-1'>
-      <span className='text-sm font-medium text-slate-600'>{label}</span>
-      <div ref={containerRef} className='relative'>
-        <button type='button' onClick={() => setOpen((current) => !current)} className='select-clean pr-11 text-left'>
-          {value === 'ALL' ? 'Все города' : value}
-        </button>
-        <ChevronDown className={`pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
-
-        {open ? (
-          <div className='absolute left-0 top-[calc(100%+8px)] z-40 w-full overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
-            <div className='border-b border-[#7CD8B3]/70 p-2'>
-              <div className='relative'>
-                <Search className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
-                <input
-                  ref={inputRef}
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  className='h-10 w-full rounded-xl border border-[#7CD8B3] bg-white pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30'
-                />
-              </div>
-            </div>
-
-            <div className='max-h-64 overflow-auto py-1'>
-              <button
-                type='button'
-                onClick={() => {
-                  onChange('ALL');
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center px-4 py-2 text-left text-sm transition hover:bg-[#eefbf4] ${value === 'ALL' ? 'bg-[#eefbf4] text-[#17191e]' : 'text-slate-700'}`}
-              >
-                Все города
-              </button>
-
-              {filteredOptions.map((city) => (
-                <button
-                  key={city}
-                  type='button'
-                  onClick={() => {
-                    onChange(city);
-                    setOpen(false);
-                  }}
-                  className={`flex w-full items-center px-4 py-2 text-left text-sm transition hover:bg-[#eefbf4] ${value === city ? 'bg-[#eefbf4] text-[#17191e]' : 'text-slate-700'}`}
-                >
-                  {city}
-                </button>
-              ))}
-
-              {filteredOptions.length === 0 ? <div className='px-4 py-3 text-sm text-slate-400'>Город не найден</div> : null}
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </label>
+    <FilterSelect label={label} value={value} onChange={onChange}>
+      <option value='ALL'>Все города</option>
+      {options.map((city) => (
+        <option key={city} value={city}>
+          {city}
+        </option>
+      ))}
+    </FilterSelect>
   );
 }
 
