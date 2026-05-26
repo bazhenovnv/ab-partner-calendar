@@ -1328,3 +1328,60 @@ label[class] {
 }
 
 /* === end physical style for important event action buttons === */
+
+/* === final physical buttons in important carousel === */
+
+.important-events-ribbon .important-events-view-all-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow:
+    0 3px 0 #4FAF8C,
+    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
+  transform: translate(0, 0);
+}
+
+.important-events-ribbon .important-events-view-all-btn:hover {
+  background: #ffffff !important;
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #4FAF8C,
+    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.important-events-ribbon .important-events-view-all-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #4FAF8C,
+    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+.important-events-shell .important-event-action-btn,
+.important-events-combined .important-event-action-btn {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow:
+    0 3px 0 #4FAF8C,
+    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
+  transform: translate(0, 0);
+}
+
+.important-events-shell .important-event-action-btn:hover,
+.important-events-combined .important-event-action-btn:hover {
+  background: #86e1bd !important;
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #4FAF8C,
+    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.important-events-shell .important-event-action-btn:active,
+.important-events-combined .important-event-action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #4FAF8C,
+    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* === end final physical buttons in important carousel === */

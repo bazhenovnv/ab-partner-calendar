@@ -140,8 +140,8 @@ export function HighlightCarousel({
           </p>
 
           <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='primary' onClick={() => onOpen(item)} className='min-w-[170px]'>Подробнее</Button>
-            <ReminderButton event={item} variant='primary' className='min-w-[170px]' />
+            <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>Подробнее</Button>
+            <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
           </div>
         </div>
 
@@ -165,7 +165,7 @@ export function HighlightCarousel({
           <button
             type='button'
             onClick={() => setActive(0)}
-            className='inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-[#7CD8B3] px-4 py-2 text-sm font-medium text-black transition hover:bg-[#86e1bd]'
+            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white'
           >
             Смотреть все
             <ArrowRight className='h-4 w-4' />
