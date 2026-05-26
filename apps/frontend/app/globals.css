@@ -1276,3 +1276,18 @@ label[class] {
 }
 
 /* === end premium physical important date buttons === */
+
+/* === restore active important date frame === */
+
+/* обычные круглые кнопки */
+.important-events-ribbon .important-date-chip {
+  border: 1px solid #7CD8B3 !important;
+}
+
+/* активная круглая кнопка — рамку оставляем красной */
+.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
+.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
+  border: 2px solid #E04B4B !important;
+}
+
+/* === end restore active important date frame === */
