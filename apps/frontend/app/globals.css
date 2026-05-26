@@ -2620,3 +2620,235 @@ textarea {
 }
 
 /* === END FINAL WHITE BACKGROUND + BLACK BORDERS FOR ALL PANELS AND BUTTONS === */
+
+/* === FINAL UNIFIED AB STYLE: black borders, physical shadows, correct backgrounds === */
+
+:root {
+  --ab-black: #000000;
+  --ab-white: #ffffff;
+  --ab-mint: #7CD8B3;
+  --ab-mint-hover: #86e1bd;
+  --ab-shadow-soft: rgba(0, 0, 0, 0.18);
+}
+
+/* общий белый фон проекта */
+.page-shell {
+  background: var(--ab-white) !important;
+  border: 1.5px solid var(--ab-black) !important;
+  border-radius: 28px !important;
+}
+
+/* ВАЖНО: крупные общие зелёные оболочки остаются мятными */
+.important-events-combined,
+.dashboard-unified-shell {
+  background: var(--ab-mint) !important;
+  border: 1.5px solid var(--ab-black) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 4px 0 var(--ab-black),
+    4px 4px 0 var(--ab-shadow-soft) !important;
+}
+
+/* у важных событий внутренний root прозрачный, чтобы был виден мятный фон */
+.important-events-combined .important-events-shell {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* белые окна внутри общих оболочек */
+.site-header-panel,
+.metric-card,
+.surface-card,
+.highlight-hero-joined,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+.platform-footer-shell,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-white) !important;
+  border: 1.5px solid var(--ab-black) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 4px 0 var(--ab-black),
+    4px 4px 0 var(--ab-shadow-soft) !important;
+}
+
+/* внутренние панели без лишнего зелёного фона */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* панель важных дат внутри важного блока */
+.important-events-ribbon,
+.important-events-combined-strip {
+  background: transparent !important;
+  border-color: var(--ab-black) !important;
+}
+
+/* все кнопки проекта */
+button,
+a[role="button"],
+a.inline-flex,
+a.mint-btn,
+.pressable,
+.mint-btn,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn {
+  border: 1.5px solid var(--ab-black) !important;
+  box-shadow:
+    0 3px 0 var(--ab-black),
+    3px 3px 0 var(--ab-shadow-soft) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* hover для кнопок */
+button:hover,
+a[role="button"]:hover,
+a.inline-flex:hover,
+a.mint-btn:hover,
+.pressable:hover,
+.mint-btn:hover,
+.site-header-action:hover,
+.mint-btn--header:hover,
+.important-event-action-btn:hover,
+.important-events-view-all-btn:hover,
+.important-date-chip:hover,
+.important-nav-btn:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black),
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* active для кнопок */
+button:active,
+a[role="button"]:active,
+a.inline-flex:active,
+a.mint-btn:active,
+.pressable:active,
+.mint-btn:active,
+.site-header-action:active,
+.mint-btn--header:active,
+.important-event-action-btn:active,
+.important-events-view-all-btn:active,
+.important-date-chip:active,
+.important-nav-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow:
+    0 1px 0 var(--ab-black),
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* мятные кнопки */
+.mint-btn,
+.pressable,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+.dashboard-unified-shell button[class*="bg-[#7CD8B3]"],
+.dashboard-unified-shell button[class*="bg-[#86e1bd]"] {
+  background: var(--ab-mint) !important;
+  color: var(--ab-black) !important;
+}
+
+/* белые кнопки */
+.important-events-view-all-btn,
+.important-date-chip,
+button[class*="bg-white"],
+a[class*="bg-white"] {
+  background: var(--ab-white) !important;
+  color: var(--ab-black) !important;
+}
+
+/* активные кнопки */
+.mint-btn--active,
+button[class*="ring-2"],
+.important-date-chip[class*="border-[#E04B4B]"] {
+  border-color: #E04B4B !important;
+}
+
+/* карточки-счётчики */
+.metrics-grid .surface-card,
+.metric-card {
+  background: var(--ab-white) !important;
+  border: 1.5px solid var(--ab-black) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black),
+    4px 4px 0 var(--ab-shadow-soft) !important;
+}
+
+.metric-icon,
+.icon-chip {
+  border: 1.5px solid var(--ab-black) !important;
+  box-shadow:
+    0 2px 0 var(--ab-black),
+    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
+}
+
+/* фильтры */
+.select-clean,
+select,
+input,
+textarea {
+  border: 1.5px solid var(--ab-black) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* popover/dropdown/modal */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-white) !important;
+  border: 1.5px solid var(--ab-black) !important;
+  box-shadow:
+    0 4px 0 var(--ab-black),
+    4px 4px 0 var(--ab-shadow-soft) !important;
+}
+
+/* не ломаем календарную сетку */
+.day-cell,
+.day-cell:hover,
+.day-cell:active,
+.calendar-day-number,
+.calendar-day-number:hover,
+.calendar-day-number:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* но внешняя рамка календарного окна остаётся чёрной */
+.calendar-top-panel > div,
+.calendar-left-panel,
+.calendar-bottom-panel {
+  border-color: var(--ab-black) !important;
+}
+
+/* === END FINAL UNIFIED AB STYLE === */
