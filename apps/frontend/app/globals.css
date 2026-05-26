@@ -1585,3 +1585,34 @@ button[disabled],
 }
 
 /* === end global physical button style === */
+
+/* === physical border and shadow for important event windows === */
+
+/* внешнее окно всей панели важных событий */
+.important-events-combined {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+/* объединённое окно: картинка + текст */
+.important-events-shell .highlight-hero-joined,
+.important-events-combined .highlight-hero-joined {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+/* нижняя лента важных дат */
+.important-events-ribbon {
+  border-top: 1.5px solid #000000 !important;
+}
+
+/* внутренний разделитель между картинкой и текстом */
+.highlight-hero-joined > div > div:first-child {
+  border-color: #000000 !important;
+}
+
+/* === end physical border and shadow for important event windows === */
