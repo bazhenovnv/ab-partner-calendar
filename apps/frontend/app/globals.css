@@ -1667,3 +1667,83 @@ button[disabled],
 }
 
 /* === end unified calendar panels shell === */
+
+/* === unified dashboard panels shell === */
+
+.dashboard-unified-shell {
+  background: #7CD8B3 !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 28px !important;
+  padding: 12px !important;
+  display: grid !important;
+  gap: 12px !important;
+}
+
+/* Обёртки верхней панели, календаря и нижних подборок */
+.dashboard-filters-wrap,
+.dashboard-calendar-wrap,
+.dashboard-topics-wrap {
+  min-width: 0 !important;
+}
+
+/* Белые внутренние панели */
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > * {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+/* EventsCalendarBoard внутри общего shell больше не должен создавать второй зелёный внешний контейнер */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 12px !important;
+  box-shadow: none !important;
+}
+
+/* Внутренние белые панели календарной зоны */
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+/* Правая колонка календаря без собственного фона */
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Убираем лишнее окно внутри панели режимов */
+.dashboard-calendar-wrap .calendar-bottom-panel > * {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Нижняя панель подборок без внешней белой подложки за пределами общего shell */
+.dashboard-topics-wrap > .surface-card {
+  padding: 12px !important;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 1024px) {
+  .dashboard-unified-shell {
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+}
+
+/* === end unified dashboard panels shell === */
