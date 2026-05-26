@@ -2190,3 +2190,188 @@ textarea,
 }
 
 /* === END GLOBAL PHYSICAL UI === */
+
+/* === HARD FINAL PHYSICAL STYLE OVERRIDE === */
+
+:root {
+  --ab-physical-border: #000000;
+  --ab-physical-shadow: rgba(0, 0, 0, 0.18);
+  --ab-mint: #7CD8B3;
+  --ab-mint-hover: #86e1bd;
+}
+
+/* ---------- ВСЕ КНОПКИ И ССЫЛКИ-КНОПКИ ---------- */
+
+button:not(.day-cell),
+a.inline-flex,
+a[class*="rounded"],
+[role="button"],
+.mint-btn,
+.pressable,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn,
+.dashboard-unified-shell button,
+.dashboard-unified-shell a,
+[role="dialog"] button,
+[role="dialog"] a {
+  border: 1.5px solid var(--ab-physical-border) !important;
+  box-shadow:
+    0 3px 0 var(--ab-physical-border),
+    3px 3px 0 var(--ab-physical-shadow) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* hover */
+button:not(.day-cell):hover,
+a.inline-flex:hover,
+a[class*="rounded"]:hover,
+[role="button"]:hover,
+.mint-btn:hover,
+.pressable:hover,
+.important-event-action-btn:hover,
+.important-events-view-all-btn:hover,
+.important-date-chip:hover,
+.important-nav-btn:hover,
+.dashboard-unified-shell button:hover,
+.dashboard-unified-shell a:hover,
+[role="dialog"] button:hover,
+[role="dialog"] a:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow:
+    0 4px 0 var(--ab-physical-border),
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* active */
+button:not(.day-cell):active,
+a.inline-flex:active,
+a[class*="rounded"]:active,
+[role="button"]:active,
+.mint-btn:active,
+.pressable:active,
+.important-event-action-btn:active,
+.important-events-view-all-btn:active,
+.important-date-chip:active,
+.important-nav-btn:active,
+.dashboard-unified-shell button:active,
+.dashboard-unified-shell a:active,
+[role="dialog"] button:active,
+[role="dialog"] a:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow:
+    0 1px 0 var(--ab-physical-border),
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* disabled */
+button:disabled,
+button[disabled],
+[aria-disabled="true"] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow:
+    0 2px 0 var(--ab-physical-border),
+    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ---------- ПАНЕЛИ ---------- */
+
+.surface-card,
+.important-events-combined,
+.important-events-shell,
+.highlight-hero-joined,
+.dashboard-unified-shell,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+.platform-footer-shell,
+[role="dialog"],
+[data-radix-dialog-content] {
+  border: 1.5px solid var(--ab-physical-border) !important;
+  box-shadow:
+    0 4px 0 var(--ab-physical-border),
+    4px 4px 0 var(--ab-physical-shadow) !important;
+}
+
+/* белые панели остаются белыми */
+.surface-card,
+.important-events-shell,
+.highlight-hero-joined,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: #ffffff !important;
+}
+
+/* зелёные общие оболочки */
+.important-events-combined,
+.dashboard-unified-shell {
+  background: var(--ab-mint) !important;
+}
+
+/* ---------- ВСПЛЫВАЮЩИЕ ОКНА / DROPDOWN / POPOVER ---------- */
+
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-physical-border) !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 4px 0 var(--ab-physical-border),
+    4px 4px 0 var(--ab-physical-shadow) !important;
+  z-index: 9999 !important;
+}
+
+/* ---------- ИСКЛЮЧЕНИЯ: НЕ ЛОМАЕМ КАЛЕНДАРНУЮ СЕТКУ ---------- */
+
+.day-cell,
+.day-cell:hover,
+.day-cell:active,
+.calendar-day-number,
+.calendar-day-number:hover,
+.calendar-day-number:active {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* поля ввода и select не делаем физическими кнопками */
+select,
+input,
+textarea,
+.select-clean {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* но обводку фильтров оставляем видимой */
+.select-clean {
+  border: 1px solid var(--ab-mint) !important;
+}
+
+/* === END HARD FINAL PHYSICAL STYLE OVERRIDE === */
