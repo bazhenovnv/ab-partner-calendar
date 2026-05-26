@@ -59,14 +59,18 @@ export function HighlightCarousel({
 
   useEffect(() => {
     if (slides.length <= 1) return;
+
     const timer = window.setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, 10000);
+
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
   useEffect(() => {
-    if (active >= slides.length) setActive(0);
+    if (slides.length > 0 && active >= slides.length) {
+      setActive(0);
+    }
   }, [active, slides.length]);
 
   if (!slides.length) {
@@ -151,7 +155,9 @@ export function HighlightCarousel({
             </p>
 
             <div className='mt-6 flex flex-wrap items-center gap-3'>
-              <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>Подробнее</Button>
+              <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>
+                Подробнее
+              </Button>
               <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
             </div>
           </div>
@@ -212,5 +218,6 @@ export function HighlightCarousel({
   );
 
   if (embedded) return content;
+
   return <section className='container-shell mt-4'>{content}</section>;
 }
