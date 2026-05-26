@@ -2462,3 +2462,161 @@ textarea,
 }
 
 /* === END HARD FINAL HEADER AND METRICS PHYSICAL STYLE === */
+
+/* === FINAL WHITE BACKGROUND + BLACK BORDERS FOR ALL PANELS AND BUTTONS === */
+
+:root {
+  --ab-black: #000000;
+  --ab-white: #ffffff;
+  --ab-mint: #7CD8B3;
+}
+
+/* Общая белая подложка всего проекта */
+.page-shell {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  border-radius: 28px !important;
+}
+
+/* Все основные shell-панели проекта теперь белые */
+.important-events-combined,
+.important-events-shell,
+.highlight-hero-joined,
+.dashboard-unified-shell,
+.calendar-unified-shell,
+.platform-footer-shell,
+.site-header-panel,
+.surface-card,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+.metric-card,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Убираем зелёный фон у общих контейнеров */
+.dashboard-unified-shell,
+.important-events-combined,
+.calendar-unified-shell {
+  background: #ffffff !important;
+}
+
+/* Правая календарная колонка без отдельной лишней оболочки */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Все кнопки и кнопки-ссылки — с чёрной обводкой */
+button,
+a[role="button"],
+[role="button"],
+.pressable,
+.mint-btn,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn {
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Мятные кнопки оставляем мятными */
+.mint-btn,
+.pressable,
+.site-header-action,
+.mint-btn--header,
+.important-event-action-btn,
+button[class*="bg-[#7CD8B3]"],
+button[class*="bg-[#86e1bd]"] {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+/* Белые кнопки */
+.important-events-view-all-btn,
+.important-date-chip,
+button[class*="bg-white"],
+a[class*="bg-white"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Карточки-счётчики */
+.metric-card,
+.metrics-grid .surface-card {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Иконки в счётчиках */
+.metric-icon,
+.icon-chip {
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Фильтры и селекты */
+.select-clean,
+select,
+input,
+textarea {
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Выпадающие/всплывающие окна */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Модальные окна */
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Не ломаем календарную сетку */
+.day-cell,
+.day-cell:hover,
+.day-cell:active,
+.calendar-day-number,
+.calendar-day-number:hover,
+.calendar-day-number:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Панель режимов и нижняя панель подборок */
+.dashboard-topics-wrap > .surface-card,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.platform-footer-shell {
+  background: #ffffff !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+/* === END FINAL WHITE BACKGROUND + BLACK BORDERS FOR ALL PANELS AND BUTTONS === */
