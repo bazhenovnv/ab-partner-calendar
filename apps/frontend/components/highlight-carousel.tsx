@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
+import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { EventItem } from '@/lib/types';
@@ -9,6 +9,8 @@ import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
+
+const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
@@ -86,7 +88,7 @@ export function HighlightCarousel({
 
   const content = (
     <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
-      <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-10'>
+      <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-3 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-3'>
         <button
           type='button'
           onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}

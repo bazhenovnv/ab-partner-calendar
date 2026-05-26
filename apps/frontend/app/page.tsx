@@ -546,7 +546,7 @@ export default function HomePage() {
         </>
       ) : (
         <section className='container-shell mt-4'>
-          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} onMonthChange={setCalendarViewDate} filtersPanel={modePanel} />
+          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={modePanel} />
         </section>
       )}
 
