@@ -1864,3 +1864,133 @@ button[disabled],
 }
 
 /* === end platform footer === */
+
+/* === dashboard panels styled like important events === */
+
+/* общий mint-фон всей панели */
+.dashboard-unified-shell {
+  background: #7CD8B3 !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 28px !important;
+  padding: 12px !important;
+  display: grid !important;
+  gap: 12px !important;
+  overflow: visible !important;
+}
+
+/* внутренние белые панели */
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+/* убираем второй зелёный контейнер внутри общего shell */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 12px !important;
+  box-shadow: none !important;
+}
+
+/* правая колонка календаря без собственного фона */
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* панель режимов без лишней вложенной рамки */
+.dashboard-calendar-wrap .calendar-bottom-panel > * {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* фильтры внутри верхней панели */
+.dashboard-filters-wrap .select-clean {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  color: #000000 !important;
+}
+
+/* физический стиль кнопок внутри этой общей панели */
+.dashboard-unified-shell button,
+.dashboard-unified-shell .mint-btn,
+.dashboard-unified-shell .pressable,
+.dashboard-unified-shell a[role="button"] {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+  transform: translate(0, 0);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* hover как у важных событий */
+.dashboard-unified-shell button:hover,
+.dashboard-unified-shell .mint-btn:hover,
+.dashboard-unified-shell .pressable:hover,
+.dashboard-unified-shell a[role="button"]:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* нажатие */
+.dashboard-unified-shell button:active,
+.dashboard-unified-shell .mint-btn:active,
+.dashboard-unified-shell .pressable:active,
+.dashboard-unified-shell a[role="button"]:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* НЕ превращаем календарные ячейки в кнопки с тенями */
+.dashboard-unified-shell .day-cell,
+.dashboard-unified-shell .day-cell:hover,
+.dashboard-unified-shell .day-cell:active {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* кнопки режимов и подборок — мятные, как у важных событий */
+.dashboard-unified-shell .mint-btn,
+.dashboard-unified-shell .pressable {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+/* активные состояния оставляем заметными */
+.dashboard-unified-shell .mint-btn--active,
+.dashboard-unified-shell button[class*="ring-2"] {
+  border-color: #E04B4B !important;
+}
+
+/* нижняя панель подборок */
+.dashboard-topics-wrap > .surface-card {
+  padding: 12px !important;
+}
+
+/* === end dashboard panels styled like important events === */
