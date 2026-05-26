@@ -480,11 +480,6 @@ export default function HomePage() {
           })}
         </div>
       </section>
-
-      <section className='container-shell mt-4'>
-        {advancedFiltersPanel}
-      </section>
-
       {viewMode === 'SHOWCASE' && (
         <>
           <section id='important-events-section' className='container-shell mt-4'>
@@ -501,6 +496,11 @@ export default function HomePage() {
           </section>
         </>
       )}
+
+
+      <section className='container-shell mt-4'>
+        {advancedFiltersPanel}
+      </section>
 
       {viewMode === 'COMPACT' ? (
         <>
