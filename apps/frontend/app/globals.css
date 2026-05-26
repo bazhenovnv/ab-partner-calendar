@@ -1228,3 +1228,51 @@ label[class] {
 }
 
 /* === end important event date buttons === */
+
+/* === premium physical important date buttons === */
+
+.important-events-ribbon .important-date-chip {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow:
+    0 3px 0 #4FAF8C,
+    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
+  transform: translate(0, 0);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.important-events-ribbon .important-date-chip span {
+  color: #000000 !important;
+}
+
+.important-events-ribbon .important-date-chip:hover {
+  background: #ffffff !important;
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #4FAF8C,
+    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.important-events-ribbon .important-date-chip:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #4FAF8C,
+    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* активная дата */
+.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
+.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
+  background: #ffffff !important;
+  border: 2px solid #E04B4B !important;
+  box-shadow:
+    0 3px 0 #4FAF8C,
+    3px 3px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+/* === end premium physical important date buttons === */
