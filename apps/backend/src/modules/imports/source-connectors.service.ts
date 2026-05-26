@@ -324,10 +324,15 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private isImportant(text: string, tags: string[], importantTag: string, indexFromChannel: number) {
-    const normalizedTag = importantTag.replace('#', '').toLowerCase();
-    const explicit = tags.some((tag) => tag.toLowerCase() === normalizedTag);
-    const keyword = IMPORTANT_KEYWORDS.some((rule) => rule.test(text));
-    return explicit || keyword || indexFromChannel < 5;
+    void text;
+    void indexFromChannel;
+
+    const normalizedTag = importantTag.replace('#', '').trim().toLowerCase();
+
+    return tags.some((tag) => {
+      const normalized = String(tag || '').replace('#', '').trim().toLowerCase();
+      return normalized === normalizedTag;
+    });
   }
 
   private isCollectionHeader(line: string) {
