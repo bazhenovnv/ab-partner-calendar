@@ -1385,3 +1385,13 @@ label[class] {
 }
 
 /* === end final physical buttons in important carousel === */
+
+/* === black border for important carousel physical buttons === */
+
+.important-events-ribbon .important-events-view-all-btn,
+.important-events-shell .important-event-action-btn,
+.important-events-combined .important-event-action-btn {
+  border: 1.5px solid #000000 !important;
+}
+
+/* === end black border for important carousel physical buttons === */
