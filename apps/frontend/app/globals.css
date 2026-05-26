@@ -1484,3 +1484,104 @@ label[class] {
 }
 
 /* === end unified physical style for important event area === */
+
+/* === global physical button style === */
+
+button,
+a[role="button"],
+[role="button"],
+.app-btn,
+.btn,
+.button,
+.mint-btn,
+.important-event-action-btn,
+.important-events-view-all-btn,
+.important-date-chip,
+.important-nav-btn,
+.highlight-nav-btn,
+.carousel-arrow-btn,
+.calendar-soft-btn,
+.day-nav-btn,
+.calendar-nav-btn,
+.calendar-today-btn,
+.view-all-btn {
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 3px 0 #000000,
+    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+  transform: translate(0, 0);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+button:hover,
+a[role="button"]:hover,
+[role="button"]:hover,
+.app-btn:hover,
+.btn:hover,
+.button:hover,
+.mint-btn:hover,
+.important-event-action-btn:hover,
+.important-events-view-all-btn:hover,
+.important-date-chip:hover,
+.important-nav-btn:hover,
+.highlight-nav-btn:hover,
+.carousel-arrow-btn:hover,
+.calendar-soft-btn:hover,
+.day-nav-btn:hover,
+.calendar-nav-btn:hover,
+.calendar-today-btn:hover,
+.view-all-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow:
+    0 4px 0 #000000,
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+button:active,
+a[role="button"]:active,
+[role="button"]:active,
+.app-btn:active,
+.btn:active,
+.button:active,
+.mint-btn:active,
+.important-event-action-btn:active,
+.important-events-view-all-btn:active,
+.important-date-chip:active,
+.important-nav-btn:active,
+.highlight-nav-btn:active,
+.carousel-arrow-btn:active,
+.calendar-soft-btn:active,
+.day-nav-btn:active,
+.calendar-nav-btn:active,
+.calendar-today-btn:active,
+.view-all-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow:
+    0 1px 0 #000000,
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* Отключённые кнопки не прыгают */
+button:disabled,
+button[disabled],
+[role="button"][aria-disabled="true"] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow:
+    0 2px 0 #000000,
+    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Кнопки внутри календарной сетки не должны ломать разметку ячеек */
+.day-cell {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* === end global physical button style === */
