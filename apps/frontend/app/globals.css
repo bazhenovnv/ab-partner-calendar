@@ -1747,3 +1747,86 @@ button[disabled],
 }
 
 /* === end unified dashboard panels shell === */
+
+/* === dashboard unified shell like important events === */
+
+.dashboard-unified-shell {
+  background: #7CD8B3 !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 28px !important;
+  padding: 12px !important;
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.dashboard-filters-wrap,
+.dashboard-calendar-wrap,
+.dashboard-topics-wrap {
+  min-width: 0 !important;
+}
+
+/* верхняя панель фильтров и нижняя панель подборок — белые окна внутри общего фона */
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > * {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+/* календарный блок уже содержит внутренние панели, поэтому внешний зелёный shell убираем */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 12px !important;
+  box-shadow: none !important;
+}
+
+/* внутренние панели календарного блока остаются белыми */
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel {
+  background: #ffffff !important;
+  border: 1px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+/* правая колонка календаря без собственного фона */
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* убираем лишнее внутреннее окно у режимов отображения */
+.dashboard-calendar-wrap .calendar-bottom-panel > * {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* нижняя панель подборок внутри общего shell */
+.dashboard-topics-wrap > .surface-card {
+  padding: 12px !important;
+}
+
+/* если старые container-shell правила перебивают фон */
+.container-shell .dashboard-unified-shell {
+  background: #7CD8B3 !important;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-unified-shell {
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+}
+
+/* === end dashboard unified shell like important events === */

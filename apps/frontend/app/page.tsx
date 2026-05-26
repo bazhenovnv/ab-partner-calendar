@@ -497,12 +497,12 @@ export default function HomePage() {
       )}
 
 
-      <section className='container-shell mt-4'>
-        {advancedFiltersPanel}
-      </section>
 
       {viewMode === 'COMPACT' ? (
         <>
+          <section className='container-shell mt-4'>
+            {advancedFiltersPanel}
+          </section>
           <section className='container-shell mt-4'>
             {modePanel}
           </section>
@@ -546,40 +546,48 @@ export default function HomePage() {
         </>
       ) : (
         <section className='container-shell mt-4'>
-          <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={modePanel} />
+          <div className='dashboard-unified-shell'>
+            <div className='dashboard-filters-wrap'>
+              {advancedFiltersPanel}
+            </div>
+
+            <div className='dashboard-calendar-wrap'>
+              <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={modePanel} />
+            </div>
+
+            <div className='dashboard-topics-wrap'>
+                    <div className='surface-card p-4'>
+                      <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+                        {topicCards.map((topic) => (
+                          <button
+                            key={topic.value}
+                            type='button'
+                            onClick={() => setTopicFilter(topic.value)}
+                            className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+                          >
+                            <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                              {topic.icon}
+                            </div>
+                            <div className='min-w-0'>
+                              <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
+                              <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
+                            </div>
+                          </button>
+                        ))}
+                        <button
+                          type='button'
+                          onClick={() => setTopicFilter('ALL')}
+                          className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+                        >
+                          <Layers3 className='h-5 w-5 flex-none' />
+                          <span className='text-sm font-medium'>Все подборки</span>
+                        </button>
+                      </div>
+                    </div>
+            </div>
+          </div>
         </section>
       )}
-
-      <section className='container-shell mt-4'>
-        <div className='surface-card p-4'>
-          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
-            {topicCards.map((topic) => (
-              <button
-                key={topic.value}
-                type='button'
-                onClick={() => setTopicFilter(topic.value)}
-                className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
-              >
-                <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
-                  {topic.icon}
-                </div>
-                <div className='min-w-0'>
-                  <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
-                  <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
-                </div>
-              </button>
-            ))}
-            <button
-              type='button'
-              onClick={() => setTopicFilter('ALL')}
-              className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
-            >
-              <Layers3 className='h-5 w-5 flex-none' />
-              <span className='text-sm font-medium'>Все подборки</span>
-            </button>
-          </div>
-        </div>
-      </section>
 
       <section className='container-shell mt-4'>
         <ReminderPanel />
