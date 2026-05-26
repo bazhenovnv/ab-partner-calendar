@@ -32,7 +32,6 @@ function cleanDescriptionText(value?: string) {
     .trim();
 }
 
-
 function isActualEventImage(value?: string) {
   if (!value) return false;
   if (value === IMPORTANT_EVENTS_PHOTO) return false;
@@ -52,6 +51,12 @@ export function HighlightCarousel({
   const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
 
+  const plannedSlides = useMemo(() => {
+    return slides
+      .map((event, idx) => ({ event, idx }))
+      .filter(({ event }) => (event.runtimeStatus || event.status) === 'SCHEDULED');
+  }, [slides]);
+
   useEffect(() => {
     if (slides.length <= 1) return;
     const timer = window.setInterval(() => {
@@ -60,15 +65,19 @@ export function HighlightCarousel({
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
+  useEffect(() => {
+    if (active >= slides.length) setActive(0);
+  }, [active, slides.length]);
+
   if (!slides.length) {
     const fallback = (
       <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
         <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
-          <div className='min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0 lg:border-r'>
+          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
             <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
           </div>
 
-          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
             <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
               Важные события загружаются из Telegram-канала и API-источников
@@ -80,80 +89,81 @@ export function HighlightCarousel({
         </div>
       </div>
     );
+
     return embedded ? fallback : <section className='container-shell mt-4'>{fallback}</section>;
   }
 
-  const item = slides[active];
+  const item = slides[active] ?? slides[0];
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
-    <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
-      <div className='relative grid min-h-[320px] gap-4 px-3 pt-3 pb-3 lg:grid-cols-[0.95fr_1fr] lg:px-3 lg:pt-3 lg:pb-3'>
-        <button
-          type='button'
-          onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-          className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
-          aria-label='Предыдущий слайд'
-        >
-          <ChevronLeft className='h-5 w-5' />
-        </button>
+    <div className='important-events-shell overflow-hidden rounded-[18px] bg-white'>
+      <div className='highlight-hero-joined relative overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white'>
+        <div className='grid min-h-[320px] gap-0 lg:grid-cols-[0.95fr_1fr]'>
+          <button
+            type='button'
+            onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
+            className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+            aria-label='Предыдущий слайд'
+          >
+            <ChevronLeft className='h-5 w-5' />
+          </button>
 
-        <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
-          <img
-            src={slideImage}
-            alt={item.title}
-            className='h-full w-full object-contain object-center'
-            onError={(event) => {
-              const image = event.currentTarget;
-              if (!image.src.endsWith(IMPORTANT_EVENTS_PHOTO)) image.src = IMPORTANT_EVENTS_PHOTO;
-            }}
-          />
-        </div>
-
-        <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
-          <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
-          <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
-            {item.title}
-          </h2>
-
-          <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
-            <span className='inline-flex items-center gap-2 text-[15px]'>
-              <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
-              {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
-            </span>
-            <span className='inline-flex items-center gap-2 text-[15px]'>
-              <Clock3 className='h-5 w-5 text-[#2c8d67]' />
-              {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
-            </span>
-            <span className='inline-flex items-center gap-2 text-[15px]'>
-              <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
-              {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
-            </span>
-            <span className='inline-flex items-center gap-2 text-[15px]'>
-              <MapPin className='h-5 w-5 text-[#2c8d67]' />
-              {item.location || 'Локация уточняется'}
-            </span>
+          <div className='min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0 lg:border-r'>
+            <img
+              src={slideImage}
+              alt={item.title}
+              className='h-full w-full object-contain object-center'
+              onError={(event) => {
+                const image = event.currentTarget;
+                if (!image.src.endsWith(IMPORTANT_EVENTS_PHOTO)) image.src = IMPORTANT_EVENTS_PHOTO;
+              }}
+            />
           </div>
 
-          <p className='mt-6 max-w-2xl whitespace-pre-line text-[16px] leading-7 text-slate-700'>
-            {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
-          </p>
+          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+            <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
+              {item.title}
+            </h2>
 
-          <div className='mt-6 flex flex-wrap items-center gap-3'>
-            <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>Подробнее</Button>
-            <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
+            <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
+                <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
+                {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
+              </span>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
+                <Clock3 className='h-5 w-5 text-[#2c8d67]' />
+                {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
+              </span>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
+                <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
+                {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
+              </span>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
+                <MapPin className='h-5 w-5 text-[#2c8d67]' />
+                {item.location || 'Локация уточняется'}
+              </span>
+            </div>
+
+            <p className='mt-6 max-w-2xl whitespace-pre-line text-[16px] leading-7 text-slate-700'>
+              {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
+            </p>
+
+            <div className='mt-6 flex flex-wrap items-center gap-3'>
+              <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>Подробнее</Button>
+              <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
+            </div>
           </div>
-        </div>
 
-        <button
-          type='button'
-          onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-          className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
-          aria-label='Следующий слайд'
-        >
-          <ChevronRight className='h-5 w-5' />
-        </button>
-
+          <button
+            type='button'
+            onClick={() => setActive((prev) => (prev + 1) % slides.length)}
+            className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+            aria-label='Следующий слайд'
+          >
+            <ChevronRight className='h-5 w-5' />
+          </button>
         </div>
       </div>
 
@@ -165,32 +175,38 @@ export function HighlightCarousel({
 
           <button
             type='button'
-            onClick={() => setActive(0)}
-            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full border border-[#7CD8B3] bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white'
+            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-black transition'
           >
             Смотреть все
             <ArrowRight className='h-4 w-4' />
           </button>
         </div>
 
-        <div className='flex flex-wrap items-center gap-3'>
-          {plannedSlides.map(({ event, idx }) => {
-            const date = new Date(event.startAt);
+        {plannedSlides.length > 0 ? (
+          <div className='flex flex-wrap items-center gap-3'>
+            {plannedSlides.map(({ event, idx }) => {
+              const date = new Date(event.startAt);
 
-            return (
-              <button
-                key={event.id}
-                type='button'
-                onClick={() => setActive(idx)}
-                className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-[#7CD8B3] text-center transition hover:bg-[#86e1bd] ${idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'}`}
-                title={event.title}
-              >
-                <span className='text-[18px] font-semibold leading-none text-black'>{date.getDate()}</span>
-                <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>{MONTHS_SHORT[date.getMonth()]}</span>
-              </button>
-            );
-          })}
-        </div>
+              return (
+                <button
+                  key={event.id}
+                  type='button'
+                  onClick={() => setActive(idx)}
+                  className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'}`}
+                  title={event.title}
+                >
+                  <span className='text-[18px] font-semibold leading-none text-black'>{date.getDate()}</span>
+                  <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>{MONTHS_SHORT[date.getMonth()]}</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-4 py-3 text-sm text-black'>
+            Запланированных важных событий пока нет.
+          </div>
+        )}
       </div>
     </div>
   );
