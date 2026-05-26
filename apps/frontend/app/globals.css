@@ -3131,3 +3131,256 @@ textarea {
 }
 
 /* === END ABSOLUTE FINAL AB VISUAL SYSTEM === */
+
+/* === ULTIMATE AB STYLE LOCK === */
+/* final lock: black borders for every panel/button, correct mint areas, no red/green leftover borders */
+
+:root {
+  --ab-lock-black: #000000;
+  --ab-lock-white: #ffffff;
+  --ab-lock-mint: #7CD8B3;
+  --ab-lock-mint-hover: #86e1bd;
+  --ab-lock-shadow: rgba(0, 0, 0, 0.18);
+}
+
+/* общий фон проекта */
+.page-shell {
+  background: var(--ab-lock-white) !important;
+  border: 1.5px solid var(--ab-lock-black) !important;
+  border-radius: 28px !important;
+}
+
+/* главные мятные зоны */
+#important-events-section .important-events-combined,
+.important-events-combined,
+.dashboard-unified-shell {
+  background: var(--ab-lock-mint) !important;
+  border: 1.5px solid var(--ab-lock-black) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 4px 0 var(--ab-lock-black),
+    4px 4px 0 var(--ab-lock-shadow) !important;
+}
+
+/* внутренний слой важных событий не должен перекрывать мятный фон */
+#important-events-section .important-events-shell,
+.important-events-combined .important-events-shell {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* все элементы с border внутри проекта — только чёрная обводка */
+.page-shell [class*="border"],
+.page-shell .border,
+.page-shell .border-t,
+.page-shell .border-b,
+.page-shell .border-l,
+.page-shell .border-r {
+  border-color: var(--ab-lock-black) !important;
+}
+
+/* все основные окна/панели */
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .dashboard-calendar-wrap .calendar-left-panel,
+.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
+.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
+.page-shell .calendar-unified-shell .calendar-left-panel,
+.page-shell .calendar-unified-shell .calendar-top-panel > div,
+.page-shell .calendar-unified-shell .calendar-bottom-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-lock-white) !important;
+  border: 1.5px solid var(--ab-lock-black) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 4px 0 var(--ab-lock-black),
+    4px 4px 0 var(--ab-lock-shadow) !important;
+}
+
+/* технические контейнеры не должны становиться окнами */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* лента важных событий и разделители */
+.important-events-ribbon,
+.important-events-combined-strip,
+.highlight-hero-joined > div > div:first-child {
+  border-color: var(--ab-lock-black) !important;
+}
+
+/* все кнопки и ссылки-кнопки */
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell a[class*="rounded"],
+.page-shell [role="button"],
+.page-shell .pressable,
+.page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell .important-nav-btn,
+[role="dialog"] button,
+[role="dialog"] a {
+  border: 1.5px solid var(--ab-lock-black) !important;
+  box-shadow:
+    0 3px 0 var(--ab-lock-black),
+    3px 3px 0 var(--ab-lock-shadow) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* hover */
+.page-shell button:hover,
+.page-shell a.mint-btn:hover,
+.page-shell a.inline-flex:hover,
+.page-shell a[class*="rounded"]:hover,
+.page-shell [role="button"]:hover,
+.page-shell .pressable:hover,
+.page-shell .mint-btn:hover,
+.page-shell .site-header-action:hover,
+.page-shell .mint-btn--header:hover,
+.page-shell .important-event-action-btn:hover,
+.page-shell .important-events-view-all-btn:hover,
+.page-shell .important-date-chip:hover,
+.page-shell .important-nav-btn:hover,
+[role="dialog"] button:hover,
+[role="dialog"] a:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow:
+    0 4px 0 var(--ab-lock-black),
+    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+/* active */
+.page-shell button:active,
+.page-shell a.mint-btn:active,
+.page-shell a.inline-flex:active,
+.page-shell a[class*="rounded"]:active,
+.page-shell [role="button"]:active,
+.page-shell .pressable:active,
+.page-shell .mint-btn:active,
+.page-shell .site-header-action:active,
+.page-shell .mint-btn--header:active,
+.page-shell .important-event-action-btn:active,
+.page-shell .important-events-view-all-btn:active,
+.page-shell .important-date-chip:active,
+.page-shell .important-nav-btn:active,
+[role="dialog"] button:active,
+[role="dialog"] a:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow:
+    0 1px 0 var(--ab-lock-black),
+    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+/* убираем красные/зелёные активные border/ring, оставляем чёрный стиль */
+.page-shell button[class*="ring-2"],
+.page-shell button[class*="ring-"],
+.page-shell [class*="ring-[#E04B4B]"] {
+  border-color: var(--ab-lock-black) !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* мятные кнопки */
+.page-shell .mint-btn,
+.page-shell .pressable,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell button[class*="bg-[#7CD8B3]"],
+.page-shell button[class*="bg-[#8BE2BE]"],
+.page-shell button[class*="bg-[#86e1bd]"] {
+  background: var(--ab-lock-mint) !important;
+  color: var(--ab-lock-black) !important;
+}
+
+/* белые кнопки */
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell button[class*="bg-white"],
+.page-shell a[class*="bg-white"] {
+  background: var(--ab-lock-white) !important;
+  color: var(--ab-lock-black) !important;
+}
+
+/* иконки */
+.page-shell .metric-icon,
+.page-shell .icon-chip,
+.page-shell .site-header-action span:first-child,
+.page-shell .mint-btn--header span:first-child {
+  border: 1.5px solid var(--ab-lock-black) !important;
+  box-shadow:
+    0 2px 0 var(--ab-lock-black),
+    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
+}
+
+/* формы */
+.page-shell .select-clean,
+.page-shell select,
+.page-shell input,
+.page-shell textarea {
+  border: 1.5px solid var(--ab-lock-black) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* dropdown / popover / modal */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-lock-white) !important;
+  border: 1.5px solid var(--ab-lock-black) !important;
+  box-shadow:
+    0 4px 0 var(--ab-lock-black),
+    4px 4px 0 var(--ab-lock-shadow) !important;
+}
+
+/* календарная сетка: дни не прыгают, но линии чёрные */
+.page-shell .day-cell,
+.page-shell .day-cell:hover,
+.page-shell .day-cell:active,
+.page-shell .calendar-day-number,
+.page-shell .calendar-day-number:hover,
+.page-shell .calendar-day-number:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.page-shell .calendar-top-panel table,
+.page-shell .calendar-top-panel th,
+.page-shell .calendar-top-panel td,
+.page-shell .calendar-grid,
+.page-shell .calendar-grid * {
+  border-color: var(--ab-lock-black) !important;
+}
+
+/* === END ULTIMATE AB STYLE LOCK === */
