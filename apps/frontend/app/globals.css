@@ -626,3 +626,89 @@ a[class*="bg-[#7CD8B3]"],
 }
 
 /* === end hard-final-visual-patch === */
+
+/* === v31 design restore === */
+:root {
+  --ab-mint: #7CD8B3;
+}
+
+body {
+  background: #000 !important;
+}
+
+.page-shell {
+  background: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.58) !important;
+}
+
+.surface-card,
+.mini-important-strip,
+.right-calendar-shell,
+.event-details-panel,
+.calendar-panel,
+.topic-panel-card,
+.mode-panel-card {
+  background: #fff !important;
+  border-color: var(--ab-mint) !important;
+  box-shadow:
+    0 22px 54px rgba(0, 0, 0, 0.18),
+    0 8px 18px rgba(0, 0, 0, 0.10) !important;
+}
+
+.calendar-common-shell {
+  background: #fff !important;
+}
+
+.select-clean {
+  background: #fff !important;
+  border-color: var(--ab-mint) !important;
+  color: #000 !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10) !important;
+}
+
+.mode-panel-card button,
+.topic-panel-card button,
+.filter-panel button,
+.filter-panel select,
+.select-clean {
+  border-color: #000 !important;
+  font-weight: 600 !important;
+}
+
+.mode-panel-card button,
+.topic-panel-card button {
+  color: #000 !important;
+  background-image: none !important;
+}
+
+.topic-panel-card {
+  padding: 12px !important;
+}
+
+.topic-tab-card {
+  min-height: 66px !important;
+}
+
+.topic-tab-card.bg-black,
+.mode-panel-card .bg-black {
+  background: var(--ab-mint) !important;
+  color: #000 !important;
+}
+
+.icon-chip {
+  background: #fff !important;
+  border-color: var(--ab-mint) !important;
+}
+
+button:not(.day-cell),
+a[role="button"],
+[role="button"] {
+  transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, background-color .16s ease !important;
+}
+
+button:not(.day-cell):active,
+a[role="button"]:active,
+[role="button"]:active {
+  transform: scale(.985) !important;
+}

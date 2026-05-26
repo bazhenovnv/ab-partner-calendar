@@ -444,22 +444,72 @@ const currentMonthImportantEvents = useMemo(() => {
     </div>
   );
 
+  const modeButtonClass = (active: boolean) =>
+    `w-full rounded-[12px] border border-black px-4 py-2.5 font-medium text-black shadow-[0_12px_26px_rgba(0,0,0,0.16)] transition hover:-translate-y-[1px] ${active ? 'bg-[#7CD8B3]' : 'bg-white hover:bg-[#eefbf4]'}`;
+
   const modePanel = (
-    <div className='rounded-[18px] bg-white p-4 text-black font-semibold'>
-      <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
-      <div className='grid gap-3 md:grid-cols-2'>
-        <Button variant={viewMode === 'SHOWCASE' ? 'dark' : 'secondary'} onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Витрина</Button>
-        <Button variant={viewMode === 'COMPACT' ? 'dark' : 'secondary'} onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Полный режим</Button>
-        <Button variant={priceFilter === 'FREE' ? 'dark' : 'secondary'} onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только бесплатные</Button>
-        <Button variant={onlyImportant ? 'dark' : 'secondary'} onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] shadow-[0_14px_30px_rgba(0,0,0,0.24)] font-medium text-black'>Только важные</Button>
+    <div className='mode-panel-card rounded-[18px] border border-[#7CD8B3] bg-white p-4 text-black shadow-[0_20px_48px_rgba(0,0,0,0.18)]'>
+      <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
+        <div>
+          <div className='text-sm font-medium text-slate-500'>Панель режима</div>
+          <div className='text-lg font-semibold text-[#17191e]'>Вид календаря и быстрые фильтры</div>
+        </div>
+      </div>
+      <div className='grid gap-3 md:grid-cols-4'>
+        <Button variant='secondary' onClick={() => setViewMode('SHOWCASE')} className={modeButtonClass(viewMode === 'SHOWCASE')}>Витрина</Button>
+        <Button variant='secondary' onClick={() => setViewMode('COMPACT')} className={modeButtonClass(viewMode === 'COMPACT')}>Полный режим</Button>
+        <Button variant='secondary' onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className={modeButtonClass(priceFilter === 'FREE')}>Только бесплатные</Button>
+        <Button variant='secondary' onClick={() => setOnlyImportant((prev) => !prev)} className={modeButtonClass(onlyImportant)}>Только важные</Button>
       </div>
 
-      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3 shadow-[0_18px_42px_rgba(0,0,0,0.18)]'>
+      <div className='mt-3 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3 shadow-[0_16px_36px_rgba(0,0,0,0.16)]'>
         <img
           src='/calendar-sticker-note.png'
           alt='Меньше хаоса — больше пользы'
-          className='h-auto w-full max-w-[320px] object-contain'
+          className='h-auto w-full max-w-[260px] object-contain'
         />
+      </div>
+    </div>
+  );
+
+  const topicPanel = (
+    <div className='topic-panel-card surface-card p-3'>
+      <div className='mb-3 flex items-center justify-between gap-3'>
+        <div>
+          <div className='text-xs font-medium uppercase tracking-[0.08em] text-slate-500'>Темы событий</div>
+          <div className='text-xl font-semibold text-[#17191e]'>Быстрые вкладки по направлениям</div>
+        </div>
+        <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>Выбрано: {highlightedTopic}</div>
+      </div>
+
+      <div className='grid gap-2 sm:grid-cols-2 lg:grid-cols-4'>
+        {topicCards.map((topic) => {
+          const active = topicFilter === topic.value;
+          return (
+            <button
+              key={topic.value}
+              type='button'
+              onClick={() => setTopicFilter(topic.value)}
+              className={`topic-tab-card flex min-h-[66px] min-w-0 items-center gap-3 rounded-[16px] border px-3 py-2 text-left text-black shadow-[0_10px_24px_rgba(0,0,0,0.10)] transition hover:-translate-y-[1px] ${active ? 'border-black bg-[#7CD8B3]' : 'border-[#7CD8B3] bg-white hover:bg-[#eefbf4]'}`}
+            >
+              <div className={`flex h-9 w-9 flex-none items-center justify-center rounded-full text-[18px] ${active ? 'bg-white/50 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+                {topic.icon}
+              </div>
+              <div className='min-w-0'>
+                <div className='text-[15px] font-semibold leading-[1.25] break-words'>{topic.cardLabel}</div>
+                <div className='mt-0.5 text-xs leading-4 text-slate-600'>{topic.count} мероприятий</div>
+              </div>
+            </button>
+          );
+        })}
+        <button
+          type='button'
+          onClick={() => setTopicFilter('ALL')}
+          className={`topic-tab-card flex min-h-[66px] min-w-0 items-center justify-center gap-3 rounded-[16px] border px-3 py-2 text-center text-black shadow-[0_10px_24px_rgba(0,0,0,0.10)] transition hover:-translate-y-[1px] ${topicFilter === 'ALL' ? 'border-black bg-[#7CD8B3]' : 'border-[#7CD8B3] bg-white hover:bg-[#eefbf4]'}`}
+        >
+          <Layers3 className='h-5 w-5 flex-none' />
+          <span className='text-sm font-semibold'>Все подборки</span>
+        </button>
       </div>
     </div>
   );
@@ -468,45 +518,6 @@ const currentMonthImportantEvents = useMemo(() => {
     <main className='min-h-screen bg-black px-4 py-6 lg:px-6 lg:py-8'>
       <div className='page-shell mx-auto max-w-[1500px] px-4 py-5 lg:px-6 lg:py-6'>
       <SiteHeader />
-
-      <section className='container-shell mt-4'>
-        <div className='surface-card p-4'>
-          <div className='mb-4 flex items-center justify-between gap-3'>
-            <div>
-              <div className='text-sm font-medium text-slate-500'>Темы событий</div>
-              <div className='text-2xl font-semibold text-[#17191e]'>Быстрые вкладки по направлениям</div>
-            </div>
-            <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>Выбрано: {highlightedTopic}</div>
-          </div>
-
-          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4'>
-            {topicCards.map((topic) => (
-              <button
-                key={topic.value}
-                type='button'
-                onClick={() => setTopicFilter(topic.value)}
-                className={`flex min-h-[96px] min-w-0 items-center gap-3 rounded-[18px] border px-4 py-4 text-left transition hover:-translate-y-[1px] hover:shadow-[0_10px_26px_rgba(15,23,42,0.12)] ${topicFilter === topic.value ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
-              >
-                <div className={`flex h-11 w-11 flex-none items-center justify-center rounded-full text-[20px] ${topicFilter === topic.value ? 'bg-white/15 text-white' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
-                  {topic.icon}
-                </div>
-                <div className='min-w-0'>
-                  <div className='text-[16px] font-medium leading-[1.35] break-words'>{topic.cardLabel}</div>
-                  <div className={`mt-1 text-xs leading-5 ${topicFilter === topic.value ? 'text-white/72' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
-                </div>
-              </button>
-            ))}
-            <button
-              type='button'
-              onClick={() => setTopicFilter('ALL')}
-              className={`flex min-h-[96px] min-w-0 items-center justify-center gap-3 rounded-[18px] border px-4 py-4 text-center transition hover:-translate-y-[1px] hover:shadow-[0_10px_26px_rgba(15,23,42,0.12)] ${topicFilter === 'ALL' ? 'border-[#7CD8B3] bg-black text-white' : 'border-[#7CD8B3] bg-white text-black font-semibold'}`}
-            >
-              <Layers3 className='h-5 w-5 flex-none' />
-              <span className='text-sm font-medium'>Все подборки</span>
-            </button>
-          </div>
-        </div>
-      </section>
 
       <section className='container-shell mt-4'>
         <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-6'>
@@ -549,6 +560,10 @@ const currentMonthImportantEvents = useMemo(() => {
 
           <section className='container-shell mt-4'>
             {advancedFiltersPanel}
+          </section>
+
+          <section className='container-shell mt-4'>
+            {modePanel}
           </section>
         </>
       )}
@@ -606,13 +621,22 @@ const currentMonthImportantEvents = useMemo(() => {
       )}
 
       <section className='container-shell mt-4'>
+        {topicPanel}
+      </section>
+
+      <section className='container-shell mt-4'>
         <ReminderPanel />
       </section>
 
-      <footer className='container-shell mt-4'>
-        <div className='surface-card flex flex-col gap-3 px-5 py-4 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between'>
-          <div>АБ Партнер 2022-{currentYear}</div>
-          <div>Краснодар {currentYear}</div>
+      <footer className='container-shell mt-4 pb-5'>
+        <div className='overflow-hidden rounded-[24px] border border-[#7CD8B3] bg-black px-6 py-5 text-white shadow-[0_24px_58px_rgba(0,0,0,0.32)]'>
+          <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+            <div>
+              <div className='text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7CD8B3]'>АБ Партнер</div>
+              <div className='mt-1 text-base font-semibold tracking-tight'>АБ Партнер 2022–{currentYear}</div>
+            </div>
+            <div className='rounded-full border border-[#7CD8B3]/60 bg-white/5 px-4 py-2 text-sm font-medium text-white/90'>Краснодар · {currentYear}</div>
+          </div>
         </div>
       </footer>
 
