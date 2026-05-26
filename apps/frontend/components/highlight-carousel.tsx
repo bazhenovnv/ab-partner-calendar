@@ -174,7 +174,7 @@ export function HighlightCarousel({
         </div>
 
         <div className='flex flex-wrap items-center gap-3'>
-          {slides.map((event, idx) => {
+          {plannedSlides.map(({ event, idx }) => {
             const date = new Date(event.startAt);
 
             return (
