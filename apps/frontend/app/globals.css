@@ -3419,3 +3419,50 @@ textarea {
 }
 
 /* === END PAGE SHELL SIZE + BACKGROUND TUNE === */
+
+/* === ABSOLUTE FINAL PAGE FRAME SIZE AND COLOR === */
+/* Must stay at the very end of globals.css */
+
+main {
+  background: #000000 !important;
+  padding: 18px !important;
+}
+
+main > .page-shell,
+.page-shell {
+  background: #eeeeee !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 30px !important;
+
+  width: calc(100% - 36px) !important;
+  max-width: 1460px !important;
+  margin: 0 auto !important;
+
+  padding: 14px !important;
+  box-sizing: border-box !important;
+}
+
+/* чтобы секции внутри не прилипали к краям серого фона */
+.page-shell > .container-shell,
+.page-shell > header.container-shell,
+.page-shell > footer.container-shell,
+.page-shell > section.container-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* на мобильных оставляем меньше выступ */
+@media (max-width: 768px) {
+  main {
+    padding: 10px !important;
+  }
+
+  main > .page-shell,
+  .page-shell {
+    width: calc(100% - 16px) !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === END ABSOLUTE FINAL PAGE FRAME SIZE AND COLOR === */
