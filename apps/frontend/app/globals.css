@@ -8,7 +8,7 @@
   --muted: #6b7280;
 
   --ab-page-bg: #eeeeee;
-  --ab-panel-bg: #f6f6f6;
+  --ab-panel-bg: #ffffff;
   --ab-calendar-bg: #ffffff;
   --ab-white: #ffffff;
   --ab-black: #000000;
@@ -339,8 +339,6 @@ textarea {
 .page-shell button[class*='bg-[#7CD8B3]'],
 .page-shell button[class*='bg-[#8BE2BE]'],
 .page-shell button[class*='bg-[#86e1bd]'],
-.page-shell [class*='bg-black'],
-.page-shell .bg-black,
 .page-shell [data-variant='dark'] {
   background: var(--ab-mint) !important;
   color: #000000 !important;
@@ -374,9 +372,7 @@ button[disabled],
 }
 
 .metric-icon,
-.icon-chip,
-.site-header-action span:first-child,
-.mint-btn--header span:first-child {
+.icon-chip {
   background: #f8f8f8 !important;
   border: 1.5px solid var(--ab-border) !important;
   box-shadow:
@@ -702,3 +698,78 @@ textarea,
   font-weight: 500 !important;
   text-align: center !important;
 }
+
+/* === FINAL HEADER ICON FIX === */
+/* В шапке кружки Telegram / Max / Стать партнером должны оставаться черными,
+   а не перекрашиваться в мятный цвет. */
+.page-shell .mint-btn--header > span:first-child,
+.page-shell .site-header-action > span:first-child {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+}
+
+.page-shell .mint-btn--header > span:first-child svg,
+.page-shell .site-header-action > span:first-child svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* === FINAL EVENT DESCRIPTION COMPACT TEXT === */
+.event-details-panel .event-description {
+  line-height: 1.14 !important;
+}
+
+.event-details-panel .event-description p {
+  margin-top: 0 !important;
+  margin-bottom: 2px !important;
+  line-height: 1.14 !important;
+}
+
+.event-details-panel .event-description strong {
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+/* Явный цвет панелей: белые окна на сером общем фоне. Календарную сетку не трогаем. */
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .dashboard-calendar-wrap .calendar-left-panel,
+.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
+.page-shell .calendar-unified-shell .calendar-left-panel,
+.page-shell .calendar-unified-shell .calendar-bottom-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider,
+.page-shell .selected-day-events-panel {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  background-image: none !important;
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell,
+.page-shell .calendar-day-popover {
+  background: var(--ab-calendar-bg) !important;
+  background-color: var(--ab-calendar-bg) !important;
+  background-image: none !important;
+}
+
+.page-shell .day-cell-selected {
+  background: rgba(124, 216, 179, 0.72) !important;
+}
+
+/* === END FINAL HEADER ICON FIX === */
+
