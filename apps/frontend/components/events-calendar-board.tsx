@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Globe, MapPin } from 'lucide-react';
 import { EventItem } from '@/lib/types';
-import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
 const weekdayLabels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
@@ -102,6 +101,7 @@ export function EventsCalendarBoard({
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventItem[]>();
+
     for (const event of events) {
       const key = keyOf(new Date(event.startAt));
       const list = map.get(key) ?? [];
@@ -109,6 +109,7 @@ export function EventsCalendarBoard({
       list.sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt));
       map.set(key, list);
     }
+
     return map;
   }, [events]);
 
@@ -130,12 +131,17 @@ export function EventsCalendarBoard({
 
   const days = useMemo(() => {
     const firstGridDay = startOfGrid(currentMonth);
+
     return Array.from({ length: 35 }, (_, index) => {
       const day = new Date(firstGridDay);
       day.setDate(firstGridDay.getDate() + index);
       return day;
     });
   }, [currentMonth]);
+
+  const selectedDescription = selectedEvent
+    ? cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort)
+    : '';
 
   return (
     <section className='calendar-common-shell calendar-unified-shell grid items-stretch gap-3 xl:grid-cols-[minmax(720px,1.08fr)_minmax(560px,0.92fr)]'>
@@ -144,25 +150,46 @@ export function EventsCalendarBoard({
           {selectedEvent ? (
             <>
               <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
-                <div>
-                  <div className='mb-2 text-sm font-medium text-slate-500'>{formatDate(selectedDate)}</div>
-                  <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>{selectedEvent.title}</h3>
+                <div className='min-w-0'>
+                  <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>
+                    {selectedEvent.title}
+                  </h3>
                 </div>
+
                 <div className='shrink-0 rounded-full border border-[#7CD8B3] bg-[#eefbf4] px-4 py-2 text-sm font-medium text-[#356b51]'>
                   {selectedEvent.format === 'ONLINE' ? 'Онлайн' : selectedEvent.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
                 </div>
               </div>
 
-              <div className='flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
-                <span className='inline-flex items-center gap-2'><CalendarDays className='h-4 w-4 text-[#2c8d67]' /> {formatDateLong(selectedEvent.startAt)}</span>
-                <span className='inline-flex items-center gap-2'><Clock3 className='h-4 w-4 text-[#2c8d67]' /> {formatTime(selectedEvent.startAt)} – {formatTime(selectedEvent.endAt)}</span>
-                <span className='inline-flex items-center gap-2'><Globe className='h-4 w-4 text-[#2c8d67]' /> {selectedEvent.format === 'ONLINE' ? 'Онлайн' : 'Очно'}</span>
-                <span className='inline-flex items-center gap-2'><MapPin className='h-4 w-4 text-[#2c8d67]' /> {selectedEvent.location || 'Адрес уточняется'}</span>
+              <div className='mb-5 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
+                {selectedDescription || 'Описание мероприятия будет добавлено позже.'}
+              </div>
+
+              <div className='mb-4 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
+                <span className='inline-flex items-center gap-2'>
+                  <CalendarDays className='h-4 w-4 text-[#2c8d67]' />
+                  {formatDateLong(selectedEvent.startAt)}
+                </span>
+                <span className='inline-flex items-center gap-2'>
+                  <Clock3 className='h-4 w-4 text-[#2c8d67]' />
+                  {formatTime(selectedEvent.startAt)} – {formatTime(selectedEvent.endAt)}
+                </span>
+                <span className='inline-flex items-center gap-2'>
+                  <Globe className='h-4 w-4 text-[#2c8d67]' />
+                  {selectedEvent.format === 'ONLINE' ? 'Онлайн' : 'Очно'}
+                </span>
+                <span className='inline-flex items-center gap-2'>
+                  <MapPin className='h-4 w-4 text-[#2c8d67]' />
+                  {selectedEvent.location || 'Адрес уточняется'}
+                </span>
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='mt-2 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
-                  <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>События выбранного дня</div>
+                <div className='mt-4 rounded-[16px] border border-[#7CD8B3] bg-white p-3'>
+                  <div className='mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>
+                    События выбранного дня
+                  </div>
+
                   <div className='flex flex-wrap gap-2'>
                     {selectedDayEvents.map((event, index) => (
                       <button
@@ -179,18 +206,21 @@ export function EventsCalendarBoard({
                 </div>
               )}
 
-              <div className='mt-2 whitespace-pre-line break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
-                {cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort) || 'Описание мероприятия будет добавлено позже.'}
-              </div>
-
               <div className='mt-8 flex flex-wrap items-center gap-3'>
-                <Button asChild variant='dark' className='min-w-[260px] justify-between rounded-[12px]'>
-                  <a href={selectedEvent.sourceUrl || '#'} target='_blank' rel='noreferrer'>
-                    Подробнее о мероприятии
-                    <ChevronRight className='h-4 w-4' />
-                  </a>
-                </Button>
-                <ReminderButton event={selectedEvent} variant='secondary' className='min-w-[170px] rounded-[12px]' />
+                <a
+                  href={selectedEvent.sourceUrl || '#'}
+                  target='_blank'
+                  rel='noreferrer'
+                  className='mint-btn pressable inline-flex min-w-[260px] items-center justify-between rounded-[18px] px-5 py-3 text-sm font-semibold text-black'
+                >
+                  Подробнее о мероприятии
+                  <ChevronRight className='h-4 w-4' />
+                </a>
+
+                <ReminderButton
+                  event={selectedEvent}
+                  className='mint-btn pressable min-w-[170px] rounded-[18px]'
+                />
               </div>
             </>
           ) : (
@@ -210,55 +240,84 @@ export function EventsCalendarBoard({
 
       <div className='calendar-panel right-calendar-shell calendar-right-stack grid h-full gap-3 self-start rounded-[26px] border border-transparent bg-transparent p-0'>
         <div className='calendar-top-panel w-full self-start overflow-visible'>
-          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5'>
+          <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 overflow-visible'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
               <div className='flex items-center gap-2'>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))} className='mint-btn mint-btn--icon pressable'>
+                <button
+                  type='button'
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
+                  className='mint-btn mint-btn--icon pressable'
+                >
                   <ChevronLeft className='h-4 w-4' />
                 </button>
-                <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))} className='mint-btn mint-btn--icon pressable'>
+
+                <button
+                  type='button'
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+                  className='mint-btn mint-btn--icon pressable'
+                >
                   <ChevronRight className='h-4 w-4' />
                 </button>
+
                 <div className='ml-3 text-[17px] font-medium text-black'>{formatMonth(currentMonth)}</div>
               </div>
-              <button onClick={() => { const now = new Date(); setCurrentMonth(startOfMonth(now)); onSelectDate(now); }} className='mint-btn mint-btn--sm pressable'>
+
+              <button
+                type='button'
+                onClick={() => {
+                  const now = new Date();
+                  setCurrentMonth(startOfMonth(now));
+                  onSelectDate(now);
+                }}
+                className='mint-btn mint-btn--sm pressable'
+              >
                 Сегодня
               </button>
             </div>
 
             <div className='grid grid-cols-7 border border-[#7CD8B3] border-b-0 text-center text-[12px] font-semibold text-black'>
               {weekdayLabels.map((day) => (
-                <div key={day} className='border-r border-[#7CD8B3] py-2 last:border-r-0'>{day}</div>
+                <div key={day} className='border-r border-[#7CD8B3] py-2 last:border-r-0'>
+                  {day}
+                </div>
               ))}
             </div>
 
-            <div className='grid grid-cols-7 border-l border-t border-[#7CD8B3]'>
+            <div className='calendar-days-grid grid grid-cols-7 border-l border-t border-[#7CD8B3] overflow-visible'>
               {days.map((day) => {
                 const dayKey = keyOf(day);
                 const dayEvents = eventsByDay.get(dayKey) ?? [];
                 const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
                 const isSelected = isSameDay(day, selectedDate);
+
                 return (
                   <div
                     key={dayKey}
                     onMouseEnter={() => setHoverKey(dayKey)}
                     onMouseLeave={() => setHoverKey(null)}
-                    onClick={() => { onSelectDate(day); setSelectedEventId(dayEvents[0]?.id ?? null); }}
+                    onClick={() => {
+                      onSelectDate(day);
+                      setSelectedEventId(dayEvents[0]?.id ?? null);
+                    }}
                     className={`day-cell ${isSelected ? 'day-cell-selected' : ''}`}
                   >
-                    <div className={`calendar-day-number ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
+                    <div className={`calendar-day-number ${isSelected ? 'text-black' : isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>
+                      {day.getDate()}
+                    </div>
 
                     {dayEvents.length > 0 && (
                       <div className='mt-2 flex flex-wrap gap-1.5'>
                         {dayEvents.slice(0, 4).map((event) => (
                           <span key={event.id} className={`h-2 w-2 rounded-full ${eventDotClass(event)}`} />
                         ))}
-                        {dayEvents.length > 4 && <span className='text-[10px] font-medium text-slate-500'>+{dayEvents.length - 4}</span>}
+                        {dayEvents.length > 4 && (
+                          <span className='text-[10px] font-medium text-slate-500'>+{dayEvents.length - 4}</span>
+                        )}
                       </div>
                     )}
 
                     {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black'>
+                      <div className='calendar-day-popover pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-[9999] w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black'>
                         <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
                         <div className='mt-2 space-y-2'>
                           {dayEvents.map((event) => (
@@ -276,9 +335,18 @@ export function EventsCalendarBoard({
             </div>
 
             <div className='flex items-center justify-center gap-5 px-2 pt-3 text-[12px] text-slate-700'>
-              <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#39c285]' />Запланировано</span>
-              <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#f7c948]' />Идёт сегодня</span>
-              <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#ef4444]' />Прошло</span>
+              <span className='inline-flex items-center gap-2'>
+                <span className='h-2.5 w-2.5 rounded-full bg-[#39c285]' />
+                Запланировано
+              </span>
+              <span className='inline-flex items-center gap-2'>
+                <span className='h-2.5 w-2.5 rounded-full bg-[#f7c948]' />
+                Идёт сегодня
+              </span>
+              <span className='inline-flex items-center gap-2'>
+                <span className='h-2.5 w-2.5 rounded-full bg-[#ef4444]' />
+                Прошло
+              </span>
             </div>
           </div>
         </div>
