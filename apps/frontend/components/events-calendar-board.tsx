@@ -55,7 +55,7 @@ function normalizeText(value: string) {
 
 function convertHtmlBoldToMarkdown(value: string) {
   return value
-    .replace(/<(strong|b)>(.*?)<\/\1>/gis, '**$2**')
+    .replace(/<(strong|b)>([\s\S]*?)<\/\1>/gi, '**$2**')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/p>/gi, '\n')
     .replace(/<[^>]+>/g, '');
@@ -68,7 +68,7 @@ function cleanDescriptionText(value?: string, event?: EventItem) {
 
   return convertHtmlBoldToMarkdown(value)
     .replace(/https?:\/\/\S+/g, '')
-    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .replace(/#[^\s#]+/g, '')
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean)
