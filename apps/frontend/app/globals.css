@@ -763,4 +763,26 @@ textarea,
   font-weight: 800 !important;
 }
 
-/* === END FINAL HEADER ACTION ICONS HARD FIX === */
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+/* Если внутри правой части календаря осталась мятная подложка — тоже убираем */
+.page-shell .right-calendar-shell.calendar-right-stack,
+.page-shell .calendar-panel.right-calendar-shell {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+/* Сами внутренние окна остаются светлыми */
+.page-shell .calendar-left-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* === END FINAL CALENDAR COMMON BACKGROUND COLOR === */
