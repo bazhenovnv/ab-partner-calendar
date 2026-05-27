@@ -85,7 +85,7 @@ function cleanDescriptionText(value?: string, event?: EventItem) {
       if (/^(источник|ссылка|регистрация|зарегистрироваться)\b/i.test(line)) return false;
       if (/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/i.test(line)) return false;
 
-      // Убираем строки с датой, временем, форматом и источником.
+      // Убираем строки с датой, временем, форматом, городом, адресом и источником.
       if (/^(когда|дата|время|формат|стоимость|источник|город|адрес|место)\s*[:：]/i.test(line)) return false;
       if (/^\d{1,2}\s+[а-яё]+\s*(?:\d{4}\s*г?\.?)?\s*\|/i.test(line)) return false;
       if (/^(онлайн|офлайн|очно|гибрид|бесплатно|платно)(\s*\|\s*(онлайн|офлайн|очно|гибрид|бесплатно|платно))*$/i.test(line)) return false;
@@ -102,14 +102,40 @@ function cleanDescriptionText(value?: string, event?: EventItem) {
     .trim();
 }
 
-function renderInlineWithBold(line: string) {
-  const parts = line.split(/(\*\*[^*]+?\*\*|__[^_]+?__)/g);
+function isUppercaseHeading(line: string) {
+  const letters = line.replace(/[^А-ЯЁA-Z]/g, '');
+  if (letters.length < 4) return false;
+
+  const lowerLetters = line.replace(/[^а-яёa-z]/g, '');
+  return lowerLetters.length === 0;
+}
+
+function renderMarkdownBold(line: string): ReactNode[] {
+  const parts = line.split(/(\*\*[^*]+?\*\*|__[^_]+?__|\*[^*\n]+?\*)/g);
 
   return parts.map((part, index) => {
-    if ((part.startsWith('**') && part.endsWith('**')) || (part.startsWith('__') && part.endsWith('__'))) {
+    const isDoubleMarkdownBold =
+      (part.startsWith('**') && part.endsWith('**')) ||
+      (part.startsWith('__') && part.endsWith('__'));
+
+    const isSingleMarkdownBold =
+      part.startsWith('*') &&
+      part.endsWith('*') &&
+      !part.startsWith('**') &&
+      !part.endsWith('**');
+
+    if (isDoubleMarkdownBold) {
       return (
         <strong key={index} className='font-extrabold text-black'>
           {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    if (isSingleMarkdownBold) {
+      return (
+        <strong key={index} className='font-extrabold text-black'>
+          {part.slice(1, -1)}
         </strong>
       );
     }
@@ -118,14 +144,42 @@ function renderInlineWithBold(line: string) {
   });
 }
 
+function renderInlineWithBold(line: string) {
+  const normalizedLine = line.trim();
+
+  if (isUppercaseHeading(normalizedLine)) {
+    return (
+      <strong className='font-extrabold text-black'>
+        {line}
+      </strong>
+    );
+  }
+
+  const speakerMatch = normalizedLine.match(
+    /^((?:[🎙🎤]\s*)?[А-ЯЁA-Z][а-яёa-z]+(?:\s+[А-ЯЁA-Z][а-яёa-z]+){1,3})(\s*[—–-]\s*)(.+)$/
+  );
+
+  if (speakerMatch) {
+    return (
+      <>
+        <strong className='font-extrabold text-black'>{speakerMatch[1].trim()}</strong>
+        <span>{speakerMatch[2]}</span>
+        {renderMarkdownBold(speakerMatch[3])}
+      </>
+    );
+  }
+
+  return renderMarkdownBold(line);
+}
+
 function renderRichDescription(text: string) {
   return text.split('\n').map((line, index) => {
     if (!line.trim()) {
-      return <div key={index} className='h-2' />;
+      return <div key={index} className='h-1' />;
     }
 
     return (
-      <p key={index} className='mb-2 last:mb-0'>
+      <p key={index} className='mb-1 last:mb-0 leading-[1.22]'>
         {renderInlineWithBold(line)}
       </p>
     );
@@ -221,41 +275,16 @@ export function EventsCalendarBoard({
           {selectedEvent ? (
             <>
               <div className='flex-1'>
-                <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
-                  <div className='min-w-0'>
-                    <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>
-                      {selectedEvent.title}
-                    </h3>
-                  </div>
-
-                  <div className='shrink-0 rounded-full border border-[#7CD8B3] bg-[#eefbf4] px-4 py-2 text-sm font-medium text-[#356b51]'>
-                    {selectedEvent.format === 'ONLINE' ? 'Онлайн' : selectedEvent.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
-                  </div>
+                <div className='mb-4'>
+                  <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>
+                    {selectedEvent.title}
+                  </h3>
                 </div>
 
-                <div className='mb-5 break-words text-[17px] leading-8 text-[#404552] [overflow-wrap:anywhere]'>
+                <div className='event-description mb-5 break-words text-[17px] leading-[1.22] text-[#404552] [overflow-wrap:anywhere]'>
                   {selectedDescription
                     ? renderRichDescription(selectedDescription)
                     : 'Описание мероприятия будет добавлено позже.'}
-                </div>
-
-                <div className='mb-4 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
-                  <span className='inline-flex items-center gap-2'>
-                    <CalendarDays className='h-4 w-4 text-[#2c8d67]' />
-                    {formatDateLong(selectedEvent.startAt)}
-                  </span>
-                  <span className='inline-flex items-center gap-2'>
-                    <Clock3 className='h-4 w-4 text-[#2c8d67]' />
-                    {formatTime(selectedEvent.startAt)} – {formatTime(selectedEvent.endAt)}
-                  </span>
-                  <span className='inline-flex items-center gap-2'>
-                    <Globe className='h-4 w-4 text-[#2c8d67]' />
-                    {selectedEvent.format === 'ONLINE' ? 'Онлайн' : 'Очно'}
-                  </span>
-                  <span className='inline-flex items-center gap-2'>
-                    <MapPin className='h-4 w-4 text-[#2c8d67]' />
-                    {selectedEvent.location || 'Адрес уточняется'}
-                  </span>
                 </div>
 
                 <div className='mt-6 flex flex-wrap items-center gap-3'>
@@ -273,6 +302,25 @@ export function EventsCalendarBoard({
                     event={selectedEvent}
                     className='mint-btn pressable min-w-[170px] rounded-[18px]'
                   />
+                </div>
+
+                <div className='mt-5 mb-4 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
+                  <span className='inline-flex items-center gap-2'>
+                    <CalendarDays className='h-4 w-4 text-[#2c8d67]' />
+                    {formatDateLong(selectedEvent.startAt)}
+                  </span>
+                  <span className='inline-flex items-center gap-2'>
+                    <Clock3 className='h-4 w-4 text-[#2c8d67]' />
+                    {formatTime(selectedEvent.startAt)} – {formatTime(selectedEvent.endAt)}
+                  </span>
+                  <span className='inline-flex items-center gap-2'>
+                    <Globe className='h-4 w-4 text-[#2c8d67]' />
+                    {selectedEvent.format === 'ONLINE' ? 'Онлайн' : 'Очно'}
+                  </span>
+                  <span className='inline-flex items-center gap-2'>
+                    <MapPin className='h-4 w-4 text-[#2c8d67]' />
+                    {selectedEvent.location || 'Адрес уточняется'}
+                  </span>
                 </div>
               </div>
 
