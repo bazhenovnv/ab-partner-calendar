@@ -357,22 +357,88 @@ export default function HomePage() {
     </div>
   );
 
-  const modePanel = (
-    <div className='rounded-[18px] bg-white p-4 text-black font-semibold'>
+  const importantViewModeControls = (
+    <>
+      <Button
+        variant='primary'
+        onClick={() => setViewMode('SHOWCASE')}
+        className='important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'
+      >
+        Витрина
+      </Button>
+
+      <Button
+        variant='primary'
+        onClick={() => setViewMode('COMPACT')}
+        className='important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'
+      >
+        Полный режим
+      </Button>
+    </>
+  );
+
+  const calendarQuickFiltersPanel = (
+    <>
+      <Button
+        variant='primary'
+        onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}
+        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${priceFilter === 'FREE' ? 'ring-2 ring-[#E04B4B]/45' : ''}`}
+      >
+        Только бесплатные
+      </Button>
+
+      <Button
+        variant='primary'
+        onClick={() => setOnlyImportant((prev) => !prev)}
+        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${onlyImportant ? 'ring-2 ring-[#E04B4B]/45' : ''}`}
+      >
+        Только важные
+      </Button>
+    </>
+  );
+
+  const topicButtonsPanel = (
+    <div className='calendar-topic-panel p-0'>
+      <div className='mb-3 text-sm font-medium text-slate-500'>Подборки</div>
+
+      <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+        {topicCards.map((topic) => (
+          <button
+            key={topic.value}
+            type='button'
+            onClick={() => setTopicFilter(topic.value)}
+            className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+          >
+            <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+              {topic.icon}
+            </div>
+
+            <div className='min-w-0'>
+              <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
+              <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>
+                {topic.count} мероприятий
+              </div>
+            </div>
+          </button>
+        ))}
+
+        <button
+          type='button'
+          onClick={() => setTopicFilter('ALL')}
+          className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+        >
+          <Layers3 className='h-5 w-5 flex-none' />
+          <span className='text-sm font-medium'>Все подборки</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  const compactModePanel = (
+    <div className='surface-card p-4'>
       <div className='mb-3 text-sm font-medium text-slate-500'>Режимы отображения</div>
       <div className='grid gap-3 md:grid-cols-2'>
-        <Button variant='primary' onClick={() => setViewMode('SHOWCASE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Витрина</Button>
-        <Button variant='primary' onClick={() => setViewMode('COMPACT')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Полный режим</Button>
-        <Button variant='primary' onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Только бесплатные</Button>
-        <Button variant='primary' onClick={() => setOnlyImportant((prev) => !prev)} className='w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'>Только важные</Button>
-      </div>
-
-      <div className='mt-2 flex justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-3'>
-        <img
-          src='/calendar-sticker-note.png'
-          alt='Меньше хаоса — больше пользы'
-          className='h-auto w-full max-w-[320px] object-contain'
-        />
+        {importantViewModeControls}
       </div>
     </div>
   );
@@ -408,7 +474,12 @@ export default function HomePage() {
       {viewMode === 'SHOWCASE' && (
         <section id='important-events-section' className='container-shell mt-4'>
           <div className='important-events-combined overflow-hidden rounded-[26px] border border-[#7CD8B3] bg-white'>
-            <HighlightCarousel embedded items={filteredHighlights} onOpen={setActiveEvent} />
+            <HighlightCarousel
+              embedded
+              items={filteredHighlights}
+              onOpen={setActiveEvent}
+              controls={importantViewModeControls}
+            />
 
             <ImportantDatesMiniStrip
               className='important-events-combined-strip'
@@ -429,7 +500,7 @@ export default function HomePage() {
             {advancedFiltersPanel}
           </section>
           <section className='container-shell mt-4'>
-            {modePanel}
+            {compactModePanel}
           </section>
           <section className='container-shell mt-4'>
             <div className='surface-card p-5'>
@@ -477,7 +548,14 @@ export default function HomePage() {
             </div>
 
             <div className='dashboard-calendar-wrap'>
-              <EventsCalendarBoard events={filteredEvents} selectedDate={selectedDate} onSelectDate={setSelectedDate} filtersPanel={modePanel} />
+              <EventsCalendarBoard
+                events={filteredEvents}
+                selectedDate={selectedDate}
+                onSelectDate={setSelectedDate}
+                onMonthChange={setCalendarViewDate}
+                calendarControls={calendarQuickFiltersPanel}
+                filtersPanel={topicButtonsPanel}
+              />
             </div>
 
             <div className='dashboard-topics-wrap'>

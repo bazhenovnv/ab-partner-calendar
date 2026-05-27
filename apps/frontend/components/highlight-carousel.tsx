@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -43,10 +43,12 @@ export function HighlightCarousel({
   items,
   onOpen,
   embedded = false,
+  controls,
 }: {
   items: EventItem[];
   onOpen: (item: EventItem) => void;
   embedded?: boolean;
+  controls?: ReactNode;
 }) {
   const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
@@ -188,6 +190,12 @@ export function HighlightCarousel({
             <ArrowRight className='h-4 w-4' />
           </button>
         </div>
+
+        {controls ? (
+          <div className='important-events-mode-controls mb-4 grid gap-3 sm:grid-cols-2 lg:ml-auto lg:max-w-[520px]'>
+            {controls}
+          </div>
+        ) : null}
 
         {plannedSlides.length > 0 ? (
           <div className='flex flex-wrap items-center gap-3'>

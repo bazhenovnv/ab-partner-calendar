@@ -198,12 +198,14 @@ export function EventsCalendarBoard({
   selectedDate,
   onSelectDate,
   filtersPanel,
+  calendarControls,
   onMonthChange,
 }: {
   events: EventItem[];
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   filtersPanel?: ReactNode;
+  calendarControls?: ReactNode;
   onMonthChange?: (date: Date) => void;
 }) {
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
@@ -479,6 +481,12 @@ export function EventsCalendarBoard({
                 Прошло
               </span>
             </div>
+
+            {calendarControls ? (
+              <div className='calendar-inline-controls mt-4 grid gap-3 md:grid-cols-2'>
+                {calendarControls}
+              </div>
+            ) : null}
           </div>
         </div>
 

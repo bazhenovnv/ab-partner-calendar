@@ -773,3 +773,118 @@ textarea,
 
 /* === END FINAL HEADER ICON FIX === */
 
+
+
+/* === FINAL CALENDAR PANEL REBUILD === */
+
+/* Не ломаем черные кружки иконок в верхних кнопках */
+.page-shell .mint-btn--header span:first-child,
+.page-shell .site-header-action span:first-child {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+.page-shell .mint-btn--header span:first-child svg,
+.page-shell .site-header-action span:first-child svg {
+  color: #ffffff !important;
+  stroke: currentColor !important;
+}
+
+/* Верхние окна делаем явно белыми на сером общем фоне */
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Объединяем Календарь + бывшую панель режимов в одно окно */
+.page-shell .right-calendar-shell.calendar-right-stack,
+.page-shell .calendar-panel.right-calendar-shell {
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 28px !important;
+  padding: 18px !important;
+  gap: 18px !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 3px 12px rgba(255, 255, 255, 0.36),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
+}
+
+/* Внутренние части правого окна больше не выглядят отдельными окнами */
+.page-shell .right-calendar-shell .calendar-top-panel > div,
+.page-shell .right-calendar-shell .calendar-bottom-panel {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Сетка календаря остается белой */
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .day-cell {
+  background: #ffffff !important;
+}
+
+/* Кнопки Только бесплатные / Только важные сразу под легендой календаря */
+.page-shell .calendar-inline-controls {
+  width: 100%;
+}
+
+.page-shell .calendar-inline-controls .calendar-filter-toggle {
+  min-height: 48px !important;
+  width: 100% !important;
+}
+
+/* В зоне бывшей панели режимов теперь только подборки */
+.page-shell .calendar-topic-panel {
+  background: transparent !important;
+}
+
+/* Старую нижнюю панель с подборками убираем, так как подборки перенесены в правый блок */
+.page-shell .dashboard-topics-wrap {
+  display: none !important;
+}
+
+/* Убираем картинку-стикер из бывшей панели режимов, если она осталась в кэше/старой сборке */
+.page-shell .calendar-bottom-panel img[src*='calendar-sticker-note'] {
+  display: none !important;
+}
+
+/* Кнопки Витрина / Полный режим в Важных событиях под Смотреть все */
+.page-shell .important-events-mode-controls {
+  margin-top: -4px;
+}
+
+.page-shell .important-events-mode-controls .important-mode-btn {
+  min-height: 46px !important;
+}
+
+/* Компактный текст события */
+.page-shell .event-description,
+.page-shell .event-description p {
+  line-height: 1.14 !important;
+}
+
+.page-shell .event-description p {
+  margin-top: 0 !important;
+  margin-bottom: 2px !important;
+}
+
+.page-shell .event-description strong {
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+/* === END FINAL CALENDAR PANEL REBUILD === */
