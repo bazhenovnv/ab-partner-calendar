@@ -77,9 +77,9 @@ export function HighlightCarousel({
 
   if (!slides.length) {
     const fallback = (
-      <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
-        <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
-          <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
+      <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
+        <div className='grid min-h-[320px] gap-0 lg:grid-cols-2'>
+          <div className='min-h-[280px] overflow-hidden border-b border-black bg-white p-4 lg:border-b-0 lg:border-r'>
             <img
               src={IMPORTANT_EVENTS_PHOTO}
               alt='Важные события'
@@ -87,7 +87,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -111,8 +111,8 @@ export function HighlightCarousel({
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
 
   const content = (
-    <div className='important-events-shell overflow-hidden rounded-[18px] bg-white'>
-      <div className='highlight-hero-joined relative overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white'>
+    <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
+      <div className='highlight-hero-joined relative overflow-hidden bg-transparent'>
         <div className='grid min-h-[320px] gap-0 lg:grid-cols-[0.95fr_1fr]'>
           <button
             type='button'
@@ -123,7 +123,7 @@ export function HighlightCarousel({
             <ChevronLeft className='h-5 w-5' />
           </button>
 
-          <div className='min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0 lg:border-r'>
+          <div className='min-h-[280px] overflow-hidden border-b border-black bg-white p-4 lg:border-b-0 lg:border-r'>
             <img
               src={slideImage}
               alt={item.title}
@@ -137,7 +137,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -200,7 +200,7 @@ export function HighlightCarousel({
         </div>
       </div>
 
-      <div className='important-events-ribbon border-t border-[#7CD8B3] px-2 pb-4 pt-4'>
+      <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
         <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
           <h3 className='text-[13px] font-semibold uppercase tracking-[0.12em] text-black'>
             Важные события

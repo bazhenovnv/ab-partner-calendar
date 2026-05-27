@@ -1127,6 +1127,57 @@ textarea,
     inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
 }
 
+/* === IMPORTANT EVENTS UNIFIED BACKGROUND === */
+
+.page-shell .important-events-unified {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.page-shell .important-events-unified .highlight-hero-joined {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.page-shell .important-events-unified .important-events-ribbon {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+.page-shell .important-events-unified .important-events-actions {
+  margin-left: auto !important;
+}
+
+.page-shell .important-events-unified .important-events-mode-controls {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  .page-shell .important-events-unified .important-events-actions {
+    width: 100% !important;
+    align-items: stretch !important;
+    margin-left: 0 !important;
+  }
+
+  .page-shell .important-events-unified .important-events-mode-controls {
+    width: 100% !important;
+  }
+}
+
+/* === END IMPORTANT EVENTS UNIFIED BACKGROUND === */
+
 /* === END FINAL CALENDAR CONVEX EFFECT === */
 /* === END FINAL CALENDAR / TOPIC PANEL POLISH === */
 
