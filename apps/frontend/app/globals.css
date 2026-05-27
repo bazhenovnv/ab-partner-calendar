@@ -3,182 +3,138 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f4f5f7;
+  --bg: #000000;
   --text: #111111;
   --muted: #6b7280;
-  --line: #e6e7eb;
-  --card: #ffffff;
-  --dark: #050607;
-  --dark-2: #0a0b0f;
-  --accent: #8BE2BE;
-  --accent-strong: #79d7b1;
+
+  --ab-page-bg: #eeeeee;
+  --ab-panel-bg: #f2f2f2;
+  --ab-white: #ffffff;
+  --ab-black: #000000;
+
+  --ab-mint: #7CD8B3;
+  --ab-mint-hover: #86e1bd;
+  --ab-mint-dark: #4FAF8C;
+
+  --ab-red: #E04B4B;
+  --ab-yellow: #f7c948;
+  --ab-green: #39c285;
+
+  --ab-border: rgba(0, 0, 0, 0.72);
+  --ab-shadow-1: rgba(0, 0, 0, 0.24);
+  --ab-shadow-2: rgba(0, 0, 0, 0.14);
+  --ab-shadow-soft: rgba(0, 0, 0, 0.18);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-scroll-behavior: smooth;
-  background: #000;
+  scroll-behavior: smooth;
+  background: #000000;
 }
-
 
 body {
-@apply antialiased;
-  
+  @apply antialiased;
+  margin: 0;
+  background: #000000 !important;
   color: var(--text);
-  background: #000;
+  font-weight: 600;
 }
 
+main {
+  background: #000000 !important;
+  padding: 20px !important;
+}
 
+/* === layout === */
 
+.page-shell {
+  width: min(1440px, calc(100vw - 64px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 14px !important;
 
+  background: var(--ab-page-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 30px !important;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
+
+  overflow: visible !important;
+}
 
 .container-shell {
-  @apply mx-auto w-full max-w-[1460px] px-4 lg:px-6;
+  @apply mx-auto w-full;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
+.container-shell + .container-shell {
+  margin-top: 1rem;
+}
+
+.page-shell > .container-shell,
+.page-shell > header.container-shell,
+.page-shell > footer.container-shell,
+.page-shell > section.container-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+@media (max-width: 900px) {
+  main {
+    padding: 10px !important;
+  }
+
+  .page-shell {
+    width: calc(100vw - 20px) !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === base components === */
+
 .surface-card {
-  @apply rounded-[18px] border border-[#7CD8B3] bg-[#E8E7E3];
+  @apply rounded-[18px] border bg-white;
 }
 
 .dark-card {
-  @apply rounded-[18px] border border-black/60 bg-black text-white;
+  @apply rounded-[18px] border bg-black text-white;
 }
 
 .icon-chip {
-  @apply inline-flex items-center justify-center rounded-full border border-[#7CD8B3] bg-white;
+  @apply inline-flex items-center justify-center rounded-full border bg-white;
 }
 
 .select-clean {
-  @apply h-11 w-full appearance-none rounded-xl border border-[#7CD8B3] bg-[#E8E7E3] px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#2c8d67] focus:ring-4 focus:ring-[#7CD8B3]/30;
+  @apply h-11 w-full appearance-none rounded-xl border bg-white px-4 pr-10 text-sm text-black outline-none transition;
 }
 
-.day-cell {
-  @apply relative h-[54px] border-r border-b border-[#7CD8B3] bg-[#E8E7E3] px-2 py-1.5 text-black transition;
+.select-clean:focus {
+  border-color: var(--ab-border) !important;
+  box-shadow: 0 0 0 4px rgba(124, 216, 179, 0.26) !important;
 }
 
-.day-cell:hover {
-  background: rgba(124, 216, 179, 0.16);
+.select-clean,
+.select-clean option,
+select,
+input,
+textarea {
+  color: #000000 !important;
+  font-weight: 500 !important;
 }
 
-.day-cell-selected {
-  background: rgba(124, 216, 179, 0.72);
-  color: #04110a;
-}
-
-.text-muted {
-  color: #6b7280;
-}
-
-.tag-chip {
-  @apply inline-flex items-center rounded-[10px] border border-[#7CD8B3] px-3 py-1 text-xs font-medium text-[#2c8d67] bg-[#eefbf4];
-}
-
-.utility-divider:not(:last-child) {
-  @apply border-r border-[#e6e8ec];
-}
-
-::selection {
-  background: rgba(139, 226, 190, 0.38);
-}
-
-.container-shell + .container-shell {
-  margin-top: 1rem;
-}
-
-
-.page-shell {
-  background: #fff;
-  border: 1px solid rgba(232, 231, 227, 0.9);
-  border-radius: 34px;
-  box-shadow: none !important;
-}
-
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell {
-  box-shadow: none !important;
-}
-
-.container-shell + .container-shell {
-  margin-top: 1rem;
-}
-
-
-/* === white sections fix === */
-.surface-card,
-.mini-important-strip,
-.right-calendar-shell,
-.calendar-single-surface {
-  background: #ffffff !important;
-}
-
-.calendar-single-surface {
-  border: 1px solid #000 !important;
-  border-radius: 26px !important;
-  box-shadow: none !important;
-}
-
-/* убираем второй внутренний фон у календаря */
-.calendar-single-surface .surface-card,
-.calendar-single-surface .dark-card,
-.calendar-single-surface .right-calendar-shell,
-.calendar-single-surface .calendar-inner,
-.calendar-single-surface .calendar-card,
-.calendar-single-surface .calendar-shell {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* точки/индикаторы важных событий */
-.carousel-dot,
-.carousel-indicator,
-.highlight-dot {
-  border: 1px solid #000 !important;
-}
-
-/* кнопки дат мини-блока */
-.mini-important-strip button {
-  border-color: #000 !important;
-}
-
-.mini-important-strip button:not(.keep-white-button) {
-  background: #7CD8B3;
-}
-
-
-
-/* === final visual polish: mint borders, white sections, bigger calendar === */
-
-body {
-  background: #000 !important;
-  color: #000 !important;
-  font-weight: 600;
-}
-
-.page-shell {
-  background: #fff !important;
-  box-shadow: none !important;
-}
-
-.surface-card,
-.mini-important-strip,
-.right-calendar-shell {
-  background: #fff !important;
-  border-color: #7CD8B3 !important;
-  color: #000 !important;
-  font-weight: 600;
-  box-shadow: none !important;
-}
-
-.page-shell,
-.page-shell * {
-  font-weight: 600;
-}
-
+.text-muted,
 .page-shell .text-slate-400,
 .page-shell .text-slate-500,
 .page-shell .text-slate-600,
@@ -186,445 +142,78 @@ body {
 .page-shell .text-[#404552],
 .page-shell .text-[#17191e],
 .page-shell .text-[#1a1a1a] {
-  color: #000 !important;
+  color: #000000 !important;
 }
 
-.select-clean {
-  color: #2c8d67 !important;
-  font-weight: 800 !important;
-  border-color: #7CD8B3 !important;
-  background: #fff !important;
-  box-shadow: none !important;
+.tag-chip {
+  @apply inline-flex items-center rounded-[10px] border px-3 py-1 text-xs font-medium;
+  background: #eefbf4 !important;
+  color: #000000 !important;
 }
 
-.select-clean option {
-  color: #2c8d67;
-  font-weight: 800;
-}
+/* === common convex panel style === */
 
-button,
-.app-btn,
-[role='button'] {
-  font-weight: 800 !important;
-}
-
-button:not(.day-cell),
-.app-btn,
-a[class*='bg-[#7CD8B3]'] {
-  box-shadow: none !important;
-}
-
-.icon-chip {
-  box-shadow: none !important;
-}
-
-.right-calendar-shell {
-  align-self: stretch;
-  width: 100%;
-}
-
-.right-calendar-shell > div {
-  width: 100%;
-}
-
-.day-cell {
-  min-height: 64px !important;
-  padding: 10px !important;
-  background: #fff !important;
-  border-color: #7CD8B3 !important;
-}
-
-.day-cell-selected {
-  background: #7CD8B3 !important;
-}
-
-.mini-important-strip button {
-  background: #7CD8B3 !important;
-  border-color: #7CD8B3 !important;
-  color: #000 !important;
-  box-shadow: none !important;
-}
-
-/* точки/индикаторы важных событий */
-.highlight-carousel-dot,
-.carousel-dot,
-.carousel-indicator {
-  border: 1px solid #000 !important;
-}
-
-
-/* === ui final polish === */
-
-/* Панель фильтров: текст чёрный и не жирный */
-.select-clean,
-.select-clean select,
-.select-clean option {
-  color: #000 !important;
-  font-weight: 400 !important;
-}
-
-/* Если select отображается через button/div */
-[data-slot="select-trigger"],
-[data-slot="select-value"],
-.filter-panel select,
-.filter-panel button {
-  color: #000 !important;
-  font-weight: 400 !important;
-}
-
-/* Все кнопки приложения: чёрная обводка и не жирные */
-button,
-a[role="button"],
-[role="button"] {
-  border: 1px solid #000 !important;
-  font-weight: 500 !important;
-  box-shadow: none !important;
-}
-
-/* Календарные кнопки и "Смотреть все" — не жирные */
-.view-all-btn,
-.calendar-soft-btn,
-.day-nav-btn,
-.calendar-nav-btn,
-.calendar-today-btn {
-  font-weight: 500 !important;
-  border: 1px solid #000 !important;
-}
-
-/* Кнопка "Подробнее" в важный событиях — не жирная */
-.highlight-carousel button,
-.highlight-carousel a,
-.important-panel-card button,
-.important-panel-card a {
-  font-weight: 500 !important;
-  border: 1px solid #000 !important;
-}
-
-/* Заголовок "ВАЖНЫЕ СОБЫТИЯ" крупнее */
-.important-events-title {
-  font-size: 24px !important;
-  line-height: 1.1 !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.04em !important;
-}
-
-/* Тени на окнах важных событий */
-.highlight-panel-card,
-.important-panel-card,
-.highlight-carousel > div,
-.highlight-carousel .rounded-\[28px\],
-.highlight-carousel .rounded-\[24px\] {
-  box-shadow: none !important;
-}
-
-/* Правая колонка календаря и левая колонка событий — одинаково цельно */
-.right-calendar-shell {
-  height: 100% !important;
-  align-self: stretch !important;
-  box-shadow: none !important;
-}
-
-.surface-card {
-  box-shadow: none !important;
-}
-
-/* Левая карточка событий тянется вниз визуально */
-.surface-card.h-full,
-.surface-card.min-h-\[860px\] {
-  min-height: 860px !important;
-}
-
-/* Панель режимов и календарь внутри одного стиля */
-.right-calendar-shell > div,
-.right-calendar-shell .surface-card {
-  border-radius: 22px !important;
-}
-
-/* Текст фильтров сверху — черный и обычный */
-.filter-panel label,
-.filter-panel .select-clean,
-.filter-panel [data-slot="select-trigger"],
-.filter-panel [data-slot="select-value"] {
-  color: #000 !important;
-  font-weight: 400 !important;
-}
-
-/* === end ui final polish === */
-
-
-/* === important-events-final-fix === */
-
-:root {
-  --mint-main: #7CD8B3;
-  --mint-dark: #4FAF8C;
-  --danger-red: #E04B4B;
-}
-
-/* Усиленные тени на всех основных разделах */
+.site-header-panel,
+.metric-card,
+.metrics-grid .surface-card,
 .surface-card,
-.right-calendar-shell,
-.highlight-common-shell,
-.important-events-shell,
-.calendar-common-shell,
-section,
-article {
-  box-shadow: none !important;
+.highlight-hero-joined,
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > *,
+.dashboard-calendar-wrap .calendar-left-panel,
+.dashboard-calendar-wrap .calendar-top-panel > div,
+.dashboard-calendar-wrap .calendar-bottom-panel,
+.calendar-unified-shell .calendar-left-panel,
+.calendar-unified-shell .calendar-top-panel > div,
+.calendar-unified-shell .calendar-bottom-panel,
+.platform-footer-shell,
+.utility-divider,
+[role='dialog'],
+[data-radix-dialog-content] {
+  background: var(--ab-panel-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 3px 12px rgba(255, 255, 255, 0.36),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
+  isolation: isolate !important;
+  position: relative !important;
 }
 
-/* Главный общий фон блока "Важные события" */
-.important-events-shell,
-.highlight-common-shell {
-  background: #fff !important;
-  border: 1px solid var(--mint-main) !important;
-  border-radius: 22px !important;
-  box-shadow: none !important;
+/* ловим Tailwind-панели, у которых нет явных классов */
+.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='bg-white'][class*='border']:not(.day-cell):not([class*='rounded-full']) {
+  background: var(--ab-panel-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
 }
 
-/* Два внутренних окна важных событий */
-.important-event-inner,
-.highlight-panel-card,
-.highlight-carousel-card {
-  background: #fff !important;
-  border: 1px solid var(--mint-main) !important;
-  border-radius: 20px !important;
-  box-shadow: none !important;
+/* отключаем старые декоративные псевдослои, чтобы они не перекрывали текст */
+.page-shell .site-header-panel::before,
+.page-shell .metric-card::before,
+.page-shell .surface-card::before,
+.page-shell .highlight-hero-joined::before,
+.page-shell .dashboard-filters-wrap > *::before,
+.page-shell .dashboard-topics-wrap > *::before,
+.page-shell .calendar-left-panel::before,
+.page-shell .calendar-top-panel > div::before,
+.page-shell .calendar-bottom-panel::before,
+.page-shell .platform-footer-shell::before,
+.page-shell .utility-divider::before,
+[role='dialog']::before,
+[data-radix-dialog-content]::before {
+  content: none !important;
+  display: none !important;
 }
 
-/* Общий фон для календаря + описания событий */
-.calendar-common-shell {
-  background: #fff !important;
-  border: 1px solid var(--mint-main) !important;
-  border-radius: 22px !important;
-  box-shadow: none !important;
-  padding: 12px !important;
-}
+/* === buttons === */
 
-/* Внутренние карточки календаря и описания */
-.calendar-common-shell .surface-card,
-.calendar-common-shell .right-calendar-shell,
-.calendar-common-shell .calendar-panel,
-.calendar-common-shell .event-details-panel {
-  background: #fff !important;
-  border: 1px solid var(--mint-main) !important;
-  border-radius: 18px !important;
-  box-shadow: none !important;
-}
-
-/* Все кнопки в стиле приложения */
-button,
-a[role="button"],
-[role="button"],
-.btn,
-.button {
-  border: 1px solid var(--mint-dark) !important;
-  box-shadow: none !important;
-}
-
-/* Мятные кнопки — тёмно-мятная обводка */
-.bg-\[\#7CD8B3\],
-[class*="bg-[#7CD8B3]"],
-.mint-button,
-button[class*="bg-[#7CD8B3]"] {
-  border: 1px solid var(--mint-dark) !important;
-  box-shadow: none !important;
-}
-
-/* Стрелки в важных событиях */
-.important-nav-btn,
-.highlight-nav-btn,
-.carousel-arrow-btn {
-  background: rgba(124, 216, 179, 0.45) !important;
-  border: 1px solid var(--mint-dark) !important;
-  color: var(--mint-dark) !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(4px);
-}
-
-/* Если внутри svg / icon */
-.important-nav-btn svg,
-.highlight-nav-btn svg,
-.carousel-arrow-btn svg {
-  color: var(--mint-dark) !important;
-  stroke: var(--mint-dark) !important;
-}
-
-/* Кнопки дат в важныx событиях */
-.important-date-chip,
-.important-date-pill,
-.important-event-date-btn {
-  border: 1px solid var(--mint-dark) !important;
-  background: #7CD8B3 !important;
-  color: #000 !important;
-  box-shadow: none !important;
-}
-
-/* Активная дата текущего важного события */
-.important-date-chip.active,
-.important-date-pill.active,
-.important-event-date-btn.active,
-.important-date-chip[data-active="true"],
-.important-date-pill[data-active="true"],
-.important-event-date-btn[data-active="true"] {
-  border: 2px solid var(--danger-red) !important;
-  box-shadow: none !important;
-}
-
-/* Выбор даты в календаре — квадратная красная обводка */
-.calendar-selected-day,
-.calendar-day.selected,
-.calendar-day[data-selected="true"] {
-  border: 2px solid var(--danger-red) !important;
-  border-radius: 6px !important;
-  box-shadow: none !important;
-}
-
-/* Точки событий в календаре — чётче */
-.calendar-day-dot,
-.calendar-dot {
-  border: 1px solid #000 !important;
-}
-
-/* Нижние карточки разделов: иконки с мятной обводкой */
-.category-icon-shell,
-.topic-icon-shell,
-.direction-icon-shell,
-.export-icon-shell {
-  border: 1px solid var(--mint-main) !important;
-  border-radius: 999px !important;
-  box-shadow: none !important;
-}
-
-/* Важные события — чуть более выразительный заголовок */
-.important-events-title {
-  font-size: 24px !important;
-  font-weight: 700 !important;
-  color: #000 !important;
-}
-
-/* Кнопки "Подробнее" / "Напомнить" в важныx событиях */
-.important-events-shell button,
-.highlight-common-shell button {
-  border: 1px solid var(--mint-dark) !important;
-  box-shadow: none !important;
-}
-
-/* === end important-events-final-fix === */
-
-
-/* === hard-final-visual-patch === */
-
-:root {
-  --mint-main: #7CD8B3;
-  --mint-dark: #4FAF8C;
-  --danger-red: #E04B4B;
-}
-
-/* Общие глубокие тени */
-.page-shell,
-.surface-card,
-.important-events-shell,
-.important-event-inner,
-.calendar-common-shell,
-.right-calendar-shell,
-.mini-important-strip {
-  box-shadow: none !important;
-}
-
-/* Важные события */
-.important-events-shell {
-  border: 1px solid var(--mint-main) !important;
-  background: #fff !important;
-}
-
-.important-event-inner {
-  border: 1px solid var(--mint-main) !important;
-  background: #fff !important;
-  box-shadow: none !important;
-}
-
-/* Стрелки карусели важных событий */
-.highlight-nav-btn,
-.important-nav-btn {
-  background: rgba(124,216,179,0.42) !important;
-  border: 1px solid var(--mint-dark) !important;
-  color: var(--mint-dark) !important;
-  backdrop-filter: blur(6px);
-}
-
-.highlight-nav-btn svg,
-.important-nav-btn svg {
-  color: var(--mint-dark) !important;
-  stroke: var(--mint-dark) !important;
-}
-
-/* Календарь + описание: один общий фон */
-.calendar-common-shell {
-  border: 1px solid var(--mint-main) !important;
-  background: #fff !important;
-  border-radius: 24px !important;
-  padding: 12px !important;
-}
-
-.calendar-common-shell .surface-card,
-.calendar-common-shell .right-calendar-shell {
-  border: 1px solid var(--mint-main) !important;
-  background: #fff !important;
-  border-radius: 22px !important;
-  box-shadow: none !important;
-}
-
-/* Календарь: выбранная дата — красная квадратная обводка */
-.day-cell-selected {
-  border: 2px solid var(--danger-red) !important;
-  border-radius: 4px !important;
-  outline: none !important;
-}
-
-/* Мятные кнопки — тёмно-мятная обводка */
-button,
-a[role="button"],
-[role="button"] {
-  border-color: var(--mint-dark) !important;
-}
-
-button[class*="bg-[#7CD8B3]"],
-a[class*="bg-[#7CD8B3]"],
-.bg-\[\#7CD8B3\] {
-  border: 1px solid var(--mint-dark) !important;
-}
-
-/* Круглые даты мини-панели */
-.important-date-chip {
-  border-color: var(--mint-dark) !important;
-  background: var(--mint-main) !important;
-  color: #000 !important;
-}
-
-.important-date-chip.border-\[\#E04B4B\],
-.important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: var(--danger-red) !important;
-}
-
-/* Нижняя панель направлений: иконки с мятной обводкой */
-.icon-chip,
-.topic-icon-shell,
-.category-icon-shell {
-  border: 1px solid var(--mint-main) !important;
-  box-shadow: none !important;
-}
-
-/* Точки/индикаторы карусели заметнее */
-.highlight-carousel-dot,
-.carousel-dot,
-.carousel-indicator,
-.important-events-shell span[class*="rounded-full"] {
-  border-color: #000 !important;
-}
-
-/* === end hard-final-visual-patch === */
-
-
-/* === v23 unified mint buttons and month-aware important dates === */
 .mint-btn {
   display: inline-flex;
   align-items: center;
@@ -632,125 +221,343 @@ a[class*="bg-[#7CD8B3]"],
   gap: 0.5rem;
   min-height: 40px;
   padding: 10px 18px;
-  border-radius: 12px;
-  border: 1.5px solid var(--mint-dark, #4FAF8C) !important;
-  background: var(--mint-main, #7CD8B3) !important;
-  color: #000 !important;
-  font-weight: 600 !important;
+  border-radius: 18px;
+  border: 1.5px solid var(--ab-border) !important;
+  background: var(--ab-mint) !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell a[class*='rounded'],
+.page-shell [role='button'],
+.page-shell .pressable,
+.page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell .important-nav-btn,
+[role='dialog'] button,
+[role='dialog'] a {
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease !important;
+}
+
+.page-shell button:hover,
+.page-shell a.mint-btn:hover,
+.page-shell a.inline-flex:hover,
+.page-shell a[class*='rounded']:hover,
+.page-shell [role='button']:hover,
+.page-shell .pressable:hover,
+.page-shell .mint-btn:hover,
+.page-shell .site-header-action:hover,
+.page-shell .mint-btn--header:hover,
+.page-shell .important-event-action-btn:hover,
+.page-shell .important-events-view-all-btn:hover,
+.page-shell .important-date-chip:hover,
+.page-shell .important-nav-btn:hover,
+[role='dialog'] button:hover,
+[role='dialog'] a:hover {
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell button:active,
+.page-shell a.mint-btn:active,
+.page-shell a.inline-flex:active,
+.page-shell a[class*='rounded']:active,
+.page-shell [role='button']:active,
+.page-shell .pressable:active,
+.page-shell .mint-btn:active,
+.page-shell .site-header-action:active,
+.page-shell .mint-btn--header:active,
+.page-shell .important-event-action-btn:active,
+.page-shell .important-events-view-all-btn:active,
+.page-shell .important-date-chip:active,
+.page-shell .important-nav-btn:active,
+[role='dialog'] button:active,
+[role='dialog'] a:active {
+  transform: translateY(1px) !important;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.16),
+    inset 0 2px 4px rgba(0, 0, 0, 0.10),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.35) !important;
+}
+
+.page-shell .mint-btn,
+.page-shell .pressable,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell button[class*='bg-[#7CD8B3]'],
+.page-shell button[class*='bg-[#8BE2BE]'],
+.page-shell button[class*='bg-[#86e1bd]'],
+.page-shell [class*='bg-black'],
+.page-shell .bg-black,
+.page-shell [data-variant='dark'] {
+  background: var(--ab-mint) !important;
+  color: #000000 !important;
+}
+
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip.keep-white-button,
+.page-shell .keep-white-button {
+  background: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
+button:disabled,
+button[disabled],
+[aria-disabled='true'] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* === header + metrics === */
+
+.site-header-panel {
+  padding: 18px 22px !important;
+}
+
+.metric-card {
+  min-height: 82px !important;
+  padding: 16px 18px !important;
+}
+
+.metric-icon,
+.icon-chip,
+.site-header-action span:first-child,
+.mint-btn--header span:first-child {
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
+}
+
+/* === important events === */
+
+.important-events-combined,
+.dashboard-unified-shell,
+.calendar-unified-shell {
+  background: var(--ab-mint) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 30px !important;
+  padding: 12px !important;
+  box-shadow:
+    0 10px 20px var(--ab-shadow-1),
+    0 3px 8px var(--ab-shadow-2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.important-events-combined .important-events-shell,
+#important-events-section .important-events-shell {
+  background: transparent !important;
+  border: 0 !important;
   box-shadow: none !important;
-  transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease, opacity .14s ease;
+  padding: 0 !important;
 }
 
-.mint-btn:hover {
-  background: #86e1bd !important;
+.highlight-hero-joined {
+  overflow: hidden !important;
+}
+
+.highlight-hero-joined > div > div:first-child,
+.important-events-ribbon,
+.important-events-combined-strip {
+  border-color: var(--ab-border) !important;
+}
+
+.highlight-carousel-dots,
+.important-events-combined .mini-important-strip,
+.important-events-combined-strip {
+  display: none !important;
+}
+
+.important-events-ribbon {
+  background: transparent !important;
+}
+
+.important-events-ribbon .important-date-chip {
+  width: 58px;
+  height: 58px;
+  border-radius: 999px !important;
+  background: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
+.important-events-ribbon .important-date-chip[class*='border-[#E04B4B]'] {
+  border-color: var(--ab-red) !important;
+}
+
+/* === dashboard + calendar === */
+
+.dashboard-unified-shell,
+.calendar-unified-shell {
+  display: grid !important;
+  gap: 12px !important;
+  overflow: visible !important;
+}
+
+.dashboard-filters-wrap,
+.dashboard-calendar-wrap,
+.dashboard-topics-wrap,
+.calendar-common-shell,
+.calendar-unified-shell,
+.right-calendar-shell,
+.calendar-left-panel,
+.calendar-top-panel,
+.calendar-bottom-panel,
+.highlight-hero-joined,
+.surface-card {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
+  padding: 0 !important;
 }
 
-.mint-btn:active,
-.pressable:active {
-  transform: translateY(2px) scale(0.985);
+.dashboard-filters-wrap > *,
+.dashboard-topics-wrap > * {
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+/* левая панель события: убираем чрезмерную высоту из min-h-[860px] */
+.event-details-panel,
+.calendar-left-panel {
+  min-height: 680px !important;
+}
+
+@media (min-width: 1280px) {
+  .event-details-panel,
+  .calendar-left-panel {
+    min-height: 720px !important;
+  }
+}
+
+@media (max-width: 1279px) {
+  .calendar-unified-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .event-details-panel,
+  .calendar-left-panel {
+    min-height: 520px !important;
+  }
+}
+
+/* === calendar grid === */
+
+.day-cell {
+  @apply relative border-r border-b bg-white text-black transition;
+  min-height: 72px !important;
+  padding: 12px !important;
+  border-color: rgba(0, 0, 0, 0.55) !important;
   box-shadow: none !important;
+  transform: none !important;
+  overflow: visible !important;
+  z-index: 1 !important;
 }
 
-.mint-btn--sm {
-  min-height: 34px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 13px;
+.day-cell:hover {
+  background: rgba(124, 216, 179, 0.16) !important;
+  z-index: 500 !important;
 }
 
-.mint-btn--header {
-  width: 190px;
-  height: 44px;
-  padding: 8px 16px;
-  border-radius: 14px;
-  font-size: 14px;
+.day-cell-selected {
+  background: rgba(124, 216, 179, 0.72) !important;
+  border: 2px solid var(--ab-red) !important;
+  border-radius: 6px !important;
+  color: #04110a !important;
 }
 
-.mint-btn--icon {
-  width: 34px;
-  height: 34px;
-  min-height: 34px;
-  padding: 0;
-  border-radius: 10px;
-}
-
-.mint-btn--event-tab {
-  min-height: 38px;
-  padding: 8px 12px;
-}
-
-.mint-btn--active {
-  border-color: #E04B4B !important;
-  box-shadow: none !important;
-}
-
-.mint-date-pill {
-  width: 74px;
-  height: 74px;
-  border-radius: 999px;
-  border: 1.5px solid var(--mint-dark, #4FAF8C) !important;
-  background: var(--mint-main, #7CD8B3) !important;
-  color: #000 !important;
+.calendar-day-number {
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 1.05;
-  box-shadow: none !important;
-  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
-}
-
-.mint-date-pill:hover {
-  box-shadow: none !important;
-}
-
-.mint-date-pill--active {
-  border: 2px solid #E04B4B !important;
-  box-shadow: none !important;
-}
-
-.important-nav-btn {
-  background: rgba(124,216,179,0.55) !important;
-  border: 1.5px solid var(--mint-dark, #4FAF8C) !important;
-  color: #000 !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(8px);
-}
-
-.important-nav-btn svg {
-  color: #000 !important;
-  stroke: #000 !important;
-}
-
-button,
-a[role='button'],
-[role='button'] {
-  transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
-}
-/* === end v23 unified mint buttons === */
-
-/* === Larger calendar date numbers === */
-.calendar-day-number {
+  min-width: 22px;
   font-size: 18px !important;
   line-height: 1 !important;
   font-weight: 700 !important;
   letter-spacing: -0.02em;
 }
 
-.day-cell {
-  min-height: 72px !important;
-  padding: 12px !important;
+.calendar-top-panel,
+.calendar-top-panel > div,
+.calendar-top-panel .grid,
+.calendar-days-grid {
+  overflow: visible !important;
 }
 
-.day-cell .calendar-day-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 22px;
+.calendar-top-panel {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.calendar-day-popover,
+.day-cell > div[class*='absolute'] {
+  z-index: 9999 !important;
+  isolation: isolate !important;
+  background: var(--ab-panel-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.28),
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.calendar-top-panel table,
+.calendar-top-panel th,
+.calendar-top-panel td,
+.calendar-grid,
+.calendar-grid *,
+.calendar-days-grid,
+.calendar-days-grid * {
+  border-color: rgba(0, 0, 0, 0.55) !important;
 }
 
 @media (max-width: 768px) {
@@ -764,1079 +571,45 @@ a[role='button'],
   }
 }
 
-/* === remove outer extra background === */
+/* === forms / popups === */
 
-/* Убираем общий лишний фон-обёртку страницы */
-.page-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Внешние секции не должны создавать видимые прямоугольные подложки */
-.page-shell > section,
-section.container-shell,
-.container-shell {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Видимыми остаются только реальные карточки и панели */
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-shell,
-.important-event-inner,
-.calendar-common-shell,
-.highlight-common-shell,
-.calendar-single-surface {
-  background: #ffffff !important;
-}
-
-/* === end remove outer extra background === */
-
-/* === remove all windows === */
-
-/* Основные окна, панели и карточки без теней */
-.page-shell,
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-shell,
-.important-event-inner,
-.highlight-common-shell,
-.highlight-panel-card,
-.highlight-carousel-card,
-.calendar-common-shell,
-.calendar-single-surface,
-.calendar-panel,
-.event-details-panel,
-.calendar-inner,
-.calendar-card,
-.calendar-shell {
-  box-shadow: none !important;
-}
-
-/* Внутренние окна важных событий без теней */
-.highlight-carousel,
-.highlight-carousel > div,
-.highlight-carousel .rounded-\[28px\],
-.highlight-carousel .rounded-\[24px\],
-.important-panel-card {
-  box-shadow: none !important;
-}
-
-/* Внешние секции тоже без теней */
-.page-shell > section,
-section.container-shell,
-article.container-shell,
-.container-shell {
-  box-shadow: none !important;
-}
-
-/* === end remove all windows === */
-
-/* === hard remove all nested windows === */
-
-/* Убираем все box-shadow, включая Tailwind arbitrary-классы */
-.page-shell,
-.page-shell *,
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-shell,
-.important-event-inner,
-.highlight-common-shell,
-.highlight-panel-card,
-.highlight-carousel-card,
-.calendar-common-shell,
-.calendar-single-surface,
-.calendar-panel,
-.event-details-panel,
-.calendar-inner,
-.calendar-card,
-.calendar-shell,
-[class*="shadow-"] {
-  box-shadow: none !important;
-}
-
-/* Убираем у картинок и вложенных декоративных элементов */
-.page-shell [class*="drop-shadow-"],
-[class*="drop-shadow-"] {
-  filter: none !important;
-}
-
-/* Внешние секции и контейнеры тоже без теней */
-.page-shell > section,
-section.container-shell,
-article.container-shell,
-.container-shell {
-  box-shadow: none !important;
-  filter: none !important;
-}
-
-/* === end hard remove all nested windows === */
-
-/* === project-wide nos === */
-*,
-*::before,
-*::after {
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-[class*="shadow"],
-[class*="drop-shadow"] {
-  box-shadow: none !important;
-  filter: none !important;
-}
-
-img,
-svg,
-button,
-a,
-div,
-section,
-article,
-header,
-main,
-aside,
-nav {
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-.page-shell,
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-shell,
-.important-event-inner,
-.highlight-common-shell,
-.highlight-panel-card,
-.highlight-carousel-card,
-.calendar-common-shell,
-.calendar-single-surface,
-.calendar-panel,
-.event-details-panel,
-.calendar-inner,
-.calendar-card,
-.calendar-shell,
-.mint-btn,
-.mint-date-pill,
-.icon-chip {
-  box-shadow: none !important;
-  filter: none !important;
-}
-/* === end project-wide nos === */
-
-/* === combined important events panel === */
-.important-events-combined {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 26px !important;
-  box-shadow: none !important;
-}
-
-.important-events-combined > .important-events-shell {
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.important-events-combined .mini-important-strip,
-.important-events-combined-strip {
-  margin: 0 !important;
-  border: 0 !important;
-  border-top: 1px solid #7CD8B3 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.highlight-carousel-dots {
-  display: none !important;
-}
-
-/* === project-wide no shadows === */
-*,
-*::before,
-*::after {
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-[class*="shadow"],
-[class*="drop-shadow"] {
-  box-shadow: none !important;
-  filter: none !important;
-}
-
-.page-shell,
-.page-shell *,
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-shell,
-.important-event-inner,
-.highlight-common-shell,
-.highlight-panel-card,
-.highlight-carousel-card,
-.calendar-common-shell,
-.calendar-single-surface,
-.calendar-panel,
-.event-details-panel,
-.calendar-inner,
-.calendar-card,
-.calendar-shell,
-.mint-btn,
-.mint-date-pill,
-.icon-chip,
-button,
-a,
-div,
-section,
-article,
-header,
-main,
-aside,
-nav,
-img,
-svg {
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-/* === end project-wide no shadows === */
-
-
-/* === mint background for main combined panels === */
-
-.important-events-combined {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 26px !important;
-  padding: 12px !important;
-}
-
-.important-events-combined > .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
-
-.important-events-combined .mini-important-strip,
-.important-events-combined-strip {
-  background: transparent !important;
-  border: 0 !important;
-  border-top: 1px solid #4FAF8C !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 16px 0 0 0 !important;
-}
-
-.calendar-common-shell {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 26px !important;
-  padding: 12px !important;
-}
-
-.calendar-common-shell > .event-details-panel,
-.calendar-common-shell > .calendar-panel,
-.calendar-common-shell .right-calendar-shell,
-.calendar-common-shell .surface-card {
-  background: #ffffff !important;
-}
-
-/* === end mint background for main combined panels === */
-
-/* === unified mint borders for all windows and buttons === */
-
-:root {
-  --mint-border: #7CD8B3;
-}
-
-/* Все основные окна / панели / карточки */
-.page-shell,
-.surface-card,
-.dark-card,
-.mini-important-strip,
-.right-calendar-shell,
-.important-events-combined,
-.important-events-shell,
-.important-event-inner,
-.highlight-common-shell,
-.highlight-panel-card,
-.highlight-carousel-card,
-.calendar-common-shell,
-.calendar-single-surface,
-.calendar-panel,
-.event-details-panel,
-.calendar-inner,
-.calendar-card,
-.calendar-shell,
-.filter-panel,
-[class*="rounded-"][class*="border"] {
-  border-color: var(--mint-border) !important;
-}
-
-/* Все кнопки */
-button,
-a[role="button"],
-[role="button"],
-.app-btn,
-.btn,
-.button,
-.mint-btn,
-.mint-date-pill,
-.important-date-chip,
-.important-nav-btn,
-.highlight-nav-btn,
-.carousel-arrow-btn,
-.calendar-soft-btn,
-.day-nav-btn,
-.calendar-nav-btn,
-.calendar-today-btn,
-.view-all-btn {
-  border: 1px solid var(--mint-border) !important;
-}
-
-/* Поля фильтров и выпадающие списки */
 select,
 input,
 textarea,
 .select-clean,
-[data-slot="select-trigger"],
-[data-slot="select-value"],
+[data-slot='select-trigger'],
+[data-slot='select-value'],
 .filter-panel select,
 .filter-panel button {
-  border-color: var(--mint-border) !important;
-}
-
-/* Календарь: ячейки, шапка дней, сетка */
-.day-cell,
-.calendar-day,
-.calendar-day.selected,
-.calendar-day[data-selected="true"],
-.calendar-selected-day,
-.calendar-common-shell .grid,
-.calendar-common-shell [class*="border"] {
-  border-color: var(--mint-border) !important;
-}
-
-/* Внутренние декоративные круги/иконки */
-.icon-chip,
-.category-icon-shell,
-.topic-icon-shell,
-.direction-icon-shell,
-.export-icon-shell {
-  border-color: var(--mint-border) !important;
-}
-
-/* Не даём старым правилам вернуть чёрную или тёмно-мятную обводку */
-button[class],
-a[class],
-div[class],
-section[class],
-article[class],
-span[class],
-label[class] {
-  border-color: var(--mint-border) !important;
-}
-
-/* Исключение: активная дата может остаться красной, если нужна визуальная отметка */
-.day-cell-selected {
-  border-color: #E04B4B !important;
-}
-
-/* === end unified mint borders === */
-
-/* === important events ribbon inside carousel === */
-
-.important-events-ribbon {
-  background: transparent !important;
-}
-
-.important-events-ribbon .important-date-chip {
-  border-color: #7CD8B3 !important;
-}
-
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: #E04B4B !important;
-}
-
-.important-events-combined .mini-important-strip,
-.important-events-combined-strip {
-  display: none !important;
-}
-
-/* === end important events ribbon inside carousel === */
-
-/* === important events ribbon restored === */
-.important-events-ribbon {
-  background: transparent !important;
-  border-color: #7CD8B3 !important;
-}
-
-.important-events-ribbon .important-date-chip {
-  border-color: #7CD8B3 !important;
-}
-
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: #E04B4B !important;
-}
-/* === end important events ribbon restored === */
-
-/* === important event date buttons: white + hard shadow === */
-
-.important-events-ribbon .important-date-chip {
-  background: #ffffff !important;
+  background: #f8f8f8 !important;
+  border: 1.5px solid var(--ab-border) !important;
   color: #000000 !important;
-  border: 1px solid #7CD8B3 !important;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.28) !important;
-  transform: translateY(0);
-}
-
-.important-events-ribbon .important-date-chip span {
-  color: #000000 !important;
-}
-
-.important-events-ribbon .important-date-chip:hover {
-  background: #ffffff !important;
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.30) !important;
-  transform: translateY(-1px);
-}
-
-.important-events-ribbon .important-date-chip:active {
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.28) !important;
-  transform: translateY(2px);
-}
-
-/* активная кнопка */
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  background: #ffffff !important;
-  border-color: #E04B4B !important;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.30) !important;
-}
-
-/* === end important event date buttons === */
-
-/* === premium physical important date buttons === */
-
-.important-events-ribbon .important-date-chip {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border: 1.5px solid #7CD8B3 !important;
   box-shadow:
-    0 3px 0 #4FAF8C,
-    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    border-color 0.12s ease,
-    background-color 0.12s ease;
-}
-
-.important-events-ribbon .important-date-chip span {
-  color: #000000 !important;
-}
-
-.important-events-ribbon .important-date-chip:hover {
-  background: #ffffff !important;
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #4FAF8C,
-    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
-}
-
-.important-events-ribbon .important-date-chip:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #4FAF8C,
-    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* активная дата */
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  background: #ffffff !important;
-  border: 2px solid #E04B4B !important;
-  box-shadow:
-    0 3px 0 #4FAF8C,
-    3px 3px 0 rgba(0, 0, 0, 0.24) !important;
-}
-
-/* === end premium physical important date buttons === */
-
-/* === restore active important date frame === */
-
-/* обычные круглые кнопки */
-.important-events-ribbon .important-date-chip {
-  border: 1px solid #7CD8B3 !important;
-}
-
-/* активная круглая кнопка — рамку оставляем красной */
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  border: 2px solid #E04B4B !important;
-}
-
-/* === end restore active important date frame === */
-
-/* === physical style for important event action buttons === */
-
-.important-events-shell .important-event-action-btn,
-.important-events-combined .important-event-action-btn {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-  border: 1.5px solid #7CD8B3 !important;
-  box-shadow:
-    0 3px 0 #4FAF8C,
-    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease;
-}
-
-.important-events-shell .important-event-action-btn:hover,
-.important-events-combined .important-event-action-btn:hover {
-  background: #86e1bd !important;
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #4FAF8C,
-    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
-}
-
-.important-events-shell .important-event-action-btn:active,
-.important-events-combined .important-event-action-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #4FAF8C,
-    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* === end physical style for important event action buttons === */
-
-/* === final physical buttons in important carousel === */
-
-.important-events-ribbon .important-events-view-all-btn {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border: 1.5px solid #7CD8B3 !important;
-  box-shadow:
-    0 3px 0 #4FAF8C,
-    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
-  transform: translate(0, 0);
-}
-
-.important-events-ribbon .important-events-view-all-btn:hover {
-  background: #ffffff !important;
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #4FAF8C,
-    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
-}
-
-.important-events-ribbon .important-events-view-all-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #4FAF8C,
-    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-.important-events-shell .important-event-action-btn,
-.important-events-combined .important-event-action-btn {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-  border: 1.5px solid #7CD8B3 !important;
-  box-shadow:
-    0 3px 0 #4FAF8C,
-    3px 3px 0 rgba(0, 0, 0, 0.22) !important;
-  transform: translate(0, 0);
-}
-
-.important-events-shell .important-event-action-btn:hover,
-.important-events-combined .important-event-action-btn:hover {
-  background: #86e1bd !important;
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #4FAF8C,
-    4px 4px 0 rgba(0, 0, 0, 0.24) !important;
-}
-
-.important-events-shell .important-event-action-btn:active,
-.important-events-combined .important-event-action-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #4FAF8C,
-    1px 1px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* === end final physical buttons in important carousel === */
-
-/* === black border for important carousel physical buttons === */
-
-.important-events-ribbon .important-events-view-all-btn,
-.important-events-shell .important-event-action-btn,
-.important-events-combined .important-event-action-btn {
-  border: 1.5px solid #000000 !important;
-}
-
-/* === end black border for important carousel physical buttons === */
-
-/* === unified physical style for important event area === */
-
-/* объединённое главное окно */
-.highlight-hero-joined {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-}
-
-/* общий физический стиль для всех кнопок блока */
-.important-events-shell .important-nav-btn,
-.important-events-ribbon .important-date-chip,
-.important-events-ribbon .important-events-view-all-btn,
-.important-events-shell .important-event-action-btn,
-.important-events-combined .important-event-action-btn {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease;
-}
-
-/* hover */
-.important-events-shell .important-nav-btn:hover,
-.important-events-ribbon .important-date-chip:hover,
-.important-events-ribbon .important-events-view-all-btn:hover,
-.important-events-shell .important-event-action-btn:hover,
-.important-events-combined .important-event-action-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* active press */
-.important-events-shell .important-nav-btn:active,
-.important-events-ribbon .important-date-chip:active,
-.important-events-ribbon .important-events-view-all-btn:active,
-.important-events-shell .important-event-action-btn:active,
-.important-events-combined .important-event-action-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* стрелки */
-.important-events-shell .important-nav-btn {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-/* даты */
-.important-events-ribbon .important-date-chip {
-  background: #ffffff !important;
-  color: #000000 !important;
-}
-
-.important-events-ribbon .important-date-chip span {
-  color: #000000 !important;
-}
-
-/* активная дата */
-.important-events-ribbon .important-date-chip.border-\[\#E04B4B\],
-.important-events-ribbon .important-date-chip[class*="border-[#E04B4B]"] {
-  border: 2px solid #E04B4B !important;
-}
-
-/* смотреть все */
-.important-events-ribbon .important-events-view-all-btn {
-  background: #ffffff !important;
-  color: #000000 !important;
-}
-
-/* подробнее / напомнить */
-.important-events-shell .important-event-action-btn,
-.important-events-combined .important-event-action-btn {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-/* === end unified physical style for important event area === */
-
-/* === global physical button style === */
-
-button,
-a[role="button"],
-[role="button"],
-.app-btn,
-.btn,
-.button,
-.mint-btn,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn,
-.highlight-nav-btn,
-.carousel-arrow-btn,
-.calendar-soft-btn,
-.day-nav-btn,
-.calendar-nav-btn,
-.calendar-today-btn,
-.view-all-btn {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-button:hover,
-a[role="button"]:hover,
-[role="button"]:hover,
-.app-btn:hover,
-.btn:hover,
-.button:hover,
-.mint-btn:hover,
-.important-event-action-btn:hover,
-.important-events-view-all-btn:hover,
-.important-date-chip:hover,
-.important-nav-btn:hover,
-.highlight-nav-btn:hover,
-.carousel-arrow-btn:hover,
-.calendar-soft-btn:hover,
-.day-nav-btn:hover,
-.calendar-nav-btn:hover,
-.calendar-today-btn:hover,
-.view-all-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-button:active,
-a[role="button"]:active,
-[role="button"]:active,
-.app-btn:active,
-.btn:active,
-.button:active,
-.mint-btn:active,
-.important-event-action-btn:active,
-.important-events-view-all-btn:active,
-.important-date-chip:active,
-.important-nav-btn:active,
-.highlight-nav-btn:active,
-.carousel-arrow-btn:active,
-.calendar-soft-btn:active,
-.day-nav-btn:active,
-.calendar-nav-btn:active,
-.calendar-today-btn:active,
-.view-all-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* Отключённые кнопки не прыгают */
-button:disabled,
-button[disabled],
-[role="button"][aria-disabled="true"] {
-  opacity: 0.55 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow:
-    0 2px 0 #000000,
-    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Кнопки внутри календарной сетки не должны ломать разметку ячеек */
-.day-cell {
-  box-shadow: none !important;
+    inset 0 1px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
   transform: none !important;
 }
 
-/* === end global physical button style === */
-
-/* === physical border and shadow for important event windows === */
-
-/* внешнее окно всей панели важных событий */
-.important-events-combined {
-  border: 1.5px solid #000000 !important;
+[role='menu'],
+[role='listbox'],
+[data-radix-popper-content-wrapper],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  position: relative !important;
+  z-index: 9999 !important;
+  background: var(--ab-panel-bg) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 22px !important;
   box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+    0 10px 18px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
 }
 
-/* объединённое окно: картинка + текст */
-.important-events-shell .highlight-hero-joined,
-.important-events-combined .highlight-hero-joined {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
-}
-
-/* нижняя лента важных дат */
-.important-events-ribbon {
-  border-top: 1.5px solid #000000 !important;
-}
-
-/* внутренний разделитель между картинкой и текстом */
-.highlight-hero-joined > div > div:first-child {
-  border-color: #000000 !important;
-}
-
-/* === end physical border and shadow for important event windows === */
-
-/* === unified calendar panels shell === */
-
-.calendar-unified-shell {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 26px !important;
-  padding: 12px !important;
-  gap: 12px !important;
-  align-items: stretch !important;
-}
-
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-}
-
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-.calendar-unified-shell .calendar-top-panel,
-.calendar-unified-shell .calendar-bottom-panel {
-  min-width: 0 !important;
-}
-
-.calendar-unified-shell .calendar-bottom-panel > * {
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.calendar-unified-shell .calendar-left-panel {
-  height: 100% !important;
-}
-
-@media (max-width: 1280px) {
-  .calendar-unified-shell {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* === end unified calendar panels shell === */
-
-/* === unified dashboard panels shell === */
-
-.dashboard-unified-shell {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 28px !important;
-  padding: 12px !important;
-  display: grid !important;
-  gap: 12px !important;
-}
-
-/* Обёртки верхней панели, календаря и нижних подборок */
-.dashboard-filters-wrap,
-.dashboard-calendar-wrap,
-.dashboard-topics-wrap {
-  min-width: 0 !important;
-}
-
-/* Белые внутренние панели */
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > * {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-}
-
-/* EventsCalendarBoard внутри общего shell больше не должен создавать второй зелёный внешний контейнер */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  gap: 12px !important;
-  box-shadow: none !important;
-}
-
-/* Внутренние белые панели календарной зоны */
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-}
-
-/* Правая колонка календаря без собственного фона */
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Убираем лишнее окно внутри панели режимов */
-.dashboard-calendar-wrap .calendar-bottom-panel > * {
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Нижняя панель подборок без внешней белой подложки за пределами общего shell */
-.dashboard-topics-wrap > .surface-card {
-  padding: 12px !important;
-}
-
-/* Мобильная адаптация */
-@media (max-width: 1024px) {
-  .dashboard-unified-shell {
-    padding: 10px !important;
-    gap: 10px !important;
-  }
-}
-
-/* === end unified dashboard panels shell === */
-
-/* === dashboard unified shell like important events === */
-
-.dashboard-unified-shell {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 28px !important;
-  padding: 12px !important;
-  display: grid !important;
-  gap: 12px !important;
-}
-
-.dashboard-filters-wrap,
-.dashboard-calendar-wrap,
-.dashboard-topics-wrap {
-  min-width: 0 !important;
-}
-
-/* верхняя панель фильтров и нижняя панель подборок — белые окна внутри общего фона */
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > * {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-}
-
-/* календарный блок уже содержит внутренние панели, поэтому внешний зелёный shell убираем */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  gap: 12px !important;
-  box-shadow: none !important;
-}
-
-/* внутренние панели календарного блока остаются белыми */
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-}
-
-/* правая колонка календаря без собственного фона */
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-/* убираем лишнее внутреннее окно у режимов отображения */
-.dashboard-calendar-wrap .calendar-bottom-panel > * {
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-/* нижняя панель подборок внутри общего shell */
-.dashboard-topics-wrap > .surface-card {
-  padding: 12px !important;
-}
-
-/* если старые container-shell правила перебивают фон */
-.container-shell .dashboard-unified-shell {
-  background: #7CD8B3 !important;
-}
-
-@media (max-width: 1024px) {
-  .dashboard-unified-shell {
-    padding: 10px !important;
-    gap: 10px !important;
-  }
-}
-
-/* === end dashboard unified shell like important events === */
-
-/* === platform footer === */
+/* === footer === */
 
 .platform-footer-shell {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
   padding: 14px !important;
   display: grid;
   gap: 12px !important;
@@ -1845,2512 +618,14 @@ button[disabled],
 .platform-footer-title {
   color: #000000 !important;
   font-size: 15px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
-}
-
-.platform-footer-shell > section,
-.platform-footer-shell > div:not(.platform-footer-title):not(.platform-footer-copy) {
-  margin: 0 !important;
+  font-weight: 700 !important;
 }
 
 .platform-footer-copy {
-  border-top: 1px solid #7CD8B3 !important;
+  border-top: 1px solid var(--ab-border) !important;
   padding-top: 10px !important;
   color: #000000 !important;
   font-size: 13px !important;
   font-weight: 500 !important;
   text-align: center !important;
 }
-
-/* === end platform footer === */
-
-/* === dashboard panels styled like important events === */
-
-/* общий mint-фон всей панели */
-.dashboard-unified-shell {
-  background: #7CD8B3 !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 28px !important;
-  padding: 12px !important;
-  display: grid !important;
-  gap: 12px !important;
-  overflow: visible !important;
-}
-
-/* внутренние белые панели */
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 22px !important;
-  box-shadow: none !important;
-  overflow: hidden !important;
-}
-
-/* убираем второй зелёный контейнер внутри общего shell */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  gap: 12px !important;
-  box-shadow: none !important;
-}
-
-/* правая колонка календаря без собственного фона */
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-/* панель режимов без лишней вложенной рамки */
-.dashboard-calendar-wrap .calendar-bottom-panel > * {
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-/* фильтры внутри верхней панели */
-.dashboard-filters-wrap .select-clean {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 14px !important;
-  box-shadow: none !important;
-  color: #000000 !important;
-}
-
-/* физический стиль кнопок внутри этой общей панели */
-.dashboard-unified-shell button,
-.dashboard-unified-shell .mint-btn,
-.dashboard-unified-shell .pressable,
-.dashboard-unified-shell a[role="button"] {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* hover как у важных событий */
-.dashboard-unified-shell button:hover,
-.dashboard-unified-shell .mint-btn:hover,
-.dashboard-unified-shell .pressable:hover,
-.dashboard-unified-shell a[role="button"]:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* нажатие */
-.dashboard-unified-shell button:active,
-.dashboard-unified-shell .mint-btn:active,
-.dashboard-unified-shell .pressable:active,
-.dashboard-unified-shell a[role="button"]:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* НЕ превращаем календарные ячейки в кнопки с тенями */
-.dashboard-unified-shell .day-cell,
-.dashboard-unified-shell .day-cell:hover,
-.dashboard-unified-shell .day-cell:active {
-  border: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* кнопки режимов и подборок — мятные, как у важных событий */
-.dashboard-unified-shell .mint-btn,
-.dashboard-unified-shell .pressable {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-/* активные состояния оставляем заметными */
-.dashboard-unified-shell .mint-btn--active,
-.dashboard-unified-shell button[class*="ring-2"] {
-  border-color: #E04B4B !important;
-}
-
-/* нижняя панель подборок */
-.dashboard-topics-wrap > .surface-card {
-  padding: 12px !important;
-}
-
-/* === end dashboard panels styled like important events === */
-
-/* === GLOBAL PHYSICAL UI: buttons + popups === */
-
-/* Все реальные кнопки проекта */
-button,
-a[role="button"],
-[role="button"],
-.pressable,
-.mint-btn,
-.app-btn,
-.btn,
-.button,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-  transform: translate(0, 0);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* Наведение */
-button:hover,
-a[role="button"]:hover,
-[role="button"]:hover,
-.pressable:hover,
-.mint-btn:hover,
-.app-btn:hover,
-.btn:hover,
-.button:hover,
-.important-event-action-btn:hover,
-.important-events-view-all-btn:hover,
-.important-date-chip:hover,
-.important-nav-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* Нажатие */
-button:active,
-a[role="button"]:active,
-[role="button"]:active,
-.pressable:active,
-.mint-btn:active,
-.app-btn:active,
-.btn:active,
-.button:active,
-.important-event-action-btn:active,
-.important-events-view-all-btn:active,
-.important-date-chip:active,
-.important-nav-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* Disabled */
-button:disabled,
-button[disabled],
-a[role="button"][aria-disabled="true"],
-[role="button"][aria-disabled="true"] {
-  opacity: 0.55 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow:
-    0 2px 0 #000000,
-    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Мятные кнопки остаются мятными */
-.mint-btn,
-.pressable,
-.important-event-action-btn,
-button[class*="bg-[#7CD8B3]"],
-button[class*="bg-[#8BE2BE]"] {
-  color: #000000 !important;
-}
-
-/* Белые физические кнопки */
-.important-events-view-all-btn,
-.important-date-chip,
-button[class*="bg-white"],
-a[role="button"][class*="bg-white"] {
-  background: #ffffff !important;
-  color: #000000 !important;
-}
-
-/* Активные состояния */
-.mint-btn--active,
-button[class*="ring-2"],
-.important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: #E04B4B !important;
-}
-
-/* Календарные ячейки — не физические кнопки */
-.day-cell,
-.day-cell:hover,
-.day-cell:active,
-.calendar-day-number,
-.calendar-day-number:hover,
-.calendar-day-number:active {
-  border: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Нативные select/input не превращаем в кнопки */
-select,
-input,
-textarea,
-.select-clean {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Всплывающие окна / модалки */
-[role="dialog"],
-[data-radix-dialog-content],
-.fixed.left-1\/2.top-1\/2 {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 6px 0 #000000,
-    6px 6px 0 rgba(0, 0, 0, 0.18) !important;
-}
-
-/* Внутренние панели в модалках */
-[role="dialog"] .surface-card,
-[role="dialog"] .rounded-2xl,
-[role="dialog"] .rounded-\[24px\],
-[role="dialog"] .rounded-\[20px\],
-[role="dialog"] .rounded-\[18px\] {
-  border-color: #7CD8B3 !important;
-  box-shadow: none !important;
-}
-
-/* Кнопки внутри модалок — тот же физический стиль */
-[role="dialog"] button,
-[role="dialog"] a[role="button"],
-[role="dialog"] .btn,
-[role="dialog"] .button {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-}
-
-[role="dialog"] button:hover,
-[role="dialog"] a[role="button"]:hover,
-[role="dialog"] .btn:hover,
-[role="dialog"] .button:hover {
-  transform: translate(-1px, -1px);
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-[role="dialog"] button:active,
-[role="dialog"] a[role="button"]:active,
-[role="dialog"] .btn:active,
-[role="dialog"] .button:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* Tooltip/popover/dropdown-панели, если есть */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu {
-  background: #ffffff !important;
-  border: 1px solid #7CD8B3 !important;
-  border-radius: 20px !important;
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.16) !important;
-  z-index: 9999 !important;
-}
-
-/* === END GLOBAL PHYSICAL UI === */
-
-/* === HARD FINAL PHYSICAL STYLE OVERRIDE === */
-
-:root {
-  --ab-physical-border: #000000;
-  --ab-physical-shadow: rgba(0, 0, 0, 0.18);
-  --ab-mint: #7CD8B3;
-  --ab-mint-hover: #86e1bd;
-}
-
-/* ---------- ВСЕ КНОПКИ И ССЫЛКИ-КНОПКИ ---------- */
-
-button:not(.day-cell),
-a.inline-flex,
-a[class*="rounded"],
-[role="button"],
-.mint-btn,
-.pressable,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn,
-.dashboard-unified-shell button,
-.dashboard-unified-shell a,
-[role="dialog"] button,
-[role="dialog"] a {
-  border: 1.5px solid var(--ab-physical-border) !important;
-  box-shadow:
-    0 3px 0 var(--ab-physical-border),
-    3px 3px 0 var(--ab-physical-shadow) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* hover */
-button:not(.day-cell):hover,
-a.inline-flex:hover,
-a[class*="rounded"]:hover,
-[role="button"]:hover,
-.mint-btn:hover,
-.pressable:hover,
-.important-event-action-btn:hover,
-.important-events-view-all-btn:hover,
-.important-date-chip:hover,
-.important-nav-btn:hover,
-.dashboard-unified-shell button:hover,
-.dashboard-unified-shell a:hover,
-[role="dialog"] button:hover,
-[role="dialog"] a:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow:
-    0 4px 0 var(--ab-physical-border),
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* active */
-button:not(.day-cell):active,
-a.inline-flex:active,
-a[class*="rounded"]:active,
-[role="button"]:active,
-.mint-btn:active,
-.pressable:active,
-.important-event-action-btn:active,
-.important-events-view-all-btn:active,
-.important-date-chip:active,
-.important-nav-btn:active,
-.dashboard-unified-shell button:active,
-.dashboard-unified-shell a:active,
-[role="dialog"] button:active,
-[role="dialog"] a:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow:
-    0 1px 0 var(--ab-physical-border),
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* disabled */
-button:disabled,
-button[disabled],
-[aria-disabled="true"] {
-  opacity: 0.55 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow:
-    0 2px 0 var(--ab-physical-border),
-    2px 2px 0 rgba(0, 0, 0, 0.12) !important;
-}
-
-/* ---------- ПАНЕЛИ ---------- */
-
-.surface-card,
-.important-events-combined,
-.important-events-shell,
-.highlight-hero-joined,
-.dashboard-unified-shell,
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel,
-.platform-footer-shell,
-[role="dialog"],
-[data-radix-dialog-content] {
-  border: 1.5px solid var(--ab-physical-border) !important;
-  box-shadow:
-    0 4px 0 var(--ab-physical-border),
-    4px 4px 0 var(--ab-physical-shadow) !important;
-}
-
-/* белые панели остаются белыми */
-.surface-card,
-.important-events-shell,
-.highlight-hero-joined,
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: #ffffff !important;
-}
-
-/* зелёные общие оболочки */
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-mint) !important;
-}
-
-/* ---------- ВСПЛЫВАЮЩИЕ ОКНА / DROPDOWN / POPOVER ---------- */
-
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu {
-  background: #ffffff !important;
-  border: 1.5px solid var(--ab-physical-border) !important;
-  border-radius: 20px !important;
-  box-shadow:
-    0 4px 0 var(--ab-physical-border),
-    4px 4px 0 var(--ab-physical-shadow) !important;
-  z-index: 9999 !important;
-}
-
-/* ---------- ИСКЛЮЧЕНИЯ: НЕ ЛОМАЕМ КАЛЕНДАРНУЮ СЕТКУ ---------- */
-
-.day-cell,
-.day-cell:hover,
-.day-cell:active,
-.calendar-day-number,
-.calendar-day-number:hover,
-.calendar-day-number:active {
-  border: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* поля ввода и select не делаем физическими кнопками */
-select,
-input,
-textarea,
-.select-clean {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* но обводку фильтров оставляем видимой */
-.select-clean {
-  border: 1px solid var(--ab-mint) !important;
-}
-
-/* === END HARD FINAL PHYSICAL STYLE OVERRIDE === */
-
-/* === HARD FINAL HEADER AND METRICS PHYSICAL STYLE === */
-
-.site-header-panel,
-.metric-card {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 22px !important;
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.18) !important;
-}
-
-.site-header-panel {
-  padding: 18px 22px !important;
-}
-
-.metric-card {
-  min-height: 82px !important;
-  padding: 16px 18px !important;
-}
-
-.site-header-action,
-.mint-btn--header,
-.metrics-grid button,
-.metric-card button,
-.metric-card a {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 18px !important;
-  box-shadow:
-    0 3px 0 #000000,
-    3px 3px 0 rgba(0, 0, 0, 0.18) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease !important;
-}
-
-.site-header-action:hover,
-.mint-btn--header:hover,
-.metrics-grid button:hover,
-.metric-card button:hover,
-.metric-card a:hover {
-  background: #86e1bd !important;
-  transform: translate(-1px, -1px) !important;
-  box-shadow:
-    0 4px 0 #000000,
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-.site-header-action:active,
-.mint-btn--header:active,
-.metrics-grid button:active,
-.metric-card button:active,
-.metric-card a:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow:
-    0 1px 0 #000000,
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-.metric-icon,
-.site-header-action span:first-child,
-.mint-btn--header span:first-child {
-  border: 1.5px solid #000000 !important;
-  box-shadow:
-    0 2px 0 #000000,
-    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
-}
-
-.metric-card .text-xl,
-.metric-card [class*="text-xl"] {
-  color: #000000 !important;
-  font-weight: 700 !important;
-}
-
-.metric-card .text-sm,
-.metric-card [class*="text-sm"] {
-  color: #000000 !important;
-  font-weight: 600 !important;
-}
-
-/* === END HARD FINAL HEADER AND METRICS PHYSICAL STYLE === */
-
-/* === FINAL WHITE BACKGROUND + BLACK BORDERS FOR ALL PANELS AND BUTTONS === */
-
-:root {
-  --ab-black: #000000;
-  --ab-white: #ffffff;
-  --ab-mint: #7CD8B3;
-}
-
-/* Общая белая подложка всего проекта */
-.page-shell {
-  background: #ffffff !important;
-  border: 2px solid #000000 !important;
-  border-radius: 28px !important;
-}
-
-/* Все основные shell-панели проекта теперь белые */
-.important-events-combined,
-.important-events-shell,
-.highlight-hero-joined,
-.dashboard-unified-shell,
-.calendar-unified-shell,
-.platform-footer-shell,
-.site-header-panel,
-.surface-card,
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel,
-.metric-card,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Убираем зелёный фон у общих контейнеров */
-.dashboard-unified-shell,
-.important-events-combined,
-.calendar-unified-shell {
-  background: #ffffff !important;
-}
-
-/* Правая календарная колонка без отдельной лишней оболочки */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Все кнопки и кнопки-ссылки — с чёрной обводкой */
-button,
-a[role="button"],
-[role="button"],
-.pressable,
-.mint-btn,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn {
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Мятные кнопки оставляем мятными */
-.mint-btn,
-.pressable,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-button[class*="bg-[#7CD8B3]"],
-button[class*="bg-[#86e1bd]"] {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-/* Белые кнопки */
-.important-events-view-all-btn,
-.important-date-chip,
-button[class*="bg-white"],
-a[class*="bg-white"] {
-  background: #ffffff !important;
-  color: #000000 !important;
-}
-
-/* Карточки-счётчики */
-.metric-card,
-.metrics-grid .surface-card {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Иконки в счётчиках */
-.metric-icon,
-.icon-chip {
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Фильтры и селекты */
-.select-clean,
-select,
-input,
-textarea {
-  border-color: #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Выпадающие/всплывающие окна */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Модальные окна */
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* Не ломаем календарную сетку */
-.day-cell,
-.day-cell:hover,
-.day-cell:active,
-.calendar-day-number,
-.calendar-day-number:hover,
-.calendar-day-number:active {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Панель режимов и нижняя панель подборок */
-.dashboard-topics-wrap > .surface-card,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.platform-footer-shell {
-  background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
-  box-shadow: none !important;
-}
-
-/* === END FINAL WHITE BACKGROUND + BLACK BORDERS FOR ALL PANELS AND BUTTONS === */
-
-/* === FINAL UNIFIED AB STYLE: black borders, physical shadows, correct backgrounds === */
-
-:root {
-  --ab-black: #000000;
-  --ab-white: #ffffff;
-  --ab-mint: #7CD8B3;
-  --ab-mint-hover: #86e1bd;
-  --ab-shadow-soft: rgba(0, 0, 0, 0.18);
-}
-
-/* общий белый фон проекта */
-.page-shell {
-  background: var(--ab-white) !important;
-  border: 1.5px solid var(--ab-black) !important;
-  border-radius: 28px !important;
-}
-
-/* ВАЖНО: крупные общие зелёные оболочки остаются мятными */
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-mint) !important;
-  border: 1.5px solid var(--ab-black) !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 4px 0 var(--ab-black),
-    4px 4px 0 var(--ab-shadow-soft) !important;
-}
-
-/* у важных событий внутренний root прозрачный, чтобы был виден мятный фон */
-.important-events-combined .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* белые окна внутри общих оболочек */
-.site-header-panel,
-.metric-card,
-.surface-card,
-.highlight-hero-joined,
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel,
-.platform-footer-shell,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-white) !important;
-  border: 1.5px solid var(--ab-black) !important;
-  border-radius: 22px !important;
-  box-shadow:
-    0 4px 0 var(--ab-black),
-    4px 4px 0 var(--ab-shadow-soft) !important;
-}
-
-/* внутренние панели без лишнего зелёного фона */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* панель важных дат внутри важного блока */
-.important-events-ribbon,
-.important-events-combined-strip {
-  background: transparent !important;
-  border-color: var(--ab-black) !important;
-}
-
-/* все кнопки проекта */
-button,
-a[role="button"],
-a.inline-flex,
-a.mint-btn,
-.pressable,
-.mint-btn,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn {
-  border: 1.5px solid var(--ab-black) !important;
-  box-shadow:
-    0 3px 0 var(--ab-black),
-    3px 3px 0 var(--ab-shadow-soft) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* hover для кнопок */
-button:hover,
-a[role="button"]:hover,
-a.inline-flex:hover,
-a.mint-btn:hover,
-.pressable:hover,
-.mint-btn:hover,
-.site-header-action:hover,
-.mint-btn--header:hover,
-.important-event-action-btn:hover,
-.important-events-view-all-btn:hover,
-.important-date-chip:hover,
-.important-nav-btn:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black),
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* active для кнопок */
-button:active,
-a[role="button"]:active,
-a.inline-flex:active,
-a.mint-btn:active,
-.pressable:active,
-.mint-btn:active,
-.site-header-action:active,
-.mint-btn--header:active,
-.important-event-action-btn:active,
-.important-events-view-all-btn:active,
-.important-date-chip:active,
-.important-nav-btn:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow:
-    0 1px 0 var(--ab-black),
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* мятные кнопки */
-.mint-btn,
-.pressable,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-.dashboard-unified-shell button[class*="bg-[#7CD8B3]"],
-.dashboard-unified-shell button[class*="bg-[#86e1bd]"] {
-  background: var(--ab-mint) !important;
-  color: var(--ab-black) !important;
-}
-
-/* белые кнопки */
-.important-events-view-all-btn,
-.important-date-chip,
-button[class*="bg-white"],
-a[class*="bg-white"] {
-  background: var(--ab-white) !important;
-  color: var(--ab-black) !important;
-}
-
-/* активные кнопки */
-.mint-btn--active,
-button[class*="ring-2"],
-.important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: #E04B4B !important;
-}
-
-/* карточки-счётчики */
-.metrics-grid .surface-card,
-.metric-card {
-  background: var(--ab-white) !important;
-  border: 1.5px solid var(--ab-black) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black),
-    4px 4px 0 var(--ab-shadow-soft) !important;
-}
-
-.metric-icon,
-.icon-chip {
-  border: 1.5px solid var(--ab-black) !important;
-  box-shadow:
-    0 2px 0 var(--ab-black),
-    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
-}
-
-/* фильтры */
-.select-clean,
-select,
-input,
-textarea {
-  border: 1.5px solid var(--ab-black) !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* popover/dropdown/modal */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-white) !important;
-  border: 1.5px solid var(--ab-black) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black),
-    4px 4px 0 var(--ab-shadow-soft) !important;
-}
-
-/* не ломаем календарную сетку */
-.day-cell,
-.day-cell:hover,
-.day-cell:active,
-.calendar-day-number,
-.calendar-day-number:hover,
-.calendar-day-number:active {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* но внешняя рамка календарного окна остаётся чёрной */
-.calendar-top-panel > div,
-.calendar-left-panel,
-.calendar-bottom-panel {
-  border-color: var(--ab-black) !important;
-}
-
-/* === END FINAL UNIFIED AB STYLE === */
-
-/* === ABSOLUTE FINAL AB VISUAL SYSTEM === */
-/* black borders everywhere, correct panel backgrounds, important events mint restored */
-
-:root {
-  --ab-black-final: #000000;
-  --ab-white-final: #ffffff;
-  --ab-mint-final: #7CD8B3;
-  --ab-mint-hover-final: #86e1bd;
-  --ab-shadow-final: rgba(0, 0, 0, 0.18);
-}
-
-/* общий фон проекта */
-html,
-body {
-  background: #000000 !important;
-}
-
-main {
-  background: #000000 !important;
-}
-
-.page-shell {
-  background: var(--ab-white-final) !important;
-  border: 1.5px solid var(--ab-black-final) !important;
-  border-radius: 28px !important;
-}
-
-/* главные мятные зоны */
-#important-events-section .important-events-combined,
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-mint-final) !important;
-  border: 1.5px solid var(--ab-black-final) !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 4px 0 var(--ab-black-final),
-    4px 4px 0 var(--ab-shadow-final) !important;
-}
-
-/* important-events-shell не должен перекрывать мятный фон родителя */
-#important-events-section .important-events-shell,
-.important-events-combined .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* все основные белые окна */
-.site-header-panel,
-.metric-card,
-.metrics-grid .surface-card,
-.surface-card,
-.highlight-hero-joined,
-.dashboard-filters-wrap > *,
-.dashboard-topics-wrap > *,
-.dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
-.dashboard-calendar-wrap .calendar-bottom-panel,
-.calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
-.calendar-unified-shell .calendar-bottom-panel,
-.platform-footer-shell,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-white-final) !important;
-  border: 1.5px solid var(--ab-black-final) !important;
-  border-radius: 22px !important;
-  box-shadow:
-    0 4px 0 var(--ab-black-final),
-    4px 4px 0 var(--ab-shadow-final) !important;
-}
-
-/* ловим Tailwind-панели без специальных классов */
-.page-shell div[class*="rounded"][class*="bg-white"][class*="border"],
-.page-shell section[class*="rounded"][class*="bg-white"][class*="border"],
-.page-shell article[class*="rounded"][class*="bg-white"][class*="border"] {
-  border-color: var(--ab-black-final) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black-final),
-    4px 4px 0 var(--ab-shadow-final) !important;
-}
-
-/* внутренние мелкие информационные панели без тяжёлой тени */
-[role="dialog"] div[class*="rounded"][class*="bg-white"][class*="border"],
-.dashboard-calendar-wrap .calendar-bottom-panel > *,
-.platform-footer-shell > * {
-  border-color: var(--ab-black-final) !important;
-}
-
-/* прозрачные технические контейнеры не должны быть окнами */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* лента важных событий — фон мятный от родителя, рамки чёрные */
-.important-events-ribbon,
-.important-events-combined-strip {
-  background: transparent !important;
-  border-color: var(--ab-black-final) !important;
-}
-
-/* разделитель между картинкой и текстом */
-.highlight-hero-joined > div > div:first-child {
-  border-color: var(--ab-black-final) !important;
-}
-
-/* все кнопки */
-button,
-a[role="button"],
-a.inline-flex,
-a.mint-btn,
-.pressable,
-.mint-btn,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-.important-events-view-all-btn,
-.important-date-chip,
-.important-nav-btn,
-.page-shell a[class*="rounded"],
-.page-shell button[class*="rounded"] {
-  border: 1.5px solid var(--ab-black-final) !important;
-  box-shadow:
-    0 3px 0 var(--ab-black-final),
-    3px 3px 0 var(--ab-shadow-final) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* hover */
-button:hover,
-a[role="button"]:hover,
-a.inline-flex:hover,
-a.mint-btn:hover,
-.pressable:hover,
-.mint-btn:hover,
-.site-header-action:hover,
-.mint-btn--header:hover,
-.important-event-action-btn:hover,
-.important-events-view-all-btn:hover,
-.important-date-chip:hover,
-.important-nav-btn:hover,
-.page-shell a[class*="rounded"]:hover,
-.page-shell button[class*="rounded"]:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black-final),
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* active */
-button:active,
-a[role="button"]:active,
-a.inline-flex:active,
-a.mint-btn:active,
-.pressable:active,
-.mint-btn:active,
-.site-header-action:active,
-.mint-btn--header:active,
-.important-event-action-btn:active,
-.important-events-view-all-btn:active,
-.important-date-chip:active,
-.important-nav-btn:active,
-.page-shell a[class*="rounded"]:active,
-.page-shell button[class*="rounded"]:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow:
-    0 1px 0 var(--ab-black-final),
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* мятные кнопки */
-.mint-btn,
-.pressable,
-.site-header-action,
-.mint-btn--header,
-.important-event-action-btn,
-.dashboard-unified-shell button[class*="bg-[#7CD8B3]"],
-.dashboard-unified-shell button[class*="bg-[#86e1bd]"],
-button[class*="bg-[#7CD8B3]"],
-button[class*="bg-[#8BE2BE]"] {
-  background: var(--ab-mint-final) !important;
-  color: var(--ab-black-final) !important;
-}
-
-/* белые кнопки */
-.important-events-view-all-btn,
-.important-date-chip,
-button[class*="bg-white"],
-a[class*="bg-white"] {
-  background: var(--ab-white-final) !important;
-  color: var(--ab-black-final) !important;
-}
-
-/* активные рамки */
-.mint-btn--active,
-button[class*="ring-2"],
-.important-date-chip[class*="border-[#E04B4B]"] {
-  border-color: #E04B4B !important;
-}
-
-/* иконки-счётчики */
-.metric-icon,
-.icon-chip {
-  border: 1.5px solid var(--ab-black-final) !important;
-  box-shadow:
-    0 2px 0 var(--ab-black-final),
-    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
-}
-
-/* фильтры */
-.select-clean,
-select,
-input,
-textarea {
-  border: 1.5px solid var(--ab-black-final) !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* dropdown / popover / dialog */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-white-final) !important;
-  border: 1.5px solid var(--ab-black-final) !important;
-  box-shadow:
-    0 4px 0 var(--ab-black-final),
-    4px 4px 0 var(--ab-shadow-final) !important;
-}
-
-/* календарная сетка: не превращаем дни в физические кнопки */
-.day-cell,
-.day-cell:hover,
-.day-cell:active,
-.calendar-day-number,
-.calendar-day-number:hover,
-.calendar-day-number:active {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* но рамки таблицы календаря чёрные */
-.calendar-top-panel table,
-.calendar-top-panel th,
-.calendar-top-panel td,
-.calendar-grid,
-.calendar-grid * {
-  border-color: var(--ab-black-final) !important;
-}
-
-/* footer-кнопки */
-.platform-footer-shell a,
-.platform-footer-shell button,
-.platform-footer-shell [role="button"] {
-  border: 1.5px solid var(--ab-black-final) !important;
-  box-shadow:
-    0 3px 0 var(--ab-black-final),
-    3px 3px 0 var(--ab-shadow-final) !important;
-}
-
-/* === END ABSOLUTE FINAL AB VISUAL SYSTEM === */
-
-/* === ULTIMATE AB STYLE LOCK === */
-/* final lock: black borders for every panel/button, correct mint areas, no red/green leftover borders */
-
-:root {
-  --ab-lock-black: #000000;
-  --ab-lock-white: #ffffff;
-  --ab-lock-mint: #7CD8B3;
-  --ab-lock-mint-hover: #86e1bd;
-  --ab-lock-shadow: rgba(0, 0, 0, 0.18);
-}
-
-/* общий фон проекта */
-.page-shell {
-  background: var(--ab-lock-white) !important;
-  border: 1.5px solid var(--ab-lock-black) !important;
-  border-radius: 28px !important;
-}
-
-/* главные мятные зоны */
-#important-events-section .important-events-combined,
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-lock-mint) !important;
-  border: 1.5px solid var(--ab-lock-black) !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 4px 0 var(--ab-lock-black),
-    4px 4px 0 var(--ab-lock-shadow) !important;
-}
-
-/* внутренний слой важных событий не должен перекрывать мятный фон */
-#important-events-section .important-events-shell,
-.important-events-combined .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* все элементы с border внутри проекта — только чёрная обводка */
-.page-shell [class*="border"],
-.page-shell .border,
-.page-shell .border-t,
-.page-shell .border-b,
-.page-shell .border-l,
-.page-shell .border-r {
-  border-color: var(--ab-lock-black) !important;
-}
-
-/* все основные окна/панели */
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .dashboard-calendar-wrap .calendar-left-panel,
-.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
-.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
-.page-shell .calendar-unified-shell .calendar-left-panel,
-.page-shell .calendar-unified-shell .calendar-top-panel > div,
-.page-shell .calendar-unified-shell .calendar-bottom-panel,
-.page-shell .platform-footer-shell,
-.page-shell .utility-divider,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-lock-white) !important;
-  border: 1.5px solid var(--ab-lock-black) !important;
-  border-radius: 22px !important;
-  box-shadow:
-    0 4px 0 var(--ab-lock-black),
-    4px 4px 0 var(--ab-lock-shadow) !important;
-}
-
-/* технические контейнеры не должны становиться окнами */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* лента важных событий и разделители */
-.important-events-ribbon,
-.important-events-combined-strip,
-.highlight-hero-joined > div > div:first-child {
-  border-color: var(--ab-lock-black) !important;
-}
-
-/* все кнопки и ссылки-кнопки */
-.page-shell button,
-.page-shell a.mint-btn,
-.page-shell a.inline-flex,
-.page-shell a[class*="rounded"],
-.page-shell [role="button"],
-.page-shell .pressable,
-.page-shell .mint-btn,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell .important-nav-btn,
-[role="dialog"] button,
-[role="dialog"] a {
-  border: 1.5px solid var(--ab-lock-black) !important;
-  box-shadow:
-    0 3px 0 var(--ab-lock-black),
-    3px 3px 0 var(--ab-lock-shadow) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    opacity 0.12s ease !important;
-}
-
-/* hover */
-.page-shell button:hover,
-.page-shell a.mint-btn:hover,
-.page-shell a.inline-flex:hover,
-.page-shell a[class*="rounded"]:hover,
-.page-shell [role="button"]:hover,
-.page-shell .pressable:hover,
-.page-shell .mint-btn:hover,
-.page-shell .site-header-action:hover,
-.page-shell .mint-btn--header:hover,
-.page-shell .important-event-action-btn:hover,
-.page-shell .important-events-view-all-btn:hover,
-.page-shell .important-date-chip:hover,
-.page-shell .important-nav-btn:hover,
-[role="dialog"] button:hover,
-[role="dialog"] a:hover {
-  transform: translate(-1px, -1px) !important;
-  box-shadow:
-    0 4px 0 var(--ab-lock-black),
-    4px 4px 0 rgba(0, 0, 0, 0.20) !important;
-}
-
-/* active */
-.page-shell button:active,
-.page-shell a.mint-btn:active,
-.page-shell a.inline-flex:active,
-.page-shell a[class*="rounded"]:active,
-.page-shell [role="button"]:active,
-.page-shell .pressable:active,
-.page-shell .mint-btn:active,
-.page-shell .site-header-action:active,
-.page-shell .mint-btn--header:active,
-.page-shell .important-event-action-btn:active,
-.page-shell .important-events-view-all-btn:active,
-.page-shell .important-date-chip:active,
-.page-shell .important-nav-btn:active,
-[role="dialog"] button:active,
-[role="dialog"] a:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow:
-    0 1px 0 var(--ab-lock-black),
-    1px 1px 0 rgba(0, 0, 0, 0.16) !important;
-}
-
-/* убираем красные/зелёные активные border/ring, оставляем чёрный стиль */
-.page-shell button[class*="ring-2"],
-.page-shell button[class*="ring-"],
-.page-shell [class*="ring-[#E04B4B]"] {
-  border-color: var(--ab-lock-black) !important;
-  --tw-ring-color: transparent !important;
-}
-
-/* мятные кнопки */
-.page-shell .mint-btn,
-.page-shell .pressable,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell button[class*="bg-[#7CD8B3]"],
-.page-shell button[class*="bg-[#8BE2BE]"],
-.page-shell button[class*="bg-[#86e1bd]"] {
-  background: var(--ab-lock-mint) !important;
-  color: var(--ab-lock-black) !important;
-}
-
-/* белые кнопки */
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell button[class*="bg-white"],
-.page-shell a[class*="bg-white"] {
-  background: var(--ab-lock-white) !important;
-  color: var(--ab-lock-black) !important;
-}
-
-/* иконки */
-.page-shell .metric-icon,
-.page-shell .icon-chip,
-.page-shell .site-header-action span:first-child,
-.page-shell .mint-btn--header span:first-child {
-  border: 1.5px solid var(--ab-lock-black) !important;
-  box-shadow:
-    0 2px 0 var(--ab-lock-black),
-    2px 2px 0 rgba(0, 0, 0, 0.14) !important;
-}
-
-/* формы */
-.page-shell .select-clean,
-.page-shell select,
-.page-shell input,
-.page-shell textarea {
-  border: 1.5px solid var(--ab-lock-black) !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* dropdown / popover / modal */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-lock-white) !important;
-  border: 1.5px solid var(--ab-lock-black) !important;
-  box-shadow:
-    0 4px 0 var(--ab-lock-black),
-    4px 4px 0 var(--ab-lock-shadow) !important;
-}
-
-/* календарная сетка: дни не прыгают, но линии чёрные */
-.page-shell .day-cell,
-.page-shell .day-cell:hover,
-.page-shell .day-cell:active,
-.page-shell .calendar-day-number,
-.page-shell .calendar-day-number:hover,
-.page-shell .calendar-day-number:active {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.page-shell .calendar-top-panel table,
-.page-shell .calendar-top-panel th,
-.page-shell .calendar-top-panel td,
-.page-shell .calendar-grid,
-.page-shell .calendar-grid * {
-  border-color: var(--ab-lock-black) !important;
-}
-
-/* === END ULTIMATE AB STYLE LOCK === */
-
-/* === PAGE SHELL SIZE + BACKGROUND TUNE === */
-
-.page-shell {
-  background: #ececec !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 30px !important;
-
-  /* общий фон меньше по размеру */
-  width: calc(100% - 40px) !important;
-  max-width: 1480px !important;
-  margin: 20px auto !important;
-
-  /* выступ по краям как между окнами */
-  padding: 14px !important;
-
-  box-sizing: border-box !important;
-}
-
-/* чтобы внутренние секции не вылезали */
-.page-shell > * {
-  max-width: 100% !important;
-}
-
-/* на мобильных немного компактнее */
-@media (max-width: 768px) {
-  .page-shell {
-    width: calc(100% - 20px) !important;
-    margin: 10px auto !important;
-    padding: 10px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END PAGE SHELL SIZE + BACKGROUND TUNE === */
-
-/* === ABSOLUTE FINAL PAGE FRAME SIZE AND COLOR === */
-/* Must stay at the very end of globals.css */
-
-main {
-  background: #000000 !important;
-  padding: 18px !important;
-}
-
-main > .page-shell,
-.page-shell {
-  background: #eeeeee !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 30px !important;
-
-  width: calc(100% - 36px) !important;
-  max-width: 1460px !important;
-  margin: 0 auto !important;
-
-  padding: 14px !important;
-  box-sizing: border-box !important;
-}
-
-/* чтобы секции внутри не прилипали к краям серого фона */
-.page-shell > .container-shell,
-.page-shell > header.container-shell,
-.page-shell > footer.container-shell,
-.page-shell > section.container-shell {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* на мобильных оставляем меньше выступ */
-@media (max-width: 768px) {
-  main {
-    padding: 10px !important;
-  }
-
-  main > .page-shell,
-  .page-shell {
-    width: calc(100% - 16px) !important;
-    padding: 10px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END ABSOLUTE FINAL PAGE FRAME SIZE AND COLOR === */
-
-/* === ABSOLUTE FINAL PAGE FRAME COMPACT SIZE === */
-/* Must be the last page-shell rule */
-
-main {
-  background: #000000 !important;
-  padding: 24px !important;
-}
-
-main > .page-shell,
-.page-shell {
-  background: #eeeeee !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 30px !important;
-
-  width: min(1360px, calc(100vw - 96px)) !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-
-  padding: 16px !important;
-  box-sizing: border-box !important;
-}
-
-.page-shell > .container-shell,
-.page-shell > header.container-shell,
-.page-shell > footer.container-shell,
-.page-shell > section.container-shell {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-@media (max-width: 900px) {
-  main {
-    padding: 12px !important;
-  }
-
-  main > .page-shell,
-  .page-shell {
-    width: calc(100vw - 24px) !important;
-    padding: 10px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END ABSOLUTE FINAL PAGE FRAME COMPACT SIZE === */
-
-/* === FINAL PAGE FRAME WIDTH + PANEL LAYER FIX === */
-/* Only page shell size + panel layering. Do not change panel design. */
-
-main {
-  background: #000000 !important;
-  padding: 18px !important;
-}
-
-main > .page-shell,
-.page-shell {
-  background: #eeeeee !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 30px !important;
-
-  /* Делаем общий фон больше, чтобы окна не вылезали */
-  width: min(1460px, calc(100vw - 56px)) !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-
-  /* Выступ по краям сохраняем */
-  padding: 14px !important;
-  box-sizing: border-box !important;
-  overflow: visible !important;
-}
-
-/* Чтобы внутренние секции не ломали ширину */
-.page-shell > .container-shell,
-.page-shell > header.container-shell,
-.page-shell > footer.container-shell,
-.page-shell > section.container-shell {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* Критично: grid/flex дети должны уметь сжиматься внутри общего фона */
-.page-shell .container-shell,
-.page-shell .dashboard-unified-shell,
-.page-shell .dashboard-calendar-wrap,
-.page-shell .dashboard-topics-wrap,
-.page-shell .dashboard-filters-wrap,
-.page-shell .calendar-common-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .right-calendar-shell,
-.page-shell .calendar-left-panel,
-.page-shell .calendar-top-panel,
-.page-shell .calendar-bottom-panel,
-.page-shell .highlight-hero-joined,
-.page-shell .surface-card {
-  min-width: 0 !important;
-  max-width: 100% !important;
-}
-
-/* Панели должны иметь свой слой и не смешивать текст между собой */
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .dashboard-calendar-wrap .calendar-left-panel,
-.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
-.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
-.page-shell .calendar-unified-shell .calendar-left-panel,
-.page-shell .calendar-unified-shell .calendar-top-panel > div,
-.page-shell .calendar-unified-shell .calendar-bottom-panel,
-.page-shell .platform-footer-shell,
-.page-shell [role="dialog"],
-.page-shell [data-radix-dialog-content] {
-  position: relative !important;
-  z-index: 1 !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
-
-/* Верхняя панель фильтров должна позволять раскрывающимся спискам выходить поверх */
-.page-shell .dashboard-filters-wrap > * {
-  position: relative !important;
-  z-index: 20 !important;
-  isolation: isolate !important;
-  overflow: visible !important;
-}
-
-/* Выпадающие списки, popover, dropdown — всегда поверх */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu {
-  position: relative !important;
-  z-index: 9999 !important;
-}
-
-/* На всякий случай: текстовые блоки внутри карточек не должны выталкивать соседей */
-.page-shell h1,
-.page-shell h2,
-.page-shell h3,
-.page-shell h4,
-.page-shell p,
-.page-shell span,
-.page-shell div,
-.page-shell a,
-.page-shell button {
-  min-width: 0 !important;
-}
-
-/* Мобильная версия */
-@media (max-width: 900px) {
-  main {
-    padding: 10px !important;
-  }
-
-  main > .page-shell,
-  .page-shell {
-    width: calc(100vw - 20px) !important;
-    padding: 10px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END FINAL PAGE FRAME WIDTH + PANEL LAYER FIX === */
-
-/* === EQUAL PAGE SHELL INSET ON ALL SIDES === */
-/* only outer project background spacing */
-
-main {
-  background: #000000 !important;
-  padding: 18px !important;
-}
-
-main > .page-shell,
-.page-shell {
-  background: #eeeeee !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 30px !important;
-
-  width: min(1460px, calc(100vw - 56px)) !important;
-  margin: 0 auto !important;
-
-  /* одинаковый выступ со всех сторон */
-  padding: 18px !important;
-
-  box-sizing: border-box !important;
-  overflow: visible !important;
-}
-
-/* все прямые секции внутри общего фона */
-.page-shell > .container-shell,
-.page-shell > header.container-shell,
-.page-shell > footer.container-shell,
-.page-shell > section.container-shell {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-/* если первый блок слишком прилипает к верху */
-.page-shell > .container-shell:first-child,
-.page-shell > header.container-shell:first-child,
-.page-shell > section.container-shell:first-child {
-  margin-top: 0 !important;
-}
-
-/* мобильная версия */
-@media (max-width: 900px) {
-  main {
-    padding: 10px !important;
-  }
-
-  main > .page-shell,
-  .page-shell {
-    width: calc(100vw - 20px) !important;
-    padding: 12px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END EQUAL PAGE SHELL INSET ON ALL SIDES === */
-
-/* === FINAL SOFT CONVEX UI STYLE / VARIANT 1 === */
-/* мягкая выпуклость окон со всех сторон */
-
-:root {
-  --ab-convex-black: rgba(0, 0, 0, 0.72);
-  --ab-convex-border: rgba(0, 0, 0, 0.62);
-  --ab-convex-panel: #f2f2f2;
-  --ab-convex-white: #ffffff;
-  --ab-convex-mint: #7CD8B3;
-  --ab-convex-shadow-1: rgba(0, 0, 0, 0.24);
-  --ab-convex-shadow-2: rgba(0, 0, 0, 0.14);
-  --ab-convex-highlight: rgba(255, 255, 255, 0.92);
-}
-
-/* общий фон проекта */
-main > .page-shell,
-.page-shell {
-  background: #eeeeee !important;
-  border: 1.5px solid var(--ab-convex-border) !important;
-  border-radius: 32px !important;
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* крупные мятные зоны */
-#important-events-section .important-events-combined,
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-convex-mint) !important;
-  border: 1.5px solid var(--ab-convex-border) !important;
-  border-radius: 30px !important;
-  box-shadow:
-    0 10px 20px var(--ab-convex-shadow-1),
-    0 3px 8px var(--ab-convex-shadow-2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* внутренний слой важных событий не перекрывает мятный фон */
-#important-events-section .important-events-shell,
-.important-events-combined .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* все основные окна */
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .dashboard-calendar-wrap .calendar-left-panel,
-.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
-.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
-.page-shell .calendar-unified-shell .calendar-left-panel,
-.page-shell .calendar-unified-shell .calendar-top-panel > div,
-.page-shell .calendar-unified-shell .calendar-bottom-panel,
-.page-shell .platform-footer-shell,
-.page-shell .utility-divider,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-convex-panel) !important;
-  border: 1.5px solid var(--ab-convex-border) !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.22),
-    0 3px 6px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 var(--ab-convex-highlight),
-    inset 0 3px 12px rgba(255, 255, 255, 0.38),
-    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
-  position: relative !important;
-  isolation: isolate !important;
-}
-
-/* мягкая подсветка сверху внутри окон */
-.page-shell .site-header-panel::before,
-.page-shell .metric-card::before,
-.page-shell .surface-card::before,
-.page-shell .highlight-hero-joined::before,
-.page-shell .dashboard-filters-wrap > *::before,
-.page-shell .dashboard-topics-wrap > *::before,
-.page-shell .calendar-left-panel::before,
-.page-shell .calendar-top-panel > div::before,
-.page-shell .calendar-bottom-panel::before,
-.page-shell .platform-footer-shell::before,
-.page-shell .utility-divider::before,
-[role="dialog"]::before,
-[data-radix-dialog-content]::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.45) 0%,
-      rgba(255,255,255,0.18) 24%,
-      rgba(255,255,255,0.00) 58%
-    );
-  z-index: 0;
-}
-
-/* содержимое поверх псевдослоя */
-.page-shell .site-header-panel > *,
-.page-shell .metric-card > *,
-.page-shell .surface-card > *,
-.page-shell .highlight-hero-joined > *,
-.page-shell .dashboard-filters-wrap > * > *,
-.page-shell .dashboard-topics-wrap > * > *,
-.page-shell .calendar-left-panel > *,
-.page-shell .calendar-top-panel > div > *,
-.page-shell .calendar-bottom-panel > *,
-.page-shell .platform-footer-shell > *,
-.page-shell .utility-divider > *,
-[role="dialog"] > *,
-[data-radix-dialog-content] > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* технические контейнеры без собственного окна */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* кнопки в том же стиле */
-.page-shell button,
-.page-shell a.mint-btn,
-.page-shell a.inline-flex,
-.page-shell a[class*="rounded"],
-.page-shell [role="button"],
-.page-shell .pressable,
-.page-shell .mint-btn,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell .important-nav-btn,
-[role="dialog"] button,
-[role="dialog"] a {
-  border: 1.5px solid var(--ab-convex-border) !important;
-  border-radius: 18px !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.20),
-    0 2px 5px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease !important;
-}
-
-/* hover */
-.page-shell button:hover,
-.page-shell a.mint-btn:hover,
-.page-shell a.inline-flex:hover,
-.page-shell a[class*="rounded"]:hover,
-.page-shell [role="button"]:hover,
-.page-shell .pressable:hover,
-.page-shell .mint-btn:hover,
-.page-shell .site-header-action:hover,
-.page-shell .mint-btn--header:hover,
-.page-shell .important-event-action-btn:hover,
-.page-shell .important-events-view-all-btn:hover,
-.page-shell .important-date-chip:hover,
-.page-shell .important-nav-btn:hover,
-[role="dialog"] button:hover,
-[role="dialog"] a:hover {
-  transform: translateY(-1px) !important;
-  box-shadow:
-    0 8px 15px rgba(0, 0, 0, 0.22),
-    0 3px 6px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* active */
-.page-shell button:active,
-.page-shell a.mint-btn:active,
-.page-shell a.inline-flex:active,
-.page-shell a[class*="rounded"]:active,
-.page-shell [role="button"]:active,
-.page-shell .pressable:active,
-.page-shell .mint-btn:active,
-.page-shell .site-header-action:active,
-.page-shell .mint-btn--header:active,
-.page-shell .important-event-action-btn:active,
-.page-shell .important-events-view-all-btn:active,
-.page-shell .important-date-chip:active,
-.page-shell .important-nav-btn:active,
-[role="dialog"] button:active,
-[role="dialog"] a:active {
-  transform: translateY(1px) !important;
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.16),
-    inset 0 2px 4px rgba(0, 0, 0, 0.10),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.35) !important;
-}
-
-/* мятные кнопки */
-.page-shell .mint-btn,
-.page-shell .pressable,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell button[class*="bg-[#7CD8B3]"],
-.page-shell button[class*="bg-[#8BE2BE]"],
-.page-shell button[class*="bg-[#86e1bd]"] {
-  background: var(--ab-convex-mint) !important;
-  color: #000000 !important;
-}
-
-/* белые кнопки */
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell button[class*="bg-white"],
-.page-shell a[class*="bg-white"] {
-  background: #f8f8f8 !important;
-  color: #000000 !important;
-}
-
-/* формы */
-.page-shell .select-clean,
-.page-shell select,
-.page-shell input,
-.page-shell textarea {
-  background: #f8f8f8 !important;
-  border: 1.5px solid var(--ab-convex-border) !important;
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.75),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* dropdown / popover / modal */
-[role="menu"],
-[role="listbox"],
-[data-radix-popper-content-wrapper] > *,
-.popover,
-.dropdown,
-.dropdown-menu {
-  background: #f2f2f2 !important;
-  border: 1.5px solid var(--ab-convex-border) !important;
-  border-radius: 22px !important;
-  box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
-  z-index: 9999 !important;
-}
-
-/* календарная сетка не должна прыгать */
-.page-shell .day-cell,
-.page-shell .day-cell:hover,
-.page-shell .day-cell:active,
-.page-shell .calendar-day-number,
-.page-shell .calendar-day-number:hover,
-.page-shell .calendar-day-number:active {
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* линии календаря */
-.page-shell .calendar-top-panel table,
-.page-shell .calendar-top-panel th,
-.page-shell .calendar-top-panel td,
-.page-shell .calendar-grid,
-.page-shell .calendar-grid * {
-  border-color: rgba(0, 0, 0, 0.55) !important;
-}
-
-/* === END FINAL SOFT CONVEX UI STYLE / VARIANT 1 === */
-
-/* === FINAL STRICT CONVEX UI STYLE / VARIANT 2 === */
-/* добавить только если нужен более строгий объём */
-
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .dashboard-calendar-wrap .calendar-left-panel,
-.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
-.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
-.page-shell .calendar-unified-shell .calendar-left-panel,
-.page-shell .calendar-unified-shell .calendar-top-panel > div,
-.page-shell .calendar-unified-shell .calendar-bottom-panel,
-.page-shell .platform-footer-shell,
-.page-shell .utility-divider,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: #f4f4f4 !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.78) !important;
-  border-radius: 24px !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.20),
-    0 2px 4px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
-}
-
-.page-shell button,
-.page-shell a.mint-btn,
-.page-shell a.inline-flex,
-.page-shell a[class*="rounded"],
-.page-shell [role="button"],
-.page-shell .pressable,
-.page-shell .mint-btn,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell .important-nav-btn,
-[role="dialog"] button,
-[role="dialog"] a {
-  border: 1.5px solid rgba(0, 0, 0, 0.82) !important;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.20),
-    inset 0 1px 0 rgba(255, 255, 255, 0.70),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* === END FINAL STRICT CONVEX UI STYLE / VARIANT 2 === */
-
-/* === FINAL CONVEX STYLE + LAYER FIX + MINIMAL PAGE FRAME === */
-/* This block must be the last block in globals.css */
-
-:root {
-  --ab-final-page-bg: #eeeeee;
-  --ab-final-panel-bg: #f2f2f2;
-  --ab-final-white: #ffffff;
-  --ab-final-mint: #7CD8B3;
-  --ab-final-border: rgba(0, 0, 0, 0.72);
-  --ab-final-shadow-1: rgba(0, 0, 0, 0.24);
-  --ab-final-shadow-2: rgba(0, 0, 0, 0.14);
-}
-
-/* общий фон проекта — минимальный безопасный размер */
-main {
-  background: #000000 !important;
-  padding: 14px !important;
-}
-
-main > .page-shell,
-.page-shell {
-  background: var(--ab-final-page-bg) !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  border-radius: 30px !important;
-
-  width: min(1480px, calc(100vw - 28px)) !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-  padding: 12px !important;
-
-  box-sizing: border-box !important;
-  overflow: visible !important;
-
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.80),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* секции внутри общего фона без лишних боковых отступов */
-.page-shell > .container-shell,
-.page-shell > header.container-shell,
-.page-shell > footer.container-shell,
-.page-shell > section.container-shell {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-/* отключаем старые псевдослои, которые перекрывали текст */
-.page-shell .site-header-panel::before,
-.page-shell .metric-card::before,
-.page-shell .surface-card::before,
-.page-shell .highlight-hero-joined::before,
-.page-shell .dashboard-filters-wrap > *::before,
-.page-shell .dashboard-topics-wrap > *::before,
-.page-shell .calendar-left-panel::before,
-.page-shell .calendar-top-panel > div::before,
-.page-shell .calendar-bottom-panel::before,
-.page-shell .platform-footer-shell::before,
-.page-shell .utility-divider::before,
-[role="dialog"]::before,
-[data-radix-dialog-content]::before {
-  display: none !important;
-  content: none !important;
-}
-
-/* главные мятные зоны */
-#important-events-section .important-events-combined,
-.important-events-combined,
-.dashboard-unified-shell {
-  background: var(--ab-final-mint) !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  border-radius: 30px !important;
-  box-shadow:
-    0 10px 20px var(--ab-final-shadow-1),
-    0 3px 8px var(--ab-final-shadow-2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* важные события: внутренний слой не перекрывает мятный фон */
-#important-events-section .important-events-shell,
-.important-events-combined .important-events-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* все основные окна проекта */
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .dashboard-calendar-wrap .calendar-left-panel,
-.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
-.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
-.page-shell .calendar-unified-shell .calendar-left-panel,
-.page-shell .calendar-unified-shell .calendar-top-panel > div,
-.page-shell .calendar-unified-shell .calendar-bottom-panel,
-.page-shell .platform-footer-shell,
-.page-shell .utility-divider,
-[role="dialog"],
-[data-radix-dialog-content] {
-  background: var(--ab-final-panel-bg) !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  border-radius: 28px !important;
-  box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.22),
-    0 3px 6px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 3px 12px rgba(255, 255, 255, 0.36),
-    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
-  position: relative !important;
-  isolation: isolate !important;
-}
-
-/* ловим дополнительные Tailwind-окна */
-.page-shell :is(div, section, article, aside, header, footer)[class*="rounded"][class*="bg-white"][class*="border"]:not(.day-cell):not([class*="rounded-full"]) {
-  background: var(--ab-final-panel-bg) !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.22),
-    0 3px 6px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
-}
-
-/* технические контейнеры без отдельной панели */
-.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
-.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* исправление слоёв календаря */
-.page-shell .calendar-top-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-top-panel .grid,
-.page-shell .calendar-top-panel .day-cell {
-  overflow: visible !important;
-}
-
-.page-shell .calendar-top-panel {
-  position: relative !important;
-  z-index: 5 !important;
-}
-
-.page-shell .day-cell {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.page-shell .day-cell:hover {
-  z-index: 500 !important;
-}
-
-/* всплывающее описание дня поверх фона и соседних ячеек */
-.page-shell .day-cell > div[class*="absolute"][class*="bg-white"],
-.page-shell .day-cell > div[class*="absolute"][class*="rounded"] {
-  z-index: 9999 !important;
-  isolation: isolate !important;
-  background: var(--ab-final-panel-bg) !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  box-shadow:
-    0 10px 18px rgba(0, 0, 0, 0.28),
-    0 3px 6px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
-}
-
-.page-shell .day-cell > div[class*="absolute"] > * {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-/* все кнопки проекта */
-.page-shell button,
-.page-shell a.mint-btn,
-.page-shell a.inline-flex,
-.page-shell a[class*="rounded"],
-.page-shell [role="button"],
-.page-shell .pressable,
-.page-shell .mint-btn,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell .important-nav-btn,
-[role="dialog"] button,
-[role="dialog"] a {
-  border: 1.5px solid var(--ab-final-border) !important;
-  border-radius: 18px !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.20),
-    0 2px 5px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
-  transform: translate(0, 0) !important;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background-color 0.12s ease,
-    border-color 0.12s ease !important;
-}
-
-/* hover */
-.page-shell button:hover,
-.page-shell a.mint-btn:hover,
-.page-shell a.inline-flex:hover,
-.page-shell a[class*="rounded"]:hover,
-.page-shell [role="button"]:hover,
-.page-shell .pressable:hover,
-.page-shell .mint-btn:hover,
-.page-shell .site-header-action:hover,
-.page-shell .mint-btn--header:hover,
-.page-shell .important-event-action-btn:hover,
-.page-shell .important-events-view-all-btn:hover,
-.page-shell .important-date-chip:hover,
-.page-shell .important-nav-btn:hover,
-[role="dialog"] button:hover,
-[role="dialog"] a:hover {
-  transform: translateY(-1px) !important;
-  box-shadow:
-    0 8px 15px rgba(0, 0, 0, 0.22),
-    0 3px 6px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* active */
-.page-shell button:active,
-.page-shell a.mint-btn:active,
-.page-shell a.inline-flex:active,
-.page-shell a[class*="rounded"]:active,
-.page-shell [role="button"]:active,
-.page-shell .pressable:active,
-.page-shell .mint-btn:active,
-.page-shell .site-header-action:active,
-.page-shell .mint-btn--header:active,
-.page-shell .important-event-action-btn:active,
-.page-shell .important-events-view-all-btn:active,
-.page-shell .important-date-chip:active,
-.page-shell .important-nav-btn:active,
-[role="dialog"] button:active,
-[role="dialog"] a:active {
-  transform: translateY(1px) !important;
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.16),
-    inset 0 2px 4px rgba(0, 0, 0, 0.10),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.35) !important;
-}
-
-/* мятные кнопки */
-.page-shell .mint-btn,
-.page-shell .pressable,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell button[class*="bg-[#7CD8B3]"],
-.page-shell button[class*="bg-[#8BE2BE]"],
-.page-shell button[class*="bg-[#86e1bd]"] {
-  background: var(--ab-final-mint) !important;
-  color: #000000 !important;
-}
-
-/* белые кнопки */
-.page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
-.page-shell button[class*="bg-white"],
-.page-shell a[class*="bg-white"] {
-  background: #f8f8f8 !important;
-  color: #000000 !important;
-}
-
-/* формы */
-.page-shell .select-clean,
-.page-shell select,
-.page-shell input,
-.page-shell textarea {
-  background: #f8f8f8 !important;
-  border: 1.5px solid var(--ab-final-border) !important;
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.75),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* календарная сетка не прыгает */
-.page-shell .day-cell,
-.page-shell .day-cell:hover,
-.page-shell .day-cell:active,
-.page-shell .calendar-day-number,
-.page-shell .calendar-day-number:hover,
-.page-shell .calendar-day-number:active {
-  transform: none !important;
-}
-
-/* на мобильных */
-@media (max-width: 900px) {
-  main {
-    padding: 10px !important;
-  }
-
-  main > .page-shell,
-  .page-shell {
-    width: calc(100vw - 20px) !important;
-    padding: 10px !important;
-    border-radius: 22px !important;
-  }
-}
-
-/* === END FINAL CONVEX STYLE + LAYER FIX + MINIMAL PAGE FRAME === */
