@@ -3511,3 +3511,125 @@ main > .page-shell,
 }
 
 /* === END ABSOLUTE FINAL PAGE FRAME COMPACT SIZE === */
+
+/* === FINAL PAGE FRAME WIDTH + PANEL LAYER FIX === */
+/* Only page shell size + panel layering. Do not change panel design. */
+
+main {
+  background: #000000 !important;
+  padding: 18px !important;
+}
+
+main > .page-shell,
+.page-shell {
+  background: #eeeeee !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 30px !important;
+
+  /* Делаем общий фон больше, чтобы окна не вылезали */
+  width: min(1460px, calc(100vw - 56px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+
+  /* Выступ по краям сохраняем */
+  padding: 14px !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Чтобы внутренние секции не ломали ширину */
+.page-shell > .container-shell,
+.page-shell > header.container-shell,
+.page-shell > footer.container-shell,
+.page-shell > section.container-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Критично: grid/flex дети должны уметь сжиматься внутри общего фона */
+.page-shell .container-shell,
+.page-shell .dashboard-unified-shell,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .dashboard-topics-wrap,
+.page-shell .dashboard-filters-wrap,
+.page-shell .calendar-common-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-left-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-bottom-panel,
+.page-shell .highlight-hero-joined,
+.page-shell .surface-card {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Панели должны иметь свой слой и не смешивать текст между собой */
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .dashboard-calendar-wrap .calendar-left-panel,
+.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
+.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
+.page-shell .calendar-unified-shell .calendar-left-panel,
+.page-shell .calendar-unified-shell .calendar-top-panel > div,
+.page-shell .calendar-unified-shell .calendar-bottom-panel,
+.page-shell .platform-footer-shell,
+.page-shell [role="dialog"],
+.page-shell [data-radix-dialog-content] {
+  position: relative !important;
+  z-index: 1 !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+}
+
+/* Верхняя панель фильтров должна позволять раскрывающимся спискам выходить поверх */
+.page-shell .dashboard-filters-wrap > * {
+  position: relative !important;
+  z-index: 20 !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+}
+
+/* Выпадающие списки, popover, dropdown — всегда поверх */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+/* На всякий случай: текстовые блоки внутри карточек не должны выталкивать соседей */
+.page-shell h1,
+.page-shell h2,
+.page-shell h3,
+.page-shell h4,
+.page-shell p,
+.page-shell span,
+.page-shell div,
+.page-shell a,
+.page-shell button {
+  min-width: 0 !important;
+}
+
+/* Мобильная версия */
+@media (max-width: 900px) {
+  main {
+    padding: 10px !important;
+  }
+
+  main > .page-shell,
+  .page-shell {
+    width: calc(100vw - 20px) !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === END FINAL PAGE FRAME WIDTH + PANEL LAYER FIX === */
