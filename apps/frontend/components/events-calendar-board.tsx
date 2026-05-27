@@ -179,7 +179,7 @@ function renderRichDescription(text: string) {
     }
 
     return (
-      <p key={index} className='mb-1 last:mb-0 leading-[1.22]'>
+      <p key={index} className='mb-0.5 last:mb-0 leading-[1.14]'>
         {renderInlineWithBold(line)}
       </p>
     );
@@ -281,13 +281,13 @@ export function EventsCalendarBoard({
                   </h3>
                 </div>
 
-                <div className='event-description mb-5 break-words text-[17px] leading-[1.22] text-[#404552] [overflow-wrap:anywhere]'>
+                <div className='event-description mb-4 break-words text-[16px] leading-[1.14] text-[#404552] [overflow-wrap:anywhere]'>
                   {selectedDescription
                     ? renderRichDescription(selectedDescription)
                     : 'Описание мероприятия будет добавлено позже.'}
                 </div>
 
-                <div className='mt-6 flex flex-wrap items-center gap-3'>
+                <div className='event-action-row mt-5 flex flex-wrap items-center gap-3'>
                   <a
                     href={selectedEvent.sourceUrl || '#'}
                     target='_blank'
@@ -304,7 +304,7 @@ export function EventsCalendarBoard({
                   />
                 </div>
 
-                <div className='mt-5 mb-4 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
+                <div className='event-meta-row mt-5 mb-4 flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600'>
                   <span className='inline-flex items-center gap-2'>
                     <CalendarDays className='h-4 w-4 text-[#2c8d67]' />
                     {formatDateLong(selectedEvent.startAt)}
