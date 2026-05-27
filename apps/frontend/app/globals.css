@@ -8,7 +8,8 @@
   --muted: #6b7280;
 
   --ab-page-bg: #eeeeee;
-  --ab-panel-bg: #f2f2f2;
+  --ab-panel-bg: #f6f6f6;
+  --ab-calendar-bg: #ffffff;
   --ab-white: #ffffff;
   --ab-black: #000000;
 
@@ -53,10 +54,10 @@ main {
 /* === layout === */
 
 .page-shell {
-  width: min(1440px, calc(100vw - 64px)) !important;
+  width: min(1320px, calc(100vw - 56px)) !important;
   max-width: none !important;
   margin: 0 auto !important;
-  padding: 14px !important;
+  padding: 12px !important;
 
   background: var(--ab-page-bg) !important;
   border: 1.5px solid var(--ab-border) !important;
@@ -76,8 +77,11 @@ main {
   padding-right: 0 !important;
 }
 
-.container-shell + .container-shell {
-  margin-top: 1rem;
+.container-shell + .container-shell,
+.page-shell > .container-shell + .container-shell,
+.page-shell > header.container-shell + .container-shell,
+.page-shell > section.container-shell + section.container-shell {
+  margin-top: 12px !important;
 }
 
 .page-shell > .container-shell,
@@ -88,6 +92,17 @@ main {
   max-width: 100% !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+.page-shell > :first-child,
+.page-shell > .container-shell:first-child,
+.page-shell > header.container-shell:first-child,
+.page-shell > section.container-shell:first-child,
+.page-shell header,
+.page-shell header.container-shell,
+.site-header-panel {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 @media (max-width: 900px) {
@@ -151,7 +166,7 @@ textarea {
   color: #000000 !important;
 }
 
-/* === common convex panel style === */
+/* === convex panels === */
 
 .site-header-panel,
 .metric-card,
@@ -161,16 +176,17 @@ textarea {
 .dashboard-filters-wrap > *,
 .dashboard-topics-wrap > *,
 .dashboard-calendar-wrap .calendar-left-panel,
-.dashboard-calendar-wrap .calendar-top-panel > div,
 .dashboard-calendar-wrap .calendar-bottom-panel,
 .calendar-unified-shell .calendar-left-panel,
-.calendar-unified-shell .calendar-top-panel > div,
 .calendar-unified-shell .calendar-bottom-panel,
 .platform-footer-shell,
 .utility-divider,
+.selected-day-events-panel,
 [role='dialog'],
 [data-radix-dialog-content] {
   background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  background-image: none !important;
   border: 1.5px solid var(--ab-border) !important;
   border-radius: 28px !important;
   box-shadow:
@@ -183,9 +199,11 @@ textarea {
   position: relative !important;
 }
 
-/* ловим Tailwind-панели, у которых нет явных классов */
+/* Tailwind-панели без явных классов. Календарь ниже принудительно возвращается белым. */
 .page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='bg-white'][class*='border']:not(.day-cell):not([class*='rounded-full']) {
   background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  background-image: none !important;
   border: 1.5px solid var(--ab-border) !important;
   box-shadow:
     0 10px 18px rgba(0, 0, 0, 0.22),
@@ -194,7 +212,6 @@ textarea {
     inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
 }
 
-/* отключаем старые декоративные псевдослои, чтобы они не перекрывали текст */
 .page-shell .site-header-panel::before,
 .page-shell .metric-card::before,
 .page-shell .surface-card::before,
@@ -202,7 +219,6 @@ textarea {
 .page-shell .dashboard-filters-wrap > *::before,
 .page-shell .dashboard-topics-wrap > *::before,
 .page-shell .calendar-left-panel::before,
-.page-shell .calendar-top-panel > div::before,
 .page-shell .calendar-bottom-panel::before,
 .page-shell .platform-footer-shell::before,
 .page-shell .utility-divider::before,
@@ -254,7 +270,6 @@ textarea {
 .page-shell .mint-btn--header,
 .page-shell .important-event-action-btn,
 .page-shell .important-events-view-all-btn,
-.page-shell .important-date-chip,
 .page-shell .important-nav-btn,
 [role='dialog'] button,
 [role='dialog'] a {
@@ -284,7 +299,6 @@ textarea {
 .page-shell .mint-btn--header:hover,
 .page-shell .important-event-action-btn:hover,
 .page-shell .important-events-view-all-btn:hover,
-.page-shell .important-date-chip:hover,
 .page-shell .important-nav-btn:hover,
 [role='dialog'] button:hover,
 [role='dialog'] a:hover {
@@ -307,7 +321,6 @@ textarea {
 .page-shell .mint-btn--header:active,
 .page-shell .important-event-action-btn:active,
 .page-shell .important-events-view-all-btn:active,
-.page-shell .important-date-chip:active,
 .page-shell .important-nav-btn:active,
 [role='dialog'] button:active,
 [role='dialog'] a:active {
@@ -334,6 +347,7 @@ textarea {
 }
 
 .page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
 .page-shell .important-date-chip.keep-white-button,
 .page-shell .keep-white-button {
   background: #f8f8f8 !important;
@@ -363,6 +377,7 @@ button[disabled],
 .icon-chip,
 .site-header-action span:first-child,
 .mint-btn--header span:first-child {
+  background: #f8f8f8 !important;
   border: 1.5px solid var(--ab-border) !important;
   box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.16),
@@ -425,13 +440,14 @@ button[disabled],
   border-color: var(--ab-red) !important;
 }
 
-/* === dashboard + calendar === */
+/* === dashboard + calendar shell === */
 
 .dashboard-unified-shell,
 .calendar-unified-shell {
   display: grid !important;
   gap: 12px !important;
   overflow: visible !important;
+  align-items: start !important;
 }
 
 .dashboard-filters-wrap,
@@ -451,7 +467,9 @@ button[disabled],
 
 .dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
 .dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
-.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack,
+.right-calendar-shell,
+.calendar-panel {
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
@@ -465,17 +483,10 @@ button[disabled],
   overflow: visible !important;
 }
 
-/* левая панель события: убираем чрезмерную высоту из min-h-[860px] */
 .event-details-panel,
 .calendar-left-panel {
-  min-height: 680px !important;
-}
-
-@media (min-width: 1280px) {
-  .event-details-panel,
-  .calendar-left-panel {
-    min-height: 720px !important;
-  }
+  min-height: 620px !important;
+  align-self: start !important;
 }
 
 @media (max-width: 1279px) {
@@ -489,7 +500,80 @@ button[disabled],
   }
 }
 
-/* === calendar grid === */
+/* === event details === */
+
+.selected-day-events-panel {
+  height: 250px !important;
+  min-height: 250px !important;
+  max-height: 250px !important;
+  overflow: hidden !important;
+}
+
+.selected-day-events-list {
+  height: 184px !important;
+  max-height: 184px !important;
+  overflow: hidden !important;
+  align-content: start !important;
+}
+
+.selected-day-events-list .mint-btn {
+  min-height: 42px !important;
+  max-height: 42px !important;
+  padding: 8px 12px !important;
+}
+
+.selected-day-events-list .mint-btn span:last-child {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.event-details-panel .mint-btn,
+.event-details-panel a.mint-btn,
+.event-details-panel button.mint-btn,
+.event-details-panel .bg-black,
+.event-details-panel [class*='bg-black'],
+.event-details-panel [data-variant='dark'] {
+  background: var(--ab-mint) !important;
+  color: #000000 !important;
+}
+
+/* === calendar grid: do not repaint the calendar === */
+
+.calendar-top-panel,
+.calendar-top-panel > div,
+.calendar-top-panel .grid,
+.calendar-days-grid {
+  overflow: visible !important;
+}
+
+.calendar-top-panel {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell,
+.page-shell .calendar-day-popover {
+  background: var(--ab-calendar-bg) !important;
+  background-color: var(--ab-calendar-bg) !important;
+  background-image: none !important;
+}
+
+.page-shell .calendar-top-panel > div {
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 3px 12px rgba(255, 255, 255, 0.36),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
+}
 
 .day-cell {
   @apply relative border-r border-b bg-white text-black transition;
@@ -507,7 +591,8 @@ button[disabled],
   z-index: 500 !important;
 }
 
-.day-cell-selected {
+.day-cell-selected,
+.page-shell .day-cell-selected {
   background: rgba(124, 216, 179, 0.72) !important;
   border: 2px solid var(--ab-red) !important;
   border-radius: 6px !important;
@@ -525,23 +610,11 @@ button[disabled],
   letter-spacing: -0.02em;
 }
 
-.calendar-top-panel,
-.calendar-top-panel > div,
-.calendar-top-panel .grid,
-.calendar-days-grid {
-  overflow: visible !important;
-}
-
-.calendar-top-panel {
-  position: relative !important;
-  z-index: 5 !important;
-}
-
 .calendar-day-popover,
 .day-cell > div[class*='absolute'] {
   z-index: 9999 !important;
   isolation: isolate !important;
-  background: var(--ab-panel-bg) !important;
+  background: var(--ab-calendar-bg) !important;
   border: 1.5px solid var(--ab-border) !important;
   box-shadow:
     0 10px 18px rgba(0, 0, 0, 0.28),
@@ -629,176 +702,3 @@ textarea,
   font-weight: 500 !important;
   text-align: center !important;
 }
-
-/* === FINAL EVENT DETAILS LAYOUT TUNE === */
-
-main > .page-shell,
-.page-shell {
-  width: min(1320px, calc(100vw - 56px)) !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-  padding: 12px !important;
-}
-
-.calendar-unified-shell {
-  align-items: start !important;
-}
-
-.event-details-panel,
-.calendar-left-panel {
-  min-height: 620px !important;
-  align-self: start !important;
-}
-
-.selected-day-events-panel {
-  height: 178px !important;
-  min-height: 178px !important;
-  max-height: 178px !important;
-}
-
-.selected-day-events-panel .mint-btn {
-  min-height: 36px !important;
-  padding: 8px 12px !important;
-}
-
-.event-details-panel .mint-btn,
-.event-details-panel a.mint-btn,
-.event-details-panel button.mint-btn {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-.event-details-panel .bg-black,
-.event-details-panel [class*='bg-black'],
-.event-details-panel [data-variant='dark'] {
-  background: #7CD8B3 !important;
-  color: #000000 !important;
-}
-
-.calendar-day-popover {
-  z-index: 9999 !important;
-}
-
-/* === END FINAL EVENT DETAILS LAYOUT TUNE === */
-
-/* === FINAL FIX PAGE TOP INSET === */
-
-/* общий фон проекта: одинаковый выступ со всех сторон */
-main > .page-shell,
-.page-shell {
-  padding: 12px !important;
-  overflow: visible !important;
-}
-
-/* первый блок внутри общего фона не должен добавлять лишний верхний отступ */
-.page-shell > :first-child,
-.page-shell > .container-shell:first-child,
-.page-shell > header.container-shell:first-child,
-.page-shell > section.container-shell:first-child {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* если у шапки есть собственный верхний padding через Tailwind */
-.page-shell header,
-.page-shell header.container-shell {
-  padding-top: 0 !important;
-}
-
-/* верхняя панель шапки не должна создавать дополнительный внешний зазор */
-.site-header-panel {
-  margin-top: 0 !important;
-}
-
-/* расстояние между шапкой и счетчиками оставляем нормальным */
-.page-shell > .container-shell + .container-shell,
-.page-shell > header.container-shell + .container-shell,
-.page-shell > section.container-shell + section.container-shell {
-  margin-top: 12px !important;
-}
-
-/* === END FINAL FIX PAGE TOP INSET === */
-
-/* === FINAL TOP WINDOW LAYERS COLOR === */
-
-:root {
-  --top-window-layer-bg: #eeeeee;
-}
-
-/* Верхние слои окон — новый светло-серый цвет */
-.page-shell .site-header-panel,
-.page-shell .header-shell,
-.page-shell .stats-card,
-.page-shell .stats-strip-card,
-.page-shell .top-metric-card,
-.page-shell .highlight-hero-joined,
-.page-shell .important-events-shell,
-.page-shell .important-events-ribbon,
-.page-shell .dashboard-unified-shell,
-.page-shell .dashboard-filters-wrap,
-.page-shell .dashboard-calendar-wrap,
-.page-shell .dashboard-topics-wrap,
-.page-shell .calendar-left-panel,
-.page-shell .event-details-panel,
-.page-shell .calendar-bottom-panel,
-.page-shell .selected-day-events-panel,
-.page-shell .topics-strip-shell,
-.page-shell .topics-grid-shell,
-.page-shell .topics-card,
-.page-shell .topic-card,
-.page-shell .platform-features-shell,
-.page-shell .platform-feature-card,
-.page-shell .footer-shell,
-.page-shell .footer-panel,
-.page-shell .category-card,
-.page-shell .collection-card,
-.page-shell .surface-card {
-  background: var(--top-window-layer-bg) !important;
-}
-
-/* Внутренние карточки/второй слой тоже тем же цветом */
-.page-shell .selected-day-events-panel,
-.page-shell .platform-feature-card,
-.page-shell .topic-card,
-.page-shell .category-card,
-.page-shell .important-events-ribbon,
-.page-shell .event-details-panel .surface-card {
-  background: var(--top-window-layer-bg) !important;
-}
-
-/* КАЛЕНДАРЬ НЕ ТРОГАЕМ */
-.page-shell .right-calendar-shell,
-.page-shell .calendar-top-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-days-grid,
-.page-shell .calendar-days-grid > div,
-.page-shell .day-cell,
-.page-shell .day-cell-selected,
-.page-shell .calendar-day-popover,
-.page-shell .calendar-day-number {
-  background: unset !important;
-}
-
-/* Явно возвращаем календарю его обычный фон */
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-day-popover {
-  background: #ffffff !important;
-}
-
-.page-shell .day-cell,
-.page-shell .calendar-days-grid > div {
-  background: #ffffff !important;
-}
-
-.page-shell .day-cell-selected {
-  background: #7CD8B3 !important;
-}
-
-/* Блок с запиской под календарем не календарь — его тоже красим */
-.page-shell .calendar-bottom-panel .surface-card,
-.page-shell .calendar-bottom-panel > div,
-.page-shell .calendar-bottom-panel > section {
-  background: var(--top-window-layer-bg) !important;
-}
-
-/* === END FINAL TOP WINDOW LAYERS COLOR === */
