@@ -3466,3 +3466,48 @@ main > .page-shell,
 }
 
 /* === END ABSOLUTE FINAL PAGE FRAME SIZE AND COLOR === */
+
+/* === ABSOLUTE FINAL PAGE FRAME COMPACT SIZE === */
+/* Must be the last page-shell rule */
+
+main {
+  background: #000000 !important;
+  padding: 24px !important;
+}
+
+main > .page-shell,
+.page-shell {
+  background: #eeeeee !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 30px !important;
+
+  width: min(1360px, calc(100vw - 96px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+
+  padding: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.page-shell > .container-shell,
+.page-shell > header.container-shell,
+.page-shell > footer.container-shell,
+.page-shell > section.container-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 900px) {
+  main {
+    padding: 12px !important;
+  }
+
+  main > .page-shell,
+  .page-shell {
+    width: calc(100vw - 24px) !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === END ABSOLUTE FINAL PAGE FRAME COMPACT SIZE === */
