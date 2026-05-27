@@ -785,4 +785,42 @@ textarea,
   background-color: #ffffff !important;
 }
 
-/* === END FINAL CALENDAR COMMON BACKGROUND COLOR === */
+/* === FINAL FIX CALENDAR COMMON BACKGROUND TO GREY === */
+
+/* Убираем мятную подложку у общего календарного блока */
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .calendar-common-shell {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+/* Если мятный фон приходит от внутренних контейнеров */
+.page-shell .dashboard-unified-shell.calendar-unified-shell,
+.page-shell .dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.page-shell .calendar-unified-shell .right-calendar-shell,
+.page-shell .right-calendar-shell.calendar-right-stack {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+/* Внутренние окна оставляем светлыми, как карточки */
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .calendar-left-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+/* Календарная сетка остается белой */
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
