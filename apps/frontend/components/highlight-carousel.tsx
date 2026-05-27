@@ -17,13 +17,13 @@ function cleanDescriptionText(value?: string) {
 
   return value
     .replace(/https?:\/\/\S+/g, '')
-    .replace(/#[\p{L}\p{N}_-]+/gu, '')
+    .replace(/#[^\s#]+/g, '')
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean)
-    .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
-    .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
-    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
+    .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/i.test(line))
+    .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/i.test(line))
+    .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/i.test(line))
     .filter((line) => !/^\(?\??\)?$/.test(line))
     .join('\n')
     .replace(/\(\s*\)/g, '')
@@ -80,14 +80,22 @@ export function HighlightCarousel({
       <div className='important-events-shell overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white'>
         <div className='grid min-h-[320px] gap-4 px-3 pt-3 pb-9 lg:grid-cols-2 lg:px-3 lg:pt-3 lg:pb-10'>
           <div className='min-h-[280px] overflow-hidden rounded-[22px] border border-[#7CD8B3] bg-white p-4'>
-            <img src={IMPORTANT_EVENTS_PHOTO} alt='Важные события' className='h-full w-full object-contain object-center' />
+            <img
+              src={IMPORTANT_EVENTS_PHOTO}
+              alt='Важные события'
+              className='h-full w-full object-contain object-center'
+            />
           </div>
 
           <div className='flex flex-col justify-center rounded-[22px] border border-[#7CD8B3] bg-white p-6 text-black lg:p-8'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
+              Важные события
+            </div>
+
             <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
               Важные события загружаются из Telegram-канала и API-источников
             </h2>
+
             <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
               После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
             </p>
@@ -122,13 +130,18 @@ export function HighlightCarousel({
               className='h-full w-full object-contain object-center'
               onError={(event) => {
                 const image = event.currentTarget;
-                if (!image.src.endsWith(IMPORTANT_EVENTS_PHOTO)) image.src = IMPORTANT_EVENTS_PHOTO;
+                if (!image.src.endsWith(IMPORTANT_EVENTS_PHOTO)) {
+                  image.src = IMPORTANT_EVENTS_PHOTO;
+                }
               }}
             />
           </div>
 
           <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
+              Важные события
+            </div>
+
             <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
               {item.title}
             </h2>
@@ -138,14 +151,17 @@ export function HighlightCarousel({
                 <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
                 {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
               </span>
+
               <span className='inline-flex items-center gap-2 text-[15px]'>
                 <Clock3 className='h-5 w-5 text-[#2c8d67]' />
                 {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
               </span>
+
               <span className='inline-flex items-center gap-2 text-[15px]'>
                 <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
                 {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
               </span>
+
               <span className='inline-flex items-center gap-2 text-[15px]'>
                 <MapPin className='h-5 w-5 text-[#2c8d67]' />
                 {item.location || 'Локация уточняется'}
@@ -157,10 +173,19 @@ export function HighlightCarousel({
             </p>
 
             <div className='mt-6 flex flex-wrap items-center gap-3'>
-              <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>
+              <Button
+                variant='primary'
+                onClick={() => onOpen(item)}
+                className='important-event-action-btn min-w-[170px]'
+              >
                 Подробнее
               </Button>
-              <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
+
+              <ReminderButton
+                event={item}
+                variant='primary'
+                className='important-event-action-btn min-w-[170px]'
+              />
             </div>
           </div>
 
@@ -176,26 +201,28 @@ export function HighlightCarousel({
       </div>
 
       <div className='important-events-ribbon border-t border-[#7CD8B3] px-2 pb-4 pt-4'>
-        <div className='mb-3 flex items-center justify-between gap-4'>
+        <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
           <h3 className='text-[13px] font-semibold uppercase tracking-[0.12em] text-black'>
             Важные события
           </h3>
 
-          <button
-            type='button'
-            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
-            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-black transition'
-          >
-            Смотреть все
-            <ArrowRight className='h-4 w-4' />
-          </button>
-        </div>
+          <div className='important-events-actions flex min-w-[260px] flex-col items-end gap-3'>
+            <button
+              type='button'
+              onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+            >
+              Смотреть все
+              <ArrowRight className='h-4 w-4' />
+            </button>
 
-        {controls ? (
-          <div className='important-events-mode-controls mb-4 grid gap-3 sm:grid-cols-2 lg:ml-auto lg:max-w-[520px]'>
-            {controls}
+            {controls ? (
+              <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
+                {controls}
+              </div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
 
         {plannedSlides.length > 0 ? (
           <div className='flex flex-wrap items-center gap-3'>
@@ -207,11 +234,17 @@ export function HighlightCarousel({
                   key={event.id}
                   type='button'
                   onClick={() => setActive(idx)}
-                  className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'}`}
+                  className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${
+                    idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'
+                  }`}
                   title={event.title}
                 >
-                  <span className='text-[18px] font-semibold leading-none text-black'>{date.getDate()}</span>
-                  <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>{MONTHS_SHORT[date.getMonth()]}</span>
+                  <span className='text-[18px] font-semibold leading-none text-black'>
+                    {date.getDate()}
+                  </span>
+                  <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>
+                    {MONTHS_SHORT[date.getMonth()]}
+                  </span>
                 </button>
               );
             })}
