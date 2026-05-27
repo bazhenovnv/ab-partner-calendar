@@ -680,3 +680,125 @@ main > .page-shell,
 }
 
 /* === END FINAL EVENT DETAILS LAYOUT TUNE === */
+
+/* === FINAL FIX PAGE TOP INSET === */
+
+/* общий фон проекта: одинаковый выступ со всех сторон */
+main > .page-shell,
+.page-shell {
+  padding: 12px !important;
+  overflow: visible !important;
+}
+
+/* первый блок внутри общего фона не должен добавлять лишний верхний отступ */
+.page-shell > :first-child,
+.page-shell > .container-shell:first-child,
+.page-shell > header.container-shell:first-child,
+.page-shell > section.container-shell:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* если у шапки есть собственный верхний padding через Tailwind */
+.page-shell header,
+.page-shell header.container-shell {
+  padding-top: 0 !important;
+}
+
+/* верхняя панель шапки не должна создавать дополнительный внешний зазор */
+.site-header-panel {
+  margin-top: 0 !important;
+}
+
+/* расстояние между шапкой и счетчиками оставляем нормальным */
+.page-shell > .container-shell + .container-shell,
+.page-shell > header.container-shell + .container-shell,
+.page-shell > section.container-shell + section.container-shell {
+  margin-top: 12px !important;
+}
+
+/* === END FINAL FIX PAGE TOP INSET === */
+
+/* === FINAL TOP WINDOW LAYERS COLOR === */
+
+:root {
+  --top-window-layer-bg: #eeeeee;
+}
+
+/* Верхние слои окон — новый светло-серый цвет */
+.page-shell .site-header-panel,
+.page-shell .header-shell,
+.page-shell .stats-card,
+.page-shell .stats-strip-card,
+.page-shell .top-metric-card,
+.page-shell .highlight-hero-joined,
+.page-shell .important-events-shell,
+.page-shell .important-events-ribbon,
+.page-shell .dashboard-unified-shell,
+.page-shell .dashboard-filters-wrap,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .dashboard-topics-wrap,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .calendar-bottom-panel,
+.page-shell .selected-day-events-panel,
+.page-shell .topics-strip-shell,
+.page-shell .topics-grid-shell,
+.page-shell .topics-card,
+.page-shell .topic-card,
+.page-shell .platform-features-shell,
+.page-shell .platform-feature-card,
+.page-shell .footer-shell,
+.page-shell .footer-panel,
+.page-shell .category-card,
+.page-shell .collection-card,
+.page-shell .surface-card {
+  background: var(--top-window-layer-bg) !important;
+}
+
+/* Внутренние карточки/второй слой тоже тем же цветом */
+.page-shell .selected-day-events-panel,
+.page-shell .platform-feature-card,
+.page-shell .topic-card,
+.page-shell .category-card,
+.page-shell .important-events-ribbon,
+.page-shell .event-details-panel .surface-card {
+  background: var(--top-window-layer-bg) !important;
+}
+
+/* КАЛЕНДАРЬ НЕ ТРОГАЕМ */
+.page-shell .right-calendar-shell,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .day-cell,
+.page-shell .day-cell-selected,
+.page-shell .calendar-day-popover,
+.page-shell .calendar-day-number {
+  background: unset !important;
+}
+
+/* Явно возвращаем календарю его обычный фон */
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-day-popover {
+  background: #ffffff !important;
+}
+
+.page-shell .day-cell,
+.page-shell .calendar-days-grid > div {
+  background: #ffffff !important;
+}
+
+.page-shell .day-cell-selected {
+  background: #7CD8B3 !important;
+}
+
+/* Блок с запиской под календарем не календарь — его тоже красим */
+.page-shell .calendar-bottom-panel .surface-card,
+.page-shell .calendar-bottom-panel > div,
+.page-shell .calendar-bottom-panel > section {
+  background: var(--top-window-layer-bg) !important;
+}
+
+/* === END FINAL TOP WINDOW LAYERS COLOR === */
