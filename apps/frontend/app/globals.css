@@ -3384,3 +3384,38 @@ textarea {
 }
 
 /* === END ULTIMATE AB STYLE LOCK === */
+
+/* === PAGE SHELL SIZE + BACKGROUND TUNE === */
+
+.page-shell {
+  background: #ececec !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 30px !important;
+
+  /* общий фон меньше по размеру */
+  width: calc(100% - 40px) !important;
+  max-width: 1480px !important;
+  margin: 20px auto !important;
+
+  /* выступ по краям как между окнами */
+  padding: 14px !important;
+
+  box-sizing: border-box !important;
+}
+
+/* чтобы внутренние секции не вылезали */
+.page-shell > * {
+  max-width: 100% !important;
+}
+
+/* на мобильных немного компактнее */
+@media (max-width: 768px) {
+  .page-shell {
+    width: calc(100% - 20px) !important;
+    margin: 10px auto !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === END PAGE SHELL SIZE + BACKGROUND TUNE === */
