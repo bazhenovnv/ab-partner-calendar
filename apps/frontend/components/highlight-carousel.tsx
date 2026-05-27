@@ -79,7 +79,7 @@ export function HighlightCarousel({
     const fallback = (
       <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
         <div className='grid min-h-[320px] gap-0 lg:grid-cols-2'>
-          <div className='min-h-[280px] overflow-hidden border-b border-black bg-white p-4 lg:border-b-0 lg:border-r'>
+          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
             <img
               src={IMPORTANT_EVENTS_PHOTO}
               alt='Важные события'
@@ -123,7 +123,7 @@ export function HighlightCarousel({
             <ChevronLeft className='h-5 w-5' />
           </button>
 
-          <div className='min-h-[280px] overflow-hidden border-b border-black bg-white p-4 lg:border-b-0 lg:border-r'>
+          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
             <img
               src={slideImage}
               alt={item.title}
@@ -200,13 +200,15 @@ export function HighlightCarousel({
         </div>
       </div>
 
+      <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
+
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
-          <h3 className='text-[13px] font-semibold uppercase tracking-[0.12em] text-black'>
+        <div className='mb-4 flex flex-col items-start gap-4'>
+          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
             Важные события
           </h3>
 
-          <div className='important-events-actions flex min-w-[260px] flex-col items-end gap-3'>
+          <div className='important-events-actions flex min-w-[260px] flex-col items-start gap-3'>
             <button
               type='button'
               onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}

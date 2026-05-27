@@ -134,6 +134,16 @@ function getTopicCount(events: EventItem[], topic: string) {
   return events.filter((event) => eventMatchesTopic(event, topic)).length;
 }
 
+function formatEventCountLabel(count: number) {
+  const lastTwo = Math.abs(count) % 100;
+  const last = Math.abs(count) % 10;
+
+  if (lastTwo >= 11 && lastTwo <= 14) return 'мероприятий';
+  if (last === 1) return 'мероприятие';
+  if (last >= 2 && last <= 4) return 'мероприятия';
+  return 'мероприятий';
+}
+
 function sourceLabel(source: string) {
   if (/^telegram$/i.test(source)) return 'Telegram';
   if (/^max$/i.test(source)) return 'Max';
@@ -432,24 +442,25 @@ export default function HomePage() {
 
   const topicButtonsPanel = (
     <div className='calendar-topic-panel p-0'>
-      <div className='mb-3 text-sm font-medium text-slate-500'>Подборки</div>
+      <div className='mb-4 text-[20px] font-semibold leading-none text-black'>Подборки</div>
 
-      <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid gap-3 md:grid-cols-3'>
         {topicCards.map((topic) => (
           <button
             key={topic.value}
             type='button'
             onClick={() => setTopicFilter(topic.value)}
-            className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+            className={`topic-filter-button pressable flex min-h-[86px] min-w-0 items-center gap-4 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
           >
-            <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
+            <div className={`flex h-11 w-11 flex-none items-center justify-center rounded-full text-[17px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
               {topic.icon}
             </div>
 
             <div className='min-w-0'>
-              <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
-              <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>
-                {topic.count} мероприятий
+              <div className='break-words text-[17px] font-semibold leading-tight text-black'>{topic.cardLabel}</div>
+              <div className='topic-count-text mt-1'>
+                <span className='topic-count-number'>{topic.count}</span>
+                <span className='topic-count-label'>{formatEventCountLabel(topic.count)}</span>
               </div>
             </div>
           </button>
@@ -458,10 +469,10 @@ export default function HomePage() {
         <button
           type='button'
           onClick={() => setTopicFilter('ALL')}
-          className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
+          className={`topic-filter-button pressable flex min-h-[86px] min-w-0 items-center justify-center gap-3 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
         >
-          <Layers3 className='h-5 w-5 flex-none' />
-          <span className='text-sm font-medium'>Все подборки</span>
+          <Layers3 className='h-6 w-6 flex-none' />
+          <span className='text-[17px] font-semibold leading-tight'>Все подборки</span>
         </button>
       </div>
     </div>
@@ -524,8 +535,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-
 
       {viewMode === 'COMPACT' ? (
         <>
@@ -591,36 +600,6 @@ export default function HomePage() {
               />
             </div>
 
-            <div className='dashboard-topics-wrap'>
-                    <div className='surface-card p-4'>
-                      <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
-                        {topicCards.map((topic) => (
-                          <button
-                            key={topic.value}
-                            type='button'
-                            onClick={() => setTopicFilter(topic.value)}
-                            className={`pressable flex min-h-[58px] min-w-0 items-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-left font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === topic.value ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
-                          >
-                            <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] ${topicFilter === topic.value ? 'bg-white/45 text-black' : 'bg-[#eefbf4] text-[#2a8f68]'}`}>
-                              {topic.icon}
-                            </div>
-                            <div className='min-w-0'>
-                              <div className='text-[14px] font-medium leading-tight break-words'>{topic.cardLabel}</div>
-                              <div className={`text-[11px] leading-tight ${topicFilter === topic.value ? 'text-black/70' : 'text-slate-500'}`}>{topic.count} мероприятий</div>
-                            </div>
-                          </button>
-                        ))}
-                        <button
-                          type='button'
-                          onClick={() => setTopicFilter('ALL')}
-                          className={`pressable flex min-h-[58px] min-w-0 items-center justify-center gap-2 rounded-[14px] border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-2 text-center font-medium text-black transition hover:bg-[#86e1bd] ${topicFilter === 'ALL' ? 'ring-2 ring-[#E04B4B]/40' : ''}`}
-                        >
-                          <Layers3 className='h-5 w-5 flex-none' />
-                          <span className='text-sm font-medium'>Все подборки</span>
-                        </button>
-                      </div>
-                    </div>
-            </div>
           </div>
         </section>
       )}
