@@ -3633,3 +3633,61 @@ main > .page-shell,
 }
 
 /* === END FINAL PAGE FRAME WIDTH + PANEL LAYER FIX === */
+
+/* === EQUAL PAGE SHELL INSET ON ALL SIDES === */
+/* only outer project background spacing */
+
+main {
+  background: #000000 !important;
+  padding: 18px !important;
+}
+
+main > .page-shell,
+.page-shell {
+  background: #eeeeee !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 30px !important;
+
+  width: min(1460px, calc(100vw - 56px)) !important;
+  margin: 0 auto !important;
+
+  /* одинаковый выступ со всех сторон */
+  padding: 18px !important;
+
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* все прямые секции внутри общего фона */
+.page-shell > .container-shell,
+.page-shell > header.container-shell,
+.page-shell > footer.container-shell,
+.page-shell > section.container-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* если первый блок слишком прилипает к верху */
+.page-shell > .container-shell:first-child,
+.page-shell > header.container-shell:first-child,
+.page-shell > section.container-shell:first-child {
+  margin-top: 0 !important;
+}
+
+/* мобильная версия */
+@media (max-width: 900px) {
+  main {
+    padding: 10px !important;
+  }
+
+  main > .page-shell,
+  .page-shell {
+    width: calc(100vw - 20px) !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* === END EQUAL PAGE SHELL INSET ON ALL SIDES === */
