@@ -3691,3 +3691,290 @@ main > .page-shell,
 }
 
 /* === END EQUAL PAGE SHELL INSET ON ALL SIDES === */
+
+/* === FINAL SOFT CONVEX UI STYLE / VARIANT 1 === */
+/* мягкая выпуклость окон со всех сторон */
+
+:root {
+  --ab-convex-black: rgba(0, 0, 0, 0.72);
+  --ab-convex-border: rgba(0, 0, 0, 0.62);
+  --ab-convex-panel: #f2f2f2;
+  --ab-convex-white: #ffffff;
+  --ab-convex-mint: #7CD8B3;
+  --ab-convex-shadow-1: rgba(0, 0, 0, 0.24);
+  --ab-convex-shadow-2: rgba(0, 0, 0, 0.14);
+  --ab-convex-highlight: rgba(255, 255, 255, 0.92);
+}
+
+/* общий фон проекта */
+main > .page-shell,
+.page-shell {
+  background: #eeeeee !important;
+  border: 1.5px solid var(--ab-convex-border) !important;
+  border-radius: 32px !important;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* крупные мятные зоны */
+#important-events-section .important-events-combined,
+.important-events-combined,
+.dashboard-unified-shell {
+  background: var(--ab-convex-mint) !important;
+  border: 1.5px solid var(--ab-convex-border) !important;
+  border-radius: 30px !important;
+  box-shadow:
+    0 10px 20px var(--ab-convex-shadow-1),
+    0 3px 8px var(--ab-convex-shadow-2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* внутренний слой важных событий не перекрывает мятный фон */
+#important-events-section .important-events-shell,
+.important-events-combined .important-events-shell {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* все основные окна */
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .dashboard-calendar-wrap .calendar-left-panel,
+.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
+.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
+.page-shell .calendar-unified-shell .calendar-left-panel,
+.page-shell .calendar-unified-shell .calendar-top-panel > div,
+.page-shell .calendar-unified-shell .calendar-bottom-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: var(--ab-convex-panel) !important;
+  border: 1.5px solid var(--ab-convex-border) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 var(--ab-convex-highlight),
+    inset 0 3px 12px rgba(255, 255, 255, 0.38),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
+  position: relative !important;
+  isolation: isolate !important;
+}
+
+/* мягкая подсветка сверху внутри окон */
+.page-shell .site-header-panel::before,
+.page-shell .metric-card::before,
+.page-shell .surface-card::before,
+.page-shell .highlight-hero-joined::before,
+.page-shell .dashboard-filters-wrap > *::before,
+.page-shell .dashboard-topics-wrap > *::before,
+.page-shell .calendar-left-panel::before,
+.page-shell .calendar-top-panel > div::before,
+.page-shell .calendar-bottom-panel::before,
+.page-shell .platform-footer-shell::before,
+.page-shell .utility-divider::before,
+[role="dialog"]::before,
+[data-radix-dialog-content]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.45) 0%,
+      rgba(255,255,255,0.18) 24%,
+      rgba(255,255,255,0.00) 58%
+    );
+  z-index: 0;
+}
+
+/* содержимое поверх псевдослоя */
+.page-shell .site-header-panel > *,
+.page-shell .metric-card > *,
+.page-shell .surface-card > *,
+.page-shell .highlight-hero-joined > *,
+.page-shell .dashboard-filters-wrap > * > *,
+.page-shell .dashboard-topics-wrap > * > *,
+.page-shell .calendar-left-panel > *,
+.page-shell .calendar-top-panel > div > *,
+.page-shell .calendar-bottom-panel > *,
+.page-shell .platform-footer-shell > *,
+.page-shell .utility-divider > *,
+[role="dialog"] > *,
+[data-radix-dialog-content] > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* технические контейнеры без собственного окна */
+.dashboard-calendar-wrap > .calendar-common-shell.calendar-unified-shell,
+.dashboard-calendar-wrap .right-calendar-shell.calendar-right-stack,
+.calendar-unified-shell .right-calendar-shell.calendar-right-stack {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* кнопки в том же стиле */
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell a[class*="rounded"],
+.page-shell [role="button"],
+.page-shell .pressable,
+.page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell .important-nav-btn,
+[role="dialog"] button,
+[role="dialog"] a {
+  border: 1.5px solid var(--ab-convex-border) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+  transform: translate(0, 0) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease,
+    border-color 0.12s ease !important;
+}
+
+/* hover */
+.page-shell button:hover,
+.page-shell a.mint-btn:hover,
+.page-shell a.inline-flex:hover,
+.page-shell a[class*="rounded"]:hover,
+.page-shell [role="button"]:hover,
+.page-shell .pressable:hover,
+.page-shell .mint-btn:hover,
+.page-shell .site-header-action:hover,
+.page-shell .mint-btn--header:hover,
+.page-shell .important-event-action-btn:hover,
+.page-shell .important-events-view-all-btn:hover,
+.page-shell .important-date-chip:hover,
+.page-shell .important-nav-btn:hover,
+[role="dialog"] button:hover,
+[role="dialog"] a:hover {
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* active */
+.page-shell button:active,
+.page-shell a.mint-btn:active,
+.page-shell a.inline-flex:active,
+.page-shell a[class*="rounded"]:active,
+.page-shell [role="button"]:active,
+.page-shell .pressable:active,
+.page-shell .mint-btn:active,
+.page-shell .site-header-action:active,
+.page-shell .mint-btn--header:active,
+.page-shell .important-event-action-btn:active,
+.page-shell .important-events-view-all-btn:active,
+.page-shell .important-date-chip:active,
+.page-shell .important-nav-btn:active,
+[role="dialog"] button:active,
+[role="dialog"] a:active {
+  transform: translateY(1px) !important;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.16),
+    inset 0 2px 4px rgba(0, 0, 0, 0.10),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.35) !important;
+}
+
+/* мятные кнопки */
+.page-shell .mint-btn,
+.page-shell .pressable,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell button[class*="bg-[#7CD8B3]"],
+.page-shell button[class*="bg-[#8BE2BE]"],
+.page-shell button[class*="bg-[#86e1bd]"] {
+  background: var(--ab-convex-mint) !important;
+  color: #000000 !important;
+}
+
+/* белые кнопки */
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell button[class*="bg-white"],
+.page-shell a[class*="bg-white"] {
+  background: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
+/* формы */
+.page-shell .select-clean,
+.page-shell select,
+.page-shell input,
+.page-shell textarea {
+  background: #f8f8f8 !important;
+  border: 1.5px solid var(--ab-convex-border) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* dropdown / popover / modal */
+[role="menu"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] > *,
+.popover,
+.dropdown,
+.dropdown-menu {
+  background: #f2f2f2 !important;
+  border: 1.5px solid var(--ab-convex-border) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  z-index: 9999 !important;
+}
+
+/* календарная сетка не должна прыгать */
+.page-shell .day-cell,
+.page-shell .day-cell:hover,
+.page-shell .day-cell:active,
+.page-shell .calendar-day-number,
+.page-shell .calendar-day-number:hover,
+.page-shell .calendar-day-number:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* линии календаря */
+.page-shell .calendar-top-panel table,
+.page-shell .calendar-top-panel th,
+.page-shell .calendar-top-panel td,
+.page-shell .calendar-grid,
+.page-shell .calendar-grid * {
+  border-color: rgba(0, 0, 0, 0.55) !important;
+}
+
+/* === END FINAL SOFT CONVEX UI STYLE / VARIANT 1 === */
