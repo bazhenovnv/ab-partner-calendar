@@ -701,4 +701,66 @@ textarea,
   font-size: 13px !important;
   font-weight: 500 !important;
   text-align: center !important;
+}/* === FINAL HEADER ACTION ICONS HARD FIX === */
+
+.page-shell .site-header-panel {
+  overflow: visible !important;
 }
+
+.page-shell .site-header-panel a,
+.page-shell .site-header-panel button,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  min-height: 48px !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .site-header-action > span:first-child,
+.page-shell .mint-btn--header > span:first-child,
+.page-shell .site-header-panel a > span:first-child,
+.page-shell .site-header-panel button > span:first-child {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  flex: 0 0 34px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 999px !important;
+  border: 1.5px solid #000000 !important;
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .site-header-action > span:first-child svg,
+.page-shell .mint-btn--header > span:first-child svg,
+.page-shell .site-header-panel a > span:first-child svg,
+.page-shell .site-header-panel button > span:first-child svg {
+  width: 18px !important;
+  height: 18px !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+.page-shell .site-header-action > span:not(:first-child),
+.page-shell .mint-btn--header > span:not(:first-child),
+.page-shell .site-header-panel a > span:not(:first-child),
+.page-shell .site-header-panel button > span:not(:first-child) {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* === END FINAL HEADER ACTION ICONS HARD FIX === */
