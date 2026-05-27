@@ -993,6 +993,141 @@ textarea,
   }
 }
 
+/* === FINAL CALENDAR CONVEX EFFECT === */
+
+/* Главное окно календаря — такой же физический эффект, как у окон и кнопок */
+.page-shell .calendar-top-panel > div {
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 28px !important;
+  padding: 18px !important;
+  overflow: visible !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 3px 12px rgba(255, 255, 255, 0.36),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.07) !important;
+}
+
+/* Верхняя панель месяца внутри календаря */
+.page-shell .calendar-top-panel > div > div:first-child {
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 20px !important;
+  padding: 12px !important;
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.16),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Строка дней недели */
+.page-shell .calendar-top-panel .grid.grid-cols-7.border {
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 18px 18px 0 0 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Сетка календаря */
+.page-shell .calendar-days-grid {
+  overflow: visible !important;
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 20px 20px !important;
+  box-shadow:
+    0 7px 14px rgba(0, 0, 0, 0.14),
+    0 2px 5px rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Ячейки календаря — легкая выпуклость, без сильной тени */
+.page-shell .day-cell {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.45) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease !important;
+}
+
+/* Наведение на день */
+.page-shell .day-cell:hover {
+  background: rgba(124, 216, 179, 0.18) !important;
+  transform: translateY(-1px) !important;
+  z-index: 500 !important;
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.16),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Активный выбранный день */
+.page-shell .day-cell-selected,
+.page-shell .day-cell-selected:hover {
+  background: rgba(124, 216, 179, 0.78) !important;
+  border: 2px solid var(--ab-red) !important;
+  border-radius: 8px !important;
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.18),
+    0 2px 5px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Число дня внутри ячейки */
+.page-shell .calendar-day-number {
+  background: rgba(255, 255, 255, 0.48) !important;
+  border: 1px solid rgba(0, 0, 0, 0.18) !important;
+  border-radius: 999px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Popover события в календаре — тот же физический стиль */
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > div[class*='absolute'] {
+  background: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 18px !important;
+  z-index: 9999 !important;
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.28),
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Кнопки календаря: стрелки и Сегодня */
+.page-shell .calendar-top-panel .mint-btn,
+.page-shell .calendar-top-panel button {
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 18px !important;
+  background: var(--ab-mint) !important;
+  color: #000000 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* === END FINAL CALENDAR CONVEX EFFECT === */
 /* === END FINAL CALENDAR / TOPIC PANEL POLISH === */
 
 /* === END FINAL CALENDAR PANEL REBUILD === */
