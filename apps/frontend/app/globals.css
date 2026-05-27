@@ -629,3 +629,54 @@ textarea,
   font-weight: 500 !important;
   text-align: center !important;
 }
+
+/* === FINAL EVENT DETAILS LAYOUT TUNE === */
+
+main > .page-shell,
+.page-shell {
+  width: min(1320px, calc(100vw - 56px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 12px !important;
+}
+
+.calendar-unified-shell {
+  align-items: start !important;
+}
+
+.event-details-panel,
+.calendar-left-panel {
+  min-height: 620px !important;
+  align-self: start !important;
+}
+
+.selected-day-events-panel {
+  height: 178px !important;
+  min-height: 178px !important;
+  max-height: 178px !important;
+}
+
+.selected-day-events-panel .mint-btn {
+  min-height: 36px !important;
+  padding: 8px 12px !important;
+}
+
+.event-details-panel .mint-btn,
+.event-details-panel a.mint-btn,
+.event-details-panel button.mint-btn {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+.event-details-panel .bg-black,
+.event-details-panel [class*='bg-black'],
+.event-details-panel [data-variant='dark'] {
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+.calendar-day-popover {
+  z-index: 9999 !important;
+}
+
+/* === END FINAL EVENT DETAILS LAYOUT TUNE === */
