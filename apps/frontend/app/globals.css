@@ -3978,3 +3978,57 @@ main > .page-shell,
 }
 
 /* === END FINAL SOFT CONVEX UI STYLE / VARIANT 1 === */
+
+/* === FINAL STRICT CONVEX UI STYLE / VARIANT 2 === */
+/* добавить только если нужен более строгий объём */
+
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .dashboard-calendar-wrap .calendar-left-panel,
+.page-shell .dashboard-calendar-wrap .calendar-top-panel > div,
+.page-shell .dashboard-calendar-wrap .calendar-bottom-panel,
+.page-shell .calendar-unified-shell .calendar-left-panel,
+.page-shell .calendar-unified-shell .calendar-top-panel > div,
+.page-shell .calendar-unified-shell .calendar-bottom-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider,
+[role="dialog"],
+[data-radix-dialog-content] {
+  background: #f4f4f4 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.78) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 4px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell a[class*="rounded"],
+.page-shell [role="button"],
+.page-shell .pressable,
+.page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-date-chip,
+.page-shell .important-nav-btn,
+[role="dialog"] button,
+[role="dialog"] a {
+  border: 1.5px solid rgba(0, 0, 0, 0.82) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.70),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* === END FINAL STRICT CONVEX UI STYLE / VARIANT 2 === */
