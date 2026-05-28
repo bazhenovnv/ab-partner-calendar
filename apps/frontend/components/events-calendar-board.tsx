@@ -6,7 +6,7 @@ import { EventItem } from '@/lib/types';
 import { ReminderButton } from './reminder-button';
 
 const weekdayLabels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-const MAX_VISIBLE_SELECTED_DAY_EVENTS = 10;
+const MAX_VISIBLE_SELECTED_DAY_EVENTS = 6;
 
 function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -271,12 +271,12 @@ export function EventsCalendarBoard({
   const hiddenSelectedDayEventsCount = Math.max(selectedDayEvents.length - MAX_VISIBLE_SELECTED_DAY_EVENTS, 0);
 
   return (
-    <section className='calendar-common-shell calendar-unified-shell grid items-stretch gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
-      <div className='calendar-left-panel event-details-panel surface-card self-stretch overflow-hidden bg-white h-full min-h-[620px]'>
-        <div className='flex h-full min-h-[620px] flex-col overflow-hidden px-6 py-5'>
-          {selectedEvent ? (
-            <>
-              <div className='flex-1 overflow-y-auto pr-1'>
+    <section className='calendar-common-shell calendar-unified-shell grid items-start gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
+      <div className='calendar-left-panel event-details-panel surface-card self-start overflow-hidden bg-white h-full min-h-[760px]'>
+        <div className='flex h-full min-h-[760px] flex-col overflow-visible px-6 py-5'>
+          <div className='flex-1'>
+            {selectedEvent ? (
+              <>
                 <div className='mb-4'>
                   <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>
                     {selectedEvent.title}
@@ -324,49 +324,54 @@ export function EventsCalendarBoard({
                     {selectedEvent.location || 'Адрес уточняется'}
                   </span>
                 </div>
-              </div>
-
-              {selectedDayEvents.length > 0 && (
-                <div className='selected-day-events-panel mt-6 h-[360px] min-h-[360px] max-h-[360px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
-                  <div className='selected-day-events-title mb-4 text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-                    СОБЫТИЯ ВЫБРАННОГО ДНЯ
-                  </div>
-
-                  <div className='selected-day-events-list grid h-[290px] max-h-[290px] grid-cols-1 gap-3 overflow-y-auto pr-1'>
-                    {visibleSelectedDayEvents.map((event, index) => (
-                      <button
-                        key={event.id}
-                        type='button'
-                        onClick={() => setSelectedEventId(event.id)}
-                        className={`mint-btn mint-btn--event-tab pressable h-auto min-h-[52px] w-full justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.2] ${selectedEvent?.id === event.id ? 'mint-btn--active' : ''}`}
-                      >
-                        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                        <span className='min-w-0 break-words whitespace-normal text-left'>
-                          {index + 1}. {event.title}
-                        </span>
-                      </button>
-                    ))}
-
-                    {hiddenSelectedDayEventsCount > 0 && (
-                      <div className='inline-flex min-h-[52px] items-center justify-center rounded-[18px] border border-[#7CD8B3] bg-[#eefbf4] px-3 py-3 text-[13px] font-semibold text-black'>
-                        + ещё {hiddenSelectedDayEventsCount}
-                      </div>
-                    )}
-                  </div>
+              </>
+            ) : (
+              <div className='flex min-h-[360px] flex-col items-center justify-center rounded-[18px] bg-transparent px-6 py-10 text-center'>
+                <div className='text-[28px] font-semibold leading-tight text-black'>
+                  На сегодня нет мероприятий
                 </div>
-              )}
-            </>
-          ) : (
-            <div className='flex min-h-[560px] flex-col items-center justify-center rounded-[18px] bg-transparent px-6 py-10 text-center'>
-              <div className='mt-2 text-[28px] font-semibold leading-tight text-black'>
+              </div>
+            )}
+          </div>
+
+          <div className='selected-day-events-panel mt-6 min-h-[330px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
+            <div className='mb-4 text-[18px] font-semibold uppercase tracking-[0.12em] text-[#f29f59]'>
+              СОБЫТИЯ ВЫБРАННОГО ДНЯ
+            </div>
+
+            {selectedDayEvents.length > 0 ? (
+              <div className='selected-day-events-list grid grid-cols-1 gap-3 overflow-visible'>
+                {visibleSelectedDayEvents.map((event, index) => (
+                  <button
+                    key={event.id}
+                    type='button'
+                    onClick={() => setSelectedEventId(event.id)}
+                    className={`mint-btn mint-btn--event-tab pressable min-h-[54px] w-full items-start justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.15] ${
+                      selectedEvent?.id === event.id ? 'mint-btn--active' : ''
+                    }`}
+                  >
+                    <span className={`mt-[3px] h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
+                    <span className='min-w-0 whitespace-normal break-words text-left'>
+                      {index + 1}. {event.title}
+                    </span>
+                  </button>
+                ))}
+
+                {hiddenSelectedDayEventsCount > 0 && (
+                  <div className='inline-flex min-h-[54px] items-center justify-center rounded-[18px] border border-[#7CD8B3] bg-[#eefbf4] px-3 py-3 text-[13px] font-semibold text-black'>
+                    + ещё {hiddenSelectedDayEventsCount}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className='flex min-h-[220px] items-center justify-center rounded-[16px] border border-[#d9e9e1] bg-[#fafafa] px-4 text-center text-[16px] font-medium text-[#4b5563]'>
                 На сегодня нет мероприятий
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-
-      <div className='calendar-panel right-calendar-shell calendar-right-stack grid h-full gap-3 self-stretch rounded-[26px] border border-transparent bg-transparent p-0'>
+      <div className='calendar-panel right-calendar-shell calendar-right-stack grid h-full gap-3 self-start rounded-[26px] border border-transparent bg-transparent p-0'>
         <div className='calendar-top-panel w-full self-start overflow-visible'>
           <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 overflow-visible'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>

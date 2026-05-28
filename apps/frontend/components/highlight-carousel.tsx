@@ -87,7 +87,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -137,7 +137,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -147,22 +147,22 @@ export function HighlightCarousel({
             </h2>
 
             <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
-              <span className='inline-flex items-center gap-2 text-[15px]'>
+              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
                 {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[15px]'>
+              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <Clock3 className='h-5 w-5 text-[#2c8d67]' />
                 {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[15px]'>
+              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
                 {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[15px]'>
+              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <MapPin className='h-5 w-5 text-[#2c8d67]' />
                 {item.location || 'Локация уточняется'}
               </span>
@@ -203,12 +203,12 @@ export function HighlightCarousel({
       <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
 
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-          ВАЖНЫЕ СОБЫТИЯ
-        </h3>
+        <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
+          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
+            ВАЖНЫЕ СОБЫТИЯ
+          </h3>
 
-        <div className='important-events-actions-row mt-4 flex flex-wrap items-center justify-between gap-4'>
-          <div className='important-events-actions flex items-center'>
+          <div className='important-events-actions-row flex w-full flex-wrap items-start justify-between gap-4'>
             <button
               type='button'
               onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
@@ -217,17 +217,23 @@ export function HighlightCarousel({
               Смотреть все
               <ArrowRight className='h-4 w-4' />
             </button>
-          </div>
 
-          {controls ? (
-            <div className='important-events-mode-controls grid w-full gap-3 sm:w-auto sm:grid-cols-2 lg:w-[420px]'>
-              {controls}
-            </div>
-          ) : null}
+            {controls ? (
+              <div className='important-events-mode-block flex min-w-[320px] flex-col items-end gap-2'>
+                <div className='important-events-mode-title text-right text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
+                  РЕЖИМ ОТОБРАЖЕНИЯ
+                </div>
+
+                <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
+                  {controls}
+                </div>
+              </div>
+            ) : null}
+          </div>
         </div>
 
         {plannedSlides.length > 0 ? (
-          <div className='mt-4 flex flex-wrap items-center gap-3'>
+          <div className='flex flex-wrap items-center gap-3'>
             {plannedSlides.map(({ event, idx }) => {
               const date = new Date(event.startAt);
 
@@ -237,7 +243,7 @@ export function HighlightCarousel({
                   type='button'
                   onClick={() => setActive(idx)}
                   className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${
-                    idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'
+                    idx === active ? 'important-date-chip--active border-[#f29f59] ring-2 ring-[#f29f59]/25' : 'border-[#7CD8B3]'
                   }`}
                   title={event.title}
                 >
@@ -252,7 +258,7 @@ export function HighlightCarousel({
             })}
           </div>
         ) : (
-          <div className='mt-4 rounded-[14px] border border-[#7CD8B3] bg-white px-4 py-3 text-sm text-black'>
+          <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-4 py-3 text-sm text-black'>
             Запланированных важных событий пока нет.
           </div>
         )}
