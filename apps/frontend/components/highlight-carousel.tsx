@@ -79,7 +79,7 @@ export function HighlightCarousel({
     const fallback = (
       <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
         <div className='grid min-h-[320px] gap-0 lg:grid-cols-2'>
-          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
+          <div className='important-events-image-panel min-h-[280px] overflow-hidden bg-white p-4'>
             <img
               src={IMPORTANT_EVENTS_PHOTO}
               alt='Важные события'
@@ -123,7 +123,7 @@ export function HighlightCarousel({
             <ChevronLeft className='h-5 w-5' />
           </button>
 
-          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
+          <div className='important-events-image-panel min-h-[280px] overflow-hidden bg-white p-4'>
             <img
               src={slideImage}
               alt={item.title}
@@ -203,27 +203,25 @@ export function HighlightCarousel({
       <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
 
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <div className='mb-4 flex flex-col items-start gap-4'>
-          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-            Важные события
-          </h3>
+        <h3 className='important-events-ribbon-title mb-4 text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
+          ВАЖНЫЕ СОБЫТИЯ
+        </h3>
 
-          <div className='important-events-actions flex min-w-[260px] flex-col items-start gap-3'>
-            <button
-              type='button'
-              onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
-              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
-            >
-              Смотреть все
-              <ArrowRight className='h-4 w-4' />
-            </button>
+        <div className='important-events-actions-row mb-5 flex flex-wrap items-center justify-between gap-4'>
+          <button
+            type='button'
+            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+          >
+            Смотреть все
+            <ArrowRight className='h-4 w-4' />
+          </button>
 
-            {controls ? (
-              <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
-                {controls}
-              </div>
-            ) : null}
-          </div>
+          {controls ? (
+            <div className='important-events-mode-controls flex flex-wrap items-center justify-end gap-3'>
+              {controls}
+            </div>
+          ) : null}
         </div>
 
         {plannedSlides.length > 0 ? (

@@ -701,7 +701,8 @@ textarea,
   font-size: 13px !important;
   font-weight: 500 !important;
   text-align: center !important;
-}/* === FINAL HEADER ACTION ICONS HARD FIX === */
+}
+/* === FINAL HEADER ACTION ICONS HARD FIX === */
 
 .page-shell .site-header-panel {
   overflow: visible !important;
@@ -824,3 +825,198 @@ textarea,
   background: #ffffff !important;
   background-color: #ffffff !important;
 }
+
+/* === FINAL UI POLISH CLEAN 2026-05-28 === */
+
+/* Цвет акцента для заголовков блоков */
+.page-shell .filters-heading,
+.page-shell .selected-day-events-title,
+.page-shell .topic-panel-title,
+.page-shell .important-events-ribbon-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+}
+
+/* Верхние кнопки: текст без жирного выделения */
+.page-shell .site-header-action,
+.page-shell .site-header-action span,
+.page-shell .mint-btn--header,
+.page-shell .mint-btn--header span {
+  font-weight: 500 !important;
+}
+
+.page-shell .site-header-action > span:first-child,
+.page-shell .mint-btn--header > span:first-child {
+  font-weight: 700 !important;
+}
+
+/* Важные события: Смотреть все слева, Витрина/Полный режим справа */
+.page-shell .important-events-actions-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-actions-row .important-events-view-all-btn {
+  margin-right: auto !important;
+  flex: 0 0 auto !important;
+}
+
+.page-shell .important-events-mode-controls {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  width: auto !important;
+  max-width: none !important;
+  margin-left: auto !important;
+}
+
+.page-shell .important-events-mode-controls .important-mode-btn {
+  min-width: 180px !important;
+  width: 180px !important;
+  min-height: 48px !important;
+}
+
+/* Убираем визуальные разделители между картинкой и описанием в важных событиях */
+.page-shell .important-events-image-panel,
+.page-shell .important-events-unified .highlight-hero-joined > .grid > div:first-of-type {
+  border-right: 0 !important;
+  border-left: 0 !important;
+}
+
+.page-shell .important-events-divider {
+  margin: 0 24px !important;
+  border-top: 1.5px solid rgba(0, 0, 0, 0.72) !important;
+}
+
+/* Календарный блок: общий фон серый, внутренние окна светлые */
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .calendar-common-shell,
+.page-shell .right-calendar-shell.calendar-right-stack,
+.page-shell .calendar-panel.right-calendar-shell {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+.page-shell .calendar-unified-shell {
+  align-items: stretch !important;
+}
+
+.page-shell .calendar-left-panel,
+.page-shell .right-calendar-shell.calendar-right-stack {
+  align-self: stretch !important;
+  height: 100% !important;
+}
+
+/* Левая панель и правая колонка выравниваются по высоте */
+.page-shell .event-details-panel,
+.page-shell .calendar-left-panel {
+  min-height: 720px !important;
+}
+
+.page-shell .event-details-panel > div,
+.page-shell .calendar-left-panel > div {
+  min-height: 720px !important;
+}
+
+/* События выбранного дня: заголовок капсом, список в один столбик */
+.page-shell .selected-day-events-panel {
+  height: 320px !important;
+  min-height: 320px !important;
+  max-height: 320px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .selected-day-events-list {
+  height: 244px !important;
+  max-height: 244px !important;
+  grid-template-columns: 1fr !important;
+  overflow: hidden !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn {
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+/* Правая нижняя панель с подборками выше, чтобы заголовок и кнопки помещались */
+.page-shell .calendar-bottom-panel {
+  min-height: 360px !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-shell .calendar-topic-panel {
+  height: 100% !important;
+  padding: 20px !important;
+  overflow: visible !important;
+}
+
+.page-shell .calendar-topic-panel .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button {
+  min-height: 96px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+/* Подборки: оставляем только цифру, без слова мероприятий */
+.page-shell .topic-count-text {
+  display: block !important;
+  margin-top: 8px !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  color: #f29f59 !important;
+}
+
+.page-shell .topic-count-label {
+  display: none !important;
+}
+
+/* Быстрые фильтры под календарем */
+.page-shell .calendar-inline-controls {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin-top: 14px !important;
+}
+
+@media (max-width: 1024px) {
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    margin-left: 0 !important;
+  }
+
+  .page-shell .important-events-mode-controls .important-mode-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-shell .calendar-topic-panel .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell .calendar-topic-panel .grid,
+  .page-shell .calendar-inline-controls {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === END FINAL UI POLISH CLEAN 2026-05-28 === */

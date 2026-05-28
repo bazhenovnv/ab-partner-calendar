@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
 const HEADER_BUTTON_CLASS =
-  'mint-btn mint-btn--header pressable';
+  'mint-btn mint-btn--header site-header-action pressable font-medium';
 
 function TelegramCircleIcon() {
   return (
@@ -56,7 +56,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <TelegramCircleIcon />
-              <span>Telegram</span>
+              <span className='font-medium'>Telegram</span>
             </a>
 
             <a
@@ -66,7 +66,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <MaxCircleIcon />
-              <span>Max</span>
+              <span className='font-medium'>Max</span>
             </a>
 
             <a
@@ -76,7 +76,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <PartnerCircleIcon />
-              <span>Стать партнером</span>
+              <span className='font-medium'>Стать партнером</span>
             </a>
           </div>
         </div>

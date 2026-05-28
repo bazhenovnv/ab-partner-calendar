@@ -271,9 +271,9 @@ export function EventsCalendarBoard({
   const hiddenSelectedDayEventsCount = Math.max(selectedDayEvents.length - MAX_VISIBLE_SELECTED_DAY_EVENTS, 0);
 
   return (
-    <section className='calendar-common-shell calendar-unified-shell grid items-start gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
-      <div className='calendar-left-panel event-details-panel surface-card self-start overflow-hidden bg-white h-full min-h-[620px]'>
-        <div className='flex h-full min-h-[620px] flex-col overflow-y-auto px-6 py-5'>
+    <section className='calendar-common-shell calendar-unified-shell grid items-stretch gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
+      <div className='calendar-left-panel event-details-panel surface-card h-full min-h-[720px] overflow-hidden bg-white'>
+        <div className='flex h-full min-h-[720px] flex-col overflow-y-auto px-6 py-5'>
           {selectedEvent ? (
             <>
               <div className='flex-1'>
@@ -327,12 +327,12 @@ export function EventsCalendarBoard({
               </div>
 
               {selectedDayEvents.length > 1 && (
-                <div className='selected-day-events-panel mt-6 h-[250px] min-h-[250px] max-h-[250px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
-                  <div className='mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#2c8d67]'>
-                    События выбранного дня
+                <div className='selected-day-events-panel mt-6 h-[320px] min-h-[320px] max-h-[320px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
+                  <div className='selected-day-events-title mb-4 text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
+                    СОБЫТИЯ ВЫБРАННОГО ДНЯ
                   </div>
 
-                  <div className='selected-day-events-list grid h-[184px] max-h-[184px] grid-cols-1 gap-3 overflow-hidden sm:grid-cols-2'>
+                  <div className='selected-day-events-list grid h-[244px] max-h-[244px] grid-cols-1 gap-3 overflow-hidden'>
                     {visibleSelectedDayEvents.map((event, index) => (
                       <button
                         key={event.id}
@@ -371,7 +371,7 @@ export function EventsCalendarBoard({
         </div>
       </div>
 
-      <div className='calendar-panel right-calendar-shell calendar-right-stack grid h-full gap-3 self-start rounded-[26px] border border-transparent bg-transparent p-0'>
+      <div className='calendar-panel right-calendar-shell calendar-right-stack grid h-full gap-3 self-stretch rounded-[26px] border border-transparent bg-transparent p-0'>
         <div className='calendar-top-panel w-full self-start overflow-visible'>
           <div className='w-full rounded-[22px] border border-[#7CD8B3] bg-white p-5 overflow-visible'>
             <div className='mb-3 flex items-center justify-between gap-4 border-b border-[#d8f3e7] pb-3'>
@@ -491,7 +491,7 @@ export function EventsCalendarBoard({
         </div>
 
         {filtersPanel ? (
-          <div className='calendar-bottom-panel w-full rounded-[22px] border border-[#7CD8B3] bg-white overflow-hidden'>
+          <div className='calendar-bottom-panel w-full min-h-[360px] rounded-[22px] border border-[#7CD8B3] bg-white overflow-visible'>
             {filtersPanel}
           </div>
         ) : null}
