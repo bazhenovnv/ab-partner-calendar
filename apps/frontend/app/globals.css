@@ -1178,3 +1178,92 @@ textarea,
 }
 
 /* === END FINAL LABELS AND FOOTER POLISH === */
+
+/* === FINAL FULL MODE CARDS FIX === */
+
+.page-shell .compact-events-panel {
+  overflow: visible !important;
+}
+
+.page-shell .compact-events-list {
+  display: grid !important;
+  gap: 14px !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card {
+  min-height: 118px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 18px 20px !important;
+  border-radius: 20px !important;
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+.page-shell .compact-event-card > button {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card-header {
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+
+.page-shell .compact-event-title {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  line-height: 1.25 !important;
+  font-size: 18px !important;
+}
+
+.page-shell .compact-event-meta {
+  display: block !important;
+  width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.35 !important;
+}
+
+.page-shell .compact-event-badges {
+  flex: 0 0 auto !important;
+  max-width: 100% !important;
+}
+
+.page-shell .compact-event-badges span {
+  white-space: nowrap !important;
+}
+
+.page-shell .compact-event-card .mt-4 {
+  margin-top: 14px !important;
+}
+
+.page-shell .compact-event-card .mint-btn,
+.page-shell .compact-event-card button,
+.page-shell .compact-event-card a {
+  white-space: normal !important;
+}
+
+@media (max-width: 1024px) {
+  .page-shell .compact-event-card {
+    min-height: 130px !important;
+  }
+
+  .page-shell .compact-event-badges {
+    width: 100% !important;
+  }
+}
+
+/* === END FINAL FULL MODE CARDS FIX === */
