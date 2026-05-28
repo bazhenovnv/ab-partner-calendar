@@ -1072,3 +1072,109 @@ textarea,
 }
 
 /* === END FINAL TOPIC PANEL FIX === */
+
+/* === FINAL LABELS AND FOOTER POLISH === */
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title,
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+}
+
+.page-shell .important-events-headline-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .important-events-mode-title {
+  margin-left: auto !important;
+  text-align: right !important;
+}
+
+.page-shell .important-events-actions-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-view-all-btn {
+  margin-right: auto !important;
+}
+
+.page-shell .important-events-mode-controls {
+  margin-left: auto !important;
+  width: 420px !important;
+  max-width: 100% !important;
+}
+
+.page-shell .selected-day-events-title {
+  margin-bottom: 16px !important;
+}
+
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  display: block !important;
+  padding-left: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Убрать окружности/кружки с иконок в подвале */
+.page-shell .platform-footer-shell .icon-chip,
+.page-shell .platform-footer-shell [class*='rounded-full'] {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.page-shell .platform-footer-shell .icon-chip svg,
+.page-shell .platform-footer-shell [class*='rounded-full'] svg {
+  width: 22px !important;
+  height: 22px !important;
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+@media (max-width: 760px) {
+  .page-shell .important-events-headline-row,
+  .page-shell .important-events-actions-row {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .page-shell .important-events-mode-title {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* === END FINAL LABELS AND FOOTER POLISH === */
