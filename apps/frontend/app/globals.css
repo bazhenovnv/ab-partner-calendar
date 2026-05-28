@@ -965,3 +965,110 @@ textarea,
 }
 
 /* === END FINAL FIXES: selected-day panel, important events, topic icons === */
+
+.page-shell .calendar-topic-panel {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  border-radius: 28px !important;
+  padding: 22px 18px 18px !important;
+  min-height: 390px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-topic-panel-title {
+  display: block !important;
+  padding-left: 16px !important;
+  margin-bottom: 16px !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+}
+
+.page-shell .calendar-topic-panel .grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  align-content: start !important;
+}
+
+.page-shell .topic-filter-button {
+  min-height: 92px !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  border-radius: 18px !important;
+}
+
+.page-shell .topic-filter-copy {
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.page-shell .topic-filter-title {
+  display: block !important;
+  font-size: 17px !important;
+  line-height: 1.08 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.page-shell .topic-count-number {
+  display: block !important;
+  margin-top: 6px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+}
+
+.page-shell .topic-count-label {
+  display: none !important;
+}
+
+.page-shell .topic-filter-icon,
+.page-shell .topic-filter-icon svg,
+.page-shell .topic-filter-icon span {
+  transition:
+    color 0.2s ease,
+    fill 0.2s ease,
+    stroke 0.2s ease !important;
+}
+
+/* Активная кнопка подборки — обводка как у выбранной даты */
+.page-shell .topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .topic-filter-button-active .topic-filter-icon,
+.page-shell .topic-filter-button-active .topic-filter-icon svg,
+.page-shell .topic-filter-button-active .topic-filter-icon span {
+  color: #f29f59 !important;
+  fill: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+/* Чтобы старая ring-обводка не конфликтовала, если где-то осталась */
+.page-shell .topic-filter-button.ring-2 {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* === END FINAL TOPIC PANEL FIX === */

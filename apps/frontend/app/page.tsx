@@ -134,16 +134,6 @@ function getTopicCount(events: EventItem[], topic: string) {
   return events.filter((event) => eventMatchesTopic(event, topic)).length;
 }
 
-function formatEventCountLabel(count: number) {
-  const lastTwo = Math.abs(count) % 100;
-  const last = Math.abs(count) % 10;
-
-  if (lastTwo >= 11 && lastTwo <= 14) return 'мероприятий';
-  if (last === 1) return 'мероприятие';
-  if (last >= 2 && last <= 4) return 'мероприятия';
-  return 'мероприятий';
-}
-
 function sourceLabel(source: string) {
   if (/^telegram$/i.test(source)) return 'Telegram';
   if (/^max$/i.test(source)) return 'Max';
@@ -442,46 +432,50 @@ export default function HomePage() {
 
   const topicButtonsPanel = (
     <div className='calendar-topic-panel p-0'>
-      <div className='topic-panel-title mb-4 text-[20px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-        ПОДБОРКИ
-      </div>
+      <div className='calendar-topic-panel-title'>ПОДБОРКИ</div>
 
       <div className='grid gap-3 md:grid-cols-3'>
-        {topicCards.map((topic) => (
-          <button
-            key={topic.value}
-            type='button'
-            onClick={() => setTopicFilter(topic.value)}
-            className={`topic-filter-button pressable flex min-h-[86px] min-w-0 items-center gap-4 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-left font-medium text-black transition hover:bg-[#86e1bd] ${
-              topicFilter === topic.value ? 'topic-filter-button--active ring-2 ring-[#E04B4B]/40' : ''
-            }`}
-          >
-            <div
-              className={`topic-filter-icon flex h-11 w-11 flex-none items-center justify-center rounded-full text-[17px] ${
-                topicFilter === topic.value ? 'bg-white text-[#f29f59]' : 'bg-[#eefbf4] text-[#2a8f68]'
+        {topicCards.map((topic) => {
+          const isActive = topicFilter === topic.value;
+
+          return (
+            <button
+              key={topic.value}
+              type='button'
+              onClick={() => setTopicFilter(topic.value)}
+              className={`topic-filter-button pressable flex min-h-[92px] min-w-0 items-center gap-4 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-left transition hover:bg-[#86e1bd] ${
+                isActive ? 'topic-filter-button-active' : ''
               }`}
             >
-              {topic.icon}
-            </div>
-
-            <div className='min-w-0'>
-              <div className='break-words text-[17px] font-semibold leading-tight text-black'>{topic.cardLabel}</div>
-              <div className='topic-count-text mt-1'>
-                <span className='topic-count-number'>{topic.count}</span>
+              <div
+                className={`topic-filter-icon flex h-11 w-11 flex-none items-center justify-center rounded-full text-[17px] ${
+                  isActive ? 'bg-white/55 text-[#f29f59]' : 'bg-[#eefbf4] text-[#2a8f68]'
+                }`}
+              >
+                {topic.icon}
               </div>
-            </div>
-          </button>
-        ))}
+
+              <div className='topic-filter-copy min-w-0'>
+                <div className='topic-filter-title'>{topic.cardLabel}</div>
+                <div className='topic-count-number'>{topic.count}</div>
+              </div>
+            </button>
+          );
+        })}
 
         <button
           type='button'
           onClick={() => setTopicFilter('ALL')}
-          className={`topic-filter-button pressable flex min-h-[86px] min-w-0 items-center justify-center gap-3 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-center font-medium text-black transition hover:bg-[#86e1bd] ${
-            topicFilter === 'ALL' ? 'topic-filter-button--active ring-2 ring-[#E04B4B]/40' : ''
+          className={`topic-filter-button pressable flex min-h-[92px] min-w-0 items-center justify-center gap-3 rounded-[18px] border border-[#4FAF8C] bg-[#7CD8B3] px-4 py-3 text-center transition hover:bg-[#86e1bd] ${
+            topicFilter === 'ALL' ? 'topic-filter-button-active' : ''
           }`}
         >
-          <Layers3 className='topic-filter-icon h-6 w-6 flex-none' />
-          <span className='text-[17px] font-semibold leading-tight'>Все подборки</span>
+          <Layers3
+            className={`h-6 w-6 flex-none ${
+              topicFilter === 'ALL' ? 'text-[#f29f59]' : 'text-black'
+            }`}
+          />
+          <span className='topic-filter-title'>Все подборки</span>
         </button>
       </div>
     </div>
