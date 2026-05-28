@@ -6,7 +6,7 @@ import { EventItem } from '@/lib/types';
 import { ReminderButton } from './reminder-button';
 
 const weekdayLabels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-const MAX_VISIBLE_SELECTED_DAY_EVENTS = 6;
+const MAX_VISIBLE_SELECTED_DAY_EVENTS = 10;
 
 function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -272,11 +272,11 @@ export function EventsCalendarBoard({
 
   return (
     <section className='calendar-common-shell calendar-unified-shell grid items-stretch gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
-      <div className='calendar-left-panel event-details-panel surface-card h-full min-h-[720px] overflow-hidden bg-white'>
-        <div className='flex h-full min-h-[720px] flex-col overflow-y-auto px-6 py-5'>
+      <div className='calendar-left-panel event-details-panel surface-card self-stretch overflow-hidden bg-white h-full min-h-[620px]'>
+        <div className='flex h-full min-h-[620px] flex-col overflow-hidden px-6 py-5'>
           {selectedEvent ? (
             <>
-              <div className='flex-1'>
+              <div className='flex-1 overflow-y-auto pr-1'>
                 <div className='mb-4'>
                   <h3 className='max-w-[900px] text-[25px] font-medium leading-tight text-[#1a1a1a]'>
                     {selectedEvent.title}
@@ -326,29 +326,29 @@ export function EventsCalendarBoard({
                 </div>
               </div>
 
-              {selectedDayEvents.length > 1 && (
-                <div className='selected-day-events-panel mt-6 h-[320px] min-h-[320px] max-h-[320px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
+              {selectedDayEvents.length > 0 && (
+                <div className='selected-day-events-panel mt-6 h-[360px] min-h-[360px] max-h-[360px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
                   <div className='selected-day-events-title mb-4 text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
                     СОБЫТИЯ ВЫБРАННОГО ДНЯ
                   </div>
 
-                  <div className='selected-day-events-list grid h-[244px] max-h-[244px] grid-cols-1 gap-3 overflow-hidden'>
+                  <div className='selected-day-events-list grid h-[290px] max-h-[290px] grid-cols-1 gap-3 overflow-y-auto pr-1'>
                     {visibleSelectedDayEvents.map((event, index) => (
                       <button
                         key={event.id}
                         type='button'
                         onClick={() => setSelectedEventId(event.id)}
-                        className={`mint-btn mint-btn--event-tab pressable h-[42px] min-h-[42px] max-h-[42px] w-full justify-start overflow-hidden px-3 py-2 text-left text-[13px] leading-4 ${selectedEvent.id === event.id ? 'mint-btn--active' : ''}`}
+                        className={`mint-btn mint-btn--event-tab pressable h-auto min-h-[52px] w-full justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.2] ${selectedEvent?.id === event.id ? 'mint-btn--active' : ''}`}
                       >
                         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                        <span className='min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
+                        <span className='min-w-0 break-words whitespace-normal text-left'>
                           {index + 1}. {event.title}
                         </span>
                       </button>
                     ))}
 
                     {hiddenSelectedDayEventsCount > 0 && (
-                      <div className='inline-flex h-[42px] min-h-[42px] max-h-[42px] items-center justify-center rounded-[18px] border border-[#7CD8B3] bg-[#eefbf4] px-3 py-2 text-[13px] font-semibold text-black'>
+                      <div className='inline-flex min-h-[52px] items-center justify-center rounded-[18px] border border-[#7CD8B3] bg-[#eefbf4] px-3 py-3 text-[13px] font-semibold text-black'>
                         + ещё {hiddenSelectedDayEventsCount}
                       </div>
                     )}
@@ -357,14 +357,9 @@ export function EventsCalendarBoard({
               )}
             </>
           ) : (
-            <div className='flex min-h-[560px] flex-col items-center justify-center rounded-[18px] bg-white px-6 py-10 text-center'>
-              <img
-                src='/calendar-empty-state.png'
-                alt='Выберите дату с событиями'
-                className='h-[260px] w-[260px] object-contain'
-              />
+            <div className='flex min-h-[560px] flex-col items-center justify-center rounded-[18px] bg-transparent px-6 py-10 text-center'>
               <div className='mt-2 text-[28px] font-semibold leading-tight text-black'>
-                Выберите дату с событиями
+                На сегодня нет мероприятий
               </div>
             </div>
           )}
@@ -491,7 +486,7 @@ export function EventsCalendarBoard({
         </div>
 
         {filtersPanel ? (
-          <div className='calendar-bottom-panel w-full min-h-[360px] rounded-[22px] border border-[#7CD8B3] bg-white overflow-visible'>
+          <div className='calendar-bottom-panel w-full rounded-[22px] border border-[#7CD8B3] bg-white overflow-hidden'>
             {filtersPanel}
           </div>
         ) : null}

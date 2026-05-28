@@ -826,197 +826,131 @@ textarea,
   background-color: #ffffff !important;
 }
 
-/* === FINAL UI POLISH CLEAN 2026-05-28 === */
+/* === FINAL PATCH: selected day / calendar / topics / important events === */
 
-/* Цвет акцента для заголовков блоков */
-.page-shell .filters-heading,
-.page-shell .selected-day-events-title,
-.page-shell .topic-panel-title,
-.page-shell .important-events-ribbon-title {
-  font-size: 18px !important;
-  font-weight: 700 !important;
-  line-height: 1.1 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  color: #f29f59 !important;
-}
-
-/* Верхние кнопки: текст без жирного выделения */
-.page-shell .site-header-action,
-.page-shell .site-header-action span,
-.page-shell .mint-btn--header,
-.page-shell .mint-btn--header span {
-  font-weight: 500 !important;
-}
-
-.page-shell .site-header-action > span:first-child,
-.page-shell .mint-btn--header > span:first-child {
-  font-weight: 700 !important;
-}
-
-/* Важные события: Смотреть все слева, Витрина/Полный режим справа */
-.page-shell .important-events-actions-row {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 16px !important;
-  flex-wrap: wrap !important;
-  width: 100% !important;
-}
-
-.page-shell .important-events-actions-row .important-events-view-all-btn {
-  margin-right: auto !important;
-  flex: 0 0 auto !important;
-}
-
-.page-shell .important-events-mode-controls {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 12px !important;
-  width: auto !important;
-  max-width: none !important;
-  margin-left: auto !important;
-}
-
-.page-shell .important-events-mode-controls .important-mode-btn {
-  min-width: 180px !important;
-  width: 180px !important;
-  min-height: 48px !important;
-}
-
-/* Убираем визуальные разделители между картинкой и описанием в важных событиях */
-.page-shell .important-events-image-panel,
-.page-shell .important-events-unified .highlight-hero-joined > .grid > div:first-of-type {
-  border-right: 0 !important;
-  border-left: 0 !important;
-}
-
-.page-shell .important-events-divider {
-  margin: 0 24px !important;
-  border-top: 1.5px solid rgba(0, 0, 0, 0.72) !important;
-}
-
-/* Календарный блок: общий фон серый, внутренние окна светлые */
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .dashboard-calendar-wrap,
 .page-shell .calendar-common-shell,
-.page-shell .right-calendar-shell.calendar-right-stack,
-.page-shell .calendar-panel.right-calendar-shell {
-  background: var(--ab-panel-bg) !important;
-  background-color: var(--ab-panel-bg) !important;
-}
-
 .page-shell .calendar-unified-shell {
   align-items: stretch !important;
 }
 
 .page-shell .calendar-left-panel,
-.page-shell .right-calendar-shell.calendar-right-stack {
-  align-self: stretch !important;
-  height: 100% !important;
-}
-
-/* Левая панель и правая колонка выравниваются по высоте */
 .page-shell .event-details-panel,
-.page-shell .calendar-left-panel {
-  min-height: 720px !important;
+.page-shell .right-calendar-shell {
+  align-self: stretch !important;
 }
 
-.page-shell .event-details-panel > div,
-.page-shell .calendar-left-panel > div {
-  min-height: 720px !important;
-}
-
-/* События выбранного дня: заголовок капсом, список в один столбик */
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
 .page-shell .selected-day-events-panel {
-  height: 320px !important;
-  min-height: 320px !important;
-  max-height: 320px !important;
   overflow: hidden !important;
+  border-radius: 28px !important;
 }
 
-.page-shell .selected-day-events-list {
-  height: 244px !important;
-  max-height: 244px !important;
-  grid-template-columns: 1fr !important;
-  overflow: hidden !important;
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
 }
 
-.page-shell .selected-day-events-list .mint-btn {
-  width: 100% !important;
-  justify-content: flex-start !important;
-}
-
-/* Правая нижняя панель с подборками выше, чтобы заголовок и кнопки помещались */
-.page-shell .calendar-bottom-panel {
+.page-shell .selected-day-events-panel {
   min-height: 360px !important;
-  height: auto !important;
-  overflow: visible !important;
+  height: 360px !important;
+  max-height: 360px !important;
+}
+
+.page-shell .calendar-bottom-panel {
+  min-height: 340px !important;
+  overflow: hidden !important;
 }
 
 .page-shell .calendar-topic-panel {
+  min-height: 340px !important;
   height: 100% !important;
   padding: 20px !important;
-  overflow: visible !important;
+  overflow: hidden !important;
+  border-radius: 28px !important;
 }
 
 .page-shell .calendar-topic-panel .grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 12px !important;
+  align-content: start !important;
 }
 
-.page-shell .calendar-topic-panel .topic-filter-button {
-  min-height: 96px !important;
-  align-items: center !important;
+.page-shell .calendar-days-grid {
   overflow: hidden !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
-/* Подборки: оставляем только цифру, без слова мероприятий */
-.page-shell .topic-count-text {
-  display: block !important;
-  margin-top: 8px !important;
-  font-size: 22px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
-  color: #f29f59 !important;
+.page-shell .calendar-top-panel > div {
+  overflow: hidden !important;
+  border-radius: 28px !important;
+}
+
+.page-shell .selected-day-events-list {
+  height: 290px !important;
+  max-height: 290px !important;
+  grid-template-columns: 1fr !important;
+  align-content: start !important;
+  overflow-y: auto !important;
+  padding-right: 4px !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn {
+  min-height: 52px !important;
+  max-height: none !important;
+  align-items: flex-start !important;
+  white-space: normal !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn span:last-child {
+  white-space: normal !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.page-shell .important-events-actions-row {
+  width: 100% !important;
+}
+
+.page-shell .important-events-actions {
+  min-width: auto !important;
+}
+
+.page-shell .important-events-mode-controls {
+  margin-left: auto !important;
+}
+
+.page-shell .important-events-view-all-btn,
+.page-shell .important-events-ribbon .important-date-chip {
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip {
+  border-color: var(--ab-border) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip[class*='border-[#E04B4B]'] {
+  border-color: #f29f59 !important;
+  border-width: 3px !important;
+  color: #000000 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.22),
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
 }
 
 .page-shell .topic-count-label {
   display: none !important;
 }
 
-/* Быстрые фильтры под календарем */
-.page-shell .calendar-inline-controls {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 12px !important;
-  margin-top: 14px !important;
-}
-
-@media (max-width: 1024px) {
-  .page-shell .important-events-mode-controls {
-    width: 100% !important;
-    justify-content: flex-start !important;
-    margin-left: 0 !important;
-  }
-
-  .page-shell .important-events-mode-controls .important-mode-btn {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  .page-shell .calendar-topic-panel .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .page-shell .calendar-topic-panel .grid,
-  .page-shell .calendar-inline-controls {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* === END FINAL UI POLISH CLEAN 2026-05-28 === */
+/* === END FINAL PATCH: selected day / calendar / topics / important events === */
