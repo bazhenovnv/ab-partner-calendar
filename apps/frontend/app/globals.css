@@ -2716,3 +2716,37 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL HEADER LOGO AND CALENDAR POPOVER FIX === */
 
+/* === FINAL HEADER LOGO REPLACE === */
+
+.page-shell .site-header-logo-link {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 72px !important;
+  text-decoration: none !important;
+  flex: 0 1 auto !important;
+}
+
+.page-shell .site-header-logo-image {
+  display: block !important;
+  height: 72px !important;
+  width: auto !important;
+  max-width: 980px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1180px) {
+  .page-shell .site-header-logo-image {
+    height: 60px !important;
+    max-width: 720px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell .site-header-logo-image {
+    height: 46px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO REPLACE === */
+
