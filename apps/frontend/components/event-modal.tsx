@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { CalendarClock, MapPin, Tag, ExternalLink, BellRing, Send, Clock4 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -39,56 +40,79 @@ export function EventModal({
   onOpenChange: (value: boolean) => void;
 }) {
   if (!item) return null;
+
   const status = item.runtimeStatus ?? item.status;
   const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot';
   const telegramReminderUrl = `${telegramBotDeepLink}?start=afisha_${item.id}`;
+  const description = cleanDescriptionText(item.descriptionFull || item.descriptionShort) || 'Описание мероприятия будет добавлено позже.';
 
   return (
     <Modal open={open} onOpenChange={onOpenChange} title={item.title}>
-      <div className='grid gap-6 lg:grid-cols-[1.08fr_0.92fr]'>
-        <div>
-          <img src={item.imageUrl} alt={item.title} className='h-64 w-full rounded-[24px] border border-[#7CD8B3] object-cover' />
-          <p className='mt-5 whitespace-pre-line break-words text-sm leading-7 text-slate-600 [overflow-wrap:anywhere]'>{cleanDescriptionText(item.descriptionFull)}</p>
-        </div>
-        <div className='space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
-          <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />
-          <InfoRow label='Окончание' value={format(new Date(item.endAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<Clock4 className='h-4 w-4' />} />
-          <InfoRow label='Место проведения' value={item.location} icon={<MapPin className='h-4 w-4' />} />
-          <InfoRow label='Формат' value={formatLabelMap[item.format]} icon={<Tag className='h-4 w-4' />} />
-          <InfoRow label='Организатор' value='АБ Партнер' icon={<Send className='h-4 w-4' />} />
-          <InfoRow label='Статус' value={statusLabelMap[status]} icon={<BellRing className='h-4 w-4' />} />
+      <div className='event-modal-layout grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.86fr)]'>
+        <div className='event-modal-main min-w-0'>
+          {item.imageUrl ? (
+            <div className='event-modal-image-wrap'>
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className='event-modal-image'
+              />
+            </div>
+          ) : null}
 
-          <div className='flex flex-wrap gap-3 pt-4'>
-            <Button asChild>
+          <div className='event-modal-description mt-5 whitespace-pre-line break-words text-sm leading-7 text-slate-600 [overflow-wrap:anywhere]'>
+            {description}
+          </div>
+
+          <div className='event-modal-main-actions mt-6 flex flex-wrap items-center gap-3'>
+            <Button asChild className='event-modal-action-btn event-modal-action-btn-primary'>
               <a href={telegramReminderUrl} target='_blank' rel='noreferrer'>
-                <BellRing className='h-4 w-4' />Напомнить в Telegram
-              </a>
-            </Button>
-            <Button asChild variant='ghost'>
-              <a href={api.exportEventIcsUrl(item.slug)} target='_blank' rel='noreferrer'>
-                <CalendarClock className='h-4 w-4' />Экспорт в календарь
-              </a>
-            </Button>
-            <Button asChild variant='ghost'>
-              <a href={item.sourceUrl || 'https://t.me/ab_afisha_buh'} target='_blank' rel='noreferrer'>
-                <ExternalLink className='h-4 w-4' />Telegram-канал
+                <BellRing className='h-4 w-4' />
+                Напомнить в Telegram
               </a>
             </Button>
           </div>
         </div>
+
+        <aside className='event-modal-side space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
+          <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />
+          <InfoRow label='Окончание' value={format(new Date(item.endAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<Clock4 className='h-4 w-4' />} />
+          <InfoRow label='Место проведения' value={item.location || 'Адрес уточняется'} icon={<MapPin className='h-4 w-4' />} />
+          <InfoRow label='Формат' value={formatLabelMap[item.format]} icon={<Tag className='h-4 w-4' />} />
+          <InfoRow label='Организатор' value='АБ Партнер' icon={<Send className='h-4 w-4' />} />
+          <InfoRow label='Статус' value={statusLabelMap[status]} icon={<BellRing className='h-4 w-4' />} />
+
+          <div className='event-modal-side-actions grid gap-3 pt-4 sm:grid-cols-2'>
+            <Button asChild variant='ghost' className='event-modal-action-btn'>
+              <a href={api.exportEventIcsUrl(item.slug)} target='_blank' rel='noreferrer'>
+                <CalendarClock className='h-4 w-4' />
+                Экспорт в календарь
+              </a>
+            </Button>
+
+            <Button asChild variant='ghost' className='event-modal-action-btn'>
+              <a href={item.sourceUrl || 'https://t.me/ab_afisha_buh'} target='_blank' rel='noreferrer'>
+                <ExternalLink className='h-4 w-4' />
+                Telegram-канал
+              </a>
+            </Button>
+          </div>
+        </aside>
       </div>
     </Modal>
   );
 }
 
-function InfoRow({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
+function InfoRow({ label, value, icon }: { label: string; value: string; icon: ReactNode }) {
   return (
-    <div className='rounded-2xl border border-[#7CD8B3] bg-white p-4'>
+    <div className='event-modal-info-row rounded-2xl border border-[#7CD8B3] bg-white p-4'>
       <div className='mb-1 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-400'>
         {icon}
         {label}
       </div>
-      <div className='text-sm font-medium text-slate-800'>{value}</div>
+      <div className='text-sm font-medium text-slate-800'>
+        {value}
+      </div>
     </div>
   );
 }
