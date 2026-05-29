@@ -1929,3 +1929,150 @@ body:has(a[href='/admin/settings']) main button {
 }
 
 /* === END FINAL ADMIN AND DIALOG HOTFIX === */
+
+/* === FINAL EVENT MODAL LAYOUT FIX === */
+
+body [data-radix-dialog-content],
+body [role='dialog'] {
+  width: min(1120px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 48px) !important;
+  max-height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 28px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 28px !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+body [data-radix-dialog-content] *,
+body [role='dialog'] * {
+  box-sizing: border-box !important;
+}
+
+body [data-radix-dialog-content] :is(div, section, article, aside),
+body [role='dialog'] :is(div, section, article, aside) {
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+body [data-radix-dialog-content] img,
+body [role='dialog'] img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 320px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+body [data-radix-dialog-content] h1,
+body [data-radix-dialog-content] h2,
+body [data-radix-dialog-content] h3,
+body [data-radix-dialog-content] p,
+body [data-radix-dialog-content] span,
+body [role='dialog'] h1,
+body [role='dialog'] h2,
+body [role='dialog'] h3,
+body [role='dialog'] p,
+body [role='dialog'] span {
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  color: #0f172a !important;
+}
+
+body [data-radix-dialog-content] p,
+body [role='dialog'] p {
+  line-height: 1.5 !important;
+}
+
+body [data-radix-dialog-content] aside,
+body [role='dialog'] aside {
+  min-width: 0 !important;
+}
+
+body [data-radix-dialog-content] aside > div,
+body [role='dialog'] aside > div {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border-color: #7CD8B3 !important;
+}
+
+body [data-radix-dialog-content] button,
+body [data-radix-dialog-content] a,
+body [role='dialog'] button,
+body [role='dialog'] a {
+  min-height: 42px !important;
+  border-radius: 18px !important;
+  border: 1.5px solid #000000 !important;
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+body [data-radix-dialog-content] a[href*='telegram'],
+body [data-radix-dialog-content] a[href*='t.me'],
+body [data-radix-dialog-content] a[href*='calendar'],
+body [role='dialog'] a[href*='telegram'],
+body [role='dialog'] a[href*='t.me'],
+body [role='dialog'] a[href*='calendar'] {
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #000000 !important;
+}
+
+body [data-radix-dialog-content] button[class*='absolute'],
+body [role='dialog'] button[class*='absolute'] {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  z-index: 10 !important;
+}
+
+@media (min-width: 900px) {
+  body [data-radix-dialog-content] [class*='grid'],
+  body [role='dialog'] [class*='grid'] {
+    align-items: start !important;
+  }
+}
+
+@media (max-width: 899px) {
+  body [data-radix-dialog-content],
+  body [role='dialog'] {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px) !important;
+    padding: 18px !important;
+  }
+
+  body [data-radix-dialog-content] img,
+  body [role='dialog'] img {
+    max-height: 240px !important;
+  }
+}
+
+/* === END FINAL EVENT MODAL LAYOUT FIX === */
