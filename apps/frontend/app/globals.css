@@ -1758,3 +1758,174 @@ textarea,
 }
 
 /* === END FINAL TOPIC BUTTONS COMPACT FIX === */
+
+/* === FINAL ADMIN AND DIALOG HOTFIX === */
+
+/* 1. Radix/Dialog overlay должен быть ниже окна, но выше страницы */
+body [data-radix-dialog-overlay],
+body div[data-state='open'][class*='fixed'][class*='inset-0'],
+body div[class*='fixed'][class*='inset-0'][class*='z-50'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99980 !important;
+  background: rgba(15, 23, 42, 0.58) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+/* 2. Само модальное окно возвращаем поверх overlay */
+body [data-radix-dialog-content],
+body [role='dialog'] {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+
+  z-index: 99999 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+
+  width: min(960px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
+  isolation: isolate !important;
+}
+
+/* 3. Содержимое модалки не должно быть спрятано */
+body [data-radix-dialog-content] *,
+body [role='dialog'] * {
+  visibility: visible !important;
+}
+
+body [data-radix-dialog-content] input,
+body [data-radix-dialog-content] select,
+body [data-radix-dialog-content] textarea,
+body [role='dialog'] input,
+body [role='dialog'] select,
+body [role='dialog'] textarea {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+/* 4. Кнопки внутри модалок не должны терять кликабельность */
+body [data-radix-dialog-content] button,
+body [data-radix-dialog-content] a,
+body [role='dialog'] button,
+body [role='dialog'] a {
+  position: relative !important;
+  z-index: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* 5. Админка: возвращаем нормальный светлый рабочий слой */
+body:has(a[href='/admin/events']),
+body:has(a[href='/admin/imports']),
+body:has(a[href='/admin/settings']) {
+  background: #eef2f7 !important;
+  color: #0f172a !important;
+  font-weight: 500 !important;
+}
+
+body:has(a[href='/admin/events']) main,
+body:has(a[href='/admin/imports']) main,
+body:has(a[href='/admin/settings']) main {
+  background: #eef2f7 !important;
+  background-color: #eef2f7 !important;
+  color: #0f172a !important;
+  padding: 24px !important;
+}
+
+/* 6. Админские карточки, формы, таблицы — светлые и читаемые */
+body:has(a[href='/admin/events']) :is(table, thead, tbody, tr, th, td),
+body:has(a[href='/admin/imports']) :is(table, thead, tbody, tr, th, td),
+body:has(a[href='/admin/settings']) :is(table, thead, tbody, tr, th, td) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #d8e4df !important;
+}
+
+body:has(a[href='/admin/events']) thead tr,
+body:has(a[href='/admin/imports']) thead tr,
+body:has(a[href='/admin/settings']) thead tr {
+  background: #f8fafc !important;
+  background-color: #f8fafc !important;
+}
+
+body:has(a[href='/admin/events']) tbody tr,
+body:has(a[href='/admin/imports']) tbody tr,
+body:has(a[href='/admin/settings']) tbody tr {
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+body:has(a[href='/admin/events']) input,
+body:has(a[href='/admin/events']) select,
+body:has(a[href='/admin/events']) textarea,
+body:has(a[href='/admin/imports']) input,
+body:has(a[href='/admin/imports']) select,
+body:has(a[href='/admin/imports']) textarea,
+body:has(a[href='/admin/settings']) input,
+body:has(a[href='/admin/settings']) select,
+body:has(a[href='/admin/settings']) textarea {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+/* 7. Админские панели не должны становиться чёрными из-за общих стилей */
+body:has(a[href='/admin/events']) :is(section, article, div)[class*='bg-white'],
+body:has(a[href='/admin/imports']) :is(section, article, div)[class*='bg-white'],
+body:has(a[href='/admin/settings']) :is(section, article, div)[class*='bg-white'] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* 8. Текст в админке принудительно читаемый, кроме левого тёмного меню */
+body:has(a[href='/admin/events']) main :is(h1, h2, h3, p, span, div, label, th, td),
+body:has(a[href='/admin/imports']) main :is(h1, h2, h3, p, span, div, label, th, td),
+body:has(a[href='/admin/settings']) main :is(h1, h2, h3, p, span, div, label, th, td) {
+  color: #0f172a !important;
+}
+
+/* 9. Левое меню админки оставляем тёмным */
+body:has(a[href='/admin/events']) aside,
+body:has(a[href='/admin/imports']) aside,
+body:has(a[href='/admin/settings']) aside {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body:has(a[href='/admin/events']) aside *,
+body:has(a[href='/admin/imports']) aside *,
+body:has(a[href='/admin/settings']) aside * {
+  color: inherit !important;
+}
+
+/* 10. Кнопки действий в админке не должны быть невидимыми */
+body:has(a[href='/admin/events']) main button,
+body:has(a[href='/admin/imports']) main button,
+body:has(a[href='/admin/settings']) main button {
+  pointer-events: auto !important;
+}
+
+/* === END FINAL ADMIN AND DIALOG HOTFIX === */
