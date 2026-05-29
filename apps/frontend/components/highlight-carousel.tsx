@@ -203,33 +203,33 @@ export function HighlightCarousel({
       <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
 
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <div className='mb-4 flex flex-wrap items-start justify-between gap-4'>
-          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-            ВАЖНЫЕ СОБЫТИЯ
-          </h3>
+        <div className='important-events-headline-row'>
+          <h3 className='important-events-ribbon-title'>ВАЖНЫЕ СОБЫТИЯ</h3>
 
-          <div className='important-events-actions-row flex w-full flex-wrap items-start justify-between gap-4'>
-            <button
-              type='button'
-              onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
-              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
-            >
-              Смотреть все
-              <ArrowRight className='h-4 w-4' />
-            </button>
+          {controls ? (
+            <h3 className='important-events-mode-title'>РЕЖИМ ОТОБРАЖЕНИЯ</h3>
+          ) : (
+            <div aria-hidden='true' />
+          )}
+        </div>
 
-            {controls ? (
-              <div className='important-events-mode-block flex min-w-[320px] flex-col items-end gap-2'>
-                <div className='important-events-mode-title text-right text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-                  РЕЖИМ ОТОБРАЖЕНИЯ
-                </div>
+        <div className='important-events-controls-row'>
+          <button
+            type='button'
+            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+          >
+            Смотреть все
+            <ArrowRight className='h-4 w-4' />
+          </button>
 
-                <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
-                  {controls}
-                </div>
-              </div>
-            ) : null}
-          </div>
+          {controls ? (
+            <div className='important-events-mode-controls grid gap-3 sm:grid-cols-2'>
+              {controls}
+            </div>
+          ) : (
+            <div aria-hidden='true' />
+          )}
         </div>
 
         {plannedSlides.length > 0 ? (

@@ -174,7 +174,7 @@ function FilterSelect({
       <span className='text-sm font-medium text-slate-600'>{label}</span>
       <div className='relative'>
         {icon ? <span className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400'>{icon}</span> : null}
-        <select value={value} onChange={(e) => onChange(e.target.value)} className={`select-clean ${icon ? 'pl-11' : ''}`}>
+        <select value={value} onChange={(e) => onChange(e.target.value)} className={`select-clean ${value !== 'ALL' ? 'select-clean--active' : ''} ${icon ? 'pl-11' : ''}`}>
           {children}
         </select>
         <ChevronDown className='pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
@@ -559,7 +559,7 @@ export default function HomePage() {
               <div className='compact-events-list grid gap-3'>
                 {compactEvents.map((event) => (
                   <div key={event.id} className='compact-event-card rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px]'>
-                    <button type='button' onClick={() => setActiveEvent(event)} className='w-full text-left'>
+                    <button type='button' onClick={() => setActiveEvent(event)} className='compact-event-main-button w-full text-left'>
                       <div className='compact-event-card-header flex flex-col items-start justify-between gap-3 lg:flex-row lg:items-start'>
                         <div>
                           <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>

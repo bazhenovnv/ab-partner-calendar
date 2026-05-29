@@ -48,7 +48,7 @@ export function SiteHeader() {
             />
           </a>
 
-          <div className='flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
+          <div className='site-header-actions flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
             <a
               href='https://t.me/ab_afisha_buh'
               target='_blank'
