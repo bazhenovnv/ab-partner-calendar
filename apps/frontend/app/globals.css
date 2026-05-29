@@ -1586,3 +1586,77 @@ textarea,
 }
 
 /* === END FINAL LOCAL UI REQUEST FIX === */
+
+/* === FINAL CALENDAR FILTERS AND FOOTER FEATURES FIX === */
+
+/* Кнопки календаря: без оранжевого выделения по умолчанию */
+.page-shell .calendar-inline-controls .calendar-filter-toggle {
+  border: 1.5px solid var(--ab-border) !important;
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Оранжевая обводка только когда фильтр включён */
+.page-shell .calendar-inline-controls .calendar-filter-toggle.calendar-filter-toggle-active {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Гасим старое правило ring-2, чтобы оно не подсвечивало кнопки ошибочно */
+.page-shell .calendar-inline-controls .calendar-filter-toggle.ring-2:not(.calendar-filter-toggle-active),
+.page-shell .calendar-inline-controls .calendar-filter-toggle[class*='ring-2']:not(.calendar-filter-toggle-active) {
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Подвал: убираем овальное выделение с каждой возможности платформы */
+.page-shell .platform-footer-shell a,
+.page-shell .platform-footer-shell button,
+.page-shell .platform-footer-shell [role='button'],
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .platform-footer-shell [class*='rounded'][class*='border'] {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Иконки возможностей — без круглой плашки */
+.page-shell .platform-footer-shell .icon-chip,
+.page-shell .platform-footer-shell [class*='rounded-full'] {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Текст возможностей оставляем читаемым */
+.page-shell .platform-footer-shell a *,
+.page-shell .platform-footer-shell button *,
+.page-shell .platform-footer-shell [role='button'] * {
+  color: #000000 !important;
+}
+
+/* === END FINAL CALENDAR FILTERS AND FOOTER FEATURES FIX === */

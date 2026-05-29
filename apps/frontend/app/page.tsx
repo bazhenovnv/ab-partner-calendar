@@ -415,7 +415,7 @@ export default function HomePage() {
       <Button
         variant='primary'
         onClick={() => setPriceFilter((prev) => prev === 'FREE' ? 'ALL' : 'FREE')}
-        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${priceFilter === 'FREE' ? 'ring-2 ring-[#E04B4B]/45' : ''}`}
+        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${priceFilter === 'FREE' ? 'calendar-filter-toggle-active' : ''}`}
       >
         Только бесплатные
       </Button>
@@ -423,7 +423,7 @@ export default function HomePage() {
       <Button
         variant='primary'
         onClick={() => setOnlyImportant((prev) => !prev)}
-        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${onlyImportant ? 'ring-2 ring-[#E04B4B]/45' : ''}`}
+        className={`calendar-filter-toggle w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${onlyImportant ? 'calendar-filter-toggle-active' : ''}`}
       >
         Только важные
       </Button>
