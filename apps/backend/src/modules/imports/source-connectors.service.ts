@@ -323,6 +323,33 @@ export class SourceConnectorsService implements OnModuleInit {
       .trim();
   }
 
+  private safeTextForDb(value: string | null | undefined, maxLength = 5000): string {
+    return String(value || '')
+      .replace(/\u0000/g, '')
+      .replace(/\\x/giu, 'x')
+      .replace(/[\u0001-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, ' ')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .replace(/[ \t]{2,}/g, ' ')
+      .trim()
+      .slice(0, maxLength);
+  }
+
+  private safeTagsForDb(tags: string[]): string[] {
+    return Array.from(
+      new Set(
+        tags
+          .map((tag) =>
+            this.safeTextForDb(String(tag || ''), 80)
+              .replace(/[{}"\\]/g, '')
+              .replace(/^#/, '')
+              .trim(),
+          )
+          .filter(Boolean),
+      ),
+    ).slice(0, 12);
+  }
+
   private isImportant(text: string, tags: string[], importantTag: string, indexFromChannel: number) {
     void text;
     void indexFromChannel;
@@ -762,16 +789,19 @@ export class SourceConnectorsService implements OnModuleInit {
 
   private async persistImportedEvent(connector: ConnectorConfig, event: ExternalEvent) {
     const category = await this.getDefaultCategory();
-    const sourcePostId = `${connector.id}:${event.externalId}`;
-    const rawText = event.description || event.title;
-    const cleanDescription = this.sanitizeImportedText(event.description || event.title);
+    const sourcePostId = this.safeTextForDb(`${connector.id}:${event.externalId}`, 240);
+    const eventTitle = this.safeTextForDb(event.title, 180) || 'Импортированное мероприятие';
+    const sourceUrl = this.safeTextForDb(event.sourceUrl, 1000);
+    const rawText = this.safeTextForDb(event.description || event.title, 20000);
+    const cleanDescription = this.safeTextForDb(this.sanitizeImportedText(event.description || event.title), 12000);
+    const eventLocation = this.safeTextForDb(event.location ?? 'Онлайн', 240) || 'Онлайн';
 
     await this.prisma.telegramImport.upsert({
       where: { sourcePostId },
       update: {
-        sourceUrl: event.sourceUrl,
+        sourceUrl,
         rawText,
-        parsedTitle: event.title,
+        parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
         parsedLocation: event.location,
         parsedDescription: cleanDescription,
@@ -779,9 +809,9 @@ export class SourceConnectorsService implements OnModuleInit {
       },
       create: {
         sourcePostId,
-        sourceUrl: event.sourceUrl,
+        sourceUrl,
         rawText,
-        parsedTitle: event.title,
+        parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
         parsedLocation: event.location,
         parsedDescription: cleanDescription,
@@ -791,11 +821,11 @@ export class SourceConnectorsService implements OnModuleInit {
 
     if (!event.startAt) return null;
 
-    const slug = this.slugify(event.title, sourcePostId);
+    const slug = this.slugify(eventTitle, sourcePostId);
     const sourceTag = this.getSourceTag(connector);
-    const tags = Array.from(new Set([...(event.tags || []), sourceTag, 'import'])).slice(0, 12);
+    const tags = this.safeTagsForDb([...(event.tags || []), sourceTag, 'import']);
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
-    const imageUrl = event.imageUrl || null;
+    const imageUrl = event.imageUrl ? this.safeTextForDb(event.imageUrl, 1000) : null;
 
     const existingDeleted = await this.prisma.event.findFirst({
       where: {
@@ -810,12 +840,12 @@ export class SourceConnectorsService implements OnModuleInit {
     }
 
     const data = {
-      title: event.title,
+      title: eventTitle,
       descriptionShort: cleanDescription.slice(0, 180),
       descriptionFull: cleanDescription,
       startAt: event.startAt,
       endAt,
-      location: event.location ?? 'Онлайн',
+      location: eventLocation,
       format: event.format ?? 'ONLINE',
       source: this.getSourceName(connector),
       sourceUrl: event.sourceUrl,
