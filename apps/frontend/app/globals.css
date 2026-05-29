@@ -2228,3 +2228,187 @@ body [role='dialog'] button[class*='absolute'] {
 }
 
 /* === END FINAL EVENT MODAL JSX LAYOUT FIX === */
+
+/* === FINAL TOPICS WHITE AND CALENDAR LAYERS FIX === */
+
+/* Подборки: белые кнопки вместо мятных */
+.page-shell .calendar-topic-panel .topic-filter-button,
+.page-shell .calendar-topic-panel button.topic-filter-button,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  color: #000000 !important;
+  min-height: 74px !important;
+  height: 74px !important;
+  max-height: 74px !important;
+  padding: 8px 12px !important;
+  gap: 10px !important;
+  font-weight: 500 !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button:hover,
+.page-shell .calendar-topic-panel button.topic-filter-button:hover,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button:hover {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Иконки в подборках оставляем прежнего размера */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  font-size: 17px !important;
+  background: #eefbf4 !important;
+  background-color: #eefbf4 !important;
+}
+
+/* Названия подборок: без жирного выделения и без переносов */
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
+  font-size: 17px !important;
+  line-height: 1.05 !important;
+  font-weight: 500 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Цифры в подборках: мятные как кнопки */
+.page-shell .calendar-topic-panel .topic-count-number,
+.page-shell .topic-count-number {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #7CD8B3 !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+/* Активная подборка: сохраняем оранжевую обводку */
+.page-shell .calendar-topic-panel .topic-filter-button-active,
+.page-shell .calendar-topic-panel .topic-filter-button.topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Убираем жирность с подписей на кнопках проекта */
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell a[class*='rounded'],
+.page-shell [role='button'],
+.page-shell .pressable,
+.page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-mode-btn,
+.page-shell .calendar-filter-toggle,
+[role='dialog'] button,
+[role='dialog'] a {
+  font-weight: 500 !important;
+}
+
+.page-shell button span,
+.page-shell a.mint-btn span,
+.page-shell a.inline-flex span,
+.page-shell a[class*='rounded'] span,
+.page-shell [role='button'] span,
+.page-shell .pressable span,
+.page-shell .mint-btn span,
+.page-shell .site-header-action span,
+.page-shell .mint-btn--header span,
+.page-shell .important-event-action-btn span,
+.page-shell .important-events-view-all-btn span,
+.page-shell .important-mode-btn span,
+.page-shell .calendar-filter-toggle span,
+[role='dialog'] button span,
+[role='dialog'] a span {
+  font-weight: 500 !important;
+}
+
+/* Подсказка календаря: всегда поверх нижних блоков */
+.page-shell .calendar-common-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell {
+  overflow: visible !important;
+}
+
+.page-shell .calendar-top-panel {
+  position: relative !important;
+  z-index: 80 !important;
+}
+
+.page-shell .calendar-top-panel > div {
+  position: relative !important;
+  z-index: 80 !important;
+}
+
+.page-shell .calendar-days-grid {
+  position: relative !important;
+  z-index: 90 !important;
+  overflow: visible !important;
+  border-radius: 0 !important;
+}
+
+.page-shell .day-cell {
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: visible !important;
+}
+
+.page-shell .day-cell:hover {
+  z-index: 99990 !important;
+}
+
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover,
+.page-shell .day-cell > div[class*='absolute'] {
+  position: absolute !important;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .calendar-topic-panel .topic-filter-button,
+  .page-shell .calendar-topic-panel button.topic-filter-button,
+  .page-shell .calendar-topic-panel .pressable.topic-filter-button {
+    min-height: 78px !important;
+    height: 78px !important;
+    max-height: 78px !important;
+  }
+}
+
+/* === END FINAL TOPICS WHITE AND CALENDAR LAYERS FIX === */
