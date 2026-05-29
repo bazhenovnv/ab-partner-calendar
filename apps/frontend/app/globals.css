@@ -2571,3 +2571,36 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL HEADER LOGO REPLACE FIX === */
 
+/* === FINAL HEADER LOGO SIZE FIX === */
+
+.page-shell .site-header-brand {
+  min-height: 48px !important;
+  max-height: 48px !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-img {
+  display: block !important;
+  height: 48px !important;
+  max-height: 48px !important;
+  width: auto !important;
+  max-width: min(520px, 46vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .site-header-brand {
+    min-height: 42px !important;
+    max-height: 42px !important;
+  }
+
+  .page-shell .site-header-logo-img {
+    height: 42px !important;
+    max-height: 42px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO SIZE FIX === */
+
