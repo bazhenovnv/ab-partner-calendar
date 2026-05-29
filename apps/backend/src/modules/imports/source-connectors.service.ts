@@ -335,8 +335,63 @@ export class SourceConnectorsService implements OnModuleInit {
     });
   }
 
+  private parseDigestHeader(line: string): {
+    startAt?: Date;
+    endAt?: Date;
+    location?: string;
+    format?: 'ONLINE' | 'OFFLINE' | 'HYBRID';
+  } | null {
+    const normalized = this.normalizeEventText(line)
+      .replace(/[🔥🗓📅]/gu, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const match = normalized.match(
+      /^(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)(?:\s+\d{4})?\s*\|\s*(\d{1,2})[:.](\d{2})(?:\s*[–—-]\s*(\d{1,2})[:.](\d{2}))?\s*\|\s*(.+)$/iu,
+    );
+
+    if (!match) return null;
+
+    const [, dd, monthRus, hh, min, endHh, endMin, placeRaw] = match;
+    const monthIndex = MONTHS[monthRus.toLowerCase()];
+    if (monthIndex === undefined) return null;
+
+    const year = this.guessYear(monthIndex);
+    const startAt = new Date(year, monthIndex, Number(dd), Number(hh), Number(min), 0, 0);
+    const endAt = endHh
+      ? new Date(year, monthIndex, Number(dd), Number(endHh), Number(endMin), 0, 0)
+      : undefined;
+
+    const place = String(placeRaw || '')
+      .replace(/[.;]+$/g, '')
+      .trim();
+
+    let format: 'ONLINE' | 'OFFLINE' | 'HYBRID' = 'ONLINE';
+
+    if (/гибрид|hybrid/iu.test(place)) {
+      format = 'HYBRID';
+    } else if (/онлайн|online/iu.test(place)) {
+      format = 'ONLINE';
+    } else if (place) {
+      format = 'OFFLINE';
+    }
+
+    return {
+      startAt,
+      endAt,
+      location: format === 'ONLINE' ? 'Онлайн' : place || undefined,
+      format,
+    };
+  }
+
   private isCollectionHeader(line: string) {
-    return /^(?:\d{1,2}[.\-/]\d{1,2}(?:[.\-/]\d{2,4})?|\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря))[^\n]{0,80}(?:\d{1,2}:\d{2})?/iu.test(this.normalizeEventText(line));
+    const normalized = this.normalizeEventText(line).trim();
+
+    if (this.parseDigestHeader(normalized)) return true;
+
+    return /^(?:\d{1,2}[.\-/]\d{1,2}(?:[.\-/]\d{2,4})?|\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря))[^\n]{0,120}(?:\d{1,2}:\d{2})?/iu.test(
+      normalized,
+    );
   }
 
   private parseTelegramCollection(lines: string[], baseId: string, sourceUrl: string, importantTag: string, indexFromChannel: number): ExternalEvent[] {
@@ -348,30 +403,49 @@ export class SourceConnectorsService implements OnModuleInit {
     if (headerIndexes.length < 2) return [];
 
     const events: ExternalEvent[] = [];
+
     for (let i = 0; i < headerIndexes.length; i += 1) {
       const startIndex = headerIndexes[i];
       const endIndex = headerIndexes[i + 1] ?? lines.length;
       const block = lines.slice(startIndex, endIndex).filter(Boolean);
       const header = block[0] || '';
+      const digestHeader = this.parseDigestHeader(header);
+
       const titleLine = block.find(
-        (line, idx) => idx > 0 && !/^стоимость\s*:/iu.test(line) && !/^формат\s*:/iu.test(line) && !/^где\s*:/iu.test(line) && !line.startsWith('#'),
+        (line, idx) =>
+          idx > 0 &&
+          !/^стоимость\s*:/iu.test(line) &&
+          !/^формат\s*:/iu.test(line) &&
+          !/^где\s*:/iu.test(line) &&
+          !/^место\s*:/iu.test(line) &&
+          !/^адрес\s*:/iu.test(line) &&
+          !line.startsWith('#'),
       );
+
       const title = this.normalizeTitle(titleLine || this.fallbackTitle(block));
       if (!title) continue;
 
       const joined = block.join('\n');
-      const dateInfo = this.parseDateTimeRange(header) || this.parseDateTimeRange(joined);
-      if (!dateInfo.startAt) continue;
 
-      const format = this.deriveFormat(joined);
+      const headerDateInfo = this.parseDateTimeRange(header);
+      const joinedDateInfo = headerDateInfo.startAt ? headerDateInfo : this.parseDateTimeRange(joined);
+
+      const startAt = digestHeader?.startAt || joinedDateInfo.startAt;
+      const endAt = digestHeader?.endAt || joinedDateInfo.endAt;
+
+      if (!startAt) continue;
+
+      const format = digestHeader?.format || this.deriveFormat(joined);
+      const location = digestHeader?.location || this.parseLocation(joined, format);
       const tags = this.extractTags(joined);
+
       events.push({
         externalId: `${baseId}-${i + 1}`,
         title,
         description: joined,
-        startAt: dateInfo.startAt,
-        endAt: dateInfo.endAt,
-        location: this.parseLocation(joined, format),
+        startAt,
+        endAt,
+        location,
         sourceUrl,
         tags,
         isImportant: this.isImportant(joined, tags, importantTag, indexFromChannel),
@@ -726,7 +800,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const existingDeleted = await this.prisma.event.findFirst({
       where: {
         deletedAt: { not: null },
-        OR: [{ sourcePostId }, { sourceUrl: event.sourceUrl }, { slug }],
+        OR: [{ sourcePostId }, { slug }],
       },
     });
 
@@ -758,7 +832,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const existing = await this.prisma.event.findFirst({
       where: {
         deletedAt: null,
-        OR: [{ sourcePostId }, { sourceUrl: event.sourceUrl }, { slug }],
+        OR: [{ sourcePostId }, { slug }],
       },
     });
 
