@@ -2604,3 +2604,44 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL HEADER LOGO SIZE FIX === */
 
+/* === FINAL SCALE COUNTERS LOGO SCROLL FIX === */
+
+@supports (zoom: 1) {
+  .page-shell {
+    zoom: 0.9;
+  }
+}
+
+.page-shell .site-header-logo-link {
+  min-height: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+}
+
+.page-shell .site-header-logo-img {
+  height: 48px !important;
+  width: auto !important;
+  max-width: 560px !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+.page-shell .site-header-panel {
+  overflow: visible !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    zoom: 1;
+  }
+
+  .page-shell .site-header-logo-img {
+    height: 44px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL SCALE COUNTERS LOGO SCROLL FIX === */
+

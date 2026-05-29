@@ -53,6 +53,18 @@ export function HighlightCarousel({
   const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
 
+  function scrollImportantEventsIntoView() {
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById('important-events-section');
+      target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  function selectImportantSlide(index: number) {
+    setActive(index);
+    scrollImportantEventsIntoView();
+  }
+
   const plannedSlides = useMemo(() => {
     return slides
       .map((event, idx) => ({ event, idx }))
@@ -216,7 +228,7 @@ export function HighlightCarousel({
         <div className='important-events-controls-row'>
           <button
             type='button'
-            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            onClick={() => selectImportantSlide(plannedSlides[0]?.idx ?? 0)}
             className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
           >
             Смотреть все
@@ -241,7 +253,7 @@ export function HighlightCarousel({
                 <button
                   key={event.id}
                   type='button'
-                  onClick={() => setActive(idx)}
+                  onClick={() => selectImportantSlide(idx)}
                   className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${
                     idx === active ? 'important-date-chip--active border-[#f29f59] ring-2 ring-[#f29f59]/25' : 'border-[#7CD8B3]'
                   }`}

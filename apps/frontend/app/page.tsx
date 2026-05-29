@@ -134,6 +134,11 @@ function getTopicCount(events: EventItem[], topic: string) {
   return events.filter((event) => eventMatchesTopic(event, topic)).length;
 }
 
+function isCounterActiveEvent(event: EventItem) {
+  const status = event.runtimeStatus || event.status;
+  return status === 'SCHEDULED' || status === 'LIVE';
+}
+
 function sourceLabel(source: string) {
   if (/^telegram$/i.test(source)) return 'Telegram';
   if (/^max$/i.test(source)) return 'Max';
@@ -304,6 +309,8 @@ export default function HomePage() {
     });
   }, [cityFilter, events, formatFilter, onlyImportant, periodFilter, priceFilter, sourceFilter, topicFilter]);
 
+  const filteredCounterEvents = useMemo(() => filteredEvents.filter(isCounterActiveEvent), [filteredEvents]);
+
   const filteredHighlights = useMemo(() => {
     const base = filteredEvents.filter((item) => item.isImportant);
     if (base.length >= 10) return base;
@@ -316,22 +323,22 @@ export default function HomePage() {
       .filter((item) => item.isImportant)
       .sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt))
       .slice(0, 12);
-  }, [filteredEvents]);
+  }, [filteredCounterEvents]);
 
   const metrics = useMemo(() => {
     const now = new Date();
     const weekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     return {
-      today: filteredEvents.filter((item) => sameDay(new Date(item.startAt), now)).length,
-      week: filteredEvents.filter((item) => {
+      today: filteredCounterEvents.filter((item) => sameDay(new Date(item.startAt), now)).length,
+      week: filteredCounterEvents.filter((item) => {
         const start = new Date(item.startAt);
         return start >= now && start <= weekEnd;
       }).length,
-      important: filteredEvents.filter((item) => item.isImportant).length,
-      free: filteredEvents.filter((item) => isFreeEvent(item)).length,
-      offline: filteredEvents.filter((item) => item.format === 'OFFLINE').length,
-      city: filteredEvents.length,
+      important: filteredCounterEvents.filter((item) => item.isImportant).length,
+      free: filteredCounterEvents.filter((item) => isFreeEvent(item)).length,
+      offline: filteredCounterEvents.filter((item) => item.format === 'OFFLINE').length,
+      city: filteredCounterEvents.length,
     };
   }, [filteredEvents]);
 
@@ -340,7 +347,7 @@ export default function HomePage() {
   }, [filteredEvents]);
 
   const topicCards = useMemo(() => {
-    return topicPresets.map((topic) => ({ ...topic, count: getTopicCount(events, topic.value) }));
+    return topicPresets.map((topic) => ({ ...topic, count: getTopicCount(events.filter(isCounterActiveEvent), topic.value) }));
   }, [events]);
 
   const highlightedTopic = topicFilter === 'ALL' ? 'Все темы' : topicFilter;
@@ -359,7 +366,7 @@ export default function HomePage() {
         </div>
         <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>
           Текущая тема: {highlightedTopic}<br />
-          Найдено событий: {filteredEvents.length}
+          Найдено событий: {filteredCounterEvents.length}
         </div>
       </div>
 
