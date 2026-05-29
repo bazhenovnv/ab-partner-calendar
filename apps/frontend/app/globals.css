@@ -1660,3 +1660,101 @@ textarea,
 }
 
 /* === END FINAL CALENDAR FILTERS AND FOOTER FEATURES FIX === */
+
+/* === FINAL TOPIC BUTTONS COMPACT FIX === */
+
+/* Панель "ПОДБОРКИ": компактнее по высоте */
+.page-shell .calendar-topic-panel {
+  padding: 18px 16px 16px !important;
+  min-height: auto !important;
+}
+
+.page-shell .calendar-topic-panel-title {
+  margin-bottom: 12px !important;
+}
+
+/* Сетка подборок: плотнее */
+.page-shell .calendar-topic-panel .grid {
+  gap: 10px !important;
+}
+
+/* Кнопки подборок: ниже по высоте, без уменьшения шрифта и иконок */
+.page-shell .calendar-topic-panel .topic-filter-button {
+  min-height: 74px !important;
+  height: 74px !important;
+  max-height: 74px !important;
+  padding: 8px 12px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+/* Иконка/картинка в кнопках остаётся прежнего размера */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  font-size: 17px !important;
+}
+
+/* Текстовый блок не переносится */
+.page-shell .calendar-topic-panel .topic-filter-copy {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  overflow: visible !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title {
+  display: block !important;
+  max-width: 100% !important;
+  font-size: 17px !important;
+  line-height: 1.05 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Цифры оставляем красными, но плотнее к названию */
+.page-shell .calendar-topic-panel .topic-count-number {
+  display: block !important;
+  margin-top: 3px !important;
+  color: #E04B4B !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+/* Кнопка "Все подборки" тоже компактная и без переноса */
+.page-shell .calendar-topic-panel .topic-filter-button .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
+  white-space: nowrap !important;
+}
+
+/* Для кнопки "Все подборки", где нет topic-filter-copy */
+.page-shell .calendar-topic-panel .topic-filter-button.justify-center {
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+/* Активная кнопка сохраняет оранжевую обводку */
+.page-shell .calendar-topic-panel .topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+}
+
+/* На узких экранах разрешаем немного выше, чтобы не ломать сетку */
+@media (max-width: 900px) {
+  .page-shell .calendar-topic-panel .topic-filter-button {
+    min-height: 78px !important;
+    height: 78px !important;
+    max-height: 78px !important;
+  }
+}
+
+/* === END FINAL TOPIC BUTTONS COMPACT FIX === */
