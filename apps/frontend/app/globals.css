@@ -2523,3 +2523,51 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL TOPIC ICONS AND CALENDAR CORNERS FIX === */
 
+/* === FINAL HEADER LOGO REPLACE FIX === */
+
+.page-shell .site-header-logo-link,
+.site-header-logo-link {
+  min-height: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  flex: 0 1 auto !important;
+  max-width: min(520px, 48vw) !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-img,
+.site-header-logo-img {
+  height: 44px !important;
+  width: auto !important;
+  max-width: min(520px, 48vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+  display: block !important;
+}
+
+.page-shell .site-header-panel {
+  min-height: 70px !important;
+}
+
+.page-shell .site-header-actions {
+  align-items: center !important;
+}
+
+@media (max-width: 820px) {
+  .page-shell .site-header-logo-link,
+  .site-header-logo-link {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-width: 100% !important;
+  }
+
+  .page-shell .site-header-logo-img,
+  .site-header-logo-img {
+    height: 40px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO REPLACE FIX === */
+

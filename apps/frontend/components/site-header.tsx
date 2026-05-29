@@ -35,15 +35,15 @@ export function SiteHeader() {
         <div className='flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between'>
           <a
             href='/'
-            className='flex min-h-[72px] items-center'
+            className='site-header-logo-link flex min-h-[44px] items-center'
             aria-label='Афиша бухгалтера — на главную'
           >
             <Image
-              src='/logo-ab-partner-v2.png'
+              src='/logo-afisha-buhgaltera-header.png'
               alt='Афиша бухгалтера'
-              width={2048}
-              height={336}
-              className='h-[72px] w-auto max-w-full object-contain'
+              width={1487}
+              height={316}
+              className='site-header-logo-img h-[44px] w-auto max-w-full object-contain'
               priority
             />
           </a>
