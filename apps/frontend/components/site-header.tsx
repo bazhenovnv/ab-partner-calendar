@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
-const HEADER_BUTTON_CLASS =
-  'mint-btn mint-btn--header site-header-action pressable font-medium';
+const HEADER_BUTTON_CLASS = 'mint-btn mint-btn--header pressable';
 
 function TelegramCircleIcon() {
   return (
@@ -35,7 +34,7 @@ export function SiteHeader() {
         <div className='flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between'>
           <a
             href='/'
-            className='site-header-logo-link flex min-h-[44px] items-center'
+            className='flex min-h-[56px] items-center'
             aria-label='Афиша бухгалтера — на главную'
           >
             <Image
@@ -43,12 +42,12 @@ export function SiteHeader() {
               alt='Афиша бухгалтера'
               width={1487}
               height={316}
-              className='site-header-logo-img h-[44px] w-auto max-w-full object-contain'
+              className='h-[56px] w-auto max-w-full object-contain'
               priority
             />
           </a>
 
-          <div className='site-header-actions flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
+          <div className='flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
             <a
               href='https://t.me/ab_afisha_buh'
               target='_blank'
@@ -56,7 +55,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <TelegramCircleIcon />
-              <span className='font-medium'>Telegram</span>
+              <span>Telegram</span>
             </a>
 
             <a
@@ -66,7 +65,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <MaxCircleIcon />
-              <span className='font-medium'>Max</span>
+              <span>Max</span>
             </a>
 
             <a
@@ -76,7 +75,7 @@ export function SiteHeader() {
               className={HEADER_BUTTON_CLASS}
             >
               <PartnerCircleIcon />
-              <span className='font-medium'>Стать партнером</span>
+              <span>Стать партнером</span>
             </a>
           </div>
         </div>
