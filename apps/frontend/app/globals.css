@@ -2645,3 +2645,74 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL SCALE COUNTERS LOGO SCROLL FIX === */
 
+/* === FINAL HEADER LOGO AND CALENDAR POPOVER FIX === */
+
+.page-shell .site-header-logo-link {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 56px !important;
+  text-decoration: none !important;
+  flex: 0 1 auto !important;
+}
+
+.page-shell .site-header-logo-image {
+  display: block !important;
+  height: 56px !important;
+  width: auto !important;
+  max-width: 760px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1180px) {
+  .page-shell .site-header-logo-image {
+    height: 48px !important;
+    max-width: 560px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell .site-header-logo-image {
+    height: 40px !important;
+    max-width: 100% !important;
+  }
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell {
+  overflow: visible !important;
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.page-shell .day-cell {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.page-shell .day-cell:hover,
+.page-shell .day-cell:focus-within {
+  z-index: 90 !important;
+}
+
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover {
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+}
+
+.page-shell .selected-day-card,
+.page-shell .calendar-topic-panel,
+.page-shell .surface-card {
+  position: relative !important;
+}
+
+/* === END FINAL HEADER LOGO AND CALENDAR POPOVER FIX === */
+

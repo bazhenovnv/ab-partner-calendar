@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Send, UserRound } from 'lucide-react';
 
 const HEADER_BUTTON_CLASS = 'mint-btn mint-btn--header pressable';
@@ -34,20 +33,17 @@ export function SiteHeader() {
         <div className='flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between'>
           <a
             href='/'
-            className='site-header-brand flex min-h-[48px] items-center'
+            className='site-header-logo-link flex items-center'
             aria-label='Афиша бухгалтера — на главную'
           >
-            <Image
-              src='/logo-afisha-buhgaltera-header.svg'
-              alt='Афиша бухгалтера'
-              width={590}
-              height={72}
-              className='site-header-logo-img h-[48px] w-auto max-w-full object-contain'
-              priority
+            <img
+              src='/logo-afisha-buhgaltera-full.png'
+              alt='Афиша Бухгалтера'
+              className='site-header-logo-image'
             />
           </a>
 
-          <div className='site-header-actions flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
+          <div className='flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap'>
             <a
               href='https://t.me/ab_afisha_buh'
               target='_blank'
