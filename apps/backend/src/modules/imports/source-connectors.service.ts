@@ -220,6 +220,20 @@ export class SourceConnectorsService implements OnModuleInit {
     return 'ONLINE';
   }
 
+  private normalizeFormatByLocation(
+    format: 'ONLINE' | 'OFFLINE' | 'HYBRID',
+    location: string | undefined,
+    text: string,
+  ): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
+    const source = `${location || ''}\n${text || ''}`.toLowerCase();
+
+    const hasPhysicalAddress =
+      /(санкт-петербург|спб|москва|екатеринбург|краснодар|новосибирск|казань|офис|аудитори|зал|конференц|пространств|бц|бизнес-центр|переул|проспект|улиц|ул\.|дом\b|д\.|строен|корпус|этаж)/iu.test(source);
+
+    if (hasPhysicalAddress) return 'OFFLINE';
+    return format;
+  }
+
   private guessYear(monthIndex: number): number {
     const now = new Date();
     let year = now.getFullYear();
@@ -472,8 +486,9 @@ export class SourceConnectorsService implements OnModuleInit {
 
       if (!startAt) continue;
 
-      const format = digestHeader?.format || this.deriveFormat(joined);
-      const location = digestHeader?.location || this.parseLocation(joined, format);
+      const parsedFormat = digestHeader?.format || this.deriveFormat(joined);
+      const location = digestHeader?.location || this.parseLocation(joined, parsedFormat);
+      const format = this.normalizeFormatByLocation(parsedFormat, location, joined);
       const tags = this.extractTags(joined);
 
       events.push({
@@ -502,7 +517,9 @@ export class SourceConnectorsService implements OnModuleInit {
 
     const joined = lines.join('\n');
     const dateInfo = this.parseDateTimeRange(joined);
-    const format = this.deriveFormat(joined);
+    const parsedFormat = this.deriveFormat(joined);
+    const location = this.parseLocation(joined, parsedFormat);
+    const format = this.normalizeFormatByLocation(parsedFormat, location, joined);
     const tags = this.extractTags(joined);
     const markerIdx = lines.findIndex((line) => /^(мероприятие|вебинар)$/iu.test(line));
     const title = markerIdx >= 0 && lines[markerIdx + 1] ? this.normalizeTitle(lines[markerIdx + 1]) : this.fallbackTitle(lines);
@@ -516,7 +533,7 @@ export class SourceConnectorsService implements OnModuleInit {
         description: joined,
         startAt: dateInfo.startAt,
         endAt: dateInfo.endAt,
-        location: this.parseLocation(joined, format),
+        location,
         sourceUrl,
         tags,
         isImportant: this.isImportant(joined, tags, importantTag, indexFromChannel),
@@ -679,11 +696,26 @@ export class SourceConnectorsService implements OnModuleInit {
       if (!rawText) return [];
 
       const externalId = String(body?.mid || body?.seq || message?.mid || message?.seq || `${chatId}-${index}`);
-      const sourceUrl = channelUrl.includes('#') ? channelUrl : `${channelUrl}#${encodeURIComponent(externalId)}`;
       const imageUrl = this.extractMaxImage(body?.attachments || message?.attachments);
 
       const links = this.extractMaxLinks(rawText, body?.markup || message?.markup);
       const rawTextWithLinks = links.length ? `${rawText}\n\n${links.join('\n')}` : rawText;
+
+      const directSourceCandidates = [
+        body?.link,
+        message?.link,
+        body?.url,
+        message?.url,
+        ...links,
+      ]
+        .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+        .map((value) => value.trim());
+
+      const directSourceUrl =
+        directSourceCandidates.find((value) => /^https?:\/\/(?:www\.)?max\.ru\//iu.test(value) && !/\/join\//iu.test(value)) ||
+        directSourceCandidates.find((value) => /^https?:\/\/(?:www\.)?t\.me\//iu.test(value));
+
+      const sourceUrl = directSourceUrl || (channelUrl.includes('#') ? channelUrl : `${channelUrl}#${encodeURIComponent(externalId)}`);
 
       const events = this.parseTelegramPost(rawTextWithLinks, externalId, sourceUrl, importantTag, index);
       return events.map((item) => ({

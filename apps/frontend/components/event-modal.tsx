@@ -19,6 +19,33 @@ function formatMoscowDateTime(value: string) {
   }).format(new Date(value));
 }
 
+
+function resolveDisplayFormat(item: EventItem): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
+  const source = `${item.location || ''}\n${item.descriptionShort || ''}\n${item.descriptionFull || ''}`.toLowerCase();
+
+  const hasPhysicalAddress =
+    /(санкт-петербург|спб|москва|екатеринбург|краснодар|новосибирск|казань|офис|аудитори|зал|конференц|пространств|бц|бизнес-центр|переул|проспект|улиц|ул\.|дом\b|д\.|строен|корпус|этаж)/iu.test(source);
+
+  if (hasPhysicalAddress) return 'OFFLINE';
+  if (item.format === 'HYBRID') return 'HYBRID';
+  if (item.format === 'OFFLINE') return 'OFFLINE';
+  return 'ONLINE';
+}
+
+function getFormatLabel(value: 'ONLINE' | 'OFFLINE' | 'HYBRID') {
+  if (value === 'OFFLINE') return 'Офлайн';
+  if (value === 'HYBRID') return 'Гибрид';
+  return 'Онлайн';
+}
+
+function isCompletedStatus(value?: string) {
+  return ['COMPLETED', 'FINISHED', 'DONE', 'ARCHIVED'].includes(String(value || '').toUpperCase());
+}
+
+function getSourceButtonLabel(url?: string) {
+  return /max\.ru/iu.test(url || '') ? 'MAX-канал' : 'Telegram-канал';
+}
+
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
 
@@ -52,8 +79,12 @@ export function EventModal({
   if (!item) return null;
 
   const status = item.runtimeStatus ?? item.status;
+  const displayFormat = resolveDisplayFormat(item);
+  const completed = isCompletedStatus(status);
   const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot';
   const telegramReminderUrl = `${telegramBotDeepLink}?start=afisha_${item.id}`;
+  const sourceUrl = item.sourceUrl || 'https://t.me/ab_afisha_buh';
+  const sourceButtonLabel = getSourceButtonLabel(sourceUrl);
   const description = cleanDescriptionText(item.descriptionFull || item.descriptionShort) || 'Описание мероприятия будет добавлено позже.';
 
   return (

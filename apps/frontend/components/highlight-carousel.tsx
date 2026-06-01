@@ -89,12 +89,12 @@ export function HighlightCarousel({
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, 10000);
 
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
+    return () => window.clearTimeout(timer);
+  }, [active, slides.length]);
 
   useEffect(() => {
     if (slides.length > 0 && active >= slides.length) {
