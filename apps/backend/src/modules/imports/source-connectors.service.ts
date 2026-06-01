@@ -350,7 +350,8 @@ export class SourceConnectorsService implements OnModuleInit {
   private safeTextForDb(value: string | null | undefined, maxLength = 5000): string {
     return String(value || '')
       .replace(/\u0000/g, '')
-      .replace(/\\x/giu, 'x')
+      .replace(/\\x[0-9a-f]?/giu, '')
+      .replace(/\\u[0-9a-f]{0,3}(?![0-9a-f])/giu, '')
       .replace(/[\u0001-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, ' ')
       .replace(/\r\n/g, '\n')
       .replace(/\r/g, '\n')
@@ -873,7 +874,7 @@ export class SourceConnectorsService implements OnModuleInit {
         rawText,
         parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
-        parsedLocation: event.location,
+        parsedLocation: eventLocation,
         parsedDescription: cleanDescription,
         status: event.startAt ? 'CONFIRMED' : 'REVIEW',
       },
@@ -883,7 +884,7 @@ export class SourceConnectorsService implements OnModuleInit {
         rawText,
         parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
-        parsedLocation: event.location,
+        parsedLocation: eventLocation,
         parsedDescription: cleanDescription,
         status: event.startAt ? 'CONFIRMED' : 'REVIEW',
       },
@@ -918,7 +919,7 @@ export class SourceConnectorsService implements OnModuleInit {
       location: eventLocation,
       format: this.normalizeFormatByLocation(event.format ?? 'ONLINE', eventLocation, rawText),
       source: this.getSourceName(connector),
-      sourceUrl: event.sourceUrl,
+      sourceUrl,
       sourcePostId,
       published: true,
       isImportant: Boolean(event.isImportant),
@@ -989,11 +990,21 @@ export class SourceConnectorsService implements OnModuleInit {
 
           let connectorUpserted = 0;
           for (const event of events) {
-            const saved = await this.persistImportedEvent(connector, event);
-            imported += 1;
-            if (saved) {
-              upserted += 1;
-              connectorUpserted += 1;
+            try {
+              const saved = await this.persistImportedEvent(connector, event);
+              imported += 1;
+
+              if (saved) {
+                upserted += 1;
+                connectorUpserted += 1;
+              }
+            } catch (error) {
+              this.logger.warn(
+                `Ошибка сохранения события ${connector.id}:${event.externalId} ` +
+                  `«${event.title}»: ${(error as Error).message}`,
+              );
+
+              throw error;
             }
           }
 
