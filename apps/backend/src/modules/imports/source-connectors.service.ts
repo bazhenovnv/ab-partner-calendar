@@ -349,9 +349,9 @@ export class SourceConnectorsService implements OnModuleInit {
 
   private safeTextForDb(value: string | null | undefined, maxLength = 5000): string {
     return String(value || '')
+      .normalize('NFC')
       .replace(/\u0000/g, '')
-      .replace(/\\x[0-9a-f]?/giu, '')
-      .replace(/\\u[0-9a-f]{0,3}(?![0-9a-f])/giu, '')
+      .replace(/\\/g, '')
       .replace(/[\u0001-\u0008\u000B\u000C\u000E-\u001F\u007F]/gu, ' ')
       .replace(/\r\n/g, '\n')
       .replace(/\r/g, '\n')
@@ -975,7 +975,15 @@ export class SourceConnectorsService implements OnModuleInit {
       const fallbackEnabled = this.config.get<string>('IMPORT_FALLBACK_ENABLED', 'false') === 'true';
       let imported = 0;
       let upserted = 0;
-      const details: Array<{ connectorId: string; imported: number; upserted: number; fallback?: boolean; error?: string }> = [];
+      const details: Array<{
+        connectorId: string;
+        imported: number;
+        upserted: number;
+        failed?: number;
+        errors?: string[];
+        fallback?: boolean;
+        error?: string;
+      }> = [];
 
       for (const connector of connectors) {
         try {
@@ -989,26 +997,40 @@ export class SourceConnectorsService implements OnModuleInit {
           }
 
           let connectorUpserted = 0;
+          let connectorFailed = 0;
+          const connectorErrors: string[] = [];
+
           for (const event of events) {
+            imported += 1;
+
             try {
               const saved = await this.persistImportedEvent(connector, event);
-              imported += 1;
 
               if (saved) {
                 upserted += 1;
                 connectorUpserted += 1;
               }
             } catch (error) {
-              this.logger.warn(
-                `Ошибка сохранения события ${connector.id}:${event.externalId} ` +
-                  `«${event.title}»: ${(error as Error).message}`,
-              );
+              connectorFailed += 1;
 
-              throw error;
+              const message =
+                `${connector.id}:${event.externalId} «${event.title}»: ` +
+                `${(error as Error).message}`;
+
+              connectorErrors.push(message);
+
+              this.logger.warn(`Ошибка сохранения события ${message}`);
             }
           }
 
-          details.push({ connectorId: connector.id, imported: events.length, upserted: connectorUpserted, fallback });
+          details.push({
+            connectorId: connector.id,
+            imported: events.length,
+            upserted: connectorUpserted,
+            failed: connectorFailed,
+            errors: connectorErrors.slice(0, 10),
+            fallback,
+          });
         } catch (error) {
           this.logger.warn(`Ошибка коннектора ${connector.id}: ${(error as Error).message}`);
           details.push({ connectorId: connector.id, imported: 0, upserted: 0, error: (error as Error).message });
