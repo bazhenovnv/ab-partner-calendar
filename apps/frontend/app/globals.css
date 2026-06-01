@@ -2808,3 +2808,30 @@ body [role='dialog'] button[class*='absolute'] {
   z-index: 1;
 }
 /* === END FINAL CALENDAR POPOVER LAYER FIX === */
+
+
+/* === FINAL CALENDAR POPOVER PORTAL FIX === */
+
+.calendar-day-popover-portal {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+
+  width: 300px !important;
+  max-width: calc(100vw - 28px) !important;
+
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+
+  border: 1.5px solid #7CD8B3 !important;
+  border-radius: 16px !important;
+
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.24),
+    0 5px 12px rgba(0, 0, 0, 0.16) !important;
+}
+
+/* === END FINAL CALENDAR POPOVER PORTAL FIX === */

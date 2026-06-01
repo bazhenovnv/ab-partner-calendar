@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Globe, MapPin } from 'lucide-react';
 import { EventItem } from '@/lib/types';
 import { ReminderButton } from './reminder-button';
@@ -210,7 +211,55 @@ export function EventsCalendarBoard({
 }) {
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-  const [hoverKey, setHoverKey] = useState<string | null>(null);
+  const [calendarPopover, setCalendarPopover] = useState<{
+    day: Date;
+    events: EventItem[];
+    left: number;
+    top: number;
+    placement: 'above' | 'below';
+  } | null>(null);
+
+  function openCalendarPopover(day: Date, dayEvents: EventItem[], element: HTMLDivElement) {
+    if (!dayEvents.length) {
+      setCalendarPopover(null);
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const popoverWidth = 300;
+    const estimatedHeight = Math.min(72 + dayEvents.length * 42, 360);
+    const viewportPadding = 14;
+    const placement = rect.top > estimatedHeight + viewportPadding ? 'above' : 'below';
+
+    const left = Math.min(
+      Math.max(rect.left + rect.width / 2, popoverWidth / 2 + viewportPadding),
+      window.innerWidth - popoverWidth / 2 - viewportPadding,
+    );
+
+    setCalendarPopover({
+      day,
+      events: dayEvents,
+      left,
+      top: placement === 'above' ? rect.top - 10 : rect.bottom + 10,
+      placement,
+    });
+  }
+
+  function closeCalendarPopover() {
+    setCalendarPopover(null);
+  }
+
+  useEffect(() => {
+    const close = () => setCalendarPopover(null);
+
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, []);
 
   useEffect(() => {
     onMonthChange?.(currentMonth);
@@ -271,7 +320,8 @@ export function EventsCalendarBoard({
   const hiddenSelectedDayEventsCount = Math.max(selectedDayEvents.length - MAX_VISIBLE_SELECTED_DAY_EVENTS, 0);
 
   return (
-    <section className='calendar-common-shell calendar-unified-shell grid items-start gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
+    <>
+      <section className='calendar-common-shell calendar-unified-shell grid items-start gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
       <div className='calendar-left-panel event-details-panel surface-card self-start overflow-hidden bg-white h-full min-h-[760px]'>
         <div className='flex h-full min-h-[760px] flex-col overflow-visible px-6 py-5'>
           <div className='flex-1'>
@@ -426,8 +476,8 @@ export function EventsCalendarBoard({
                 return (
                   <div
                     key={dayKey}
-                    onMouseEnter={() => setHoverKey(dayKey)}
-                    onMouseLeave={() => setHoverKey(null)}
+                    onMouseEnter={(event) => openCalendarPopover(day, dayEvents, event.currentTarget)}
+                    onMouseLeave={closeCalendarPopover}
                     onClick={() => {
                       onSelectDate(day);
                       setSelectedEventId(dayEvents[0]?.id ?? null);
@@ -446,20 +496,6 @@ export function EventsCalendarBoard({
                         {dayEvents.length > 4 && (
                           <span className='text-[10px] font-medium text-slate-500'>+{dayEvents.length - 4}</span>
                         )}
-                      </div>
-                    )}
-
-                    {hoverKey === dayKey && dayEvents.length > 0 && (
-                      <div className='calendar-day-popover pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-[9999] w-[280px] -translate-x-1/2 rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black'>
-                        <div className='text-[13px] font-medium text-black'>{formatDate(day)}</div>
-                        <div className='mt-2 space-y-2'>
-                          {dayEvents.map((event) => (
-                            <div key={event.id} className='flex items-start gap-2 text-[12px] leading-5 text-slate-700'>
-                              <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                              <div className='line-clamp-2'>{event.title}</div>
-                            </div>
-                          ))}
-                        </div>
                       </div>
                     )}
                   </div>
@@ -496,6 +532,41 @@ export function EventsCalendarBoard({
           </div>
         ) : null}
       </div>
-    </section>
+      </section>
+
+      {calendarPopover && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              className='calendar-day-popover calendar-day-popover-portal pointer-events-none fixed w-[300px] rounded-[16px] border border-[#7CD8B3] bg-white p-3 text-black'
+              style={{
+                left: calendarPopover.left,
+                top: calendarPopover.top,
+                zIndex: 2147483647,
+                transform:
+                  calendarPopover.placement === 'above'
+                    ? 'translate(-50%, -100%)'
+                    : 'translate(-50%, 0)',
+              }}
+            >
+              <div className='text-[13px] font-medium text-black'>
+                {formatDate(calendarPopover.day)}
+              </div>
+
+              <div className='mt-2 space-y-2'>
+                {calendarPopover.events.map((event) => (
+                  <div
+                    key={event.id}
+                    className='flex items-start gap-2 text-[12px] leading-5 text-slate-700'
+                  >
+                    <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${eventDotClass(event)}`} />
+                    <div className='line-clamp-2'>{event.title}</div>
+                  </div>
+                ))}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
+    </>
   );
 }
