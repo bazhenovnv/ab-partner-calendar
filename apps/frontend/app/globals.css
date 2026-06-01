@@ -2750,3 +2750,61 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL HEADER LOGO REPLACE === */
 
+
+/* === FINAL CALENDAR POPOVER LAYER FIX === */
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell {
+  position: relative;
+}
+
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .calendar-board-shell,
+.page-shell .calendar-board-surface {
+  overflow: visible !important;
+}
+
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-board-shell,
+.page-shell .calendar-board-surface {
+  isolation: isolate;
+  z-index: 20;
+}
+
+.page-shell .calendar-days-grid {
+  z-index: 25;
+}
+
+.page-shell .calendar-days-grid .day-cell:hover,
+.page-shell .calendar-days-grid .day-cell:focus-within {
+  z-index: 40;
+}
+
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover {
+  position: absolute !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+  overflow: visible !important;
+}
+
+.page-shell .selected-day-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .surface-card,
+.page-shell .important-events-ribbon {
+  position: relative;
+  z-index: 1;
+}
+/* === END FINAL CALENDAR POPOVER LAYER FIX === */
