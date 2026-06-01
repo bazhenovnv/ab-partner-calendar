@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
 import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
@@ -11,6 +9,23 @@ import { ReminderButton } from './reminder-button';
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
 
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+
+function formatMoscowDate(value: string) {
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Moscow',
+  }).format(new Date(value));
+}
+
+function formatMoscowTime(value: string) {
+  return new Intl.DateTimeFormat('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Moscow',
+  }).format(new Date(value));
+}
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
@@ -161,12 +176,12 @@ export function HighlightCarousel({
             <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
               <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
-                {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
+                {formatMoscowDate(item.startAt)}
               </span>
 
               <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
                 <Clock3 className='h-5 w-5 text-[#2c8d67]' />
-                {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
+                {formatMoscowTime(item.startAt)}
               </span>
 
               <span className='inline-flex items-center gap-2 text-[18px] leading-6'>

@@ -1,14 +1,23 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { CalendarClock, MapPin, Tag, ExternalLink, BellRing, Send, Clock4 } from 'lucide-react';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { CalendarClock, MapPin, Tag, ExternalLink, BellRing } from 'lucide-react';
 import { EventItem } from '@/lib/types';
 import { formatLabelMap, statusLabelMap } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { Modal } from './ui/dialog';
 import { Button } from './ui/button';
+
+function formatMoscowDateTime(value: string) {
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Moscow',
+  }).format(new Date(value));
+}
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
@@ -21,6 +30,7 @@ function cleanDescriptionText(value?: string) {
     .filter(Boolean)
     .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/iu.test(line))
     .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
+    .filter((line) => !/^(Когда|Дата|Время|Формат|Стоимость|Источник|Город|Адрес|Место)\s*[:：]/iu.test(line))
     .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
     .filter((line) => !/^\(?\??\)?$/.test(line))
     .join('\n')
@@ -75,11 +85,9 @@ export function EventModal({
         </div>
 
         <aside className='event-modal-side space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
-          <InfoRow label='Дата и время' value={format(new Date(item.startAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<CalendarClock className='h-4 w-4' />} />
-          <InfoRow label='Окончание' value={format(new Date(item.endAt), 'd MMMM yyyy, HH:mm', { locale: ru })} icon={<Clock4 className='h-4 w-4' />} />
+          <InfoRow label='Дата и время' value={formatMoscowDateTime(item.startAt)} icon={<CalendarClock className='h-4 w-4' />} />
           <InfoRow label='Место проведения' value={item.location || 'Адрес уточняется'} icon={<MapPin className='h-4 w-4' />} />
           <InfoRow label='Формат' value={formatLabelMap[item.format]} icon={<Tag className='h-4 w-4' />} />
-          <InfoRow label='Организатор' value='АБ Партнер' icon={<Send className='h-4 w-4' />} />
           <InfoRow label='Статус' value={statusLabelMap[status]} icon={<BellRing className='h-4 w-4' />} />
 
           <div className='event-modal-side-actions grid gap-3 pt-4 sm:grid-cols-2'>

@@ -227,6 +227,16 @@ export class SourceConnectorsService implements OnModuleInit {
     return year;
   }
 
+  private createMoscowDate(
+    year: number,
+    monthIndex: number,
+    day: number,
+    hours: number,
+    minutes: number,
+  ): Date {
+    return new Date(Date.UTC(year, monthIndex, day, hours - 3, minutes, 0, 0));
+  }
+
   private parseDateTimeRange(text: string): { startAt?: Date; endAt?: Date } {
     const normalized = this.normalizeEventText(text);
 
@@ -234,8 +244,8 @@ export class SourceConnectorsService implements OnModuleInit {
     if (dotted) {
       const [, dd, mm, yyyy, hh, min, endHh, endMin] = dotted;
       const year = yyyy.length === 2 ? `20${yyyy}` : yyyy;
-      const startAt = new Date(Number(year), Number(mm) - 1, Number(dd), Number(hh), Number(min), 0, 0);
-      const endAt = endHh ? new Date(Number(year), Number(mm) - 1, Number(dd), Number(endHh), Number(endMin), 0, 0) : undefined;
+      const startAt = this.createMoscowDate(Number(year), Number(mm) - 1, Number(dd), Number(hh), Number(min));
+      const endAt = endHh ? this.createMoscowDate(Number(year), Number(mm) - 1, Number(dd), Number(endHh), Number(endMin)) : undefined;
       return { startAt, endAt };
     }
 
@@ -244,8 +254,8 @@ export class SourceConnectorsService implements OnModuleInit {
       const [, dd, monthRus, hh, min, endHh, endMin] = russianWithTime;
       const monthIndex = MONTHS[monthRus.toLowerCase()];
       const year = this.guessYear(monthIndex);
-      const startAt = new Date(year, monthIndex, Number(dd), Number(hh), Number(min), 0, 0);
-      const endAt = endHh ? new Date(year, monthIndex, Number(dd), Number(endHh), Number(endMin), 0, 0) : undefined;
+      const startAt = this.createMoscowDate(year, monthIndex, Number(dd), Number(hh), Number(min));
+      const endAt = endHh ? this.createMoscowDate(year, monthIndex, Number(dd), Number(endHh), Number(endMin)) : undefined;
       return { startAt, endAt };
     }
 
@@ -254,14 +264,14 @@ export class SourceConnectorsService implements OnModuleInit {
       const [, dd, monthRus] = russianNoTime;
       const monthIndex = MONTHS[monthRus.toLowerCase()];
       const year = this.guessYear(monthIndex);
-      return { startAt: new Date(year, monthIndex, Number(dd), 10, 0, 0, 0) };
+      return { startAt: this.createMoscowDate(year, monthIndex, Number(dd), 10, 0) };
     }
 
     return {};
   }
 
   private parseLocation(text: string, format: 'ONLINE' | 'OFFLINE' | 'HYBRID'): string | undefined {
-    const patterns = [/где\s*:\s*(.+)/iu, /место\s*:\s*(.+)/iu, /адрес\s*:\s*(.+)/iu, /формат\s*:\s*(.+)/iu];
+    const patterns = [/где\s*:\s*(.+)/iu, /место\s*:\s*(.+)/iu, /адрес\s*:\s*(.+)/iu];
 
     for (const pattern of patterns) {
       const match = text.match(pattern);
@@ -384,9 +394,9 @@ export class SourceConnectorsService implements OnModuleInit {
     if (monthIndex === undefined) return null;
 
     const year = this.guessYear(monthIndex);
-    const startAt = new Date(year, monthIndex, Number(dd), Number(hh), Number(min), 0, 0);
+    const startAt = this.createMoscowDate(year, monthIndex, Number(dd), Number(hh), Number(min));
     const endAt = endHh
-      ? new Date(year, monthIndex, Number(dd), Number(endHh), Number(endMin), 0, 0)
+      ? this.createMoscowDate(year, monthIndex, Number(dd), Number(endHh), Number(endMin))
       : undefined;
 
     const place = String(placeRaw || '')

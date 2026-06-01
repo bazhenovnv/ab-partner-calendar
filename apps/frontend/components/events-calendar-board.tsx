@@ -39,11 +39,11 @@ function formatDate(date: Date) {
 }
 
 function formatDateLong(date: string) {
-  return new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(date));
+  return new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Moscow' }).format(new Date(date));
 }
 
 function formatTime(date: string) {
-  return new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' }).format(new Date(date));
+  return new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Moscow' }).format(new Date(date));
 }
 
 function normalizeText(value: string) {
@@ -363,7 +363,7 @@ export function EventsCalendarBoard({
                   </span>
                   <span className='inline-flex items-center gap-2'>
                     <Clock3 className='h-4 w-4 text-[#2c8d67]' />
-                    {formatTime(selectedEvent.startAt)} – {formatTime(selectedEvent.endAt)}
+                    {formatTime(selectedEvent.startAt)}
                   </span>
                   <span className='inline-flex items-center gap-2'>
                     <Globe className='h-4 w-4 text-[#2c8d67]' />
