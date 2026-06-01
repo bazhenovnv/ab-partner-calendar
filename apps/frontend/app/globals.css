@@ -2871,58 +2871,44 @@ body [role='dialog'] button[class*='absolute'] {
 /* === END FINAL MODAL CLOSE BUTTON CENTER FIX === */
 
 
-/* === FINAL EVENT STATUS RIBBON FIX === */
+/* === FINAL EVENT MODAL STATUS RIBBON FIX === */
 
-.page-shell .event-details-modal {
-  position: relative;
-  overflow: visible;
-  padding-bottom: 78px;
+.page-shell .event-modal-layout {
+  position: relative !important;
+  padding-bottom: 68px !important;
 }
 
 .page-shell .event-status-ribbon {
-  position: absolute;
-  right: 0;
-  bottom: 10px;
-  z-index: 12;
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 20 !important;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 
-  min-width: 220px;
-  height: 42px;
-  padding: 0 20px;
+  min-width: 220px !important;
+  height: 42px !important;
+  padding: 0 22px !important;
 
-  border: 1px solid #000;
-  border-radius: 16px 0 0 16px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+  border: 1px solid #000000 !important;
+  border-radius: 18px 0 0 18px !important;
 
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  color: #000;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16) !important;
+
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
 }
 
 .page-shell .event-status-ribbon--scheduled {
-  background: #7CD8B3;
+  background: #7CD8B3 !important;
 }
 
 .page-shell .event-status-ribbon--completed {
-  background: #f29f59;
+  background: #f29f59 !important;
 }
 
-@media (max-width: 1023px) {
-  .page-shell .event-details-modal {
-    padding-bottom: 88px;
-  }
-
-  .page-shell .event-status-ribbon {
-    right: 0;
-    left: auto;
-    min-width: 190px;
-    height: 40px;
-    font-size: 11px;
-  }
-}
-
-/* === END FINAL EVENT STATUS RIBBON FIX === */
+/* === END FINAL EVENT MODAL STATUS RIBBON FIX === */

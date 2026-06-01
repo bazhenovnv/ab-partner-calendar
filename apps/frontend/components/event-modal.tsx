@@ -42,6 +42,12 @@ function isCompletedStatus(value?: string) {
   return ['COMPLETED', 'FINISHED', 'DONE', 'ARCHIVED'].includes(String(value || '').toUpperCase());
 }
 
+function formatDisplayLabel(value: 'ONLINE' | 'OFFLINE' | 'HYBRID') {
+  if (value === 'OFFLINE') return 'Офлайн';
+  if (value === 'HYBRID') return 'Гибрид';
+  return 'Онлайн';
+}
+
 function getSourceButtonLabel(url?: string) {
   return /max\.ru/iu.test(url || '') ? 'MAX-канал' : 'Telegram-канал';
 }
@@ -89,7 +95,7 @@ export function EventModal({
 
   return (
     <Modal open={open} onOpenChange={onOpenChange} title={item.title}>
-      <div className='event-modal-layout grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.86fr)]'>
+      <div className='event-modal-layout relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.86fr)]'>
         <div className='event-modal-main min-w-0'>
           {item.imageUrl ? (
             <div className='event-modal-image-wrap'>
@@ -118,7 +124,7 @@ export function EventModal({
         <aside className='event-modal-side space-y-4 rounded-[24px] border border-[#7CD8B3] bg-white p-5'>
           <InfoRow label='Дата и время' value={formatMoscowDateTime(item.startAt)} icon={<CalendarClock className='h-4 w-4' />} />
           <InfoRow label='Место проведения' value={item.location || 'Адрес уточняется'} icon={<MapPin className='h-4 w-4' />} />
-          <InfoRow label='Формат' value={formatLabelMap[item.format]} icon={<Tag className='h-4 w-4' />} />
+          <InfoRow label='Формат' value={formatDisplayLabel(displayFormat)} icon={<Tag className='h-4 w-4' />} />
           <InfoRow label='Статус' value={statusLabelMap[status]} icon={<BellRing className='h-4 w-4' />} />
 
           <div className='event-modal-side-actions grid gap-3 pt-4 sm:grid-cols-2'>
@@ -130,13 +136,23 @@ export function EventModal({
             </Button>
 
             <Button asChild variant='ghost' className='event-modal-action-btn'>
-              <a href={item.sourceUrl || 'https://t.me/ab_afisha_buh'} target='_blank' rel='noreferrer'>
+              <a href={sourceUrl} target='_blank' rel='noreferrer'>
                 <ExternalLink className='h-4 w-4' />
                 Telegram-канал
               </a>
             </Button>
           </div>
         </aside>
+
+        <div
+          className={`event-status-ribbon ${
+            completed
+              ? 'event-status-ribbon--completed'
+              : 'event-status-ribbon--scheduled'
+          }`}
+        >
+          {completed ? 'ПРОВЕДЕНО' : 'ЗАПЛАНИРОВАНО'}
+        </div>
       </div>
     </Modal>
   );

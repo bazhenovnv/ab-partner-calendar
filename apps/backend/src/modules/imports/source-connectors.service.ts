@@ -598,6 +598,34 @@ export class SourceConnectorsService implements OnModuleInit {
     return Array.from(new Set(links)).filter((url) => !text.includes(url));
   }
 
+  private extractMaxSourceUrl(
+    channelUrl: string,
+    message: any,
+    body: any,
+    links: string[],
+  ): string {
+    const candidates = [
+      body?.permalink,
+      message?.permalink,
+      body?.link,
+      message?.link,
+      body?.url,
+      message?.url,
+      ...links,
+    ]
+      .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+      .map((value) => value.trim());
+
+    const directMaxLink = candidates.find(
+      (value) =>
+        /^https?:\/\/(?:www\.)?max\.ru\//iu.test(value) &&
+        !/\/join\//iu.test(value) &&
+        !/\.(?:jpg|jpeg|png|webp|gif|svg)(?:\?|$)/iu.test(value),
+    );
+
+    return directMaxLink || channelUrl;
+  }
+
   private async fetchWithRetry(url: string, init: RequestInit, attempts = 3): Promise<Response> {
     let lastError: unknown;
 
@@ -888,7 +916,7 @@ export class SourceConnectorsService implements OnModuleInit {
       startAt: event.startAt,
       endAt,
       location: eventLocation,
-      format: event.format ?? 'ONLINE',
+      format: this.normalizeFormatByLocation(event.format ?? 'ONLINE', eventLocation, rawText),
       source: this.getSourceName(connector),
       sourceUrl: event.sourceUrl,
       sourcePostId,
