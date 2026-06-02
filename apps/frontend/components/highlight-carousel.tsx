@@ -39,28 +39,14 @@ function isActualEventImage(value?: string) {
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
 }
 
-function getRuntimeStatus(event: EventItem) {
-  return event.runtimeStatus || event.status;
-}
-
 function isCompletedEvent(event: EventItem) {
-  if (getRuntimeStatus(event) === 'COMPLETED') return true;
+  const status = String(event.runtimeStatus || event.status || '').toUpperCase();
+
+  if (status === 'COMPLETED') return true;
+  if (status === 'LIVE' || status === 'SCHEDULED') return false;
 
   const endAt = new Date(event.endAt).getTime();
-  if (Number.isFinite(endAt)) return endAt < Date.now();
-
-  const startAt = new Date(event.startAt).getTime();
-  return Number.isFinite(startAt) && startAt < Date.now();
-}
-
-function compareUpcomingEvents(a: EventItem, b: EventItem) {
-  return +new Date(a.startAt) - +new Date(b.startAt);
-}
-
-function compareCompletedEvents(a: EventItem, b: EventItem) {
-  const aDate = +new Date(a.endAt || a.startAt);
-  const bDate = +new Date(b.endAt || b.startAt);
-  return bDate - aDate;
+  return Number.isFinite(endAt) && endAt < Date.now();
 }
 
 export function HighlightCarousel({
@@ -74,36 +60,24 @@ export function HighlightCarousel({
   embedded?: boolean;
   controls?: ReactNode;
 }) {
-  const slides = useMemo(() => {
-    const uniqueItems = Array.from(new Map(items.map((event) => [event.id, event])).values());
-    const activeEvents = uniqueItems
-      .filter((event) => !isCompletedEvent(event))
-      .sort(compareUpcomingEvents);
-    const completedEvents = uniqueItems
-      .filter(isCompletedEvent)
-      .sort(compareCompletedEvents);
-
-    if (activeEvents.length >= 2) return activeEvents;
-    if (activeEvents.length === 1) return [...activeEvents, ...completedEvents.slice(0, 1)];
-    return completedEvents.slice(0, 3);
-  }, [items]);
+  const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
 
   const plannedSlides = useMemo(() => {
     return slides
       .map((event, idx) => ({ event, idx }))
-      .filter(({ event }) => !isCompletedEvent(event));
+      .filter(({ event }) => (event.runtimeStatus || event.status) === 'SCHEDULED');
   }, [slides]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    const timer = window.setTimeout(() => {
+    const timer = window.setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, 10000);
 
-    return () => window.clearTimeout(timer);
-  }, [active, slides.length]);
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
 
   useEffect(() => {
     if (slides.length > 0 && active >= slides.length) {
@@ -159,7 +133,7 @@ export function HighlightCarousel({
             <ChevronLeft className='h-5 w-5' />
           </button>
 
-          <div className='important-events-image-panel important-event-image-wrap relative min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
+          <div className='important-events-image-panel relative min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
             <img
               src={slideImage}
               alt={item.title}
@@ -173,8 +147,8 @@ export function HighlightCarousel({
             />
 
             {isCompletedEvent(item) ? (
-              <div className='important-event-stamp important-event-stamp--completed' aria-label='Проведено'>
-                ПРОВЕДЕНО
+              <div className='important-event-completed-stamp' aria-label='Проведено'>
+                <span>ПРОВЕДЕНО</span>
               </div>
             ) : null}
           </div>
@@ -245,27 +219,33 @@ export function HighlightCarousel({
       <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
 
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <div className='mb-4 flex flex-col items-start gap-4'>
-          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
-            Важные события
-          </h3>
+        <div className='important-events-headline-row'>
+          <h3 className='important-events-ribbon-title'>ВАЖНЫЕ СОБЫТИЯ</h3>
 
-          <div className='important-events-actions flex min-w-[260px] flex-col items-start gap-3'>
-            <button
-              type='button'
-              onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
-              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
-            >
-              Смотреть все
-              <ArrowRight className='h-4 w-4' />
-            </button>
+          {controls ? (
+            <h3 className='important-events-mode-title'>РЕЖИМ ОТОБРАЖЕНИЯ</h3>
+          ) : (
+            <div aria-hidden='true' />
+          )}
+        </div>
 
-            {controls ? (
-              <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
-                {controls}
-              </div>
-            ) : null}
-          </div>
+        <div className='important-events-controls-row'>
+          <button
+            type='button'
+            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+          >
+            Смотреть все
+            <ArrowRight className='h-4 w-4' />
+          </button>
+
+          {controls ? (
+            <div className='important-events-mode-controls grid gap-3 sm:grid-cols-2'>
+              {controls}
+            </div>
+          ) : (
+            <div aria-hidden='true' />
+          )}
         </div>
 
         {plannedSlides.length > 0 ? (
