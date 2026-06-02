@@ -39,14 +39,28 @@ function isActualEventImage(value?: string) {
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
 }
 
-function isCompletedEvent(event: EventItem) {
-  const status = String(event.runtimeStatus || event.status || '').toUpperCase();
+function getRuntimeStatus(event: EventItem) {
+  return event.runtimeStatus || event.status;
+}
 
-  if (status === 'COMPLETED') return true;
-  if (status === 'LIVE' || status === 'SCHEDULED') return false;
+function isCompletedEvent(event: EventItem) {
+  if (getRuntimeStatus(event) === 'COMPLETED') return true;
 
   const endAt = new Date(event.endAt).getTime();
-  return Number.isFinite(endAt) && endAt < Date.now();
+  if (Number.isFinite(endAt)) return endAt < Date.now();
+
+  const startAt = new Date(event.startAt).getTime();
+  return Number.isFinite(startAt) && startAt < Date.now();
+}
+
+function compareUpcomingEvents(a: EventItem, b: EventItem) {
+  return +new Date(a.startAt) - +new Date(b.startAt);
+}
+
+function compareCompletedEvents(a: EventItem, b: EventItem) {
+  const aDate = +new Date(a.endAt || a.startAt);
+  const bDate = +new Date(b.endAt || b.startAt);
+  return bDate - aDate;
 }
 
 export function HighlightCarousel({
@@ -60,24 +74,36 @@ export function HighlightCarousel({
   embedded?: boolean;
   controls?: ReactNode;
 }) {
-  const slides = useMemo(() => (items.length ? items : []), [items]);
+  const slides = useMemo(() => {
+    const uniqueItems = Array.from(new Map(items.map((event) => [event.id, event])).values());
+    const activeEvents = uniqueItems
+      .filter((event) => !isCompletedEvent(event))
+      .sort(compareUpcomingEvents);
+    const completedEvents = uniqueItems
+      .filter(isCompletedEvent)
+      .sort(compareCompletedEvents);
+
+    if (activeEvents.length >= 2) return activeEvents;
+    if (activeEvents.length === 1) return [...activeEvents, ...completedEvents.slice(0, 1)];
+    return completedEvents.slice(0, 3);
+  }, [items]);
   const [active, setActive] = useState(0);
 
   const plannedSlides = useMemo(() => {
     return slides
       .map((event, idx) => ({ event, idx }))
-      .filter(({ event }) => (event.runtimeStatus || event.status) === 'SCHEDULED');
+      .filter(({ event }) => !isCompletedEvent(event));
   }, [slides]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    const timer = window.setInterval(() => {
+    const timer = window.setTimeout(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, 10000);
 
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
+    return () => window.clearTimeout(timer);
+  }, [active, slides.length]);
 
   useEffect(() => {
     if (slides.length > 0 && active >= slides.length) {
@@ -97,7 +123,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
+          <div className='important-events-copy-panel relative flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -145,12 +171,6 @@ export function HighlightCarousel({
                 }
               }}
             />
-
-            {isCompletedEvent(item) ? (
-              <div className='important-event-completed-stamp' aria-label='Проведено'>
-                <span>ПРОВЕДЕНО</span>
-              </div>
-            ) : null}
           </div>
 
           <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
@@ -203,6 +223,12 @@ export function HighlightCarousel({
                 className='important-event-action-btn min-w-[170px]'
               />
             </div>
+
+            {isCompletedEvent(item) ? (
+              <div className='important-event-completed-stamp' aria-label='Проведено'>
+                <span>ПРОВЕДЕНО</span>
+              </div>
+            ) : null}
           </div>
 
           <button

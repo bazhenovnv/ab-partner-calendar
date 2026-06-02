@@ -969,3 +969,284 @@ textarea,
 }
 
 /* === END FINAL IMPORTANT EVENTS SAFE RESTORE === */
+
+
+/* === FINAL COMBINED HEADER TOPICS AND TEXT-PANEL STAMP FIX === */
+
+/* Шапка: умеренный логотип и одинаковые кнопки справа. */
+.page-shell .site-header-panel {
+  min-height: 66px !important;
+  padding: 10px 14px !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-brand,
+.page-shell .site-header-logo-link,
+.site-header-logo-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 46px !important;
+  height: 46px !important;
+  max-height: 46px !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-image,
+.page-shell .site-header-logo-img,
+.site-header-logo-image,
+.site-header-logo-img {
+  display: block !important;
+  height: 46px !important;
+  max-height: 46px !important;
+  width: auto !important;
+  max-width: min(500px, 46vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+.page-shell .site-header-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+}
+
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  width: 146px !important;
+  min-width: 146px !important;
+  max-width: 146px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 6px 10px !important;
+  gap: 8px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .site-header-action > span:not(:first-child),
+.page-shell .mint-btn--header > span:not(:first-child),
+.page-shell .site-header-panel a > span:not(:first-child),
+.page-shell .site-header-panel button > span:not(:first-child) {
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+}
+
+/* Подборки: возвращаем компактные карточки и корректный заголовок. */
+.page-shell .calendar-topic-panel {
+  padding: 12px 12px 12px !important;
+  min-height: auto !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  display: block !important;
+  margin: 0 0 8px 0 !important;
+  padding-left: 0 !important;
+  color: #f29f59 !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .calendar-topic-panel .grid {
+  gap: 8px !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button,
+.page-shell .calendar-topic-panel button.topic-filter-button,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button {
+  min-height: 54px !important;
+  height: 54px !important;
+  max-height: 54px !important;
+  padding: 5px 9px !important;
+  gap: 8px !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 500 !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-icon,
+.page-shell .calendar-topic-panel .topic-filter-button > svg.flex-none,
+.page-shell .calendar-topic-panel .topic-filter-button > svg:first-child {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  flex: 0 0 32px !important;
+  padding: 6px !important;
+  border: 1.5px solid #7CD8B3 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
+  display: block !important;
+  max-width: 100% !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+  line-height: 1.05 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.page-shell .calendar-topic-panel .topic-count-number,
+.page-shell .topic-count-number {
+  display: block !important;
+  margin-top: 2px !important;
+  color: #7CD8B3 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button-active {
+  border: 2px solid #f29f59 !important;
+}
+
+/* Панель управления важных событий: сохраняем прежнее расположение. */
+.page-shell .important-events-headline-row,
+.page-shell .important-events-controls-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-headline-row {
+  margin-bottom: 14px !important;
+}
+
+.page-shell .important-events-controls-row {
+  margin-bottom: 18px !important;
+}
+
+.page-shell .important-events-mode-title {
+  margin-left: auto !important;
+  text-align: right !important;
+}
+
+.page-shell .important-events-view-all-btn,
+.page-shell button.important-events-view-all-btn {
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+  font-weight: 500 !important;
+}
+
+.page-shell .important-events-mode-controls {
+  width: 390px !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+/* Штамп: только красные овалы, поверх правого текстового окна. */
+.page-shell .important-events-copy-panel {
+  position: relative !important;
+}
+
+.page-shell .important-event-completed-stamp {
+  position: absolute !important;
+  right: 18px !important;
+  bottom: 16px !important;
+  z-index: 8 !important;
+  pointer-events: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 160px !important;
+  height: 64px !important;
+  padding: 0 14px !important;
+  border: 4px solid #ff4d24 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #ff4d24 !important;
+  transform: rotate(-16deg) !important;
+  transform-origin: center !important;
+  box-shadow: inset 0 0 0 3px rgba(255, 77, 36, 0.92) !important;
+}
+
+.page-shell .important-event-completed-stamp span {
+  display: block !important;
+  color: #ff4d24 !important;
+  font-size: 19px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .site-header-logo-image,
+  .page-shell .site-header-logo-img,
+  .site-header-logo-image,
+  .site-header-logo-img {
+    height: 42px !important;
+    max-height: 42px !important;
+    max-width: 100% !important;
+  }
+
+  .page-shell .site-header-action,
+  .page-shell .mint-btn--header {
+    width: 142px !important;
+    min-width: 142px !important;
+    max-width: 142px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell .important-events-headline-row,
+  .page-shell .important-events-controls-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .page-shell .important-events-mode-title,
+  .page-shell .important-events-mode-controls {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .page-shell .important-event-completed-stamp {
+    right: 12px !important;
+    bottom: 12px !important;
+    width: 136px !important;
+    height: 54px !important;
+    border-width: 3px !important;
+  }
+
+  .page-shell .important-event-completed-stamp span {
+    font-size: 16px !important;
+  }
+}
+
+/* === END FINAL COMBINED HEADER TOPICS AND TEXT-PANEL STAMP FIX === */
