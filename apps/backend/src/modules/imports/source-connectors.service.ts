@@ -980,11 +980,28 @@ export class SourceConnectorsService implements OnModuleInit {
         `Повторное сохранение события без изображения и дополнительных тегов: ${sourcePostId}`,
       );
 
+      const fallbackTitle =
+        eventTitle
+          .replace(/[^\p{L}\p{N}\s.,:;!?()«»"'-]/gu, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 180) || 'Импортированное мероприятие';
+
       const fallbackData = {
         ...data,
+        title: fallbackTitle,
+        descriptionShort: fallbackTitle,
+        descriptionFull: fallbackTitle,
+        location: 'Онлайн',
+        format: 'ONLINE' as const,
+        sourceUrl: null,
         imageUrl: null,
         tags: Array.from(new Set([sourceTag, 'import'])),
       };
+
+      this.logger.warn(
+        `Минимальное сохранение события без внешних текстовых полей: ${sourcePostId}`,
+      );
 
       if (existing) {
         return this.prisma.event.update({
@@ -996,7 +1013,7 @@ export class SourceConnectorsService implements OnModuleInit {
       return this.prisma.event.create({
         data: {
           ...fallbackData,
-          slug,
+          slug: this.slugify(fallbackTitle, sourcePostId),
         },
       });
     }
