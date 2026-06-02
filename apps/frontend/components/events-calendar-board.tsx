@@ -346,7 +346,7 @@ export function EventsCalendarBoard({
                     rel='noreferrer'
                     className='mint-btn pressable inline-flex min-w-[260px] items-center justify-between rounded-[18px] px-5 py-3 text-sm font-semibold text-black'
                   >
-                    Подробнее о мероприятии
+                    Подробнее, регистрация
                     <ChevronRight className='h-4 w-4' />
                   </a>
 

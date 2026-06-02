@@ -1346,3 +1346,54 @@ textarea,
 }
 
 /* === END FINAL HEADER BUTTONS EQUAL WIDTH FIX === */
+
+
+/* === FINAL DIALOG OVERLAY CONTENT LAYER FIX === */
+
+/*
+  Только слои модального окна.
+  Не влияет на шапку, подборки, карусель, штамп и кнопки страницы.
+*/
+
+body [data-dialog-overlay='true'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99980 !important;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  background: rgba(15, 23, 42, 0.58) !important;
+  backdrop-filter: blur(3px) !important;
+
+  pointer-events: auto !important;
+}
+
+body [data-dialog-content='true'] {
+  position: fixed !important;
+
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  z-index: 99999 !important;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  transform: translate(-50%, -50%) !important;
+
+  pointer-events: auto !important;
+  isolation: isolate !important;
+}
+
+/* Кнопка закрытия всегда поверх содержимого окна */
+body [data-dialog-content='true'] .dialog-close-button {
+  position: absolute !important;
+  z-index: 100001 !important;
+}
+
+/* === END FINAL DIALOG OVERLAY CONTENT LAYER FIX === */
