@@ -1397,3 +1397,87 @@ body [data-dialog-content='true'] .dialog-close-button {
 }
 
 /* === END FINAL DIALOG OVERLAY CONTENT LAYER FIX === */
+
+
+/* === FINAL EVENT DETAILS MODAL SIZE FIX === */
+
+/*
+  Увеличиваем только окно подробной информации о мероприятии.
+  Остальные модальные окна проекта не затрагиваются.
+*/
+
+body [data-dialog-content='true']:has(.event-modal-layout),
+body [role='dialog']:has(.event-modal-layout) {
+  width: min(1380px, calc(100vw - 28px)) !important;
+  max-width: calc(100vw - 28px) !important;
+
+  max-height: calc(100vh - 24px) !important;
+
+  padding: 26px !important;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Две колонки становятся шире, содержимое не сжимается */
+body [data-dialog-content='true'] .event-modal-layout,
+body [role='dialog'] .event-modal-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.12fr) minmax(390px, 0.88fr) !important;
+  gap: 26px !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+
+  padding-bottom: 72px !important;
+}
+
+/* Картинка мероприятия немного крупнее */
+body [data-dialog-content='true'] .event-modal-image,
+body [role='dialog'] .event-modal-image {
+  width: 100% !important;
+  max-height: 430px !important;
+
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Правая панель использует доступную ширину */
+body [data-dialog-content='true'] .event-modal-side,
+body [role='dialog'] .event-modal-side {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+/* Нижняя метка не обрезается */
+body [data-dialog-content='true'] .event-status-ribbon,
+body [role='dialog'] .event-status-ribbon {
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+/* На узких экранах возвращаем одну колонку */
+@media (max-width: 980px) {
+  body [data-dialog-content='true']:has(.event-modal-layout),
+  body [role='dialog']:has(.event-modal-layout) {
+    width: calc(100vw - 18px) !important;
+    max-width: calc(100vw - 18px) !important;
+
+    max-height: calc(100vh - 18px) !important;
+
+    padding: 18px !important;
+  }
+
+  body [data-dialog-content='true'] .event-modal-layout,
+  body [role='dialog'] .event-modal-layout {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  body [data-dialog-content='true'] .event-modal-image,
+  body [role='dialog'] .event-modal-image {
+    max-height: 340px !important;
+  }
+}
+
+/* === END FINAL EVENT DETAILS MODAL SIZE FIX === */
