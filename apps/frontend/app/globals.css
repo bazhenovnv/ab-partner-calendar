@@ -1250,3 +1250,99 @@ textarea,
 }
 
 /* === END FINAL COMBINED HEADER TOPICS AND TEXT-PANEL STAMP FIX === */
+
+
+/* === FINAL HEADER BUTTONS EQUAL WIDTH FIX === */
+
+/* Логотип: немного крупнее, без изменения высоты панели */
+.page-shell .site-header-brand,
+.page-shell .site-header-logo-link,
+.site-header-logo-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 50px !important;
+  height: 50px !important;
+  max-height: 50px !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-image,
+.page-shell .site-header-logo-img,
+.site-header-logo-image,
+.site-header-logo-img {
+  display: block !important;
+  height: 50px !important;
+  max-height: 50px !important;
+  width: auto !important;
+  max-width: min(660px, 52vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+/* Все кнопки справа строго одинаковой длины */
+.page-shell .site-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+}
+
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  width: 166px !important;
+  min-width: 166px !important;
+  max-width: 166px !important;
+
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+
+  padding: 6px 10px !important;
+  gap: 8px !important;
+
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+/* Текст на кнопках без жирного выделения */
+.page-shell .site-header-action > span:not(:first-child),
+.page-shell .mint-btn--header > span:not(:first-child),
+.page-shell .site-header-panel a > span:not(:first-child),
+.page-shell .site-header-panel button > span:not(:first-child) {
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+/* Иконки внутри кнопок сохраняем прежнего размера */
+.page-shell .site-header-action > span:first-child,
+.page-shell .mint-btn--header > span:first-child {
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .site-header-logo-image,
+  .page-shell .site-header-logo-img,
+  .site-header-logo-image,
+  .site-header-logo-img {
+    height: 46px !important;
+    max-height: 46px !important;
+    max-width: 100% !important;
+  }
+
+  .page-shell .site-header-action,
+  .page-shell .mint-btn--header {
+    width: 160px !important;
+    min-width: 160px !important;
+    max-width: 160px !important;
+  }
+}
+
+/* === END FINAL HEADER BUTTONS EQUAL WIDTH FIX === */
