@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, MapPin, MonitorPlay } from 'lucide-react';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import { EventItem } from '@/lib/types';
 import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
@@ -9,23 +11,6 @@ import { ReminderButton } from './reminder-button';
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
 
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-
-function formatMoscowDate(value: string) {
-  return new Intl.DateTimeFormat('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'Europe/Moscow',
-  }).format(new Date(value));
-}
-
-function formatMoscowTime(value: string) {
-  return new Intl.DateTimeFormat('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'Europe/Moscow',
-  }).format(new Date(value));
-}
 
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
@@ -54,6 +39,15 @@ function isActualEventImage(value?: string) {
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
 }
 
+function isImportantEventCompleted(event: EventItem) {
+  const status = String(event.runtimeStatus ?? event.status).toUpperCase();
+
+  if (status === 'COMPLETED') return true;
+
+  const endAt = new Date(event.endAt).getTime();
+  return Number.isFinite(endAt) && endAt < Date.now();
+}
+
 export function HighlightCarousel({
   items,
   onOpen,
@@ -68,18 +62,6 @@ export function HighlightCarousel({
   const slides = useMemo(() => (items.length ? items : []), [items]);
   const [active, setActive] = useState(0);
 
-  function scrollImportantEventsIntoView() {
-    window.requestAnimationFrame(() => {
-      const target = document.getElementById('important-events-section');
-      target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  }
-
-  function selectImportantSlide(index: number) {
-    setActive(index);
-    scrollImportantEventsIntoView();
-  }
-
   const plannedSlides = useMemo(() => {
     return slides
       .map((event, idx) => ({ event, idx }))
@@ -89,12 +71,12 @@ export function HighlightCarousel({
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    const timer = window.setTimeout(() => {
+    const timer = window.setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, 10000);
 
-    return () => window.clearTimeout(timer);
-  }, [active, slides.length]);
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
 
   useEffect(() => {
     if (slides.length > 0 && active >= slides.length) {
@@ -114,7 +96,7 @@ export function HighlightCarousel({
             />
           </div>
 
-          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -150,7 +132,7 @@ export function HighlightCarousel({
             <ChevronLeft className='h-5 w-5' />
           </button>
 
-          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
+          <div className='important-events-image-panel important-event-image-wrap relative min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
             <img
               src={slideImage}
               alt={item.title}
@@ -162,9 +144,15 @@ export function HighlightCarousel({
                 }
               }}
             />
+
+            {isImportantEventCompleted(item) ? (
+              <div className='important-event-stamp important-event-stamp--done'>
+                ПРОВЕДЕНО
+              </div>
+            ) : null}
           </div>
 
-          <div className='flex flex-col justify-center bg-white p-6 text-black lg:p-8'>
+          <div className='flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
             <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
               Важные события
             </div>
@@ -174,22 +162,22 @@ export function HighlightCarousel({
             </h2>
 
             <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
-              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
                 <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
-                {formatMoscowDate(item.startAt)}
+                {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
                 <Clock3 className='h-5 w-5 text-[#2c8d67]' />
-                {formatMoscowTime(item.startAt)}
+                {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
                 <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
                 {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
               </span>
 
-              <span className='inline-flex items-center gap-2 text-[18px] leading-6'>
+              <span className='inline-flex items-center gap-2 text-[15px]'>
                 <MapPin className='h-5 w-5 text-[#2c8d67]' />
                 {item.location || 'Локация уточняется'}
               </span>
@@ -230,33 +218,27 @@ export function HighlightCarousel({
       <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
 
       <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
-        <div className='important-events-headline-row'>
-          <h3 className='important-events-ribbon-title'>ВАЖНЫЕ СОБЫТИЯ</h3>
+        <div className='mb-4 flex flex-col items-start gap-4'>
+          <h3 className='important-events-ribbon-title text-[18px] font-semibold uppercase tracking-[0.1em] text-[#f29f59]'>
+            Важные события
+          </h3>
 
-          {controls ? (
-            <h3 className='important-events-mode-title'>РЕЖИМ ОТОБРАЖЕНИЯ</h3>
-          ) : (
-            <div aria-hidden='true' />
-          )}
-        </div>
+          <div className='important-events-actions flex min-w-[260px] flex-col items-start gap-3'>
+            <button
+              type='button'
+              onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+            >
+              Смотреть все
+              <ArrowRight className='h-4 w-4' />
+            </button>
 
-        <div className='important-events-controls-row'>
-          <button
-            type='button'
-            onClick={() => selectImportantSlide(plannedSlides[0]?.idx ?? 0)}
-            className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
-          >
-            Смотреть все
-            <ArrowRight className='h-4 w-4' />
-          </button>
-
-          {controls ? (
-            <div className='important-events-mode-controls grid gap-3 sm:grid-cols-2'>
-              {controls}
-            </div>
-          ) : (
-            <div aria-hidden='true' />
-          )}
+            {controls ? (
+              <div className='important-events-mode-controls grid w-full gap-3 sm:grid-cols-2 lg:w-[420px]'>
+                {controls}
+              </div>
+            ) : null}
+          </div>
         </div>
 
         {plannedSlides.length > 0 ? (
@@ -268,9 +250,9 @@ export function HighlightCarousel({
                 <button
                   key={event.id}
                   type='button'
-                  onClick={() => selectImportantSlide(idx)}
+                  onClick={() => setActive(idx)}
                   className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${
-                    idx === active ? 'important-date-chip--active border-[#f29f59] ring-2 ring-[#f29f59]/25' : 'border-[#7CD8B3]'
+                    idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'
                   }`}
                   title={event.title}
                 >
