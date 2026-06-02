@@ -360,6 +360,24 @@ export class SourceConnectorsService implements OnModuleInit {
       .slice(0, maxLength);
   }
 
+  private normalizeImportedImageUrl(value?: string): string | null {
+    const safeValue = this.safeTextForDb(value, 1000);
+
+    if (!safeValue) return null;
+
+    try {
+      const parsed = new URL(safeValue);
+
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        return null;
+      }
+
+      return parsed.toString();
+    } catch {
+      return null;
+    }
+  }
+
   private safeTagsForDb(tags: string[]): string[] {
     return Array.from(
       new Set(
@@ -896,7 +914,7 @@ export class SourceConnectorsService implements OnModuleInit {
     const sourceTag = this.getSourceTag(connector);
     const tags = this.safeTagsForDb([...(event.tags || []), sourceTag, 'import']);
     const endAt = event.endAt && event.endAt > event.startAt ? event.endAt : new Date(event.startAt.getTime() + 2 * 60 * 60 * 1000);
-    const imageUrl = event.imageUrl ? this.safeTextForDb(event.imageUrl, 1000) : null;
+    const imageUrl = this.normalizeImportedImageUrl(event.imageUrl);
 
     const existingDeleted = await this.prisma.event.findFirst({
       where: {
@@ -937,19 +955,51 @@ export class SourceConnectorsService implements OnModuleInit {
       },
     });
 
-    if (existing) {
-      return this.prisma.event.update({
-        where: { id: existing.id },
-        data,
+    try {
+      if (existing) {
+        return await this.prisma.event.update({
+          where: { id: existing.id },
+          data,
+        });
+      }
+
+      return await this.prisma.event.create({
+        data: {
+          ...data,
+          slug,
+        },
+      });
+    } catch (error) {
+      const message = (error as Error).message;
+
+      if (!/unexpected end of hex escape/iu.test(message)) {
+        throw error;
+      }
+
+      this.logger.warn(
+        `Повторное сохранение события без изображения и дополнительных тегов: ${sourcePostId}`,
+      );
+
+      const fallbackData = {
+        ...data,
+        imageUrl: null,
+        tags: Array.from(new Set([sourceTag, 'import'])),
+      };
+
+      if (existing) {
+        return this.prisma.event.update({
+          where: { id: existing.id },
+          data: fallbackData,
+        });
+      }
+
+      return this.prisma.event.create({
+        data: {
+          ...fallbackData,
+          slug,
+        },
       });
     }
-
-    return this.prisma.event.create({
-      data: {
-        ...data,
-        slug,
-      },
-    });
   }
 
   async listImports() {
