@@ -19,6 +19,8 @@ export type EventItem = {
   imageUrl?: string;
   source?: string;
   sourceUrl?: string;
+  registrationUrl?: string;
+  telegramUrl?: string;
   sourcePostId?: string | null;
   deletedAt?: string | null;
   isImportant: boolean;

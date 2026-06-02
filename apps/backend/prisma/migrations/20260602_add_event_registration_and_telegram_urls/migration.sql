@@ -1,0 +1,3 @@
+ALTER TABLE "Event"
+ADD COLUMN IF NOT EXISTS "registrationUrl" TEXT,
+ADD COLUMN IF NOT EXISTS "telegramUrl" TEXT;

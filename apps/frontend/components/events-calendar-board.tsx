@@ -341,7 +341,7 @@ export function EventsCalendarBoard({
 
                 <div className='event-action-row mt-5 flex flex-wrap items-center gap-3'>
                   <a
-                    href={selectedEvent.sourceUrl || '#'}
+                    href={selectedEvent.registrationUrl || selectedEvent.sourceUrl || '#'}
                     target='_blank'
                     rel='noreferrer'
                     className='mint-btn pressable inline-flex min-w-[260px] items-center justify-between rounded-[18px] px-5 py-3 text-sm font-semibold text-black'
@@ -367,7 +367,7 @@ export function EventsCalendarBoard({
                   </span>
                   <span className='inline-flex items-center gap-2'>
                     <Globe className='h-4 w-4 text-[#2c8d67]' />
-                    {selectedEvent.format === 'ONLINE' ? 'Онлайн' : 'Очно'}
+                    {selectedEvent.format === 'ONLINE' ? 'Онлайн' : selectedEvent.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
                   </span>
                   <span className='inline-flex items-center gap-2'>
                     <MapPin className='h-4 w-4 text-[#2c8d67]' />

@@ -7,6 +7,7 @@ import { formatLabelMap, statusLabelMap } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { Modal } from './ui/dialog';
 import { Button } from './ui/button';
+import { ReminderButton } from './reminder-button';
 
 function formatMoscowDateTime(value: string) {
   return new Intl.DateTimeFormat('ru-RU', {
@@ -48,10 +49,6 @@ function formatDisplayLabel(value: 'ONLINE' | 'OFFLINE' | 'HYBRID') {
   return 'Онлайн';
 }
 
-function getSourceButtonLabel(url?: string) {
-  return /max\.ru/iu.test(url || '') ? 'MAX-канал' : 'Telegram-канал';
-}
-
 function cleanDescriptionText(value?: string) {
   if (!value) return '';
 
@@ -87,10 +84,7 @@ export function EventModal({
   const status = item.runtimeStatus ?? item.status;
   const displayFormat = resolveDisplayFormat(item);
   const completed = isCompletedStatus(status);
-  const telegramBotDeepLink = process.env.NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK || 'https://t.me/PartnersTogether_bot';
-  const telegramReminderUrl = `${telegramBotDeepLink}?start=afisha_${item.id}`;
-  const sourceUrl = item.sourceUrl || 'https://t.me/ab_afisha_buh';
-  const sourceButtonLabel = getSourceButtonLabel(sourceUrl);
+  const telegramChannelUrl = item.telegramUrl || 'https://t.me/ab_afisha_buh';
   const description = cleanDescriptionText(item.descriptionFull || item.descriptionShort) || 'Описание мероприятия будет добавлено позже.';
 
   return (
@@ -112,12 +106,11 @@ export function EventModal({
           </div>
 
           <div className='event-modal-main-actions mt-6 flex flex-wrap items-center gap-3'>
-            <Button asChild className='event-modal-action-btn event-modal-action-btn-primary'>
-              <a href={telegramReminderUrl} target='_blank' rel='noreferrer'>
-                <BellRing className='h-4 w-4' />
-                Напомнить в Telegram
-              </a>
-            </Button>
+            <ReminderButton
+              event={item}
+              label='Напомнить в Telegram'
+              className='event-modal-action-btn event-modal-action-btn-primary'
+            />
           </div>
         </div>
 
@@ -136,7 +129,7 @@ export function EventModal({
             </Button>
 
             <Button asChild variant='ghost' className='event-modal-action-btn'>
-              <a href={sourceUrl} target='_blank' rel='noreferrer'>
+              <a href={telegramChannelUrl} target='_blank' rel='noreferrer'>
                 <ExternalLink className='h-4 w-4' />
                 Telegram-канал
               </a>

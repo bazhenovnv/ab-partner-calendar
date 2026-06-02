@@ -25,6 +25,8 @@ type ExternalEvent = {
   endAt?: Date;
   location?: string;
   sourceUrl: string;
+  registrationUrl?: string;
+  telegramUrl?: string;
   imageUrl?: string;
   tags?: string[];
   isImportant?: boolean;
@@ -205,19 +207,7 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private deriveFormat(text: string): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
-    const lower = text.toLowerCase();
-    if (lower.includes('гибрид')) return 'HYBRID';
-    if (
-      lower.includes('офлайн') ||
-      lower.includes('оффлайн') ||
-      lower.includes('москва') ||
-      lower.includes('краснодар') ||
-      lower.includes('екатеринбург') ||
-      lower.includes('ростов')
-    ) {
-      return 'OFFLINE';
-    }
-    return 'ONLINE';
+    return this.normalizeFormatByLocation('ONLINE', undefined, text);
   }
 
   private normalizeFormatByLocation(
@@ -225,12 +215,22 @@ export class SourceConnectorsService implements OnModuleInit {
     location: string | undefined,
     text: string,
   ): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
-    const source = `${location || ''}\n${text || ''}`.toLowerCase();
+    const locationText = String(location || '').toLowerCase();
+    const source = `${locationText}\n${text || ''}`.toLowerCase();
+
+    const explicitlyHybrid = /гибрид|hybrid/iu.test(source);
 
     const hasPhysicalAddress =
-      /(санкт-петербург|спб|москва|екатеринбург|краснодар|новосибирск|казань|офис|аудитори|зал|конференц|пространств|бц|бизнес-центр|переул|проспект|улиц|ул\.|дом\b|д\.|строен|корпус|этаж)/iu.test(source);
+      /(санкт-петербург|спб|москва|екатеринбург|краснодар|новосибирск|казань|ярославль|норильск|ростов|офис|аудитори|зал\b|пространств|бизнес-центр|бц\b|переул|проспект|улиц|ул\.|дом\b|д\.|строен|корпус|этаж|шоссе|набережн|площадь)/iu.test(source) &&
+      !/^(онлайн|online)$/iu.test(locationText.trim());
 
+    const hasOnlineFormat =
+      /(онлайн|online|zoom|вебинар|трансляц|подключени|эфир|видеоконференц)/iu.test(source);
+
+    if (explicitlyHybrid || (hasPhysicalAddress && hasOnlineFormat)) return 'HYBRID';
     if (hasPhysicalAddress) return 'OFFLINE';
+    if (hasOnlineFormat) return 'ONLINE';
+
     return format;
   }
 
@@ -590,6 +590,69 @@ export class SourceConnectorsService implements OnModuleInit {
     return undefined;
   }
 
+  private normalizeExternalUrl(value?: string | null): string | null {
+    const safeValue = this.safeTextForDb(value, 1000);
+
+    if (!safeValue) return null;
+
+    try {
+      const parsed = new URL(safeValue);
+
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        return null;
+      }
+
+      return parsed.toString();
+    } catch {
+      return null;
+    }
+  }
+
+  private extractTextUrls(text: string): string[] {
+    const matches = text.match(/https?:\/\/[^\s<>"')]+/giu) ?? [];
+
+    return Array.from(
+      new Set(
+        matches
+          .map((value) => this.normalizeExternalUrl(value))
+          .filter((value): value is string => Boolean(value)),
+      ),
+    );
+  }
+
+  private extractRegistrationUrl(text: string, links: string[]): string | undefined {
+    const lines = this.cleanLines(text);
+    const candidates = Array.from(new Set([...this.extractTextUrls(text), ...links]));
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index];
+
+      if (!/^источник\s*[:：]?/iu.test(line)) continue;
+
+      const inlineUrl = this.extractTextUrls(line)[0];
+      if (inlineUrl) return inlineUrl;
+
+      const nextLineUrl = this.extractTextUrls(lines[index + 1] || '')[0];
+      if (nextLineUrl) return nextLineUrl;
+    }
+
+    return candidates.find(
+      (value) =>
+        !/^https?:\/\/(?:www\.)?max\.ru\//iu.test(value) &&
+        !/^https?:\/\/(?:www\.)?t\.me\//iu.test(value) &&
+        !/\.(?:jpg|jpeg|png|webp|gif|svg)(?:\?|$)/iu.test(value),
+    );
+  }
+
+  private extractTelegramEventUrl(text: string, links: string[]): string | undefined {
+    const candidates = Array.from(new Set([...this.extractTextUrls(text), ...links]));
+
+    return candidates.find(
+      (value) =>
+        /^https?:\/\/(?:www\.)?t\.me\/[^/\s]+\/\d+(?:\?|$)/iu.test(value),
+    );
+  }
+
   private extractMaxImage(attachments: unknown): string | undefined {
     if (!Array.isArray(attachments)) return undefined;
 
@@ -605,16 +668,21 @@ export class SourceConnectorsService implements OnModuleInit {
   }
 
   private extractMaxLinks(text: string, markup: unknown): string[] {
-    if (!Array.isArray(markup)) return [];
+    const links = [...this.extractTextUrls(text)];
 
-    const links: string[] = [];
-    for (const item of markup as any[]) {
-      if (item?.type === 'link' && typeof item.url === 'string' && item.url.trim()) {
-        links.push(item.url.trim());
+    if (Array.isArray(markup)) {
+      for (const item of markup as any[]) {
+        if (item?.type === 'link' && typeof item.url === 'string' && item.url.trim()) {
+          const safeUrl = this.normalizeExternalUrl(item.url.trim());
+
+          if (safeUrl) {
+            links.push(safeUrl);
+          }
+        }
       }
     }
 
-    return Array.from(new Set(links)).filter((url) => !text.includes(url));
+    return Array.from(new Set(links));
   }
 
   private extractMaxSourceUrl(
@@ -695,8 +763,16 @@ export class SourceConnectorsService implements OnModuleInit {
 
       const sourcePostId = postMatch[1].split('/').pop() || postMatch[1];
       const sourceUrl = `${sourceBaseUrl}/${sourcePostId}`;
+      const links = this.extractTextUrls(rawText);
+      const registrationUrl = this.extractRegistrationUrl(rawText, links) || sourceUrl;
       const events = this.parseTelegramPost(rawText, sourcePostId, sourceUrl, importantTag, index);
-      return events.map((item) => ({ ...item, imageUrl: item.imageUrl || postImageUrl }));
+
+      return events.map((item) => ({
+        ...item,
+        telegramUrl: sourceUrl,
+        registrationUrl,
+        imageUrl: item.imageUrl || postImageUrl,
+      }));
     });
   }
 
@@ -763,10 +839,17 @@ export class SourceConnectorsService implements OnModuleInit {
         directSourceCandidates.find((value) => /^https?:\/\/(?:www\.)?t\.me\//iu.test(value));
 
       const sourceUrl = directSourceUrl || (channelUrl.includes('#') ? channelUrl : `${channelUrl}#${encodeURIComponent(externalId)}`);
+      const registrationUrl = this.extractRegistrationUrl(rawText, links);
+      const telegramUrl =
+        this.extractTelegramEventUrl(rawText, links) ||
+        this.config.get<string>('TELEGRAM_CHANNEL_URL', 'https://t.me/ab_afisha_buh');
 
       const events = this.parseTelegramPost(rawTextWithLinks, externalId, sourceUrl, importantTag, index);
+
       return events.map((item) => ({
         ...item,
+        registrationUrl,
+        telegramUrl,
         imageUrl: item.imageUrl || imageUrl,
         tags: Array.from(new Set([...(item.tags || []), 'max'])),
       }));
@@ -880,7 +963,9 @@ export class SourceConnectorsService implements OnModuleInit {
     const category = await this.getDefaultCategory();
     const sourcePostId = this.safeTextForDb(`${connector.id}:${event.externalId}`, 240);
     const eventTitle = this.safeTextForDb(event.title, 180) || 'Импортированное мероприятие';
-    const sourceUrl = this.safeTextForDb(event.sourceUrl, 1000);
+    const sourceUrl = this.normalizeExternalUrl(event.sourceUrl);
+    const registrationUrl = this.normalizeExternalUrl(event.registrationUrl);
+    const telegramUrl = this.normalizeExternalUrl(event.telegramUrl);
     const rawText = this.safeTextForDb(event.description || event.title, 20000);
     const cleanDescription = this.safeTextForDb(this.sanitizeImportedText(event.description || event.title), 12000);
     const eventLocation = this.safeTextForDb(event.location ?? 'Онлайн', 240) || 'Онлайн';
@@ -938,6 +1023,8 @@ export class SourceConnectorsService implements OnModuleInit {
       format: this.normalizeFormatByLocation(event.format ?? 'ONLINE', eventLocation, rawText),
       source: this.getSourceName(connector),
       sourceUrl,
+      registrationUrl,
+      telegramUrl,
       sourcePostId,
       published: true,
       isImportant: Boolean(event.isImportant),
@@ -995,6 +1082,8 @@ export class SourceConnectorsService implements OnModuleInit {
         location: 'Онлайн',
         format: 'ONLINE' as const,
         sourceUrl: null,
+        registrationUrl: null,
+        telegramUrl: null,
         imageUrl: null,
         tags: Array.from(new Set([sourceTag, 'import'])),
       };

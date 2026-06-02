@@ -65,6 +65,8 @@ model Event {
   imageUrl         String?
   source           String?
   sourceUrl        String?
+  registrationUrl  String?
+  telegramUrl      String?
   sourcePostId     String?     @unique
   isImportant      Boolean     @default(false)
   status           EventStatus @default(SCHEDULED)
