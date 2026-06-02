@@ -964,6 +964,10 @@ export class SourceConnectorsService implements OnModuleInit {
     const sourcePostId = this.safeTextForDb(`${connector.id}:${event.externalId}`, 240);
     const eventTitle = this.safeTextForDb(event.title, 180) || 'Импортированное мероприятие';
     const sourceUrl = this.normalizeExternalUrl(event.sourceUrl);
+    const importSourceUrl =
+      sourceUrl ||
+      this.safeTextForDb(event.sourceUrl, 1000) ||
+      'https://t.me/ab_afisha_buh';
     const registrationUrl = this.normalizeExternalUrl(event.registrationUrl);
     const telegramUrl = this.normalizeExternalUrl(event.telegramUrl);
     const rawText = this.safeTextForDb(event.description || event.title, 20000);
@@ -973,7 +977,7 @@ export class SourceConnectorsService implements OnModuleInit {
     await this.prisma.telegramImport.upsert({
       where: { sourcePostId },
       update: {
-        sourceUrl,
+        sourceUrl: importSourceUrl,
         rawText,
         parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
@@ -983,7 +987,7 @@ export class SourceConnectorsService implements OnModuleInit {
       },
       create: {
         sourcePostId,
-        sourceUrl,
+        sourceUrl: importSourceUrl,
         rawText,
         parsedTitle: eventTitle,
         parsedStartAt: event.startAt,
