@@ -1481,3 +1481,45 @@ body [role='dialog'] .event-status-ribbon {
 }
 
 /* === END FINAL EVENT DETAILS MODAL SIZE FIX === */
+
+
+/* === FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
+
+/*
+  Блок выбранного дня увеличен только по высоте.
+  Размер текста и карточек событий не меняется.
+  Пять событий помещаются без скроллинга.
+*/
+
+.page-shell .selected-day-events-panel {
+  min-height: 420px !important;
+  height: 420px !important;
+  max-height: 420px !important;
+
+  overflow: hidden !important;
+}
+
+.page-shell .selected-day-events-list {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  overflow: visible !important;
+  align-content: start !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab {
+  min-height: 54px !important;
+  height: 54px !important;
+  max-height: 54px !important;
+
+  padding: 12px 14px !important;
+}
+
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel {
+  min-height: 860px !important;
+}
+
+/* === END FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
