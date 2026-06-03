@@ -1525,23 +1525,65 @@ body [role='dialog'] .event-status-ribbon {
 /* === END FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
 
 
-/* === FINAL SELECTED DAY EVENTS LEFT ALIGN FIX === */
 
-/* Темы в блоке «СОБЫТИЯ ВЫБРАННОГО ДНЯ» выравниваем по левому краю */
+
+/* === FINAL SELECTED DAY EVENTS TEXT RESTORE FIX === */
+
+/*
+  Восстанавливаем отображение тем в блоке
+  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Служебные span не растягиваем.
+*/
+
 .page-shell .selected-day-events-list .mint-btn,
 .page-shell .selected-day-events-list button,
 .page-shell .selected-day-events-list a {
-  justify-content: flex-start !important;
+  display: flex !important;
   align-items: flex-start !important;
+  justify-content: flex-start !important;
   text-align: left !important;
 }
 
+/* Возвращаем нормальный размер всем внутренним элементам */
 .page-shell .selected-day-events-list .mint-btn span,
 .page-shell .selected-day-events-list button span,
 .page-shell .selected-day-events-list a span {
-  display: block !important;
-  width: 100% !important;
+  width: auto !important;
+  max-width: 100% !important;
+  display: inline !important;
   text-align: left !important;
 }
 
-/* === END FINAL SELECTED DAY EVENTS LEFT ALIGN FIX === */
+/* Текст события занимает доступную ширину */
+.page-shell .selected-day-events-list .mint-btn span:last-child,
+.page-shell .selected-day-events-list button span:last-child,
+.page-shell .selected-day-events-list a span:last-child {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+
+  width: auto !important;
+  max-width: 100% !important;
+
+  color: #000000 !important;
+  background: transparent !important;
+
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+
+  text-align: left !important;
+  line-height: 1.15 !important;
+}
+
+/* Служебные элементы больше не превращаются в полосы */
+.page-shell .selected-day-events-list .mint-btn span:not(:last-child),
+.page-shell .selected-day-events-list button span:not(:last-child),
+.page-shell .selected-day-events-list a span:not(:last-child) {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: max-content !important;
+}
+
+/* === END FINAL SELECTED DAY EVENTS TEXT RESTORE FIX === */
