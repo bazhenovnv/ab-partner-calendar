@@ -1523,3 +1523,25 @@ body [role='dialog'] .event-status-ribbon {
 }
 
 /* === END FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
+
+
+/* === FINAL SELECTED DAY EVENTS LEFT ALIGN FIX === */
+
+/* Темы в блоке «СОБЫТИЯ ВЫБРАННОГО ДНЯ» выравниваем по левому краю */
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list button,
+.page-shell .selected-day-events-list a {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn span,
+.page-shell .selected-day-events-list button span,
+.page-shell .selected-day-events-list a span {
+  display: block !important;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+/* === END FINAL SELECTED DAY EVENTS LEFT ALIGN FIX === */
