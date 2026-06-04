@@ -3021,3 +3021,208 @@ body [role='dialog'] .event-modal-info-row {
 }
 
 /* === END FINAL SELECTED DAY ONE SHARED WINDOW FIX === */
+
+
+/* === FINAL ALL WINDOWS BEVEL SHADOW AND CALENDAR HEIGHT FIX === */
+
+/*
+  Единый стиль видимых окон проекта:
+  - внешняя тень;
+  - светлая верхняя и левая грань;
+  - более тёмная нижняя и правая грань;
+  - лёгкий градиент поверхности.
+
+  Кнопки намеренно не включены в селекторы.
+*/
+
+:root {
+  --ab-window-bg-top: #ffffff;
+  --ab-window-bg-mid: #f8faf9;
+  --ab-window-bg-bottom: #eef2f1;
+  --ab-window-edge-light: #ffffff;
+  --ab-window-edge-dark: #8c9894;
+  --ab-window-outline: #d7dfdc;
+  --ab-window-shadow: 0 8px 16px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.10);
+}
+
+/* ---------------------------------------------------------
+   1. ВИДИМЫЕ ОКНА И ПАНЕЛИ
+--------------------------------------------------------- */
+
+.page-shell,
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .important-events-combined,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-unified-shell,
+.page-shell .dashboard-filters-wrap > .surface-card,
+.page-shell .calendar-left-panel.event-details-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .compact-events-panel,
+.page-shell .compact-event-card,
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .utility-divider,
+body [role='dialog'],
+body [data-dialog-content='true'],
+body [data-radix-dialog-content] {
+  background-color: var(--ab-window-bg-bottom) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--ab-window-bg-top) 0%,
+    var(--ab-window-bg-mid) 48%,
+    var(--ab-window-bg-bottom) 100%
+  ) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-top-color: var(--ab-window-edge-light) !important;
+  border-left-color: var(--ab-window-edge-light) !important;
+  border-right-color: var(--ab-window-edge-dark) !important;
+  border-bottom-color: var(--ab-window-edge-dark) !important;
+
+  outline: 1px solid var(--ab-window-outline) !important;
+  outline-offset: -2px !important;
+
+  box-shadow:
+    var(--ab-window-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -2px 0 rgba(116, 132, 126, 0.16) !important;
+
+  border-radius: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   2. КАЛЕНДАРЬ: ВЫПУКЛЫЙ ЭФФЕКТ У САМОЙ СЕТКИ
+--------------------------------------------------------- */
+
+.page-shell .calendar-days-grid {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #a9b5b1 !important;
+  border-radius: 0 !important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.98),
+    inset -1px -1px 0 rgba(112, 128, 122, 0.18) !important;
+}
+
+.page-shell .day-cell {
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------
+   3. ТЕХНИЧЕСКИЕ ОБОЛОЧКИ КАЛЕНДАРЯ
+   Они не должны превращаться в дополнительные окна.
+--------------------------------------------------------- */
+
+.page-shell .calendar-common-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-panel,
+.page-shell .calendar-top-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------
+   4. ЛЕВАЯ ПАНЕЛЬ ДОЛЖНА ДОХОДИТЬ ДО НИЗА КАЛЕНДАРЯ
+--------------------------------------------------------- */
+
+.page-shell .calendar-common-shell.calendar-unified-shell {
+  align-items: stretch !important;
+}
+
+.page-shell .calendar-left-panel.event-details-panel {
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.page-shell .calendar-left-panel.event-details-panel > div {
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+/* ---------------------------------------------------------
+   5. «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
+   Это нижняя часть общего левого окна, а не отдельное окно.
+--------------------------------------------------------- */
+
+.page-shell .calendar-left-panel .selected-day-events-panel,
+.page-shell .event-details-panel .selected-day-events-panel,
+.page-shell .surface-card.selected-day-events-panel {
+  margin-top: auto !important;
+  padding-top: 18px !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 1px solid #b9c3c0 !important;
+  border-radius: 0 !important;
+
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  overflow: visible !important;
+}
+
+.page-shell .selected-day-events-panel::before,
+.page-shell .selected-day-events-panel::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   6. ПОДВАЛ
+   Внешняя оболочка остаётся прозрачной, карточки внутри выпуклые.
+--------------------------------------------------------- */
+
+.page-shell .platform-footer-shell {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------
+   7. МОДАЛЬНЫЕ ИНФОРМАЦИОННЫЕ БЛОКИ
+--------------------------------------------------------- */
+
+body [data-dialog-content='true'] .event-modal-side,
+body [data-dialog-content='true'] .event-modal-info-row,
+body [role='dialog'] .event-modal-side,
+body [role='dialog'] .event-modal-info-row {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f2f6f4 100%) !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-top-color: #ffffff !important;
+  border-left-color: #ffffff !important;
+  border-right-color: #9ba7a3 !important;
+  border-bottom-color: #9ba7a3 !important;
+  outline: 1px solid #d7dfdc !important;
+  outline-offset: -2px !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -2px 0 rgba(116, 132, 126, 0.12) !important;
+  border-radius: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   8. КНОПКИ НЕ ТРОГАЕМ
+--------------------------------------------------------- */
+
+/* === END FINAL ALL WINDOWS BEVEL SHADOW AND CALENDAR HEIGHT FIX === */
