@@ -22,6 +22,7 @@ function cleanDescriptionText(value?: string) {
     .map((line) => line.trim())
     .filter(Boolean)
     .filter((line) => !/^(Источник|Телеграм|Telegram|MAX|Зарегистрироваться|Регистрация)\b/i.test(line))
+    .filter((line) => !/^(?:когда|где|место|адрес|формат|дата(?:\s+и\s+время)?)\s*[:：]/i.test(line))
     .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/i.test(line))
     .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/i.test(line))
     .filter((line) => !/^\(?\??\)?$/.test(line))
