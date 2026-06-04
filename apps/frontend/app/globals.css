@@ -2171,3 +2171,141 @@ body [role='dialog'] .event-modal-info-row {
 }
 
 /* === END FINAL MERGE SELECTED DAY PANELS AND RIGHT TIME FIX === */
+
+
+/* === FINAL SHARED EVENT WINDOW PADDING FIX === */
+
+/*
+  Верхняя карточка выбранного события и список событий дня
+  используют один общий белый фон.
+  Размер внешнего окна не меняется.
+*/
+
+.page-shell .calendar-left-panel.event-details-panel,
+.page-shell .event-details-panel.calendar-left-panel,
+.page-shell .event-details-panel {
+  box-sizing: border-box !important;
+
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+
+  padding: 20px !important;
+}
+
+/*
+  Убираем остаточный фон, верхнюю линию, рамку и тень
+  только у внутреннего блока «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+*/
+
+.page-shell .calendar-left-panel .selected-day-events-panel,
+.page-shell .event-details-panel .selected-day-events-panel,
+.page-shell .surface-card.selected-day-events-panel {
+  box-sizing: border-box !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  margin-top: 28px !important;
+
+  padding: 0 !important;
+
+  overflow: visible !important;
+}
+
+/*
+  Убираем возможную служебную линию между двумя частями окна.
+*/
+
+.page-shell .selected-day-events-panel::before,
+.page-shell .selected-day-events-panel::after,
+.page-shell .calendar-left-panel .selected-day-events-panel::before,
+.page-shell .calendar-left-panel .selected-day-events-panel::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/*
+  Заголовок нижнего блока выравниваем по общей линии слева.
+*/
+
+.page-shell .selected-day-events-title {
+  margin: 0 0 14px 0 !important;
+  padding: 0 !important;
+
+  text-align: left !important;
+}
+
+/*
+  Список использует всю доступную ширину общего окна.
+*/
+
+.page-shell .selected-day-events-list {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/*
+  Кнопки списка остаются скруглёнными.
+  Добавляем одинаковый внутренний отступ текста.
+*/
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+
+  justify-content: flex-start !important;
+}
+
+/*
+  Название события слева, время строго справа.
+*/
+
+.page-shell .selected-day-events-list .selected-day-event-title {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+
+  margin: 0 !important;
+
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time {
+  flex: 0 0 auto !important;
+
+  margin-left: auto !important;
+  padding-left: 16px !important;
+
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+/* === END FINAL SHARED EVENT WINDOW PADDING FIX === */
