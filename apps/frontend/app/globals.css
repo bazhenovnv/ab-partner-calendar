@@ -2835,3 +2835,189 @@ body [role='dialog'] .event-modal-info-row {
 }
 
 /* === END FINAL AUDITED SELECTED DAY SHARED CARD GRID FIX === */
+
+
+/* === FINAL SELECTED DAY ONE SHARED WINDOW FIX === */
+
+/*
+  Верхняя карточка выбранного события и нижний список
+  используют одно общее окно.
+  Размер внешней панели не меняется.
+*/
+
+.page-shell .calendar-left-panel.event-details-panel,
+.page-shell .event-details-panel.calendar-left-panel,
+.page-shell .event-details-panel {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+
+  padding: 20px !important;
+
+  background-color: #ffffff !important;
+  background-image: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fbfcfc 55%,
+    #f3f6f5 100%
+  ) !important;
+
+  box-shadow: none !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+
+  border-top-color: #ffffff !important;
+  border-left-color: #ffffff !important;
+  border-right-color: #8f9a97 !important;
+  border-bottom-color: #8f9a97 !important;
+
+  outline: 1px solid #d7dfdc !important;
+  outline-offset: -2px !important;
+}
+
+/*
+  Убираем отдельное окно у блока
+  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Оставляем только горизонтальную линию.
+*/
+
+.page-shell .calendar-left-panel .selected-day-events-panel,
+.page-shell .event-details-panel .selected-day-events-panel,
+.page-shell .surface-card.selected-day-events-panel {
+  box-sizing: border-box !important;
+
+  width: calc(100% + 40px) !important;
+  max-width: calc(100% + 40px) !important;
+
+  margin-top: 28px !important;
+  margin-right: -20px !important;
+  margin-bottom: 0 !important;
+  margin-left: -20px !important;
+
+  padding-top: 18px !important;
+  padding-right: 20px !important;
+  padding-bottom: 0 !important;
+  padding-left: 20px !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 1px solid #b9c3c0 !important;
+
+  border-radius: 0 !important;
+
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  overflow: visible !important;
+}
+
+/*
+  Убираем возможные псевдоэлементы,
+  которые создавали остаточный фон или вторую рамку.
+*/
+
+.page-shell .selected-day-events-panel::before,
+.page-shell .selected-day-events-panel::after {
+  content: none !important;
+  display: none !important;
+}
+
+/*
+  Заголовок нижней половины:
+  одинаковый отступ слева с верхним текстом.
+*/
+
+.page-shell .selected-day-events-title {
+  margin: 0 0 14px 0 !important;
+  padding: 0 !important;
+
+  text-align: left !important;
+}
+
+/*
+  Список занимает всю ширину нижней половины.
+*/
+
+.page-shell .selected-day-events-list {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/*
+  Название события остаётся слева,
+  время начала — строго справа.
+*/
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+
+  padding-right: 16px !important;
+  padding-left: 16px !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-title {
+  display: block !important;
+
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+
+  margin: 0 !important;
+
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  flex: 0 0 auto !important;
+
+  width: auto !important;
+  max-width: none !important;
+
+  margin-left: auto !important;
+  padding-left: 16px !important;
+
+  color: #f29f59 !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time svg {
+  color: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+/* === END FINAL SELECTED DAY ONE SHARED WINDOW FIX === */
