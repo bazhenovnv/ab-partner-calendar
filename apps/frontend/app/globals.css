@@ -1967,3 +1967,88 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL REMOVE SELECTED DAY INNER SHELL FIX === */
+
+
+/* === FINAL REMOVE FOOTER SHELL AND PANEL SHADOWS FIX === */
+
+/* ---------------------------------------------------------
+   1. ПОДВАЛ «ВОЗМОЖНОСТИ С ПЛАТФОРМОЙ»
+   Убираем только общий внешний фон.
+   Внутренние карточки возможностей сохраняются.
+--------------------------------------------------------- */
+
+.page-shell .platform-footer-shell {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   2. УБИРАЕМ ТЕНИ У ОКОН И ПАНЕЛЕЙ
+   Кнопки намеренно не включены в селекторы.
+--------------------------------------------------------- */
+
+.page-shell,
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .highlight-hero-joined,
+.page-shell .important-events-combined,
+.page-shell .important-events-shell,
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel,
+.page-shell .selected-day-panel,
+.page-shell .calendar-common-shell,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-panel,
+.page-shell .compact-events-panel,
+.page-shell .compact-event-card,
+.page-shell .utility-divider,
+.page-shell .platform-footer-shell,
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .calendar-day-popover,
+.calendar-day-popover-portal,
+body [data-radix-dialog-content],
+body [role='dialog'],
+body [data-dialog-content='true'],
+body [data-dialog-content='true'] .event-modal-side,
+body [data-dialog-content='true'] .event-modal-info-row,
+body [role='dialog'] .event-modal-side,
+body [role='dialog'] .event-modal-info-row {
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------
+   3. СТРАХОВКА ДЛЯ ФОНОВЫХ КОНТЕЙНЕРОВ TAILWIND
+   button, ссылки-кнопки и role=button исключены.
+--------------------------------------------------------- */
+
+.page-shell :is(div, section, article, aside, header, footer)[class*='shadow']:not(button):not(a):not([role='button']) {
+  box-shadow: none !important;
+}
+
+/*
+  Кнопки не трогаем:
+  их box-shadow остаётся из существующих правил проекта.
+*/
+
+/* === END FINAL REMOVE FOOTER SHELL AND PANEL SHADOWS FIX === */
