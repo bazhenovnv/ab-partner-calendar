@@ -1848,3 +1848,51 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL SQUARE PANELS COMPACT METRICS EVENT TEXT FIX === */
+
+
+/* === FINAL SELECTED DAY EVENTS SHARED BACKGROUND FIX === */
+
+/*
+  Убираем отдельную внутреннюю карточку блока
+  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Список и верхнее описание события используют один общий фон.
+*/
+
+.page-shell .selected-day-events-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+
+  overflow: visible !important;
+}
+
+/* Заголовок сохраняем, но без отдельного окна вокруг списка */
+.page-shell .selected-day-events-title {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Список использует ширину общего окна */
+.page-shell .selected-day-events-list {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* === END FINAL SELECTED DAY EVENTS SHARED BACKGROUND FIX === */
