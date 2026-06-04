@@ -1896,3 +1896,74 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL SELECTED DAY EVENTS SHARED BACKGROUND FIX === */
+
+
+/* === FINAL REMOVE SELECTED DAY INNER SHELL FIX === */
+
+/*
+  Убираем отдельную внутреннюю оболочку блока
+  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Верхняя карточка события и список теперь используют единый фон.
+*/
+
+/* Сам блок выбранного дня */
+.page-shell .calendar-left-panel .selected-day-events-panel,
+.page-shell .event-details-panel .selected-day-events-panel,
+.page-shell .surface-card.selected-day-events-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+
+  overflow: visible !important;
+}
+
+/* Родительская оболочка, если selected-day-events-panel вложен внутрь неё */
+.page-shell .calendar-left-panel > div:has(> .selected-day-events-panel),
+.page-shell .event-details-panel > div:has(> .selected-day-events-panel),
+.page-shell .calendar-left-panel .surface-card:has(> .selected-day-events-panel),
+.page-shell .event-details-panel .surface-card:has(> .selected-day-events-panel) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+
+  overflow: visible !important;
+}
+
+/* Заголовок и список сохраняют текущие размеры */
+.page-shell .selected-day-events-title {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.page-shell .selected-day-events-list {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* === END FINAL REMOVE SELECTED DAY INNER SHELL FIX === */
