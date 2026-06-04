@@ -322,9 +322,9 @@ export function EventsCalendarBoard({
   return (
     <>
       <section className='calendar-common-shell calendar-unified-shell grid items-start gap-3 xl:grid-cols-[minmax(620px,1.02fr)_minmax(540px,0.98fr)]'>
-      <div className='calendar-left-panel event-details-panel surface-card self-start overflow-hidden bg-white h-full min-h-[760px]'>
-        <div className='flex h-full min-h-[760px] flex-col overflow-visible px-6 py-5'>
-          <div className='flex-1'>
+      <div className='calendar-left-panel event-details-panel selected-day-shared-card surface-card self-start overflow-hidden bg-white h-full min-h-[760px]'>
+        <div className='selected-day-shared-layout flex h-full min-h-[760px] flex-col overflow-visible px-6 py-5'>
+          <div className='selected-day-primary-pane flex-1'>
             {selectedEvent ? (
               <>
                 <div className='mb-4'>
@@ -384,8 +384,8 @@ export function EventsCalendarBoard({
             )}
           </div>
 
-          <div className='selected-day-events-panel mt-6 min-h-[330px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
-            <div className='mb-4 text-[18px] font-semibold uppercase tracking-[0.12em] text-[#f29f59]'>
+          <div className='selected-day-events-panel selected-day-secondary-pane mt-6 min-h-[330px] shrink-0 overflow-hidden rounded-[18px] border border-[#7CD8B3] bg-white p-4'>
+            <div className='selected-day-events-title mb-4 text-[18px] font-semibold uppercase tracking-[0.12em] text-[#f29f59]'>
               СОБЫТИЯ ВЫБРАННОГО ДНЯ
             </div>
 

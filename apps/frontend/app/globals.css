@@ -2438,130 +2438,400 @@ body [role='dialog'] .event-modal-info-row {
 /* === END FINAL FULL MAX TEXT AND SIMPLE SELECTED DAY DIVIDER === */
 
 
-
-
-/* === FINAL AUDITED BEVELED WINDOW SURFACES FIX === */
+/* === FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
 
 /*
-  Единый безопасный стиль окон после аудита разметки.
-  Только контейнеры окон и панелей: кнопки, календарные ячейки,
-  круглые иконки и логика компонентов не затрагиваются.
+  Окна и панели получают эффект выпуклой поверхности
+  без box-shadow.
+  Кнопки, ссылки-кнопки и круглые элементы не затрагиваются.
 */
 
 :root {
-  --window-face-top: #ffffff;
-  --window-face-middle: #fafcfb;
-  --window-face-bottom: #eef2f1;
-  --window-edge-light: #ffffff;
-  --window-edge-dark: #7d8985;
-  --window-inner-line: #d8e0dd;
+  --panel-bg-top: #ffffff;
+  --panel-bg-bottom: #f1f4f3;
+
+  --panel-edge-light: #ffffff;
+  --panel-edge-mid: #c8d1ce;
+  --panel-edge-dark: #7e8985;
+
+  --panel-outline: #dce4e1;
 }
 
-/* Видимые окна: без теней, с выпуклой гранью. */
+/* ---------------------------------------------------------
+   1. ОБЩИЕ ОКНА ПРОЕКТА
+--------------------------------------------------------- */
+
 .page-shell,
 .page-shell .site-header-panel,
 .page-shell .surface-card,
 .page-shell .metric-card,
 .page-shell .important-events-combined,
+.page-shell .important-events-shell,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .calendar-common-shell,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel,
 .page-shell .compact-events-panel,
 .page-shell .compact-event-card,
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-bottom-panel,
-.page-shell .utility-divider,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-panel,
+.page-shell .platform-footer-shell,
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
 body [role='dialog'],
 body [data-dialog-content='true'],
-body [data-radix-dialog-content],
+body [data-radix-dialog-content] {
+  box-shadow: none !important;
+
+  background-color: var(--panel-bg-bottom) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--panel-bg-top) 0%,
+    #fafcfb 28%,
+    var(--panel-bg-bottom) 100%
+  ) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+
+  border-top-color: var(--panel-edge-light) !important;
+  border-left-color: var(--panel-edge-light) !important;
+  border-right-color: var(--panel-edge-dark) !important;
+  border-bottom-color: var(--panel-edge-dark) !important;
+
+  outline: 1px solid var(--panel-outline) !important;
+  outline-offset: -2px !important;
+}
+
+/* ---------------------------------------------------------
+   2. ВНУТРЕННИЕ ИНФОРМАЦИОННЫЕ БЛОКИ МОДАЛЬНЫХ ОКОН
+--------------------------------------------------------- */
+
 body [data-dialog-content='true'] .event-modal-side,
 body [data-dialog-content='true'] .event-modal-info-row,
 body [role='dialog'] .event-modal-side,
 body [role='dialog'] .event-modal-info-row {
   box-shadow: none !important;
-  background-color: var(--window-face-bottom) !important;
+
+  background-color: #ffffff !important;
   background-image: linear-gradient(
     180deg,
-    var(--window-face-top) 0%,
-    var(--window-face-middle) 42%,
-    var(--window-face-bottom) 100%
+    #ffffff 0%,
+    #f5f8f7 100%
   ) !important;
+
   border-style: solid !important;
   border-width: 1px !important;
-  border-top-color: var(--window-edge-light) !important;
-  border-left-color: var(--window-edge-light) !important;
-  border-right-color: var(--window-edge-dark) !important;
-  border-bottom-color: var(--window-edge-dark) !important;
-  outline: 1px solid var(--window-inner-line) !important;
+
+  border-top-color: #ffffff !important;
+  border-left-color: #ffffff !important;
+  border-right-color: #9da9a5 !important;
+  border-bottom-color: #9da9a5 !important;
+
+  outline: 1px solid #dce4e1 !important;
   outline-offset: -2px !important;
-  border-radius: 0 !important;
 }
 
-/* Служебные обёртки остаются прозрачными. */
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-common-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .right-calendar-shell,
-.page-shell .calendar-panel,
-.page-shell .important-events-shell,
-.page-shell .highlight-hero-joined,
-.page-shell .platform-footer-shell,
-.page-shell .platform-footer-shell > .surface-card,
-.page-shell .selected-day-events-panel,
-.page-shell .selected-day-events-list {
+/* ---------------------------------------------------------
+   3. БЛОК «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
+   Оставляем общий фон и только линию-разделитель.
+--------------------------------------------------------- */
+
+.page-shell .selected-day-events-panel {
   box-shadow: none !important;
+
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+
+  border: 0 !important;
+  border-top: 1px solid #b9c3c0 !important;
+
   outline: 0 !important;
 }
 
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-common-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .right-calendar-shell,
-.page-shell .calendar-panel,
-.page-shell .important-events-shell,
-.page-shell .highlight-hero-joined,
-.page-shell .platform-footer-shell,
-.page-shell .platform-footer-shell > .surface-card,
-.page-shell .selected-day-events-list {
+/* ---------------------------------------------------------
+   4. ПОДВАЛ
+   Общая внешняя оболочка остаётся прозрачной.
+--------------------------------------------------------- */
+
+.page-shell .platform-footer-shell {
+  box-shadow: none !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
   border: 0 !important;
+  outline: 0 !important;
 }
 
-/* Блок выбранного дня: единый фон с верхней карточкой, только разделитель. */
-.page-shell .selected-day-events-panel {
+/* ---------------------------------------------------------
+   5. СТРАХОВКА:
+   УБИРАЕМ ТЕНИ У КОНТЕЙНЕРОВ,
+   НО НЕ ТРОГАЕМ КНОПКИ
+--------------------------------------------------------- */
+
+.page-shell :is(
+  div,
+  section,
+  article,
+  aside,
+  header,
+  footer
+)[class*='shadow']:not(button):not(a):not([role='button']) {
+  box-shadow: none !important;
+}
+
+/*
+  Кнопки намеренно исключены.
+  Их существующие тени и скругления сохраняются.
+*/
+
+/* === END FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
+
+/* === FINAL AUDITED SELECTED DAY SHARED CARD GRID FIX === */
+
+/*
+  Нижняя рабочая зона остаётся в единой сетке:
+  слева — общее окно выбранного события и списка дня,
+  справа — календарь фиксированной ширины.
+*/
+@media (min-width: 1280px) {
+  .page-shell .calendar-common-shell.calendar-unified-shell {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 540px !important;
+    gap: 12px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .page-shell .calendar-common-shell.calendar-unified-shell > .selected-day-shared-card,
+  .page-shell .calendar-common-shell.calendar-unified-shell > .right-calendar-shell {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .page-shell .calendar-common-shell.calendar-unified-shell > .right-calendar-shell {
+    width: 540px !important;
+    min-width: 540px !important;
+    max-width: 540px !important;
+  }
+}
+
+/*
+  Одно общее выпуклое окно без внешней тени.
+  Эффект формируется только градиентом и светотеневыми гранями.
+*/
+.page-shell .selected-day-shared-card {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+
+  min-height: 760px !important;
+
+  background-color: #f1f4f3 !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fafcfb 28%, #f1f4f3 100%) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-top-color: #ffffff !important;
+  border-left-color: #ffffff !important;
+  border-right-color: #7e8985 !important;
+  border-bottom-color: #7e8985 !important;
+
+  outline: 1px solid #dce4e1 !important;
+  outline-offset: -2px !important;
+
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+/*
+  Две равные половины внутри одного общего окна.
+*/
+.page-shell .selected-day-shared-card > .selected-day-shared-layout {
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 0 !important;
+
+  box-sizing: border-box !important;
+  height: 760px !important;
+  min-height: 760px !important;
+
+  padding: 20px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .selected-day-primary-pane {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: auto !important;
+}
+
+/*
+  Нижняя половина больше не является отдельной карточкой.
+  Между половинами остаётся только тонкий разделитель.
+*/
+.page-shell .selected-day-secondary-pane,
+.page-shell .calendar-left-panel .selected-day-secondary-pane,
+.page-shell .event-details-panel .selected-day-secondary-pane,
+.page-shell .surface-card.selected-day-secondary-pane {
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 18px 0 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
   border: 0 !important;
   border-top: 1px solid #b9c3c0 !important;
   border-radius: 0 !important;
-}
 
-/* Внутренние белые области: тени убраны, структура не меняется. */
-.page-shell .important-events-copy-panel,
-.page-shell .important-events-text-panel,
-.page-shell .highlight-hero-joined > .grid > div:last-child,
-.page-shell .highlight-hero-joined > div > div:last-child,
-.page-shell .calendar-days-grid,
-.page-shell .calendar-days-grid > div,
-.page-shell .calendar-days-grid .day-cell,
-.page-shell .day-cell,
-.page-shell .calendar-day-popover {
-  box-shadow: none !important;
-}
-
-/* Tailwind-контейнеры: снимаем только тени окон. Кнопки исключены. */
-.page-shell :is(div, section, article, aside, header, footer)[class*='shadow']:not(button):not(a):not([role='button']) {
-  box-shadow: none !important;
-}
-
-/* Кнопки не меняем. */
-.page-shell button,
-.page-shell a.mint-btn,
-.page-shell a.inline-flex,
-.page-shell [role='button'],
-.page-shell .pressable,
-.page-shell .mint-btn,
-[role='dialog'] button,
-[role='dialog'] a {
   outline: 0 !important;
+  box-shadow: none !important;
+
+  overflow: hidden !important;
 }
 
-/* === END FINAL AUDITED BEVELED WINDOW SURFACES FIX === */
+.page-shell .selected-day-secondary-pane::before,
+.page-shell .selected-day-secondary-pane::after {
+  content: none !important;
+  display: none !important;
+}
+
+.page-shell .selected-day-events-title {
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  overflow: visible !important;
+}
+
+/*
+  Строки списка сохраняют вид кнопок.
+  Название остаётся слева, время фиксируется у правого края.
+*/
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+
+  min-height: 36px !important;
+  height: auto !important;
+  max-height: none !important;
+
+  padding: 7px 12px !important;
+  gap: 8px !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-title {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+
+  margin-left: auto !important;
+  padding-left: 12px !important;
+
+  color: #f29f59 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  text-align: right !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time svg {
+  color: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+@media (max-width: 1279px) {
+  .page-shell .selected-day-shared-card > .selected-day-shared-layout {
+    height: auto !important;
+    min-height: 0 !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .page-shell .selected-day-primary-pane {
+    overflow: visible !important;
+  }
+
+  .page-shell .selected-day-secondary-pane {
+    margin-top: 24px !important;
+  }
+}
+
+/* === END FINAL AUDITED SELECTED DAY SHARED CARD GRID FIX === */
