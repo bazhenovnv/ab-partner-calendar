@@ -33,6 +33,22 @@ function parseReminderOffset(value: string) {
   return 0;
 }
 
+
+function formatMoscowDateTime(value: Date): string {
+  return new Intl.DateTimeFormat('ru-RU', {
+    timeZone: 'Europe/Moscow',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(value);
+}
+
+function getReminderSourceUrl(event: { sourceUrl?: string | null }): string {
+  return String(event.sourceUrl || 'https://ab-event.pro/').trim();
+}
+
 @Injectable()
 export class TelegramService implements OnModuleInit {
   private readonly logger = new Logger(TelegramService.name);
@@ -256,7 +272,7 @@ export class TelegramService implements OnModuleInit {
 
     await bot.sendMessage(
       chatId,
-      `Вы можете выбрать несколько временных периодов для напоминания.\n\n${event.title}\n${event.startAt.toLocaleString('ru-RU')}\n\nНажимайте на варианты, чтобы поставить или снять галочку. Затем нажмите «Готово».`,
+      `Вы можете выбрать несколько временных периодов для напоминания.\n\n${event.title}\n${formatMoscowDateTime(event.startAt)}\n\nНажимайте на варианты, чтобы поставить или снять галочку. Затем нажмите «Готово».`,
       { reply_markup: { inline_keyboard: this.reminderKeyboard(event.id, this.reminderSelections.get(key) || new Set()) } },
     );
   }
@@ -344,7 +360,7 @@ export class TelegramService implements OnModuleInit {
       .join('\n');
 
     if (query.message) {
-      await bot.sendMessage(query.message.chat.id, `Готово. Напоминания добавлены:\n${labels}\n\nНапоминание о мероприятии\n\n${event.title}\n${event.startAt.toLocaleString('ru-RU')}\n${event.format === 'ONLINE' ? 'Онлайн' : event.location}`);
+      await bot.sendMessage(query.message.chat.id, `Готово. Напоминания добавлены:\n${labels}\n\nНапоминание о мероприятии\n\n${event.title}\n${formatMoscowDateTime(event.startAt)}\n${event.format === 'ONLINE' ? 'Онлайн' : event.location}`);
     }
   }
 
@@ -537,7 +553,7 @@ export class TelegramService implements OnModuleInit {
       try {
         await this.bot.sendMessage(
           chatId,
-          `Напоминание о мероприятии\n\n${escapeHtml(reminder.event.title)}\n${reminder.event.startAt.toLocaleString('ru-RU')}\n${reminder.event.format === 'ONLINE' ? 'Онлайн' : reminder.event.location}`,
+          `Напоминание о мероприятии\n\n${escapeHtml(reminder.event.title)}\n${formatMoscowDateTime(reminder.event.startAt)}\n${reminder.event.format === 'ONLINE' ? 'Онлайн' : reminder.event.location}\n\nИсточник: ${escapeHtml(getReminderSourceUrl(reminder.event))}`,
           { parse_mode: 'HTML', disable_web_page_preview: true },
         );
         await this.prisma.reminder.update({ where: { id: reminder.id }, data: { isActive: false, sentAt: new Date() } });
