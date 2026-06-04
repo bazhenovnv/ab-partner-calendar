@@ -401,8 +401,13 @@ export function EventsCalendarBoard({
                     }`}
                   >
                     <span className={`mt-[3px] h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                    <span className='min-w-0 whitespace-normal break-words text-left'>
+                    <span className='min-w-0 flex-1 whitespace-normal break-words text-left'>
                       {index + 1}. {event.title}
+                    </span>
+
+                    <span className='selected-day-event-time ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-none text-black'>
+                      <Clock3 className='h-3.5 w-3.5 text-[#2c8d67]' />
+                      {formatTime(event.startAt)}
                     </span>
                   </button>
                 ))}

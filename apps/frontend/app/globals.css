@@ -1665,3 +1665,186 @@ body [role='dialog'] .event-status-ribbon {
 }
 
 /* === END FINAL SITE WIDTH AND IMPORTANT TEXT BACKGROUND FIX === */
+
+
+/* === FINAL SQUARE PANELS COMPACT METRICS EVENT TEXT FIX === */
+
+/* ---------------------------------------------------------
+   1. ВАЖНЫЕ СОБЫТИЯ
+   Текст использует всю доступную ширину.
+   При переполнении отображается многоточие.
+--------------------------------------------------------- */
+
+.page-shell .important-event-description {
+  display: -webkit-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  max-height: calc(1.75rem * 6) !important;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 6 !important;
+
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.page-shell .highlight-hero-joined > div > div:last-of-type {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* ---------------------------------------------------------
+   2. СЧЁТЧИКИ
+   Только уменьшаем высоту карточек.
+   Иконки и текст сохраняют текущий размер.
+--------------------------------------------------------- */
+
+.page-shell .metrics-grid .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .metric-card {
+  min-height: 56px !important;
+  height: auto !important;
+  padding: 7px 12px !important;
+}
+
+.page-shell .metrics-grid {
+  gap: 8px !important;
+}
+
+/* ---------------------------------------------------------
+   3. КНОПКА «СЕГОДНЯ»
+   Убираем только жирное начертание.
+--------------------------------------------------------- */
+
+.page-shell .calendar-top-panel .mint-btn--sm,
+.page-shell .calendar-top-panel .mint-btn--sm *,
+.page-shell .calendar-top-panel button.mint-btn--sm {
+  font-weight: 500 !important;
+}
+
+/* ---------------------------------------------------------
+   4. СОБЫТИЯ ВЫБРАННОГО ДНЯ
+   Компактные строки, название слева, время справа.
+--------------------------------------------------------- */
+
+.page-shell .selected-day-events-list {
+  gap: 8px !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  min-height: 36px !important;
+  height: auto !important;
+  max-height: none !important;
+
+  padding: 7px 10px !important;
+  gap: 8px !important;
+
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn span,
+.page-shell .selected-day-events-list button span {
+  width: auto !important;
+  max-width: 100% !important;
+  text-align: left !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+
+  margin-left: auto !important;
+
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+/* ---------------------------------------------------------
+   5. ОКНА БЕЗ СКРУГЛЕНИЙ
+   Кнопки, ссылки-кнопки, круглые иконки и даты не трогаем.
+--------------------------------------------------------- */
+
+.page-shell,
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .important-events-combined,
+.page-shell .important-events-shell,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .calendar-left-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel,
+.page-shell .platform-footer-shell,
+.page-shell .utility-divider,
+.page-shell .compact-event-card,
+body [role='dialog'],
+body [data-radix-dialog-content],
+body [data-dialog-content='true'] {
+  border-radius: 0 !important;
+  clip-path: none !important;
+}
+
+/*
+  Дополнительная страховка для фоновых контейнеров Tailwind.
+  button и a здесь намеренно отсутствуют.
+*/
+
+.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='border']:not(.day-cell):not([class*='rounded-full']):not(.calendar-day-popover):not(.calendar-day-popover-portal) {
+  border-radius: 0 !important;
+  clip-path: none !important;
+}
+
+/*
+  Кнопки сохраняют скругления.
+*/
+
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell [role='button'],
+.page-shell .pressable,
+.page-shell .mint-btn,
+[role='dialog'] button,
+[role='dialog'] a {
+  border-radius: 18px !important;
+}
+
+/*
+  Круглые элементы остаются круглыми:
+  даты важных событий, иконки, стрелки, точки.
+*/
+
+.page-shell [class*='rounded-full'],
+.page-shell .important-date-chip,
+.page-shell .icon-chip,
+.page-shell .metric-icon,
+.page-shell .day-cell span[class*='rounded-full'] {
+  border-radius: 999px !important;
+}
+
+/* === END FINAL SQUARE PANELS COMPACT METRICS EVENT TEXT FIX === */

@@ -204,7 +204,7 @@ export function HighlightCarousel({
               </span>
             </div>
 
-            <p className='mt-6 max-w-2xl whitespace-pre-line text-[16px] leading-7 text-slate-700'>
+            <p className='important-event-description mt-6 max-w-none whitespace-pre-line text-[16px] leading-7 text-slate-700'>
               {cleanDescriptionText(item.descriptionShort || item.descriptionFull)}
             </p>
 
