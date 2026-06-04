@@ -1587,3 +1587,81 @@ body [role='dialog'] .event-status-ribbon {
 }
 
 /* === END FINAL SELECTED DAY EVENTS TEXT RESTORE FIX === */
+
+
+/* === FINAL SITE WIDTH AND IMPORTANT TEXT BACKGROUND FIX === */
+
+/*
+  Расширяем только рабочую область сайта.
+  Шрифты, кнопки, логотип и календарь сохраняют текущие размеры.
+*/
+
+.page-shell {
+  width: min(1584px, calc(100vw - 56px)) !important;
+  max-width: 1584px !important;
+}
+
+/*
+  Витрина важных событий:
+  картинка сохраняет прежнюю ширину,
+  дополнительное место получает текстовая панель справа.
+*/
+
+@media (min-width: 1280px) {
+  .page-shell .highlight-hero-joined > .grid {
+    grid-template-columns: minmax(0, 620px) minmax(0, 1fr) !important;
+  }
+}
+
+/* Правая текстовая панель важных событий снова белая */
+.page-shell .highlight-hero-joined > .grid > div:nth-of-type(2),
+.page-shell .highlight-hero-joined > div > div:last-of-type {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*
+  Календарь:
+  правая часть остаётся прежнего размера.
+  Расширяется только левое текстовое окно выбранного дня.
+*/
+
+@media (min-width: 1280px) {
+  .page-shell .calendar-common-shell.calendar-unified-shell {
+    grid-template-columns: minmax(0, 1fr) 540px !important;
+  }
+
+  .page-shell .calendar-right-stack,
+  .page-shell .right-calendar-shell {
+    width: 540px !important;
+    min-width: 540px !important;
+    max-width: 540px !important;
+  }
+}
+
+/* Текстовые области используют добавленную ширину */
+.page-shell .event-details-panel,
+.page-shell .calendar-left-panel,
+.page-shell .compact-events-panel,
+.page-shell .compact-event-card,
+.page-shell .important-events-unified {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* На небольших экранах сохраняем адаптивную вёрстку */
+@media (max-width: 1279px) {
+  .page-shell {
+    width: min(100%, calc(100vw - 28px)) !important;
+    max-width: calc(100vw - 28px) !important;
+  }
+
+  .page-shell .calendar-right-stack,
+  .page-shell .right-calendar-shell {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL SITE WIDTH AND IMPORTANT TEXT BACKGROUND FIX === */
