@@ -2436,3 +2436,163 @@ body [role='dialog'] .event-modal-info-row {
 }
 
 /* === END FINAL FULL MAX TEXT AND SIMPLE SELECTED DAY DIVIDER === */
+
+
+/* === FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
+
+/*
+  Окна и панели получают эффект выпуклой поверхности
+  без box-shadow.
+  Кнопки, ссылки-кнопки и круглые элементы не затрагиваются.
+*/
+
+:root {
+  --panel-bg-top: #ffffff;
+  --panel-bg-bottom: #f1f4f3;
+
+  --panel-edge-light: #ffffff;
+  --panel-edge-mid: #c8d1ce;
+  --panel-edge-dark: #7e8985;
+
+  --panel-outline: #dce4e1;
+}
+
+/* ---------------------------------------------------------
+   1. ОБЩИЕ ОКНА ПРОЕКТА
+--------------------------------------------------------- */
+
+.page-shell,
+.page-shell .site-header-panel,
+.page-shell .surface-card,
+.page-shell .metric-card,
+.page-shell .important-events-combined,
+.page-shell .important-events-shell,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .calendar-common-shell,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel,
+.page-shell .compact-events-panel,
+.page-shell .compact-event-card,
+.page-shell .right-calendar-shell,
+.page-shell .calendar-panel,
+.page-shell .platform-footer-shell,
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+body [role='dialog'],
+body [data-dialog-content='true'],
+body [data-radix-dialog-content] {
+  box-shadow: none !important;
+
+  background-color: var(--panel-bg-bottom) !important;
+  background-image: linear-gradient(
+    180deg,
+    var(--panel-bg-top) 0%,
+    #fafcfb 28%,
+    var(--panel-bg-bottom) 100%
+  ) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+
+  border-top-color: var(--panel-edge-light) !important;
+  border-left-color: var(--panel-edge-light) !important;
+  border-right-color: var(--panel-edge-dark) !important;
+  border-bottom-color: var(--panel-edge-dark) !important;
+
+  outline: 1px solid var(--panel-outline) !important;
+  outline-offset: -2px !important;
+}
+
+/* ---------------------------------------------------------
+   2. ВНУТРЕННИЕ ИНФОРМАЦИОННЫЕ БЛОКИ МОДАЛЬНЫХ ОКОН
+--------------------------------------------------------- */
+
+body [data-dialog-content='true'] .event-modal-side,
+body [data-dialog-content='true'] .event-modal-info-row,
+body [role='dialog'] .event-modal-side,
+body [role='dialog'] .event-modal-info-row {
+  box-shadow: none !important;
+
+  background-color: #ffffff !important;
+  background-image: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f5f8f7 100%
+  ) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+
+  border-top-color: #ffffff !important;
+  border-left-color: #ffffff !important;
+  border-right-color: #9da9a5 !important;
+  border-bottom-color: #9da9a5 !important;
+
+  outline: 1px solid #dce4e1 !important;
+  outline-offset: -2px !important;
+}
+
+/* ---------------------------------------------------------
+   3. БЛОК «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
+   Оставляем общий фон и только линию-разделитель.
+--------------------------------------------------------- */
+
+.page-shell .selected-day-events-panel {
+  box-shadow: none !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 1px solid #b9c3c0 !important;
+
+  outline: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   4. ПОДВАЛ
+   Общая внешняя оболочка остаётся прозрачной.
+--------------------------------------------------------- */
+
+.page-shell .platform-footer-shell {
+  box-shadow: none !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   5. СТРАХОВКА:
+   УБИРАЕМ ТЕНИ У КОНТЕЙНЕРОВ,
+   НО НЕ ТРОГАЕМ КНОПКИ
+--------------------------------------------------------- */
+
+.page-shell :is(
+  div,
+  section,
+  article,
+  aside,
+  header,
+  footer
+)[class*='shadow']:not(button):not(a):not([role='button']) {
+  box-shadow: none !important;
+}
+
+/*
+  Кнопки намеренно исключены.
+  Их существующие тени и скругления сохраняются.
+*/
+
+/* === END FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
