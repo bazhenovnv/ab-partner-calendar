@@ -3,7 +3,7 @@
 import Image from 'next/image';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarRange, ChevronDown, Flame, MapPin, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
+import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HighlightCarousel } from '@/components/highlight-carousel';
 import { EventsCalendarBoard } from '@/components/events-calendar-board';
@@ -44,14 +44,13 @@ const topicPresets: TopicPreset[] = [
   { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', iconSrc: '/ui-icons/egais.png', aliases: ['егаис'] },
   { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', iconSrc: '/ui-icons/markirovka.png', aliases: ['маркировка', 'честный знак'] },
   { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', iconSrc: '/ui-icons/kassy.png', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
-  { value: 'СНО', label: 'СНО', cardLabel: 'СНО', icon: '🧩', aliases: ['сно', 'система налогообложения', 'спецрежим', 'усн', 'осно', 'патент', 'псн', 'нпд'] },
+  { value: 'СНО', label: 'СНО', cardLabel: 'СНО', icon: '🧩', iconSrc: '/ui-icons/sno.png', aliases: ['сно', 'система налогообложения', 'спецрежим', 'усн', 'осно', 'патент', 'псн', 'нпд'] },
   {
     value: 'Налоги',
     label: 'Налоги',
     cardLabel: 'Налоги',
     icon: '₽',
-    iconSrc: '/ui-icons/nalogi.png',
-    aliases: [
+    iconSrc: '/ui-icons/nalogi.png', aliases: [
       'налог',
       'налоги',
       'налогов',
@@ -492,10 +491,12 @@ export default function HomePage() {
             topicFilter === 'ALL' ? 'topic-filter-button-active' : ''
           }`}
         >
-          <Layers3
-            className={`h-6 w-6 flex-none ${
-              topicFilter === 'ALL' ? 'text-[#f29f59]' : 'text-black'
-            }`}
+          <Image
+            src='/ui-icons/all-collections.png'
+            alt=''
+            width={32}
+            height={32}
+            className='topic-filter-image flex-none'
           />
           <span className='topic-filter-title'>Все подборки</span>
         </button>
@@ -520,17 +521,18 @@ export default function HomePage() {
       <section className='container-shell mt-4'>
         <div className='metrics-grid grid gap-3 md:grid-cols-2 xl:grid-cols-6'>
           {[
-            { label: 'Сегодня', value: metrics.today, icon: CalendarRange },
-            { label: 'На 7 дней', value: metrics.week, icon: Users },
-            { label: 'Важно', value: metrics.important, icon: Sparkles },
-            { label: 'Бесплатно', value: metrics.free, icon: Ticket },
-            { label: 'Оффлайн', value: metrics.offline, icon: MapPin },
-            { label: cityFilter === 'ALL' ? 'По всем городам' : cityFilter, value: metrics.city, icon: Flame },
+            { label: 'Сегодня', value: metrics.today, iconSrc: '/ui-icons/metric-today.png' },
+            { label: 'На 7 дней', value: metrics.week, iconSrc: '/ui-icons/metric-week.png' },
+            { label: 'Важно', value: metrics.important, iconSrc: '/ui-icons/metric-important.png' },
+            { label: 'Бесплатно', value: metrics.free, iconSrc: '/ui-icons/metric-free.png' },
+            { label: 'Оффлайн', value: metrics.offline, iconSrc: '/ui-icons/metric-offline.png' },
+            { label: cityFilter === 'ALL' ? 'По всем городам' : cityFilter, value: metrics.city, iconSrc: '/ui-icons/metric-cities.png' },
           ].map((item) => {
-            const Icon = item.icon;
             return (
               <div key={item.label} className='metric-card surface-card !bg-white flex items-center gap-3 px-4 py-3'>
-                <div className='metric-icon icon-chip h-10 w-10'><Icon className='h-4.5 w-4.5 text-[#2c8d67]' /></div>
+                <div className='metric-icon icon-chip h-10 w-10'>
+                  <Image src={item.iconSrc} alt='' width={40} height={40} className='metric-icon-image' />
+                </div>
                 <div>
                   <div className='text-sm text-slate-500'>{item.label}</div>
                   <div className='text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div>

@@ -62,7 +62,7 @@ export function SiteHeader() {
             aria-label='Афиша бухгалтера — на главную'
           >
             <img
-              src='/logo-afisha-buhgaltera-final.png'
+              src='/ui-icons/header-logo.png'
               alt='Афиша Бухгалтера'
               className='site-header-logo-image'
             />

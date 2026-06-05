@@ -3325,3 +3325,96 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL UPLOADED UI ICONS FIX === */
+
+
+/* === FINAL COMPLETE UPLOADED ICONS FIX === */
+
+/* Новый загруженный логотип шапки */
+.page-shell .site-header-logo-image,
+.page-shell .site-header-logo-img,
+.site-header-logo-image,
+.site-header-logo-img {
+  display: block !important;
+  width: auto !important;
+  height: 52px !important;
+  max-height: 52px !important;
+  max-width: min(940px, 58vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+/* Глянцевые PNG-значки главных кнопок */
+.page-shell .site-header-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.page-shell .site-header-icon-image {
+  display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+  object-fit: contain !important;
+  border-radius: 999px !important;
+}
+
+/* Глянцевые значки верхних счётчиков */
+.page-shell .metric-icon {
+  overflow: hidden !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.page-shell .metric-icon-image {
+  display: block !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  max-width: 38px !important;
+  max-height: 38px !important;
+  object-fit: contain !important;
+  border-radius: 999px !important;
+}
+
+/* Глянцевые значки подборок */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-image {
+  display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+  object-fit: contain !important;
+  border-radius: 999px !important;
+}
+
+/* === END FINAL COMPLETE UPLOADED ICONS FIX === */
