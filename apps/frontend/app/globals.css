@@ -3368,3 +3368,162 @@ body [role='dialog'] .event-modal-info-row {
 }
 
 /* === END FINAL SELECTED DAY TRANSPARENT PANEL AND RIGHT TIME FIX === */
+
+
+/* === FINAL SELECTED DAY TRANSPARENT AND RIGHT TIME OVERRIDE === */
+
+/*
+  Внешняя левая панель остаётся единым выпуклым окном.
+  Внутренний раздел «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
+  становится прозрачной нижней частью этого окна.
+*/
+
+.page-shell .calendar-left-panel.event-details-panel,
+.page-shell .event-details-panel.calendar-left-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+
+  height: 100% !important;
+}
+
+/*
+  Убираем отдельный фон, рамку, градиент и тень
+  только у внутреннего раздела выбранного дня.
+  Оставляем одну тонкую линию-разделитель сверху.
+*/
+
+.page-shell .selected-day-events-panel,
+.page-shell .calendar-left-panel .selected-day-events-panel,
+.page-shell .event-details-panel .selected-day-events-panel,
+.page-shell .surface-card.selected-day-events-panel {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 330px !important;
+
+  margin-top: 24px !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+
+  padding-top: 16px !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 1px solid #c9d1cf !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+
+  border-radius: 0 !important;
+
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  overflow: visible !important;
+}
+
+.page-shell .selected-day-events-panel::before,
+.page-shell .selected-day-events-panel::after {
+  content: none !important;
+  display: none !important;
+}
+
+/*
+  Список также прозрачный.
+*/
+
+.page-shell .selected-day-events-list {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/*
+  Каждая строка:
+  название слева, время строго у правого края.
+*/
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+
+  width: 100% !important;
+
+  gap: 8px !important;
+
+  padding-right: 16px !important;
+  padding-left: 16px !important;
+
+  text-align: left !important;
+}
+
+/*
+  Все элементы строки сохраняют естественный размер.
+*/
+
+.page-shell .selected-day-events-list button > span {
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+/*
+  Время закрепляем справа независимо от длины названия.
+*/
+
+.page-shell .selected-day-events-list .selected-day-event-time {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  flex: 0 0 auto !important;
+
+  width: max-content !important;
+  min-width: max-content !important;
+  max-width: none !important;
+
+  margin-right: 0 !important;
+  margin-left: auto !important;
+
+  padding-left: 14px !important;
+
+  color: #f29f59 !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .selected-day-events-list .selected-day-event-time svg {
+  color: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+/* === END FINAL SELECTED DAY TRANSPARENT AND RIGHT TIME OVERRIDE === */
