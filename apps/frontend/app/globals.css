@@ -3015,3 +3015,102 @@ body [role='dialog'] button[class*='absolute'] {
 
 /* === END FINAL CONSOLIDATED SELECTED DAY PANEL FIX === */
 
+
+
+/* === FINAL RESTORE LATEST SITE WIDTH AND PANEL CORNERS === */
+
+/*
+  Возвращаем последнюю согласованную ширину сайта:
+  рабочая область расширена до 1584px.
+*/
+.page-shell {
+  width: min(1584px, calc(100vw - 56px)) !important;
+  max-width: 1584px !important;
+}
+
+/*
+  Возвращаем прямые края у окон и фоновых панелей.
+  Кнопки ниже исключены и сохраняют скругление.
+*/
+.page-shell,
+.page-shell .site-header-panel,
+.page-shell .metric-card,
+.page-shell .metrics-grid .surface-card,
+.page-shell .surface-card,
+.page-shell .important-events-combined,
+.page-shell .important-events-shell,
+.page-shell .highlight-hero-joined,
+.page-shell .dashboard-unified-shell,
+.page-shell .calendar-unified-shell,
+.page-shell .calendar-common-shell,
+.page-shell .dashboard-filters-wrap > *,
+.page-shell .dashboard-topics-wrap > *,
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .selected-day-events-panel,
+.page-shell .selected-day-secondary-pane,
+.page-shell .platform-footer-shell,
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .utility-divider,
+.page-shell .compact-events-panel,
+.page-shell .compact-event-card,
+body [role='dialog'],
+body [data-radix-dialog-content],
+body [data-dialog-content='true'] {
+  border-radius: 0 !important;
+  clip-path: none !important;
+}
+
+/*
+  Страховка для Tailwind-контейнеров:
+  только фоновые блоки, не кнопки и не круглые элементы.
+*/
+.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='border']
+:not(.day-cell)
+:not([class*='rounded-full'])
+:not(.calendar-day-popover)
+:not(.calendar-day-popover-portal)
+:not(button)
+:not(a)
+:not([role='button']) {
+  border-radius: 0 !important;
+  clip-path: none !important;
+}
+
+/*
+  Кнопки сохраняют прежнее скругление.
+*/
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell a.inline-flex,
+.page-shell [role='button'],
+.page-shell .pressable,
+.page-shell .mint-btn,
+[role='dialog'] button,
+[role='dialog'] a {
+  border-radius: 18px !important;
+}
+
+/*
+  Круглые элементы остаются круглыми.
+*/
+.page-shell [class*='rounded-full'],
+.page-shell .important-date-chip,
+.page-shell .icon-chip,
+.page-shell .metric-icon,
+.page-shell .day-cell span[class*='rounded-full'] {
+  border-radius: 999px !important;
+}
+
+@media (max-width: 1279px) {
+  .page-shell {
+    width: min(100%, calc(100vw - 28px)) !important;
+    max-width: calc(100vw - 28px) !important;
+  }
+}
+
+/* === END FINAL RESTORE LATEST SITE WIDTH AND PANEL CORNERS === */
