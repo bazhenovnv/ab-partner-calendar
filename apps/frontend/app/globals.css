@@ -181,7 +181,6 @@ textarea {
 .calendar-unified-shell .calendar-bottom-panel,
 .platform-footer-shell,
 .utility-divider,
-.selected-day-events-panel,
 [role='dialog'],
 [data-radix-dialog-content] {
   background: var(--ab-panel-bg) !important;
@@ -200,7 +199,7 @@ textarea {
 }
 
 /* Tailwind-панели без явных классов. Календарь ниже принудительно возвращается белым. */
-.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='bg-white'][class*='border']:not(.day-cell):not([class*='rounded-full']) {
+.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='bg-white'][class*='border']:not(.day-cell):not([class*='rounded-full']):not(.selected-day-events-panel):not(.selected-day-secondary-pane) {
   background: var(--ab-panel-bg) !important;
   background-color: var(--ab-panel-bg) !important;
   background-image: none !important;
@@ -502,31 +501,9 @@ button[disabled],
 
 /* === event details === */
 
-.selected-day-events-panel {
-  height: 250px !important;
-  min-height: 250px !important;
-  max-height: 250px !important;
-  overflow: hidden !important;
-}
 
-.selected-day-events-list {
-  height: 184px !important;
-  max-height: 184px !important;
-  overflow: hidden !important;
-  align-content: start !important;
-}
 
-.selected-day-events-list .mint-btn {
-  min-height: 42px !important;
-  max-height: 42px !important;
-  padding: 8px 12px !important;
-}
 
-.selected-day-events-list .mint-btn span:last-child {
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
 
 .event-details-panel .mint-btn,
 .event-details-panel a.mint-btn,
@@ -811,8 +788,7 @@ textarea,
 .page-shell .calendar-left-panel,
 .page-shell .calendar-top-panel > div,
 .page-shell .calendar-bottom-panel,
-.page-shell .calendar-topic-panel,
-.page-shell .selected-day-events-panel {
+.page-shell .calendar-topic-panel {
   background: var(--ab-panel-bg) !important;
   background-color: var(--ab-panel-bg) !important;
 }
@@ -826,11 +802,241 @@ textarea,
   background-color: #ffffff !important;
 }
 
-/* === FINAL IMPORTANT EVENTS SAFE RESTORE === */
+/* === FINAL FIXES: selected-day panel, important events, topic icons === */
 
-/* Возвращаем прежнюю двухколоночную компоновку панели управления. */
-.page-shell .important-events-headline-row,
-.page-shell .important-events-controls-row {
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel {
+  min-height: 760px !important;
+}
+
+.page-shell .calendar-left-panel > div {
+  overflow: visible !important;
+}
+
+
+
+
+
+.page-shell .important-events-actions-row {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+}
+
+.page-shell .important-events-mode-block {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 8px !important;
+}
+
+.page-shell .important-events-mode-title {
+  color: #f29f59 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  text-align: right !important;
+}
+
+.page-shell .important-events-mode-controls {
+  width: 420px !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+}
+
+.page-shell .important-events-mode-controls .important-mode-btn {
+  width: 100% !important;
+}
+
+.page-shell .highlight-hero-joined > div > div:last-of-type {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.page-shell .important-events-view-all-btn,
+.page-shell .important-events-ribbon .important-date-chip {
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip {
+  border-color: var(--ab-border) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip.important-date-chip--active {
+  border-color: #f29f59 !important;
+  border-width: 3px !important;
+  color: #000000 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.22),
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .topic-filter-button--active .topic-filter-icon {
+  color: #f29f59 !important;
+}
+
+.page-shell .topic-filter-button--active .topic-filter-icon svg {
+  color: #f29f59 !important;
+  stroke: currentColor !important;
+}
+
+.page-shell .topic-count-number {
+  color: #f29f59 !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .topic-count-label {
+  display: none !important;
+}
+
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel {
+  border-radius: 28px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-days-grid {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+/* === END FINAL FIXES: selected-day panel, important events, topic icons === */
+
+.page-shell .calendar-topic-panel {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  border-radius: 28px !important;
+  padding: 22px 18px 18px !important;
+  min-height: 390px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-topic-panel-title {
+  display: block !important;
+  padding-left: 16px !important;
+  margin-bottom: 16px !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+}
+
+.page-shell .calendar-topic-panel .grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  align-content: start !important;
+}
+
+.page-shell .topic-filter-button {
+  min-height: 92px !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  border-radius: 18px !important;
+}
+
+.page-shell .topic-filter-copy {
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.page-shell .topic-filter-title {
+  display: block !important;
+  font-size: 17px !important;
+  line-height: 1.08 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.page-shell .topic-count-number {
+  display: block !important;
+  margin-top: 6px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+}
+
+.page-shell .topic-count-label {
+  display: none !important;
+}
+
+.page-shell .topic-filter-icon,
+.page-shell .topic-filter-icon svg,
+.page-shell .topic-filter-icon span {
+  transition:
+    color 0.2s ease,
+    fill 0.2s ease,
+    stroke 0.2s ease !important;
+}
+
+/* Активная кнопка подборки — обводка как у выбранной даты */
+.page-shell .topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .topic-filter-button-active .topic-filter-icon,
+.page-shell .topic-filter-button-active .topic-filter-icon svg,
+.page-shell .topic-filter-button-active .topic-filter-icon span {
+  color: #f29f59 !important;
+  fill: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+/* Чтобы старая ring-обводка не конфликтовала, если где-то осталась */
+.page-shell .topic-filter-button.ring-2 {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* === END FINAL TOPIC PANEL FIX === */
+
+/* === FINAL LABELS AND FOOTER POLISH === */
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title,
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+}
+
+.page-shell .important-events-headline-row {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -838,24 +1044,10 @@ textarea,
   width: 100% !important;
 }
 
-.page-shell .important-events-headline-row {
-  margin-bottom: 14px !important;
-}
-
-.page-shell .important-events-controls-row {
-  margin-bottom: 18px !important;
-}
-
 .page-shell .important-events-ribbon-title,
 .page-shell .important-events-mode-title {
   margin: 0 !important;
   padding: 0 !important;
-  color: #f29f59 !important;
-  font-size: 18px !important;
-  line-height: 1 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
   white-space: nowrap !important;
 }
 
@@ -864,19 +1056,264 @@ textarea,
   text-align: right !important;
 }
 
-.page-shell .important-events-view-all-btn,
-.page-shell button.important-events-view-all-btn {
+.page-shell .important-events-actions-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-view-all-btn {
+  margin-right: auto !important;
+}
+
+.page-shell .important-events-mode-controls {
+  margin-left: auto !important;
+  width: 420px !important;
+  max-width: 100% !important;
+}
+
+.page-shell .selected-day-events-title {
+  margin-bottom: 16px !important;
+}
+
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  display: block !important;
+  padding-left: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Убрать окружности/кружки с иконок в подвале */
+.page-shell .platform-footer-shell .icon-chip,
+.page-shell .platform-footer-shell [class*='rounded-full'] {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.page-shell .platform-footer-shell .icon-chip svg,
+.page-shell .platform-footer-shell [class*='rounded-full'] svg {
+  width: 22px !important;
+  height: 22px !important;
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+@media (max-width: 760px) {
+  .page-shell .important-events-headline-row,
+  .page-shell .important-events-actions-row {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .page-shell .important-events-mode-title {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* === END FINAL LABELS AND FOOTER POLISH === */
+
+/* === FINAL FULL MODE CARDS FIX === */
+
+.page-shell .compact-events-panel {
+  overflow: visible !important;
+}
+
+.page-shell .compact-events-list {
+  display: grid !important;
+  gap: 14px !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card {
+  min-height: 118px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 18px 20px !important;
+  border-radius: 20px !important;
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+.page-shell .compact-event-card > button {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card-header {
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+
+.page-shell .compact-event-title {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  line-height: 1.25 !important;
+  font-size: 18px !important;
+}
+
+.page-shell .compact-event-meta {
+  display: block !important;
+  width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.35 !important;
+}
+
+.page-shell .compact-event-badges {
+  flex: 0 0 auto !important;
+  max-width: 100% !important;
+}
+
+.page-shell .compact-event-badges span {
+  white-space: nowrap !important;
+}
+
+.page-shell .compact-event-card .mt-4 {
+  margin-top: 14px !important;
+}
+
+.page-shell .compact-event-card .mint-btn,
+.page-shell .compact-event-card button,
+.page-shell .compact-event-card a {
+  white-space: normal !important;
+}
+
+@media (max-width: 1024px) {
+  .page-shell .compact-event-card {
+    min-height: 130px !important;
+  }
+
+  .page-shell .compact-event-badges {
+    width: 100% !important;
+  }
+}
+
+/* === END FINAL FULL MODE CARDS FIX === */
+
+/* === FINAL LOCAL UI REQUEST FIX === */
+
+.page-shell .site-header-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+}
+
+.page-shell .site-header-action {
+  width: 168px !important;
+  min-width: 168px !important;
+  max-width: 168px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 7px 12px !important;
+  border-radius: 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .site-header-action > span:first-child,
+.page-shell .mint-btn--header > span:first-child,
+.page-shell .site-header-panel a > span:first-child {
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+}
+
+.page-shell .site-header-action > span:first-child svg,
+.page-shell .mint-btn--header > span:first-child svg,
+.page-shell .site-header-panel a > span:first-child svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.page-shell .site-header-action > span:not(:first-child),
+.page-shell .mint-btn--header > span:not(:first-child),
+.page-shell .site-header-panel a > span:not(:first-child) {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .important-events-headline-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+  margin-bottom: 14px !important;
+}
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .important-events-mode-title {
+  margin-left: auto !important;
+  text-align: right !important;
+}
+
+.page-shell .important-events-controls-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  width: 100% !important;
+  margin-bottom: 18px !important;
+}
+
+.page-shell .important-events-view-all-btn {
   width: 150px !important;
   min-width: 150px !important;
   height: 42px !important;
   min-height: 42px !important;
   margin-right: auto !important;
   padding: 8px 14px !important;
-  background: var(--ab-mint) !important;
-  background-color: var(--ab-mint) !important;
-  color: #000000 !important;
   font-size: 13px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .page-shell .important-events-mode-controls {
@@ -890,330 +1327,190 @@ textarea,
 
 .page-shell .important-events-mode-controls .important-mode-btn {
   width: 100% !important;
-  min-height: 42px !important;
   height: 42px !important;
+  min-height: 42px !important;
   padding: 8px 14px !important;
   font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-/* Штамп поверх изображения, без изменения размеров блоков. */
-.page-shell .important-event-completed-stamp {
-  position: absolute !important;
-  right: 18px !important;
-  bottom: 18px !important;
-  z-index: 8 !important;
-  pointer-events: none !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  width: 160px !important;
-  height: 66px !important;
-  padding: 0 14px !important;
-
-  border: 4px solid #ff4d24 !important;
-  border-radius: 999px !important;
-  background: rgba(255, 255, 255, 0.03) !important;
-  color: #ff4d24 !important;
-
-  transform: rotate(-16deg) !important;
-  transform-origin: center !important;
-  box-shadow:
-    inset 0 0 0 3px rgba(255, 77, 36, 0.94),
-    inset 0 0 0 7px rgba(255, 255, 255, 0.86) !important;
-}
-
-.page-shell .important-event-completed-stamp span {
-  display: block !important;
-  color: #ff4d24 !important;
-  font-size: 19px !important;
-  line-height: 1 !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
-  white-space: nowrap !important;
-}
-
-@media (max-width: 760px) {
-  .page-shell .important-events-headline-row,
-  .page-shell .important-events-controls-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
-
-  .page-shell .important-events-mode-title,
-  .page-shell .important-events-mode-controls {
-    margin-left: 0 !important;
-    text-align: left !important;
-  }
-
-  .page-shell .important-events-mode-controls {
-    width: 100% !important;
-    grid-template-columns: 1fr !important;
-  }
-
-  .page-shell .important-event-completed-stamp {
-    right: 12px !important;
-    bottom: 12px !important;
-    width: 136px !important;
-    height: 56px !important;
-    border-width: 3px !important;
-  }
-
-  .page-shell .important-event-completed-stamp span {
-    font-size: 16px !important;
-  }
-}
-
-/* === END FINAL IMPORTANT EVENTS SAFE RESTORE === */
-
-
-/* === FINAL COMBINED HEADER TOPICS AND TEXT-PANEL STAMP FIX === */
-
-/* Шапка: умеренный логотип и одинаковые кнопки справа. */
-.page-shell .site-header-panel {
-  min-height: 66px !important;
-  padding: 10px 14px !important;
-  overflow: visible !important;
-}
-
-.page-shell .site-header-brand,
-.page-shell .site-header-logo-link,
-.site-header-logo-link {
-  display: inline-flex !important;
-  align-items: center !important;
-  min-height: 46px !important;
-  height: 46px !important;
-  max-height: 46px !important;
-  overflow: visible !important;
-}
-
-.page-shell .site-header-logo-image,
-.page-shell .site-header-logo-img,
-.site-header-logo-image,
-.site-header-logo-img {
-  display: block !important;
-  height: 46px !important;
-  max-height: 46px !important;
-  width: auto !important;
-  max-width: min(500px, 46vw) !important;
-  object-fit: contain !important;
-  object-position: left center !important;
-}
-
-.page-shell .site-header-actions {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 10px !important;
-}
-
-.page-shell .site-header-action,
-.page-shell .mint-btn--header {
-  width: 146px !important;
-  min-width: 146px !important;
-  max-width: 146px !important;
-  height: 40px !important;
-  min-height: 40px !important;
-  max-height: 40px !important;
-  padding: 6px 10px !important;
-  gap: 8px !important;
-  font-size: 12px !important;
-  line-height: 1 !important;
-  font-weight: 500 !important;
-  white-space: nowrap !important;
-}
-
-.page-shell .site-header-action > span:not(:first-child),
-.page-shell .mint-btn--header > span:not(:first-child),
-.page-shell .site-header-panel a > span:not(:first-child),
-.page-shell .site-header-panel button > span:not(:first-child) {
-  font-size: 12px !important;
-  line-height: 1 !important;
-  font-weight: 500 !important;
-}
-
-/* Подборки: возвращаем компактные карточки и корректный заголовок. */
-.page-shell .calendar-topic-panel {
-  padding: 12px 12px 12px !important;
-  min-height: auto !important;
-  overflow: hidden !important;
-}
-
-.page-shell .calendar-topic-panel-title,
-.page-shell .topic-panel-title {
-  display: block !important;
-  margin: 0 0 8px 0 !important;
-  padding-left: 0 !important;
-  color: #f29f59 !important;
-  font-size: 14px !important;
-  line-height: 1 !important;
   font-weight: 600 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  white-space: nowrap !important;
-}
-
-.page-shell .calendar-topic-panel .grid {
-  gap: 8px !important;
-}
-
-.page-shell .calendar-topic-panel .topic-filter-button,
-.page-shell .calendar-topic-panel button.topic-filter-button,
-.page-shell .calendar-topic-panel .pressable.topic-filter-button {
-  min-height: 54px !important;
-  height: 54px !important;
-  max-height: 54px !important;
-  padding: 5px 9px !important;
-  gap: 8px !important;
-  border-radius: 14px !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  font-weight: 500 !important;
-  overflow: hidden !important;
-}
-
-.page-shell .calendar-topic-panel .topic-filter-icon,
-.page-shell .calendar-topic-panel .topic-filter-button > svg.flex-none,
-.page-shell .calendar-topic-panel .topic-filter-button > svg:first-child {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-  min-height: 32px !important;
-  flex: 0 0 32px !important;
-  padding: 6px !important;
-  border: 1.5px solid #7CD8B3 !important;
-  border-radius: 999px !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  box-sizing: border-box !important;
-}
-
-.page-shell .calendar-topic-panel .topic-filter-title,
-.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
-  display: block !important;
-  max-width: 100% !important;
-  color: #000000 !important;
-  font-size: 12px !important;
-  line-height: 1.05 !important;
-  font-weight: 500 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
 }
 
 .page-shell .calendar-topic-panel .topic-count-number,
 .page-shell .topic-count-number {
   display: block !important;
-  margin-top: 2px !important;
-  color: #7CD8B3 !important;
-  font-size: 12px !important;
+  margin-top: 5px !important;
+  color: #E04B4B !important;
+  font-size: 20px !important;
   line-height: 1 !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
+  font-weight: 800 !important;
 }
 
-.page-shell .calendar-topic-panel .topic-filter-button-active {
-  border: 2px solid #f29f59 !important;
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .topic-filter-title {
+  color: #000000 !important;
 }
 
-/* Панель управления важных событий: сохраняем прежнее расположение. */
-.page-shell .important-events-headline-row,
-.page-shell .important-events-controls-row {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 24px !important;
+.page-shell .calendar-topic-panel .topic-filter-button-active,
+.page-shell .topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button-active .topic-filter-icon,
+.page-shell .calendar-topic-panel .topic-filter-button-active .topic-filter-icon svg,
+.page-shell .calendar-topic-panel .topic-filter-button-active .topic-filter-icon span {
+  color: #f29f59 !important;
+  fill: #f29f59 !important;
+  stroke: #f29f59 !important;
+}
+
+.page-shell .select-clean {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease !important;
+}
+
+.page-shell .select-clean:focus,
+.page-shell .select-clean:focus-visible,
+.page-shell .select-clean--active {
+  outline: none !important;
+  border-color: #f29f59 !important;
+  box-shadow:
+    0 0 0 2px rgba(242, 159, 89, 0.28),
+    inset 0 1px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.page-shell .calendar-filter-toggle.ring-2,
+.page-shell .calendar-filter-toggle[class*='ring-2'] {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .compact-events-panel {
+  overflow: visible !important;
+}
+
+.page-shell .compact-events-panel-head {
+  align-items: flex-start !important;
+}
+
+.page-shell .compact-events-list {
+  display: grid !important;
+  gap: 16px !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card {
+  min-height: 150px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 20px 22px !important;
+  border-radius: 22px !important;
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+.page-shell .compact-event-main-button {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card-header {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: start !important;
+  gap: 16px !important;
   width: 100% !important;
 }
 
-.page-shell .important-events-headline-row {
-  margin-bottom: 14px !important;
-}
-
-.page-shell .important-events-controls-row {
-  margin-bottom: 18px !important;
-}
-
-.page-shell .important-events-mode-title {
-  margin-left: auto !important;
-  text-align: right !important;
-}
-
-.page-shell .important-events-view-all-btn,
-.page-shell button.important-events-view-all-btn {
-  background: var(--ab-mint) !important;
-  background-color: var(--ab-mint) !important;
-  color: #000000 !important;
-  font-weight: 500 !important;
-}
-
-.page-shell .important-events-mode-controls {
-  width: 390px !important;
+.page-shell .compact-event-main {
+  min-width: 0 !important;
   max-width: 100% !important;
-  margin-left: auto !important;
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 12px !important;
 }
 
-/* Штамп: только красные овалы, поверх правого текстового окна. */
-.page-shell .important-events-copy-panel {
-  position: relative !important;
-}
-
-.page-shell .important-event-completed-stamp {
-  position: absolute !important;
-  right: 18px !important;
-  bottom: 16px !important;
-  z-index: 8 !important;
-  pointer-events: none !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 160px !important;
-  height: 64px !important;
-  padding: 0 14px !important;
-  border: 4px solid #ff4d24 !important;
-  border-radius: 999px !important;
-  background: transparent !important;
-  color: #ff4d24 !important;
-  transform: rotate(-16deg) !important;
-  transform-origin: center !important;
-  box-shadow: inset 0 0 0 3px rgba(255, 77, 36, 0.92) !important;
-}
-
-.page-shell .important-event-completed-stamp span {
+.page-shell .compact-event-title {
   display: block !important;
-  color: #ff4d24 !important;
-  font-size: 19px !important;
-  line-height: 1 !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  line-height: 1.25 !important;
+  font-size: 18px !important;
+}
+
+.page-shell .compact-event-meta {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.35 !important;
+  font-size: 14px !important;
+}
+
+.page-shell .compact-event-badges {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  max-width: 240px !important;
+}
+
+.page-shell .compact-event-badges span {
   white-space: nowrap !important;
 }
 
-@media (max-width: 900px) {
-  .page-shell .site-header-logo-image,
-  .page-shell .site-header-logo-img,
-  .site-header-logo-image,
-  .site-header-logo-img {
-    height: 42px !important;
-    max-height: 42px !important;
-    max-width: 100% !important;
+.page-shell .compact-event-card .mt-4 {
+  margin-top: 16px !important;
+}
+
+.page-shell .compact-event-card .mint-btn,
+.page-shell .compact-event-card button,
+.page-shell .compact-event-card a {
+  white-space: normal !important;
+}
+
+@media (max-width: 1024px) {
+  .page-shell .compact-event-card-header {
+    grid-template-columns: 1fr !important;
   }
 
-  .page-shell .site-header-action,
-  .page-shell .mint-btn--header {
-    width: 142px !important;
-    min-width: 142px !important;
-    max-width: 142px !important;
+  .page-shell .compact-event-badges {
+    justify-content: flex-start !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .page-shell .site-header-actions {
+    justify-content: stretch !important;
+    gap: 10px !important;
+  }
+
+  .page-shell .site-header-action {
+    width: calc(50% - 5px) !important;
+    min-width: calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
   }
 }
 
@@ -1222,1509 +1519,1400 @@ textarea,
   .page-shell .important-events-controls-row {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 12px !important;
   }
 
-  .page-shell .important-events-mode-title,
-  .page-shell .important-events-mode-controls {
+  .page-shell .important-events-mode-title {
     margin-left: 0 !important;
     text-align: left !important;
   }
 
   .page-shell .important-events-mode-controls {
     width: 100% !important;
+    margin-left: 0 !important;
     grid-template-columns: 1fr !important;
   }
-
-  .page-shell .important-event-completed-stamp {
-    right: 12px !important;
-    bottom: 12px !important;
-    width: 136px !important;
-    height: 54px !important;
-    border-width: 3px !important;
-  }
-
-  .page-shell .important-event-completed-stamp span {
-    font-size: 16px !important;
-  }
 }
 
-/* === END FINAL COMBINED HEADER TOPICS AND TEXT-PANEL STAMP FIX === */
+/* === END FINAL LOCAL UI REQUEST FIX === */
 
+/* === FINAL CALENDAR FILTERS AND FOOTER FEATURES FIX === */
 
-/* === FINAL HEADER BUTTONS EQUAL WIDTH FIX === */
-
-/* Логотип: немного крупнее, без изменения высоты панели */
-.page-shell .site-header-brand,
-.page-shell .site-header-logo-link,
-.site-header-logo-link {
-  display: inline-flex !important;
-  align-items: center !important;
-  min-height: 50px !important;
-  height: 50px !important;
-  max-height: 50px !important;
-  overflow: visible !important;
+/* Кнопки календаря: без оранжевого выделения по умолчанию */
+.page-shell .calendar-inline-controls .calendar-filter-toggle {
+  border: 1.5px solid var(--ab-border) !important;
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
 }
 
-.page-shell .site-header-logo-image,
-.page-shell .site-header-logo-img,
-.site-header-logo-image,
-.site-header-logo-img {
-  display: block !important;
-  height: 50px !important;
-  max-height: 50px !important;
+/* Оранжевая обводка только когда фильтр включён */
+.page-shell .calendar-inline-controls .calendar-filter-toggle.calendar-filter-toggle-active {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Гасим старое правило ring-2, чтобы оно не подсвечивало кнопки ошибочно */
+.page-shell .calendar-inline-controls .calendar-filter-toggle.ring-2:not(.calendar-filter-toggle-active),
+.page-shell .calendar-inline-controls .calendar-filter-toggle[class*='ring-2']:not(.calendar-filter-toggle-active) {
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Подвал: убираем овальное выделение с каждой возможности платформы */
+.page-shell .platform-footer-shell a,
+.page-shell .platform-footer-shell button,
+.page-shell .platform-footer-shell [role='button'],
+.page-shell .platform-footer-shell .surface-card,
+.page-shell .platform-footer-shell [class*='rounded'][class*='border'] {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Иконки возможностей — без круглой плашки */
+.page-shell .platform-footer-shell .icon-chip,
+.page-shell .platform-footer-shell [class*='rounded-full'] {
   width: auto !important;
-  max-width: min(660px, 52vw) !important;
-  object-fit: contain !important;
-  object-position: left center !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
-/* Все кнопки справа строго одинаковой длины */
-.page-shell .site-header-actions {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
+/* Текст возможностей оставляем читаемым */
+.page-shell .platform-footer-shell a *,
+.page-shell .platform-footer-shell button *,
+.page-shell .platform-footer-shell [role='button'] * {
+  color: #000000 !important;
+}
+
+/* === END FINAL CALENDAR FILTERS AND FOOTER FEATURES FIX === */
+
+/* === FINAL TOPIC BUTTONS COMPACT FIX === */
+
+/* Панель "ПОДБОРКИ": компактнее по высоте */
+.page-shell .calendar-topic-panel {
+  padding: 18px 16px 16px !important;
+  min-height: auto !important;
+}
+
+.page-shell .calendar-topic-panel-title {
+  margin-bottom: 12px !important;
+}
+
+/* Сетка подборок: плотнее */
+.page-shell .calendar-topic-panel .grid {
   gap: 10px !important;
 }
 
-.page-shell .site-header-action,
-.page-shell .mint-btn--header {
-  width: 166px !important;
-  min-width: 166px !important;
-  max-width: 166px !important;
+/* Кнопки подборок: ниже по высоте, без уменьшения шрифта и иконок */
+.page-shell .calendar-topic-panel .topic-filter-button {
+  min-height: 74px !important;
+  height: 74px !important;
+  max-height: 74px !important;
+  padding: 8px 12px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
 
-  height: 40px !important;
-  min-height: 40px !important;
-  max-height: 40px !important;
+/* Иконка/картинка в кнопках остаётся прежнего размера */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  font-size: 17px !important;
+}
 
-  padding: 6px 10px !important;
-  gap: 8px !important;
+/* Текстовый блок не переносится */
+.page-shell .calendar-topic-panel .topic-filter-copy {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  overflow: visible !important;
+}
 
-  font-size: 12px !important;
+.page-shell .calendar-topic-panel .topic-filter-title {
+  display: block !important;
+  max-width: 100% !important;
+  font-size: 17px !important;
+  line-height: 1.05 !important;
+  font-weight: 600 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Цифры оставляем красными, но плотнее к названию */
+.page-shell .calendar-topic-panel .topic-count-number {
+  display: block !important;
+  margin-top: 3px !important;
+  color: #E04B4B !important;
+  font-size: 20px !important;
   line-height: 1 !important;
-  font-weight: 500 !important;
+  font-weight: 800 !important;
   white-space: nowrap !important;
 }
 
-/* Текст на кнопках без жирного выделения */
-.page-shell .site-header-action > span:not(:first-child),
-.page-shell .mint-btn--header > span:not(:first-child),
-.page-shell .site-header-panel a > span:not(:first-child),
-.page-shell .site-header-panel button > span:not(:first-child) {
-  font-size: 12px !important;
-  line-height: 1 !important;
-  font-weight: 500 !important;
+/* Кнопка "Все подборки" тоже компактная и без переноса */
+.page-shell .calendar-topic-panel .topic-filter-button .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
   white-space: nowrap !important;
 }
 
-/* Иконки внутри кнопок сохраняем прежнего размера */
-.page-shell .site-header-action > span:first-child,
-.page-shell .mint-btn--header > span:first-child {
-  flex: 0 0 26px !important;
-  width: 26px !important;
-  height: 26px !important;
-  min-width: 26px !important;
-  min-height: 26px !important;
+/* Для кнопки "Все подборки", где нет topic-filter-copy */
+.page-shell .calendar-topic-panel .topic-filter-button.justify-center {
+  justify-content: center !important;
+  gap: 10px !important;
 }
 
+/* Активная кнопка сохраняет оранжевую обводку */
+.page-shell .calendar-topic-panel .topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
+}
+
+/* На узких экранах разрешаем немного выше, чтобы не ломать сетку */
 @media (max-width: 900px) {
-  .page-shell .site-header-logo-image,
-  .page-shell .site-header-logo-img,
-  .site-header-logo-image,
-  .site-header-logo-img {
-    height: 46px !important;
-    max-height: 46px !important;
-    max-width: 100% !important;
-  }
-
-  .page-shell .site-header-action,
-  .page-shell .mint-btn--header {
-    width: 160px !important;
-    min-width: 160px !important;
-    max-width: 160px !important;
+  .page-shell .calendar-topic-panel .topic-filter-button {
+    min-height: 78px !important;
+    height: 78px !important;
+    max-height: 78px !important;
   }
 }
 
-/* === END FINAL HEADER BUTTONS EQUAL WIDTH FIX === */
+/* === END FINAL TOPIC BUTTONS COMPACT FIX === */
 
+/* === FINAL ADMIN AND DIALOG HOTFIX === */
 
-/* === FINAL DIALOG OVERLAY CONTENT LAYER FIX === */
-
-/*
-  Только слои модального окна.
-  Не влияет на шапку, подборки, карусель, штамп и кнопки страницы.
-*/
-
-body [data-dialog-overlay='true'] {
+/* 1. Radix/Dialog overlay должен быть ниже окна, но выше страницы */
+body [data-radix-dialog-overlay],
+body div[data-state='open'][class*='fixed'][class*='inset-0'],
+body div[class*='fixed'][class*='inset-0'][class*='z-50'] {
   position: fixed !important;
   inset: 0 !important;
   z-index: 99980 !important;
-
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-
   background: rgba(15, 23, 42, 0.58) !important;
   backdrop-filter: blur(3px) !important;
-
-  pointer-events: auto !important;
 }
 
-body [data-dialog-content='true'] {
+/* 2. Само модальное окно возвращаем поверх overlay */
+body [data-radix-dialog-content],
+body [role='dialog'] {
   position: fixed !important;
-
   left: 50% !important;
   top: 50% !important;
   right: auto !important;
   bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
 
   z-index: 99999 !important;
-
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-
-  transform: translate(-50%, -50%) !important;
-
   pointer-events: auto !important;
+
+  width: min(960px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
   isolation: isolate !important;
 }
 
-/* Кнопка закрытия всегда поверх содержимого окна */
-body [data-dialog-content='true'] .dialog-close-button {
-  position: absolute !important;
-  z-index: 100001 !important;
+/* 3. Содержимое модалки не должно быть спрятано */
+body [data-radix-dialog-content] *,
+body [role='dialog'] * {
+  visibility: visible !important;
 }
 
-/* === END FINAL DIALOG OVERLAY CONTENT LAYER FIX === */
+body [data-radix-dialog-content] input,
+body [data-radix-dialog-content] select,
+body [data-radix-dialog-content] textarea,
+body [role='dialog'] input,
+body [role='dialog'] select,
+body [role='dialog'] textarea {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: none !important;
+}
 
+/* 4. Кнопки внутри модалок не должны терять кликабельность */
+body [data-radix-dialog-content] button,
+body [data-radix-dialog-content] a,
+body [role='dialog'] button,
+body [role='dialog'] a {
+  position: relative !important;
+  z-index: 1 !important;
+  pointer-events: auto !important;
+}
 
-/* === FINAL EVENT DETAILS MODAL SIZE FIX === */
+/* 5. Админка: возвращаем нормальный светлый рабочий слой */
+body:has(a[href='/admin/events']),
+body:has(a[href='/admin/imports']),
+body:has(a[href='/admin/settings']) {
+  background: #eef2f7 !important;
+  color: #0f172a !important;
+  font-weight: 500 !important;
+}
 
-/*
-  Увеличиваем только окно подробной информации о мероприятии.
-  Остальные модальные окна проекта не затрагиваются.
-*/
+body:has(a[href='/admin/events']) main,
+body:has(a[href='/admin/imports']) main,
+body:has(a[href='/admin/settings']) main {
+  background: #eef2f7 !important;
+  background-color: #eef2f7 !important;
+  color: #0f172a !important;
+  padding: 24px !important;
+}
 
-body [data-dialog-content='true']:has(.event-modal-layout),
-body [role='dialog']:has(.event-modal-layout) {
-  width: min(1380px, calc(100vw - 28px)) !important;
-  max-width: calc(100vw - 28px) !important;
+/* 6. Админские карточки, формы, таблицы — светлые и читаемые */
+body:has(a[href='/admin/events']) :is(table, thead, tbody, tr, th, td),
+body:has(a[href='/admin/imports']) :is(table, thead, tbody, tr, th, td),
+body:has(a[href='/admin/settings']) :is(table, thead, tbody, tr, th, td) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #d8e4df !important;
+}
 
-  max-height: calc(100vh - 24px) !important;
+body:has(a[href='/admin/events']) thead tr,
+body:has(a[href='/admin/imports']) thead tr,
+body:has(a[href='/admin/settings']) thead tr {
+  background: #f8fafc !important;
+  background-color: #f8fafc !important;
+}
 
-  padding: 26px !important;
+body:has(a[href='/admin/events']) tbody tr,
+body:has(a[href='/admin/imports']) tbody tr,
+body:has(a[href='/admin/settings']) tbody tr {
+  border-bottom: 1px solid #e5e7eb !important;
+}
 
+body:has(a[href='/admin/events']) input,
+body:has(a[href='/admin/events']) select,
+body:has(a[href='/admin/events']) textarea,
+body:has(a[href='/admin/imports']) input,
+body:has(a[href='/admin/imports']) select,
+body:has(a[href='/admin/imports']) textarea,
+body:has(a[href='/admin/settings']) input,
+body:has(a[href='/admin/settings']) select,
+body:has(a[href='/admin/settings']) textarea {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+/* 7. Админские панели не должны становиться чёрными из-за общих стилей */
+body:has(a[href='/admin/events']) :is(section, article, div)[class*='bg-white'],
+body:has(a[href='/admin/imports']) :is(section, article, div)[class*='bg-white'],
+body:has(a[href='/admin/settings']) :is(section, article, div)[class*='bg-white'] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* 8. Текст в админке принудительно читаемый, кроме левого тёмного меню */
+body:has(a[href='/admin/events']) main :is(h1, h2, h3, p, span, div, label, th, td),
+body:has(a[href='/admin/imports']) main :is(h1, h2, h3, p, span, div, label, th, td),
+body:has(a[href='/admin/settings']) main :is(h1, h2, h3, p, span, div, label, th, td) {
+  color: #0f172a !important;
+}
+
+/* 9. Левое меню админки оставляем тёмным */
+body:has(a[href='/admin/events']) aside,
+body:has(a[href='/admin/imports']) aside,
+body:has(a[href='/admin/settings']) aside {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body:has(a[href='/admin/events']) aside *,
+body:has(a[href='/admin/imports']) aside *,
+body:has(a[href='/admin/settings']) aside * {
+  color: inherit !important;
+}
+
+/* 10. Кнопки действий в админке не должны быть невидимыми */
+body:has(a[href='/admin/events']) main button,
+body:has(a[href='/admin/imports']) main button,
+body:has(a[href='/admin/settings']) main button {
+  pointer-events: auto !important;
+}
+
+/* === END FINAL ADMIN AND DIALOG HOTFIX === */
+
+/* === FINAL EVENT MODAL LAYOUT FIX === */
+
+body [data-radix-dialog-content],
+body [role='dialog'] {
+  width: min(1120px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 48px) !important;
+  max-height: calc(100vh - 48px) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  padding: 28px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 28px !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.22) !important;
 }
 
-/* Две колонки становятся шире, содержимое не сжимается */
-body [data-dialog-content='true'] .event-modal-layout,
-body [role='dialog'] .event-modal-layout {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1.12fr) minmax(390px, 0.88fr) !important;
-  gap: 26px !important;
+body [data-radix-dialog-content] *,
+body [role='dialog'] * {
+  box-sizing: border-box !important;
+}
 
-  width: 100% !important;
+body [data-radix-dialog-content] :is(div, section, article, aside),
+body [role='dialog'] :is(div, section, article, aside) {
+  max-width: 100% !important;
   min-width: 0 !important;
-
-  padding-bottom: 72px !important;
 }
 
-/* Картинка мероприятия немного крупнее */
-body [data-dialog-content='true'] .event-modal-image,
-body [role='dialog'] .event-modal-image {
+body [data-radix-dialog-content] img,
+body [role='dialog'] img {
+  display: block !important;
   width: 100% !important;
-  max-height: 430px !important;
-
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 320px !important;
   object-fit: contain !important;
   object-position: center !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
 }
 
-/* Правая панель использует доступную ширину */
-body [data-dialog-content='true'] .event-modal-side,
-body [role='dialog'] .event-modal-side {
+body [data-radix-dialog-content] h1,
+body [data-radix-dialog-content] h2,
+body [data-radix-dialog-content] h3,
+body [data-radix-dialog-content] p,
+body [data-radix-dialog-content] span,
+body [role='dialog'] h1,
+body [role='dialog'] h2,
+body [role='dialog'] h3,
+body [role='dialog'] p,
+body [role='dialog'] span {
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  color: #0f172a !important;
+}
+
+body [data-radix-dialog-content] p,
+body [role='dialog'] p {
+  line-height: 1.5 !important;
+}
+
+body [data-radix-dialog-content] aside,
+body [role='dialog'] aside {
   min-width: 0 !important;
-  width: 100% !important;
 }
 
-/* Нижняя метка не обрезается */
-body [data-dialog-content='true'] .event-status-ribbon,
-body [role='dialog'] .event-status-ribbon {
-  right: 0 !important;
-  bottom: 0 !important;
+body [data-radix-dialog-content] aside > div,
+body [role='dialog'] aside > div {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border-color: #7CD8B3 !important;
 }
 
-/* На узких экранах возвращаем одну колонку */
-@media (max-width: 980px) {
-  body [data-dialog-content='true']:has(.event-modal-layout),
-  body [role='dialog']:has(.event-modal-layout) {
-    width: calc(100vw - 18px) !important;
-    max-width: calc(100vw - 18px) !important;
+body [data-radix-dialog-content] button,
+body [data-radix-dialog-content] a,
+body [role='dialog'] button,
+body [role='dialog'] a {
+  min-height: 42px !important;
+  border-radius: 18px !important;
+  border: 1.5px solid #000000 !important;
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
 
-    max-height: calc(100vh - 18px) !important;
+body [data-radix-dialog-content] a[href*='telegram'],
+body [data-radix-dialog-content] a[href*='t.me'],
+body [data-radix-dialog-content] a[href*='calendar'],
+body [role='dialog'] a[href*='telegram'],
+body [role='dialog'] a[href*='t.me'],
+body [role='dialog'] a[href*='calendar'] {
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #000000 !important;
+}
 
+body [data-radix-dialog-content] button[class*='absolute'],
+body [role='dialog'] button[class*='absolute'] {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  z-index: 10 !important;
+}
+
+@media (min-width: 900px) {
+  body [data-radix-dialog-content] [class*='grid'],
+  body [role='dialog'] [class*='grid'] {
+    align-items: start !important;
+  }
+}
+
+@media (max-width: 899px) {
+  body [data-radix-dialog-content],
+  body [role='dialog'] {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px) !important;
     padding: 18px !important;
   }
 
-  body [data-dialog-content='true'] .event-modal-layout,
-  body [role='dialog'] .event-modal-layout {
-    grid-template-columns: 1fr !important;
-    gap: 18px !important;
-  }
-
-  body [data-dialog-content='true'] .event-modal-image,
-  body [role='dialog'] .event-modal-image {
-    max-height: 340px !important;
+  body [data-radix-dialog-content] img,
+  body [role='dialog'] img {
+    max-height: 240px !important;
   }
 }
 
-/* === END FINAL EVENT DETAILS MODAL SIZE FIX === */
+/* === END FINAL EVENT MODAL LAYOUT FIX === */
 
+/* === FINAL EVENT MODAL JSX LAYOUT FIX === */
 
-/* === FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
-
-/*
-  Блок выбранного дня увеличен только по высоте.
-  Размер текста и карточек событий не меняется.
-  Пять событий помещаются без скроллинга.
-*/
-
-.page-shell .selected-day-events-panel {
-  min-height: 420px !important;
-  height: 420px !important;
-  max-height: 420px !important;
-
-  overflow: hidden !important;
+body [data-radix-dialog-content],
+body [role='dialog'] {
+  width: min(1120px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 48px) !important;
+  max-height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 28px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 28px !important;
+  border: 1.5px solid #000000 !important;
 }
 
-.page-shell .selected-day-events-list {
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-
-  overflow: visible !important;
-  align-content: start !important;
-}
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab {
-  min-height: 54px !important;
-  height: 54px !important;
-  max-height: 54px !important;
-
-  padding: 12px 14px !important;
-}
-
-.page-shell .calendar-left-panel,
-.page-shell .event-details-panel {
-  min-height: 860px !important;
-}
-
-/* === END FINAL SELECTED DAY EVENTS FIVE ITEMS FIX === */
-
-
-
-
-/* === FINAL SELECTED DAY EVENTS TEXT RESTORE FIX === */
-
-/*
-  Восстанавливаем отображение тем в блоке
-  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
-  Служебные span не растягиваем.
-*/
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list button,
-.page-shell .selected-day-events-list a {
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  text-align: left !important;
-}
-
-/* Возвращаем нормальный размер всем внутренним элементам */
-.page-shell .selected-day-events-list .mint-btn span,
-.page-shell .selected-day-events-list button span,
-.page-shell .selected-day-events-list a span {
-  width: auto !important;
-  max-width: 100% !important;
-  display: inline !important;
-  text-align: left !important;
-}
-
-/* Текст события занимает доступную ширину */
-.page-shell .selected-day-events-list .mint-btn span:last-child,
-.page-shell .selected-day-events-list button span:last-child,
-.page-shell .selected-day-events-list a span:last-child {
-  display: block !important;
-  flex: 1 1 auto !important;
+body [data-radix-dialog-content] .event-modal-layout,
+body [role='dialog'] .event-modal-layout {
+  align-items: start !important;
+  width: 100% !important;
   min-width: 0 !important;
+}
 
-  width: auto !important;
-  max-width: 100% !important;
-
-  color: #000000 !important;
-  background: transparent !important;
-
-  white-space: normal !important;
+body [data-radix-dialog-content] .event-modal-main,
+body [role='dialog'] .event-modal-main {
+  min-width: 0 !important;
   overflow: visible !important;
-  text-overflow: unset !important;
+}
+
+body [data-radix-dialog-content] .event-modal-image-wrap,
+body [role='dialog'] .event-modal-image-wrap {
+  width: 100% !important;
+  overflow: hidden !important;
+  border: 1.5px solid #7CD8B3 !important;
+  border-radius: 22px !important;
+  background: #ffffff !important;
+}
+
+body [data-radix-dialog-content] .event-modal-image,
+body [role='dialog'] .event-modal-image {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 340px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+body [data-radix-dialog-content] .event-modal-description,
+body [role='dialog'] .event-modal-description {
+  max-width: 100% !important;
+  overflow: visible !important;
+  white-space: pre-line !important;
   overflow-wrap: anywhere !important;
-
-  text-align: left !important;
-  line-height: 1.15 !important;
+  word-break: normal !important;
+  line-height: 1.55 !important;
+  color: #0f172a !important;
 }
 
-/* Служебные элементы больше не превращаются в полосы */
-.page-shell .selected-day-events-list .mint-btn span:not(:last-child),
-.page-shell .selected-day-events-list button span:not(:last-child),
-.page-shell .selected-day-events-list a span:not(:last-child) {
-  flex: 0 0 auto !important;
-  width: auto !important;
-  max-width: max-content !important;
+body [data-radix-dialog-content] .event-modal-side,
+body [role='dialog'] .event-modal-side {
+  min-width: 0 !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow: none !important;
 }
 
-/* === END FINAL SELECTED DAY EVENTS TEXT RESTORE FIX === */
-
-
-/* === FINAL SITE WIDTH AND IMPORTANT TEXT BACKGROUND FIX === */
-
-/*
-  Расширяем только рабочую область сайта.
-  Шрифты, кнопки, логотип и календарь сохраняют текущие размеры.
-*/
-
-.page-shell {
-  width: min(1584px, calc(100vw - 56px)) !important;
-  max-width: 1584px !important;
+body [data-radix-dialog-content] .event-modal-info-row,
+body [role='dialog'] .event-modal-info-row {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow: none !important;
 }
 
-/*
-  Витрина важных событий:
-  картинка сохраняет прежнюю ширину,
-  дополнительное место получает текстовая панель справа.
-*/
+body [data-radix-dialog-content] .event-modal-info-row *,
+body [role='dialog'] .event-modal-info-row * {
+  overflow: visible !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  color: #0f172a !important;
+}
 
-@media (min-width: 1280px) {
-  .page-shell .highlight-hero-joined > .grid {
-    grid-template-columns: minmax(0, 620px) minmax(0, 1fr) !important;
+body [data-radix-dialog-content] .event-modal-action-btn,
+body [data-radix-dialog-content] .event-modal-action-btn a,
+body [role='dialog'] .event-modal-action-btn,
+body [role='dialog'] .event-modal-action-btn a {
+  min-height: 42px !important;
+  border-radius: 18px !important;
+  border: 1.5px solid #000000 !important;
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.20),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+body [data-radix-dialog-content] .event-modal-main-actions .event-modal-action-btn,
+body [role='dialog'] .event-modal-main-actions .event-modal-action-btn {
+  min-width: 230px !important;
+}
+
+body [data-radix-dialog-content] .event-modal-side-actions .event-modal-action-btn,
+body [role='dialog'] .event-modal-side-actions .event-modal-action-btn {
+  width: 100% !important;
+}
+
+body [data-radix-dialog-content] button[class*='absolute'],
+body [role='dialog'] button[class*='absolute'] {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  z-index: 10 !important;
+}
+
+@media (max-width: 899px) {
+  body [data-radix-dialog-content],
+  body [role='dialog'] {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px) !important;
+    padding: 18px !important;
+  }
+
+  body [data-radix-dialog-content] .event-modal-image,
+  body [role='dialog'] .event-modal-image {
+    max-height: 240px !important;
+  }
+
+  body [data-radix-dialog-content] .event-modal-side-actions,
+  body [role='dialog'] .event-modal-side-actions {
+    grid-template-columns: 1fr !important;
   }
 }
 
-/* Правая текстовая панель важных событий снова белая */
-.page-shell .highlight-hero-joined > .grid > div:nth-of-type(2),
-.page-shell .highlight-hero-joined > div > div:last-of-type {
+/* === END FINAL EVENT MODAL JSX LAYOUT FIX === */
+
+/* === FINAL TOPICS WHITE AND CALENDAR LAYERS FIX === */
+
+/* Подборки: белые кнопки вместо мятных */
+.page-shell .calendar-topic-panel .topic-filter-button,
+.page-shell .calendar-topic-panel button.topic-filter-button,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid var(--ab-border) !important;
+  color: #000000 !important;
+  min-height: 74px !important;
+  height: 74px !important;
+  max-height: 74px !important;
+  padding: 8px 12px !important;
+  gap: 10px !important;
+  font-weight: 500 !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button:hover,
+.page-shell .calendar-topic-panel button.topic-filter-button:hover,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button:hover {
   background: #ffffff !important;
   background-color: #ffffff !important;
 }
 
-/*
-  Календарь:
-  правая часть остаётся прежнего размера.
-  Расширяется только левое текстовое окно выбранного дня.
-*/
-
-@media (min-width: 1280px) {
-  .page-shell .calendar-common-shell.calendar-unified-shell {
-    grid-template-columns: minmax(0, 1fr) 540px !important;
-  }
-
-  .page-shell .calendar-right-stack,
-  .page-shell .right-calendar-shell {
-    width: 540px !important;
-    min-width: 540px !important;
-    max-width: 540px !important;
-  }
+/* Иконки в подборках оставляем прежнего размера */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  font-size: 17px !important;
+  background: #eefbf4 !important;
+  background-color: #eefbf4 !important;
 }
 
-/* Текстовые области используют добавленную ширину */
-.page-shell .event-details-panel,
-.page-shell .calendar-left-panel,
-.page-shell .compact-events-panel,
-.page-shell .compact-event-card,
-.page-shell .important-events-unified {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* На небольших экранах сохраняем адаптивную вёрстку */
-@media (max-width: 1279px) {
-  .page-shell {
-    width: min(100%, calc(100vw - 28px)) !important;
-    max-width: calc(100vw - 28px) !important;
-  }
-
-  .page-shell .calendar-right-stack,
-  .page-shell .right-calendar-shell {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-}
-
-/* === END FINAL SITE WIDTH AND IMPORTANT TEXT BACKGROUND FIX === */
-
-
-/* === FINAL SQUARE PANELS COMPACT METRICS EVENT TEXT FIX === */
-
-/* ---------------------------------------------------------
-   1. ВАЖНЫЕ СОБЫТИЯ
-   Текст использует всю доступную ширину.
-   При переполнении отображается многоточие.
---------------------------------------------------------- */
-
-.page-shell .important-event-description {
-  display: -webkit-box !important;
-  width: 100% !important;
-  max-width: none !important;
-  max-height: calc(1.75rem * 6) !important;
-
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 6 !important;
-
-  white-space: normal !important;
+/* Названия подборок: без жирного выделения и без переносов */
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button span.topic-filter-title {
+  font-size: 17px !important;
+  line-height: 1.05 !important;
+  font-weight: 500 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
   word-break: normal !important;
   overflow-wrap: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
 }
 
-.page-shell .highlight-hero-joined > div > div:last-of-type {
+/* Цифры в подборках: мятные как кнопки */
+.page-shell .calendar-topic-panel .topic-count-number,
+.page-shell .topic-count-number {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #7CD8B3 !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+/* Активная подборка: сохраняем оранжевую обводку */
+.page-shell .calendar-topic-panel .topic-filter-button-active,
+.page-shell .calendar-topic-panel .topic-filter-button.topic-filter-button-active {
+  border: 2.5px solid #f29f59 !important;
   background: #ffffff !important;
   background-color: #ffffff !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* ---------------------------------------------------------
-   2. СЧЁТЧИКИ
-   Только уменьшаем высоту карточек.
-   Иконки и текст сохраняют текущий размер.
---------------------------------------------------------- */
-
-.page-shell .metrics-grid .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .metric-card {
-  min-height: 56px !important;
-  height: auto !important;
-  padding: 7px 12px !important;
-}
-
-.page-shell .metrics-grid {
-  gap: 8px !important;
-}
-
-/* ---------------------------------------------------------
-   3. КНОПКА «СЕГОДНЯ»
-   Убираем только жирное начертание.
---------------------------------------------------------- */
-
-.page-shell .calendar-top-panel .mint-btn--sm,
-.page-shell .calendar-top-panel .mint-btn--sm *,
-.page-shell .calendar-top-panel button.mint-btn--sm {
-  font-weight: 500 !important;
-}
-
-/* ---------------------------------------------------------
-   4. СОБЫТИЯ ВЫБРАННОГО ДНЯ
-   Компактные строки, название слева, время справа.
---------------------------------------------------------- */
-
-.page-shell .selected-day-events-list {
-  gap: 8px !important;
-}
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-
-  min-height: 36px !important;
-  height: auto !important;
-  max-height: none !important;
-
-  padding: 7px 10px !important;
-  gap: 8px !important;
-
-  text-align: left !important;
-}
-
-.page-shell .selected-day-events-list .mint-btn span,
-.page-shell .selected-day-events-list button span {
-  width: auto !important;
-  max-width: 100% !important;
-  text-align: left !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-
-  flex: 0 0 auto !important;
-  width: auto !important;
-  max-width: none !important;
-
-  margin-left: auto !important;
-
-  white-space: nowrap !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  line-height: 1 !important;
-}
-
-/* ---------------------------------------------------------
-   5. ОКНА БЕЗ СКРУГЛЕНИЙ
-   Кнопки, ссылки-кнопки, круглые иконки и даты не трогаем.
---------------------------------------------------------- */
-
-.page-shell,
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .important-events-combined,
-.page-shell .important-events-shell,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .calendar-left-panel,
-.page-shell .calendar-top-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-bottom-panel,
-.page-shell .calendar-topic-panel,
-.page-shell .selected-day-events-panel,
-.page-shell .platform-footer-shell,
-.page-shell .utility-divider,
-.page-shell .compact-event-card,
-body [role='dialog'],
-body [data-radix-dialog-content],
-body [data-dialog-content='true'] {
-  border-radius: 0 !important;
-  clip-path: none !important;
-}
-
-/*
-  Дополнительная страховка для фоновых контейнеров Tailwind.
-  button и a здесь намеренно отсутствуют.
-*/
-
-.page-shell :is(div, section, article, aside, header, footer)[class*='rounded'][class*='border']:not(.day-cell):not([class*='rounded-full']):not(.calendar-day-popover):not(.calendar-day-popover-portal) {
-  border-radius: 0 !important;
-  clip-path: none !important;
-}
-
-/*
-  Кнопки сохраняют скругления.
-*/
-
+/* Убираем жирность с подписей на кнопках проекта */
 .page-shell button,
 .page-shell a.mint-btn,
 .page-shell a.inline-flex,
+.page-shell a[class*='rounded'],
 .page-shell [role='button'],
 .page-shell .pressable,
 .page-shell .mint-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-mode-btn,
+.page-shell .calendar-filter-toggle,
 [role='dialog'] button,
 [role='dialog'] a {
-  border-radius: 18px !important;
+  font-weight: 500 !important;
 }
 
-/*
-  Круглые элементы остаются круглыми:
-  даты важных событий, иконки, стрелки, точки.
-*/
-
-.page-shell [class*='rounded-full'],
-.page-shell .important-date-chip,
-.page-shell .icon-chip,
-.page-shell .metric-icon,
-.page-shell .day-cell span[class*='rounded-full'] {
-  border-radius: 999px !important;
+.page-shell button span,
+.page-shell a.mint-btn span,
+.page-shell a.inline-flex span,
+.page-shell a[class*='rounded'] span,
+.page-shell [role='button'] span,
+.page-shell .pressable span,
+.page-shell .mint-btn span,
+.page-shell .site-header-action span,
+.page-shell .mint-btn--header span,
+.page-shell .important-event-action-btn span,
+.page-shell .important-events-view-all-btn span,
+.page-shell .important-mode-btn span,
+.page-shell .calendar-filter-toggle span,
+[role='dialog'] button span,
+[role='dialog'] a span {
+  font-weight: 500 !important;
 }
 
-/* === END FINAL SQUARE PANELS COMPACT METRICS EVENT TEXT FIX === */
-
-
-/* === FINAL SELECTED DAY EVENTS SHARED BACKGROUND FIX === */
-
-/*
-  Убираем отдельную внутреннюю карточку блока
-  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
-  Список и верхнее описание события используют один общий фон.
-*/
-
-.page-shell .selected-day-events-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-
-  overflow: visible !important;
-}
-
-/* Заголовок сохраняем, но без отдельного окна вокруг списка */
-.page-shell .selected-day-events-title {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-}
-
-/* Список использует ширину общего окна */
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* === END FINAL SELECTED DAY EVENTS SHARED BACKGROUND FIX === */
-
-
-/* === FINAL REMOVE SELECTED DAY INNER SHELL FIX === */
-
-/*
-  Убираем отдельную внутреннюю оболочку блока
-  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
-  Верхняя карточка события и список теперь используют единый фон.
-*/
-
-/* Сам блок выбранного дня */
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-
-  overflow: visible !important;
-}
-
-/* Родительская оболочка, если selected-day-events-panel вложен внутрь неё */
-.page-shell .calendar-left-panel > div:has(> .selected-day-events-panel),
-.page-shell .event-details-panel > div:has(> .selected-day-events-panel),
-.page-shell .calendar-left-panel .surface-card:has(> .selected-day-events-panel),
-.page-shell .event-details-panel .surface-card:has(> .selected-day-events-panel) {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-
-  overflow: visible !important;
-}
-
-/* Заголовок и список сохраняют текущие размеры */
-.page-shell .selected-day-events-title {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-}
-
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/* === END FINAL REMOVE SELECTED DAY INNER SHELL FIX === */
-
-
-/* === FINAL REMOVE FOOTER SHELL AND PANEL SHADOWS FIX === */
-
-/* ---------------------------------------------------------
-   1. ПОДВАЛ «ВОЗМОЖНОСТИ С ПЛАТФОРМОЙ»
-   Убираем только общий внешний фон.
-   Внутренние карточки возможностей сохраняются.
---------------------------------------------------------- */
-
-.page-shell .platform-footer-shell {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* ---------------------------------------------------------
-   2. УБИРАЕМ ТЕНИ У ОКОН И ПАНЕЛЕЙ
-   Кнопки намеренно не включены в селекторы.
---------------------------------------------------------- */
-
-.page-shell,
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .metrics-grid .surface-card,
-.page-shell .surface-card,
-.page-shell .highlight-hero-joined,
-.page-shell .important-events-combined,
-.page-shell .important-events-shell,
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-.page-shell .calendar-left-panel,
-.page-shell .event-details-panel,
-.page-shell .calendar-top-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-bottom-panel,
-.page-shell .calendar-topic-panel,
-.page-shell .selected-day-events-panel,
-.page-shell .selected-day-panel,
+/* Подсказка календаря: всегда поверх нижних блоков */
 .page-shell .calendar-common-shell,
+.page-shell .calendar-unified-shell,
 .page-shell .dashboard-calendar-wrap,
 .page-shell .right-calendar-shell,
 .page-shell .calendar-panel,
-.page-shell .compact-events-panel,
-.page-shell .compact-event-card,
-.page-shell .utility-divider,
-.page-shell .platform-footer-shell,
-.page-shell .platform-footer-shell .surface-card,
-.page-shell .calendar-day-popover,
-.calendar-day-popover-portal,
-body [data-radix-dialog-content],
-body [role='dialog'],
-body [data-dialog-content='true'],
-body [data-dialog-content='true'] .event-modal-side,
-body [data-dialog-content='true'] .event-modal-info-row,
-body [role='dialog'] .event-modal-side,
-body [role='dialog'] .event-modal-info-row {
-  box-shadow: none !important;
-}
-
-/* ---------------------------------------------------------
-   3. СТРАХОВКА ДЛЯ ФОНОВЫХ КОНТЕЙНЕРОВ TAILWIND
-   button, ссылки-кнопки и role=button исключены.
---------------------------------------------------------- */
-
-.page-shell :is(div, section, article, aside, header, footer)[class*='shadow']:not(button):not(a):not([role='button']) {
-  box-shadow: none !important;
-}
-
-/*
-  Кнопки не трогаем:
-  их box-shadow остаётся из существующих правил проекта.
-*/
-
-/* === END FINAL REMOVE FOOTER SHELL AND PANEL SHADOWS FIX === */
-
-
-/* === FINAL MERGE SELECTED DAY PANELS AND RIGHT TIME FIX === */
-
-/*
-  Верхняя карточка события и список выбранного дня
-  используют один общий фон родительского окна.
-  Размеры блоков не меняются.
-*/
-
-.page-shell .calendar-left-panel.event-details-panel {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  background-image: none !important;
-}
-
-/*
-  Убираем собственную подложку, рамку, скругление и тень
-  только у внутреннего блока «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
-*/
-
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  margin-top: 24px !important;
-
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell {
   overflow: visible !important;
 }
 
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
+.page-shell .calendar-top-panel {
+  position: relative !important;
+  z-index: 80 !important;
 }
 
-/*
-  Список также не создаёт отдельную оболочку.
-*/
+.page-shell .calendar-top-panel > div {
+  position: relative !important;
+  z-index: 80 !important;
+}
 
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
+.page-shell .calendar-days-grid {
+  position: relative !important;
+  z-index: 90 !important;
+  overflow: visible !important;
   border-radius: 0 !important;
-
-  box-shadow: none !important;
 }
 
-/*
-  Каждая строка: название слева, время всегда у правого края.
-*/
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-
-  width: 100% !important;
-
-  text-align: left !important;
+.page-shell .day-cell {
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: visible !important;
 }
 
-.page-shell .selected-day-events-list .selected-day-event-title {
-  display: block !important;
-
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-  width: auto !important;
-
-  text-align: left !important;
+.page-shell .day-cell:hover {
+  z-index: 99990 !important;
 }
 
-.page-shell .selected-day-events-list .selected-day-event-time {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover,
+.page-shell .day-cell > div[class*='absolute'] {
+  position: absolute !important;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
 
-  flex: 0 0 auto !important;
-  width: auto !important;
-  max-width: none !important;
+.page-shell .calendar-bottom-panel,
+.page-shell .calendar-topic-panel {
+  position: relative !important;
+  z-index: 1 !important;
+}
 
-  margin-left: auto !important;
-  padding-left: 14px !important;
+@media (max-width: 900px) {
+  .page-shell .calendar-topic-panel .topic-filter-button,
+  .page-shell .calendar-topic-panel button.topic-filter-button,
+  .page-shell .calendar-topic-panel .pressable.topic-filter-button {
+    min-height: 78px !important;
+    height: 78px !important;
+    max-height: 78px !important;
+  }
+}
 
+/* === END FINAL TOPICS WHITE AND CALENDAR LAYERS FIX === */
+
+/* === FINAL TOPIC ICONS AND CALENDAR CORNERS FIX === */
+
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  border: 2px solid #7CD8B3 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #2a8f68 !important;
+  fill: #2a8f68 !important;
+  stroke: #2a8f68 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-icon svg,
+.page-shell .calendar-topic-panel .topic-filter-icon span {
+  color: inherit !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button-active .topic-filter-icon {
+  border-color: #f29f59 !important;
   color: #f29f59 !important;
-
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1 !important;
-
-  white-space: nowrap !important;
-  text-align: right !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time svg {
-  color: #f29f59 !important;
+  fill: #f29f59 !important;
   stroke: #f29f59 !important;
 }
 
-/* === END FINAL MERGE SELECTED DAY PANELS AND RIGHT TIME FIX === */
-
-
-/* === FINAL SHARED EVENT WINDOW PADDING FIX === */
-
-/*
-  Верхняя карточка выбранного события и список событий дня
-  используют один общий белый фон.
-  Размер внешнего окна не меняется.
-*/
-
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .event-details-panel.calendar-left-panel,
-.page-shell .event-details-panel {
+.page-shell .calendar-topic-panel .topic-filter-button > svg.flex-none,
+.page-shell .calendar-topic-panel .topic-filter-button > svg:first-child {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  flex: 0 0 44px !important;
+  padding: 9px !important;
+  border: 2px solid #7CD8B3 !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #2a8f68 !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 2px 5px rgba(0, 0, 0, 0.08) !important;
   box-sizing: border-box !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-button-active > svg.flex-none,
+.page-shell .calendar-topic-panel .topic-filter-button-active > svg:first-child {
+  border-color: #f29f59 !important;
+  color: #f29f59 !important;
+  stroke: currentColor !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-button {
+  font-weight: 500 !important;
+}
+
+.page-shell .calendar-topic-panel .topic-count-number {
+  color: #7CD8B3 !important;
+  font-weight: 700 !important;
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-top-panel > div {
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+}
+
+.page-shell .calendar-top-panel > div {
+  clip-path: inset(0 round 28px) !important;
+}
+
+.page-shell .calendar-days-grid {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  isolation: isolate !important;
+}
+
+.page-shell .calendar-days-grid > .day-cell:first-child {
+  border-top-left-radius: 18px !important;
+}
+
+.page-shell .calendar-days-grid > .day-cell:nth-child(7) {
+  border-top-right-radius: 18px !important;
+}
+
+.page-shell .calendar-days-grid > .day-cell:nth-last-child(7) {
+  border-bottom-left-radius: 18px !important;
+}
+
+.page-shell .calendar-days-grid > .day-cell:last-child {
+  border-bottom-right-radius: 18px !important;
+}
+
+/* === END FINAL TOPIC ICONS AND CALENDAR CORNERS FIX === */
+
+/* === FINAL HEADER LOGO REPLACE FIX === */
+
+.page-shell .site-header-logo-link,
+.site-header-logo-link {
+  min-height: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  flex: 0 1 auto !important;
+  max-width: min(520px, 48vw) !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-img,
+.site-header-logo-img {
+  height: 44px !important;
+  width: auto !important;
+  max-width: min(520px, 48vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+  display: block !important;
+}
+
+.page-shell .site-header-panel {
+  min-height: 70px !important;
+}
+
+.page-shell .site-header-actions {
+  align-items: center !important;
+}
+
+@media (max-width: 820px) {
+  .page-shell .site-header-logo-link,
+  .site-header-logo-link {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-width: 100% !important;
+  }
+
+  .page-shell .site-header-logo-img,
+  .site-header-logo-img {
+    height: 40px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO REPLACE FIX === */
+
+/* === FINAL HEADER LOGO SIZE FIX === */
+
+.page-shell .site-header-brand {
+  min-height: 48px !important;
+  max-height: 48px !important;
+  overflow: visible !important;
+}
+
+.page-shell .site-header-logo-img {
+  display: block !important;
+  height: 48px !important;
+  max-height: 48px !important;
+  width: auto !important;
+  max-width: min(520px, 46vw) !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .site-header-brand {
+    min-height: 42px !important;
+    max-height: 42px !important;
+  }
+
+  .page-shell .site-header-logo-img {
+    height: 42px !important;
+    max-height: 42px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO SIZE FIX === */
+
+/* === FINAL SCALE COUNTERS LOGO SCROLL FIX === */
+
+@supports (zoom: 1) {
+  .page-shell {
+    zoom: 0.9;
+  }
+}
+
+.page-shell .site-header-logo-link {
+  min-height: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+}
+
+.page-shell .site-header-logo-img {
+  height: 48px !important;
+  width: auto !important;
+  max-width: 560px !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+.page-shell .site-header-panel {
+  overflow: visible !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    zoom: 1;
+  }
+
+  .page-shell .site-header-logo-img {
+    height: 44px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL SCALE COUNTERS LOGO SCROLL FIX === */
+
+/* === FINAL HEADER LOGO AND CALENDAR POPOVER FIX === */
+
+.page-shell .site-header-logo-link {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 56px !important;
+  text-decoration: none !important;
+  flex: 0 1 auto !important;
+}
+
+.page-shell .site-header-logo-image {
+  display: block !important;
+  height: 56px !important;
+  width: auto !important;
+  max-width: 760px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1180px) {
+  .page-shell .site-header-logo-image {
+    height: 48px !important;
+    max-width: 560px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell .site-header-logo-image {
+    height: 40px !important;
+    max-width: 100% !important;
+  }
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .day-cell {
+  overflow: visible !important;
+}
+
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.page-shell .day-cell {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.page-shell .day-cell:hover,
+.page-shell .day-cell:focus-within {
+  z-index: 90 !important;
+}
+
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover {
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18) !important;
+}
+
+.page-shell .selected-day-card,
+.page-shell .calendar-topic-panel,
+.page-shell .surface-card {
+  position: relative !important;
+}
+
+/* === END FINAL HEADER LOGO AND CALENDAR POPOVER FIX === */
+
+/* === FINAL HEADER LOGO REPLACE === */
+
+.page-shell .site-header-logo-link {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 72px !important;
+  text-decoration: none !important;
+  flex: 0 1 auto !important;
+}
+
+.page-shell .site-header-logo-image {
+  display: block !important;
+  height: 72px !important;
+  width: auto !important;
+  max-width: 980px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1180px) {
+  .page-shell .site-header-logo-image {
+    height: 60px !important;
+    max-width: 720px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell .site-header-logo-image {
+    height: 46px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* === END FINAL HEADER LOGO REPLACE === */
+
+
+/* === FINAL CALENDAR POPOVER LAYER FIX === */
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell {
+  position: relative;
+}
+
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-top-panel,
+.page-shell .calendar-days-grid,
+.page-shell .calendar-days-grid > div,
+.page-shell .calendar-days-grid .day-cell,
+.page-shell .calendar-board-shell,
+.page-shell .calendar-board-surface {
+  overflow: visible !important;
+}
+
+.page-shell .calendar-panel,
+.page-shell .calendar-shell,
+.page-shell .calendar-surface,
+.page-shell .calendar-board-shell,
+.page-shell .calendar-board-surface {
+  isolation: isolate;
+  z-index: 20;
+}
+
+.page-shell .calendar-days-grid {
+  z-index: 25;
+}
+
+.page-shell .calendar-days-grid .day-cell:hover,
+.page-shell .calendar-days-grid .day-cell:focus-within {
+  z-index: 40;
+}
+
+.page-shell .calendar-day-popover,
+.page-shell .day-cell > .calendar-day-popover {
+  position: absolute !important;
+  z-index: 9999 !important;
+  pointer-events: none;
+  overflow: visible !important;
+}
+
+.page-shell .selected-day-panel,
+.page-shell .calendar-topic-panel,
+.page-shell .surface-card,
+.page-shell .important-events-ribbon {
+  position: relative;
+  z-index: 1;
+}
+/* === END FINAL CALENDAR POPOVER LAYER FIX === */
+
+
+/* === FINAL CALENDAR POPOVER PORTAL FIX === */
+
+.calendar-day-popover-portal {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+
+  width: 300px !important;
+  max-width: calc(100vw - 28px) !important;
 
   background: #ffffff !important;
   background-color: #ffffff !important;
-  background-image: none !important;
+  color: #000000 !important;
 
-  padding: 20px !important;
+  border: 1.5px solid #7CD8B3 !important;
+  border-radius: 16px !important;
+
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.24),
+    0 5px 12px rgba(0, 0, 0, 0.16) !important;
 }
 
+/* === END FINAL CALENDAR POPOVER PORTAL FIX === */
+
+
+/* === FINAL MODAL CLOSE BUTTON CENTER FIX === */
+
+.dialog-close-button {
+  display: inline-flex !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 1px solid #000000 !important;
+  border-radius: 999px !important;
+
+  background: #7CD8B3 !important;
+  color: #000000 !important;
+
+  line-height: 1 !important;
+}
+
+.dialog-close-button svg {
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 20px !important;
+}
+
+/* === END FINAL MODAL CLOSE BUTTON CENTER FIX === */
+
+
+/* === FINAL EVENT MODAL STATUS RIBBON FIX === */
+
+.page-shell .event-modal-layout {
+  position: relative !important;
+  padding-bottom: 68px !important;
+}
+
+.page-shell .event-status-ribbon {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 20 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-width: 220px !important;
+  height: 42px !important;
+  padding: 0 22px !important;
+
+  border: 1px solid #000000 !important;
+  border-radius: 18px 0 0 18px !important;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16) !important;
+
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+}
+
+.page-shell .event-status-ribbon--scheduled {
+  background: #7CD8B3 !important;
+}
+
+.page-shell .event-status-ribbon--completed {
+  background: #f29f59 !important;
+}
+
+/* === END FINAL EVENT MODAL STATUS RIBBON FIX === */
+
+/* === FINAL CONSOLIDATED SELECTED DAY PANEL FIX === */
+
 /*
-  Убираем остаточный фон, верхнюю линию, рамку и тень
-  только у внутреннего блока «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Единый источник оформления для блока «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
+  Внутренний раздел является прозрачной нижней частью левой панели.
 */
 
+.page-shell .calendar-left-panel.event-details-panel,
+.page-shell .event-details-panel.calendar-left-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.page-shell .selected-day-events-panel,
+.page-shell .selected-day-secondary-pane,
 .page-shell .calendar-left-panel .selected-day-events-panel,
 .page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  box-sizing: border-box !important;
+.page-shell .surface-card.selected-day-events-panel,
+.page-shell .surface-card.selected-day-secondary-pane {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+
+  margin: 24px 0 0 !important;
+  padding: 16px 0 0 !important;
 
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
 
   border: 0 !important;
-  border-top: 0 !important;
-  border-right: 0 !important;
-  border-bottom: 0 !important;
-  border-left: 0 !important;
-
+  border-top: 1px solid #c9d1cf !important;
   border-radius: 0 !important;
 
+  outline: 0 !important;
   box-shadow: none !important;
 
-  margin-top: 28px !important;
-
-  padding: 0 !important;
-
   overflow: visible !important;
+  isolation: auto !important;
 }
-
-/*
-  Убираем возможную служебную линию между двумя частями окна.
-*/
 
 .page-shell .selected-day-events-panel::before,
 .page-shell .selected-day-events-panel::after,
-.page-shell .calendar-left-panel .selected-day-events-panel::before,
-.page-shell .calendar-left-panel .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-  border: 0 !important;
-  background: transparent !important;
-}
-
-/*
-  Заголовок нижнего блока выравниваем по общей линии слева.
-*/
-
-.page-shell .selected-day-events-title {
-  margin: 0 0 14px 0 !important;
-  padding: 0 !important;
-
-  text-align: left !important;
-}
-
-/*
-  Список использует всю доступную ширину общего окна.
-*/
-
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-/*
-  Кнопки списка остаются скруглёнными.
-  Добавляем одинаковый внутренний отступ текста.
-*/
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-
-  justify-content: flex-start !important;
-}
-
-/*
-  Название события слева, время строго справа.
-*/
-
-.page-shell .selected-day-events-list .selected-day-event-title {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-
-  margin: 0 !important;
-
-  text-align: left !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time {
-  flex: 0 0 auto !important;
-
-  margin-left: auto !important;
-  padding-left: 16px !important;
-
-  text-align: right !important;
-  white-space: nowrap !important;
-}
-
-/* === END FINAL SHARED EVENT WINDOW PADDING FIX === */
-
-
-/* === FINAL FULL MAX TEXT AND SIMPLE SELECTED DAY DIVIDER === */
-
-/* ---------------------------------------------------------
-   1. ВАЖНЫЕ СОБЫТИЯ: ПОЛНЫЙ ТЕКСТ ИЗ MAX
---------------------------------------------------------- */
-
-/*
-  Правое окно использует всю доступную область.
-  Текст не обрезается и не скрывается.
-*/
-
-.page-shell .highlight-hero-joined > .grid,
-.page-shell .highlight-hero-joined > div {
-  align-items: stretch !important;
-}
-
-.page-shell .important-events-text-panel,
-.page-shell .highlight-hero-joined > .grid > div:last-child,
-.page-shell .highlight-hero-joined > div > div:last-child {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-
-  width: 100% !important;
-  min-width: 0 !important;
-  height: auto !important;
-
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-}
-
-.page-shell .important-event-description {
-  display: block !important;
-
-  width: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
-
-  overflow: visible !important;
-  text-overflow: clip !important;
-
-  -webkit-box-orient: initial !important;
-  -webkit-line-clamp: unset !important;
-
-  white-space: pre-line !important;
-  word-break: normal !important;
-  overflow-wrap: break-word !important;
-}
-
-/* ---------------------------------------------------------
-   2. СОБЫТИЯ ВЫБРАННОГО ДНЯ:
-   УБИРАЕМ ОТДЕЛЬНУЮ КАРТОЧКУ.
-   ОСТАВЛЯЕМ ТОЛЬКО ТОНКУЮ ЛИНИЮ.
---------------------------------------------------------- */
-
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .event-details-panel.calendar-left-panel,
-.page-shell .event-details-panel {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  background-image: none !important;
-}
-
-/*
-  У нижнего блока полностью удаляем:
-  фон, внешнюю рамку, тень и отдельную оболочку.
-*/
-
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  box-sizing: border-box !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #cfcfcf !important;
-  border-right: 0 !important;
-  border-bottom: 0 !important;
-  border-left: 0 !important;
-
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-
-  margin-top: 24px !important;
-
-  padding-top: 18px !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-
-  overflow: visible !important;
-}
-
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-}
-
-.page-shell .selected-day-events-title {
-  margin: 0 0 14px 0 !important;
-  padding: 0 !important;
-}
-
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  box-shadow: none !important;
-}
-
-/* === END FINAL FULL MAX TEXT AND SIMPLE SELECTED DAY DIVIDER === */
-
-
-/* === FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
-
-/*
-  Окна и панели получают эффект выпуклой поверхности
-  без box-shadow.
-  Кнопки, ссылки-кнопки и круглые элементы не затрагиваются.
-*/
-
-:root {
-  --panel-bg-top: #ffffff;
-  --panel-bg-bottom: #f1f4f3;
-
-  --panel-edge-light: #ffffff;
-  --panel-edge-mid: #c8d1ce;
-  --panel-edge-dark: #7e8985;
-
-  --panel-outline: #dce4e1;
-}
-
-/* ---------------------------------------------------------
-   1. ОБЩИЕ ОКНА ПРОЕКТА
---------------------------------------------------------- */
-
-.page-shell,
-.page-shell .site-header-panel,
-.page-shell .surface-card,
-.page-shell .metric-card,
-.page-shell .important-events-combined,
-.page-shell .important-events-shell,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-unified-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .calendar-common-shell,
-.page-shell .calendar-left-panel,
-.page-shell .event-details-panel,
-.page-shell .calendar-top-panel,
-.page-shell .calendar-bottom-panel,
-.page-shell .calendar-topic-panel,
-.page-shell .selected-day-events-panel,
-.page-shell .compact-events-panel,
-.page-shell .compact-event-card,
-.page-shell .right-calendar-shell,
-.page-shell .calendar-panel,
-.page-shell .platform-footer-shell,
-.page-shell .platform-footer-shell .surface-card,
-.page-shell .dashboard-filters-wrap > *,
-.page-shell .dashboard-topics-wrap > *,
-body [role='dialog'],
-body [data-dialog-content='true'],
-body [data-radix-dialog-content] {
-  box-shadow: none !important;
-
-  background-color: var(--panel-bg-bottom) !important;
-  background-image: linear-gradient(
-    180deg,
-    var(--panel-bg-top) 0%,
-    #fafcfb 28%,
-    var(--panel-bg-bottom) 100%
-  ) !important;
-
-  border-style: solid !important;
-  border-width: 1px !important;
-
-  border-top-color: var(--panel-edge-light) !important;
-  border-left-color: var(--panel-edge-light) !important;
-  border-right-color: var(--panel-edge-dark) !important;
-  border-bottom-color: var(--panel-edge-dark) !important;
-
-  outline: 1px solid var(--panel-outline) !important;
-  outline-offset: -2px !important;
-}
-
-/* ---------------------------------------------------------
-   2. ВНУТРЕННИЕ ИНФОРМАЦИОННЫЕ БЛОКИ МОДАЛЬНЫХ ОКОН
---------------------------------------------------------- */
-
-body [data-dialog-content='true'] .event-modal-side,
-body [data-dialog-content='true'] .event-modal-info-row,
-body [role='dialog'] .event-modal-side,
-body [role='dialog'] .event-modal-info-row {
-  box-shadow: none !important;
-
-  background-color: #ffffff !important;
-  background-image: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #f5f8f7 100%
-  ) !important;
-
-  border-style: solid !important;
-  border-width: 1px !important;
-
-  border-top-color: #ffffff !important;
-  border-left-color: #ffffff !important;
-  border-right-color: #9da9a5 !important;
-  border-bottom-color: #9da9a5 !important;
-
-  outline: 1px solid #dce4e1 !important;
-  outline-offset: -2px !important;
-}
-
-/* ---------------------------------------------------------
-   3. БЛОК «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
-   Оставляем общий фон и только линию-разделитель.
---------------------------------------------------------- */
-
-.page-shell .selected-day-events-panel {
-  box-shadow: none !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #b9c3c0 !important;
-
-  outline: 0 !important;
-}
-
-/* ---------------------------------------------------------
-   4. ПОДВАЛ
-   Общая внешняя оболочка остаётся прозрачной.
---------------------------------------------------------- */
-
-.page-shell .platform-footer-shell {
-  box-shadow: none !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  outline: 0 !important;
-}
-
-/* ---------------------------------------------------------
-   5. СТРАХОВКА:
-   УБИРАЕМ ТЕНИ У КОНТЕЙНЕРОВ,
-   НО НЕ ТРОГАЕМ КНОПКИ
---------------------------------------------------------- */
-
-.page-shell :is(
-  div,
-  section,
-  article,
-  aside,
-  header,
-  footer
-)[class*='shadow']:not(button):not(a):not([role='button']) {
-  box-shadow: none !important;
-}
-
-/*
-  Кнопки намеренно исключены.
-  Их существующие тени и скругления сохраняются.
-*/
-
-/* === END FINAL BEVELED PANELS WITHOUT SHADOWS FIX === */
-
-/* === FINAL AUDITED SELECTED DAY SHARED CARD GRID FIX === */
-
-/*
-  Нижняя рабочая зона остаётся в единой сетке:
-  слева — общее окно выбранного события и списка дня,
-  справа — календарь фиксированной ширины.
-*/
-@media (min-width: 1280px) {
-  .page-shell .calendar-common-shell.calendar-unified-shell {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 540px !important;
-    gap: 12px !important;
-
-    width: 100% !important;
-    max-width: 100% !important;
-
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-  }
-
-  .page-shell .calendar-common-shell.calendar-unified-shell > .selected-day-shared-card,
-  .page-shell .calendar-common-shell.calendar-unified-shell > .right-calendar-shell {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-
-  .page-shell .calendar-common-shell.calendar-unified-shell > .right-calendar-shell {
-    width: 540px !important;
-    min-width: 540px !important;
-    max-width: 540px !important;
-  }
-}
-
-/*
-  Одно общее выпуклое окно без внешней тени.
-  Эффект формируется только градиентом и светотеневыми гранями.
-*/
-.page-shell .selected-day-shared-card {
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-
-  min-height: 760px !important;
-
-  background-color: #f1f4f3 !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fafcfb 28%, #f1f4f3 100%) !important;
-
-  border-style: solid !important;
-  border-width: 1px !important;
-  border-top-color: #ffffff !important;
-  border-left-color: #ffffff !important;
-  border-right-color: #7e8985 !important;
-  border-bottom-color: #7e8985 !important;
-
-  outline: 1px solid #dce4e1 !important;
-  outline-offset: -2px !important;
-
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  overflow: hidden !important;
-}
-
-/*
-  Две равные половины внутри одного общего окна.
-*/
-.page-shell .selected-day-shared-card > .selected-day-shared-layout {
-  display: grid !important;
-  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) !important;
-  gap: 0 !important;
-
-  box-sizing: border-box !important;
-  height: 760px !important;
-  min-height: 760px !important;
-
-  padding: 20px !important;
-  overflow: hidden !important;
-}
-
-.page-shell .selected-day-primary-pane {
-  min-width: 0 !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  overflow: auto !important;
-}
-
-/*
-  Нижняя половина больше не является отдельной карточкой.
-  Между половинами остаётся только тонкий разделитель.
-*/
-.page-shell .selected-day-secondary-pane,
-.page-shell .calendar-left-panel .selected-day-secondary-pane,
-.page-shell .event-details-panel .selected-day-secondary-pane,
-.page-shell .surface-card.selected-day-secondary-pane {
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  min-height: 0 !important;
-  height: auto !important;
-  max-height: none !important;
-
-  margin: 0 !important;
-  padding: 18px 0 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #b9c3c0 !important;
-  border-radius: 0 !important;
-
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  overflow: hidden !important;
-}
-
 .page-shell .selected-day-secondary-pane::before,
 .page-shell .selected-day-secondary-pane::after {
   content: none !important;
@@ -2734,10 +2922,14 @@ body [role='dialog'] .event-modal-info-row {
 .page-shell .selected-day-events-title {
   margin: 0 0 14px !important;
   padding: 0 !important;
+  color: #f29f59 !important;
   text-align: left !important;
 }
 
 .page-shell .selected-day-events-list {
+  display: grid !important;
+  gap: 8px !important;
+
   width: 100% !important;
   max-width: 100% !important;
   height: auto !important;
@@ -2752,19 +2944,17 @@ body [role='dialog'] .event-modal-info-row {
   background-image: none !important;
 
   border: 0 !important;
+  border-radius: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
 
   overflow: visible !important;
 }
 
-/*
-  Строки списка сохраняют вид кнопок.
-  Название остаётся слева, время фиксируется у правого края.
-*/
 .page-shell .selected-day-events-list .mint-btn,
 .page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
+.page-shell .selected-day-events-list button,
+.page-shell .selected-day-events-list a {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
@@ -2777,217 +2967,21 @@ body [role='dialog'] .event-modal-info-row {
   height: auto !important;
   max-height: none !important;
 
-  padding: 7px 12px !important;
   gap: 8px !important;
+  padding: 7px 14px !important;
+
+  text-align: left !important;
 }
 
-.page-shell .selected-day-events-list .selected-day-event-title {
-  display: block !important;
-  flex: 1 1 auto !important;
+.page-shell .selected-day-events-list .selected-day-event-title,
+.page-shell .selected-day-events-list button > :not(.selected-day-event-time),
+.page-shell .selected-day-events-list a > :not(.selected-day-event-time) {
   min-width: 0 !important;
-  width: auto !important;
+  max-width: 100% !important;
 
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-  text-align: left !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-
-  flex: 0 0 auto !important;
-  width: auto !important;
-  max-width: none !important;
-
-  margin-left: auto !important;
-  padding-left: 12px !important;
-
-  color: #f29f59 !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-  text-align: right !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time svg {
-  color: #f29f59 !important;
-  stroke: #f29f59 !important;
-}
-
-@media (max-width: 1279px) {
-  .page-shell .selected-day-shared-card > .selected-day-shared-layout {
-    height: auto !important;
-    min-height: 0 !important;
-    grid-template-rows: auto auto !important;
-  }
-
-  .page-shell .selected-day-primary-pane {
-    overflow: visible !important;
-  }
-
-  .page-shell .selected-day-secondary-pane {
-    margin-top: 24px !important;
-  }
-}
-
-/* === END FINAL AUDITED SELECTED DAY SHARED CARD GRID FIX === */
-
-
-/* === FINAL SELECTED DAY ONE SHARED WINDOW FIX === */
-
-/*
-  Верхняя карточка выбранного события и нижний список
-  используют одно общее окно.
-  Размер внешней панели не меняется.
-*/
-
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .event-details-panel.calendar-left-panel,
-.page-shell .event-details-panel {
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-  max-width: 100% !important;
-
-  padding: 20px !important;
-
-  background-color: #ffffff !important;
-  background-image: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #fbfcfc 55%,
-    #f3f6f5 100%
-  ) !important;
-
-  box-shadow: none !important;
-
-  border-style: solid !important;
-  border-width: 1px !important;
-
-  border-top-color: #ffffff !important;
-  border-left-color: #ffffff !important;
-  border-right-color: #8f9a97 !important;
-  border-bottom-color: #8f9a97 !important;
-
-  outline: 1px solid #d7dfdc !important;
-  outline-offset: -2px !important;
-}
-
-/*
-  Убираем отдельное окно у блока
-  «СОБЫТИЯ ВЫБРАННОГО ДНЯ».
-  Оставляем только горизонтальную линию.
-*/
-
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  box-sizing: border-box !important;
-
-  width: calc(100% + 40px) !important;
-  max-width: calc(100% + 40px) !important;
-
-  margin-top: 28px !important;
-  margin-right: -20px !important;
-  margin-bottom: 0 !important;
-  margin-left: -20px !important;
-
-  padding-top: 18px !important;
-  padding-right: 20px !important;
-  padding-bottom: 0 !important;
-  padding-left: 20px !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #b9c3c0 !important;
-
-  border-radius: 0 !important;
-
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  overflow: visible !important;
-}
-
-/*
-  Убираем возможные псевдоэлементы,
-  которые создавали остаточный фон или вторую рамку.
-*/
-
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-}
-
-/*
-  Заголовок нижней половины:
-  одинаковый отступ слева с верхним текстом.
-*/
-
-.page-shell .selected-day-events-title {
-  margin: 0 0 14px 0 !important;
-  padding: 0 !important;
-
-  text-align: left !important;
-}
-
-/*
-  Список занимает всю ширину нижней половины.
-*/
-
-.page-shell .selected-day-events-list {
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/*
-  Название события остаётся слева,
-  время начала — строго справа.
-*/
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-
-  box-sizing: border-box !important;
-
-  width: 100% !important;
-
-  padding-right: 16px !important;
-  padding-left: 16px !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-title {
-  display: block !important;
-
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-  width: auto !important;
-
-  margin: 0 !important;
 
   text-align: left !important;
 }
@@ -2998,521 +2992,14 @@ body [role='dialog'] .event-modal-info-row {
   justify-content: flex-end !important;
 
   flex: 0 0 auto !important;
-
-  width: auto !important;
-  max-width: none !important;
-
-  margin-left: auto !important;
-  padding-left: 16px !important;
-
-  color: #f29f59 !important;
-
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1 !important;
-
-  text-align: right !important;
-  white-space: nowrap !important;
-}
-
-.page-shell .selected-day-events-list .selected-day-event-time svg {
-  color: #f29f59 !important;
-  stroke: #f29f59 !important;
-}
-
-/* === END FINAL SELECTED DAY ONE SHARED WINDOW FIX === */
-
-
-/* === FINAL ALL WINDOWS BEVEL SHADOW AND CALENDAR HEIGHT FIX === */
-
-/*
-  Единый стиль видимых окон проекта:
-  - внешняя тень;
-  - светлая верхняя и левая грань;
-  - более тёмная нижняя и правая грань;
-  - лёгкий градиент поверхности.
-
-  Кнопки намеренно не включены в селекторы.
-*/
-
-:root {
-  --ab-window-bg-top: #ffffff;
-  --ab-window-bg-mid: #f8faf9;
-  --ab-window-bg-bottom: #eef2f1;
-  --ab-window-edge-light: #ffffff;
-  --ab-window-edge-dark: #8c9894;
-  --ab-window-outline: #d7dfdc;
-  --ab-window-shadow: 0 8px 16px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.10);
-}
-
-/* ---------------------------------------------------------
-   1. ВИДИМЫЕ ОКНА И ПАНЕЛИ
---------------------------------------------------------- */
-
-.page-shell,
-.page-shell .site-header-panel,
-.page-shell .metric-card,
-.page-shell .important-events-combined,
-.page-shell .highlight-hero-joined,
-.page-shell .dashboard-unified-shell,
-.page-shell .dashboard-filters-wrap > .surface-card,
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .calendar-top-panel > div,
-.page-shell .calendar-bottom-panel,
-.page-shell .calendar-topic-panel,
-.page-shell .compact-events-panel,
-.page-shell .compact-event-card,
-.page-shell .platform-footer-shell .surface-card,
-.page-shell .utility-divider,
-body [role='dialog'],
-body [data-dialog-content='true'],
-body [data-radix-dialog-content] {
-  background-color: var(--ab-window-bg-bottom) !important;
-  background-image: linear-gradient(
-    180deg,
-    var(--ab-window-bg-top) 0%,
-    var(--ab-window-bg-mid) 48%,
-    var(--ab-window-bg-bottom) 100%
-  ) !important;
-
-  border-style: solid !important;
-  border-width: 1px !important;
-  border-top-color: var(--ab-window-edge-light) !important;
-  border-left-color: var(--ab-window-edge-light) !important;
-  border-right-color: var(--ab-window-edge-dark) !important;
-  border-bottom-color: var(--ab-window-edge-dark) !important;
-
-  outline: 1px solid var(--ab-window-outline) !important;
-  outline-offset: -2px !important;
-
-  box-shadow:
-    var(--ab-window-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.96),
-    inset 0 -2px 0 rgba(116, 132, 126, 0.16) !important;
-
-  border-radius: 0 !important;
-}
-
-/* ---------------------------------------------------------
-   2. КАЛЕНДАРЬ: ВЫПУКЛЫЙ ЭФФЕКТ У САМОЙ СЕТКИ
---------------------------------------------------------- */
-
-.page-shell .calendar-days-grid {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border: 1px solid #a9b5b1 !important;
-  border-radius: 0 !important;
-  box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.98),
-    inset -1px -1px 0 rgba(112, 128, 122, 0.18) !important;
-}
-
-.page-shell .day-cell {
-  box-shadow: none !important;
-}
-
-/* ---------------------------------------------------------
-   3. ТЕХНИЧЕСКИЕ ОБОЛОЧКИ КАЛЕНДАРЯ
-   Они не должны превращаться в дополнительные окна.
---------------------------------------------------------- */
-
-.page-shell .calendar-common-shell,
-.page-shell .calendar-unified-shell,
-.page-shell .right-calendar-shell,
-.page-shell .calendar-panel,
-.page-shell .calendar-top-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/* ---------------------------------------------------------
-   4. ЛЕВАЯ ПАНЕЛЬ ДОЛЖНА ДОХОДИТЬ ДО НИЗА КАЛЕНДАРЯ
---------------------------------------------------------- */
-
-.page-shell .calendar-common-shell.calendar-unified-shell {
-  align-items: stretch !important;
-}
-
-.page-shell .calendar-left-panel.event-details-panel {
-  align-self: stretch !important;
-  height: 100% !important;
-  min-height: 100% !important;
-}
-
-.page-shell .calendar-left-panel.event-details-panel > div {
-  height: 100% !important;
-  min-height: 100% !important;
-}
-
-/* ---------------------------------------------------------
-   5. «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
-   Это нижняя часть общего левого окна, а не отдельное окно.
---------------------------------------------------------- */
-
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  margin-top: auto !important;
-  padding-top: 18px !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #b9c3c0 !important;
-  border-radius: 0 !important;
-
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  overflow: visible !important;
-}
-
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* ---------------------------------------------------------
-   6. ПОДВАЛ
-   Внешняя оболочка остаётся прозрачной, карточки внутри выпуклые.
---------------------------------------------------------- */
-
-.page-shell .platform-footer-shell {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/* ---------------------------------------------------------
-   7. МОДАЛЬНЫЕ ИНФОРМАЦИОННЫЕ БЛОКИ
---------------------------------------------------------- */
-
-body [data-dialog-content='true'] .event-modal-side,
-body [data-dialog-content='true'] .event-modal-info-row,
-body [role='dialog'] .event-modal-side,
-body [role='dialog'] .event-modal-info-row {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #f2f6f4 100%) !important;
-  border-style: solid !important;
-  border-width: 1px !important;
-  border-top-color: #ffffff !important;
-  border-left-color: #ffffff !important;
-  border-right-color: #9ba7a3 !important;
-  border-bottom-color: #9ba7a3 !important;
-  outline: 1px solid #d7dfdc !important;
-  outline-offset: -2px !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -2px 0 rgba(116, 132, 126, 0.12) !important;
-  border-radius: 0 !important;
-}
-
-/* ---------------------------------------------------------
-   8. КНОПКИ НЕ ТРОГАЕМ
---------------------------------------------------------- */
-
-/* === END FINAL ALL WINDOWS BEVEL SHADOW AND CALENDAR HEIGHT FIX === */
-
-
-/* === FINAL SELECTED DAY TRANSPARENT PANEL AND RIGHT TIME FIX === */
-
-/*
-  Внутренний раздел «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
-  больше не является отдельным окном.
-  Общий выпуклый фон остаётся только у внешней левой панели.
-*/
-
-.page-shell .selected-day-events-panel,
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #c9d1cf !important;
-  border-right: 0 !important;
-  border-bottom: 0 !important;
-  border-left: 0 !important;
-
-  border-radius: 0 !important;
-
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  overflow: visible !important;
-}
-
-/*
-  Убираем возможные остаточные псевдоэлементы,
-  создающие дополнительную рамку или фон.
-*/
-
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-}
-
-/*
-  Список также полностью прозрачный.
-*/
-
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/*
-  Внутри каждой строки используем строгую сетку:
-  1. точка статуса;
-  2. название;
-  3. время строго у правого края.
-*/
-
-.page-shell .selected-day-events-list button {
-  display: grid !important;
-  grid-template-columns: auto minmax(0, 1fr) auto !important;
-  align-items: center !important;
-  column-gap: 8px !important;
-
-  width: 100% !important;
-
-  text-align: left !important;
-}
-
-/* Точка статуса */
-.page-shell .selected-day-events-list button > span:first-child {
-  grid-column: 1 !important;
-
-  flex: 0 0 auto !important;
-
-  width: 10px !important;
-  min-width: 10px !important;
-  max-width: 10px !important;
-
-  height: 10px !important;
-  min-height: 10px !important;
-  max-height: 10px !important;
-}
-
-/* Название события */
-.page-shell .selected-day-events-list button > span:nth-child(2) {
-  grid-column: 2 !important;
-
-  display: block !important;
-
-  min-width: 0 !important;
-  width: auto !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-
-  text-align: left !important;
-}
-
-/* Время проведения */
-.page-shell .selected-day-events-list button > .selected-day-event-time {
-  grid-column: 3 !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  justify-self: end !important;
-
-  flex: 0 0 auto !important;
-
-  width: auto !important;
-  min-width: max-content !important;
-  max-width: none !important;
-
-  margin: 0 !important;
-  padding-left: 12px !important;
-
-  color: #f29f59 !important;
-
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1 !important;
-
-  text-align: right !important;
-  white-space: nowrap !important;
-}
-
-.page-shell .selected-day-events-list button > .selected-day-event-time svg {
-  color: #f29f59 !important;
-  stroke: #f29f59 !important;
-}
-
-/* === END FINAL SELECTED DAY TRANSPARENT PANEL AND RIGHT TIME FIX === */
-
-
-/* === FINAL SELECTED DAY TRANSPARENT AND RIGHT TIME OVERRIDE === */
-
-/*
-  Внешняя левая панель остаётся единым выпуклым окном.
-  Внутренний раздел «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
-  становится прозрачной нижней частью этого окна.
-*/
-
-.page-shell .calendar-left-panel.event-details-panel,
-.page-shell .event-details-panel.calendar-left-panel {
-  display: flex !important;
-  flex-direction: column !important;
-  align-self: stretch !important;
-
-  height: 100% !important;
-}
-
-/*
-  Убираем отдельный фон, рамку, градиент и тень
-  только у внутреннего раздела выбранного дня.
-  Оставляем одну тонкую линию-разделитель сверху.
-*/
-
-.page-shell .selected-day-events-panel,
-.page-shell .calendar-left-panel .selected-day-events-panel,
-.page-shell .event-details-panel .selected-day-events-panel,
-.page-shell .surface-card.selected-day-events-panel {
-  display: flex !important;
-  flex: 1 1 auto !important;
-  flex-direction: column !important;
-  align-self: stretch !important;
-
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 330px !important;
-
-  margin-top: 24px !important;
-  margin-right: 0 !important;
-  margin-bottom: 0 !important;
-  margin-left: 0 !important;
-
-  padding-top: 16px !important;
-  padding-right: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  border-top: 1px solid #c9d1cf !important;
-  border-right: 0 !important;
-  border-bottom: 0 !important;
-  border-left: 0 !important;
-
-  border-radius: 0 !important;
-
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  overflow: visible !important;
-}
-
-.page-shell .selected-day-events-panel::before,
-.page-shell .selected-day-events-panel::after {
-  content: none !important;
-  display: none !important;
-}
-
-/*
-  Список также прозрачный.
-*/
-
-.page-shell .selected-day-events-list {
-  width: 100% !important;
-  max-width: 100% !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/*
-  Каждая строка:
-  название слева, время строго у правого края.
-*/
-
-.page-shell .selected-day-events-list .mint-btn,
-.page-shell .selected-day-events-list .mint-btn--event-tab,
-.page-shell .selected-day-events-list button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-
-  width: 100% !important;
-
-  gap: 8px !important;
-
-  padding-right: 16px !important;
-  padding-left: 16px !important;
-
-  text-align: left !important;
-}
-
-/*
-  Все элементы строки сохраняют естественный размер.
-*/
-
-.page-shell .selected-day-events-list button > span {
-  width: auto !important;
-  max-width: 100% !important;
-}
-
-/*
-  Время закрепляем справа независимо от длины названия.
-*/
-
-.page-shell .selected-day-events-list .selected-day-event-time {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-
-  flex: 0 0 auto !important;
-
   width: max-content !important;
   min-width: max-content !important;
   max-width: none !important;
 
-  margin-right: 0 !important;
   margin-left: auto !important;
-
-  padding-left: 14px !important;
+  padding-left: 12px !important;
 
   color: #f29f59 !important;
-
   font-size: 12px !important;
   font-weight: 600 !important;
   line-height: 1 !important;
@@ -3526,4 +3013,5 @@ body [role='dialog'] .event-modal-info-row {
   stroke: #f29f59 !important;
 }
 
-/* === END FINAL SELECTED DAY TRANSPARENT AND RIGHT TIME OVERRIDE === */
+/* === END FINAL CONSOLIDATED SELECTED DAY PANEL FIX === */
+
