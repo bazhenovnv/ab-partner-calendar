@@ -3418,3 +3418,284 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL COMPLETE UPLOADED ICONS FIX === */
+
+
+/* === FINAL GLOSSY CHROME BUTTONS EVERYWHERE === */
+
+/*
+  Единый визуальный стиль кнопок проекта:
+  - глянцевая выпуклая поверхность;
+  - хромированная многослойная окантовка;
+  - объёмная тень;
+  - размеры, расположение и логика элементов не меняются.
+*/
+
+:root {
+  --ab-btn-white-top: #ffffff;
+  --ab-btn-white-mid: #fdfdfd;
+  --ab-btn-white-bottom: #e9ecec;
+
+  --ab-btn-mint-top: #dcfff2;
+  --ab-btn-mint-mid: #9be9ca;
+  --ab-btn-mint-bottom: #78d7b2;
+
+  --ab-btn-border-dark: #151515;
+  --ab-btn-border-mid: #717777;
+  --ab-btn-border-light: #f6f7f7;
+
+  --ab-btn-text: #000000;
+  --ab-btn-active: #f29f59;
+}
+
+/* ---------------------------------------------------------
+   1. ВСЕ КНОПКИ И КНОПКИ-ССЫЛКИ
+--------------------------------------------------------- */
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+) {
+  appearance: none !important;
+
+  color: var(--ab-btn-text) !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: var(--ab-btn-border-dark) !important;
+  border-radius: 18px !important;
+
+  background-color: var(--ab-btn-white-mid) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.84) 20%,
+      rgba(255, 255, 255, 0.24) 21%,
+      rgba(255, 255, 255, 0.00) 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-btn-white-top) 0%,
+      var(--ab-btn-white-mid) 48%,
+      var(--ab-btn-white-bottom) 100%
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.95),
+    0 0 0 2px rgba(85, 91, 91, 0.90),
+    0 0 0 3px rgba(236, 239, 239, 0.98),
+    0 5px 9px rgba(0, 0, 0, 0.30),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.11) !important;
+
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) !important;
+
+  transform: translateY(0) !important;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease,
+    opacity 0.12s ease !important;
+}
+
+/* ---------------------------------------------------------
+   2. МЯТНЫЕ ОСНОВНЫЕ КНОПКИ
+--------------------------------------------------------- */
+
+body :is(
+  .mint-btn,
+  .site-header-action,
+  .mint-btn--header,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .topic-filter-button-active,
+  button[class*='bg-[#7CD8B3]'],
+  button[class*='bg-[#8BE2BE]'],
+  button[class*='bg-[#86e1bd]'],
+  [data-variant='primary'],
+  [aria-pressed='true']
+) {
+  color: #000000 !important;
+
+  background-color: var(--ab-btn-mint-mid) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.62) 24%,
+      rgba(255, 255, 255, 0.12) 25%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-btn-mint-top) 0%,
+      var(--ab-btn-mint-mid) 50%,
+      var(--ab-btn-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   3. БЕЛЫЕ КНОПКИ ПОДБОРОК И НЕЙТРАЛЬНЫЕ КНОПКИ
+--------------------------------------------------------- */
+
+body :is(
+  .topic-filter-button,
+  .keep-white-button,
+  .important-date-chip,
+  [data-variant='secondary'],
+  [data-variant='ghost']
+) {
+  color: #000000 !important;
+
+  background-color: var(--ab-btn-white-mid) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.84) 20%,
+      rgba(255, 255, 255, 0.24) 21%,
+      rgba(255, 255, 255, 0.00) 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-btn-white-top) 0%,
+      var(--ab-btn-white-mid) 48%,
+      var(--ab-btn-white-bottom) 100%
+    ) !important;
+}
+
+/* Активная подборка: сохраняем фирменный оранжевый акцент */
+body .topic-filter-button-active {
+  border-color: var(--ab-btn-active) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.96),
+    0 0 0 2px rgba(242, 159, 89, 0.94),
+    0 0 0 3px rgba(255, 235, 217, 0.98),
+    0 5px 9px rgba(0, 0, 0, 0.30),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.11) !important;
+}
+
+/* ---------------------------------------------------------
+   4. КРУГЛЫЕ КНОПКИ ОСТАЮТСЯ КРУГЛЫМИ
+--------------------------------------------------------- */
+
+body :is(
+  .important-nav-btn,
+  .mint-btn--icon,
+  .dialog-close-button,
+  .important-date-chip,
+  button[class*='rounded-full'],
+  a[class*='rounded-full'],
+  [role='button'][class*='rounded-full']
+) {
+  border-radius: 999px !important;
+}
+
+/* ---------------------------------------------------------
+   5. HOVER / ACTIVE / DISABLED
+--------------------------------------------------------- */
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+):not(:disabled):hover {
+  filter: brightness(1.035) saturate(1.02) !important;
+  transform: translateY(-1px) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.98),
+    0 0 0 2px rgba(85, 91, 91, 0.94),
+    0 0 0 3px rgba(247, 249, 249, 1),
+    0 7px 12px rgba(0, 0, 0, 0.34),
+    inset 0 2px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.10) !important;
+}
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+):not(:disabled):active {
+  filter: brightness(0.99) !important;
+  transform: translateY(2px) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.92),
+    0 0 0 2px rgba(85, 91, 91, 0.88),
+    0 0 0 3px rgba(225, 228, 228, 0.98),
+    0 2px 4px rgba(0, 0, 0, 0.24),
+    inset 0 3px 6px rgba(0, 0, 0, 0.16),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.48) !important;
+}
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+):disabled,
+body [aria-disabled='true'] {
+  cursor: not-allowed !important;
+  opacity: 0.56 !important;
+  filter: grayscale(0.20) !important;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------
+   6. ФОКУС КЛАВИАТУРЫ
+--------------------------------------------------------- */
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+):focus-visible {
+  outline: 3px solid rgba(124, 216, 179, 0.58) !important;
+  outline-offset: 4px !important;
+}
+
+/* === END FINAL GLOSSY CHROME BUTTONS EVERYWHERE === */
