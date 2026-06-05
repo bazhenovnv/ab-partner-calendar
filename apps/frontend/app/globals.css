@@ -3268,3 +3268,60 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL HEADER TOPICS BLACK TIME FIX === */
+
+
+/* === FINAL UPLOADED UI ICONS FIX === */
+
+/* Загруженные пользователем глянцевые значки в подборках */
+.page-shell .calendar-topic-panel .topic-filter-icon {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-image {
+  display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+  object-fit: contain !important;
+  border-radius: 999px !important;
+}
+
+/* Значки главных кнопок: Telegram / Max / Стать партнёром */
+.page-shell .site-header-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.page-shell .site-header-icon-image {
+  display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+  object-fit: contain !important;
+  border-radius: 999px !important;
+}
+
+/* === END FINAL UPLOADED UI ICONS FIX === */

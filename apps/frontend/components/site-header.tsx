@@ -4,24 +4,42 @@ const HEADER_BUTTON_CLASS = 'mint-btn mint-btn--header pressable';
 
 function TelegramCircleIcon() {
   return (
-    <span className='flex h-6 w-6 items-center justify-center rounded-full bg-black'>
-      <Send className='h-3.5 w-3.5 text-white' strokeWidth={2.2} />
+    <span className='site-header-icon'>
+      <Image
+        src='/ui-icons/telegram.png'
+        alt=''
+        width={30}
+        height={30}
+        className='site-header-icon-image'
+      />
     </span>
   );
 }
 
 function MaxCircleIcon() {
   return (
-    <span className='flex h-6 w-6 items-center justify-center rounded-full bg-black text-[12px] font-bold text-white'>
-      M
+    <span className='site-header-icon'>
+      <Image
+        src='/ui-icons/max.png'
+        alt=''
+        width={30}
+        height={30}
+        className='site-header-icon-image'
+      />
     </span>
   );
 }
 
 function PartnerCircleIcon() {
   return (
-    <span className='flex h-6 w-6 items-center justify-center rounded-full bg-black'>
-      <UserRound className='h-3.5 w-3.5 text-white' strokeWidth={2.2} />
+    <span className='site-header-icon'>
+      <Image
+        src='/ui-icons/partner.png'
+        alt=''
+        width={30}
+        height={30}
+        className='site-header-icon-image'
+      />
     </span>
   );
 }

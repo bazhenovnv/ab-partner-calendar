@@ -1,7 +1,9 @@
 'use client';
 
+import Image from 'next/image';
+
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarRange, ChevronDown, Flame, Layers3, MapPin, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
+import { CalendarRange, ChevronDown, Flame, MapPin, SlidersHorizontal, Sparkles, Ticket, Users } from 'lucide-react';
 import { SiteHeader } from '@/components/site-header';
 import { HighlightCarousel } from '@/components/highlight-carousel';
 import { EventsCalendarBoard } from '@/components/events-calendar-board';
@@ -30,22 +32,25 @@ type TopicPreset = {
   label: string;
   cardLabel: string;
   icon: string;
+  iconSrc?: string;
   aliases: string[];
 };
 
 const topicPresets: TopicPreset[] = [
-  { value: '54-ФЗ', label: '54-ФЗ', cardLabel: '54-ФЗ', icon: '🧾', aliases: ['54-фз', '54 фз', 'фискаль', 'чек', 'ккт'] },
-  { value: '1С', label: '1С', cardLabel: '1С', icon: '1С', aliases: ['1с', '1 c', '1с:'] },
-  { value: 'ОФД', label: 'ОФД', cardLabel: 'ОФД', icon: '☁️', aliases: ['офд', 'оператор фискальных данных'] },
-  { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', aliases: ['егаис'] },
-  { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', aliases: ['маркировка', 'честный знак'] },
-  { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
+  { value: '54-ФЗ', label: '54-ФЗ', cardLabel: '54-ФЗ', icon: '🧾', iconSrc: '/ui-icons/54fz.png', aliases: ['54-фз', '54 фз', 'фискаль', 'чек', 'ккт'] },
+  { value: '1С', label: '1С', cardLabel: '1С', icon: '1С', iconSrc: '/ui-icons/1c.png', aliases: ['1с', '1 c', '1с:'] },
+  { value: 'ОФД', label: 'ОФД', cardLabel: 'ОФД', icon: '☁️', iconSrc: '/ui-icons/ofd.png', aliases: ['офд', 'оператор фискальных данных'] },
+  { value: 'НДС', label: 'НДС', cardLabel: 'НДС', icon: 'НДС', iconSrc: '/ui-icons/nds.png', aliases: ['ндс', 'налог на добавленную стоимость'] },
+  { value: 'ЕГАИС', label: 'ЕГАИС', cardLabel: 'ЕГАИС', icon: '🍾', iconSrc: '/ui-icons/egais.png', aliases: ['егаис'] },
+  { value: 'Маркировка', label: 'Маркировка', cardLabel: 'Маркировка', icon: '▥', iconSrc: '/ui-icons/markirovka.png', aliases: ['маркировка', 'честный знак'] },
+  { value: 'Кассы', label: 'Кассы', cardLabel: 'Кассы', icon: '🛒', iconSrc: '/ui-icons/kassy.png', aliases: ['онлайн кассы', 'онлайн-кассы', 'онлайн касса', 'касса', 'кассы'] },
   { value: 'СНО', label: 'СНО', cardLabel: 'СНО', icon: '🧩', aliases: ['сно', 'система налогообложения', 'спецрежим', 'усн', 'осно', 'патент', 'псн', 'нпд'] },
   {
     value: 'Налоги',
     label: 'Налоги',
     cardLabel: 'Налоги',
     icon: '₽',
+    iconSrc: '/ui-icons/nalogi.png',
     aliases: [
       'налог',
       'налоги',
@@ -459,7 +464,17 @@ export default function HomePage() {
                   isActive ? 'bg-white/55 text-[#f29f59]' : 'bg-[#eefbf4] text-[#2a8f68]'
                 }`}
               >
-                {topic.icon}
+                {topic.iconSrc ? (
+                  <Image
+                    src={topic.iconSrc}
+                    alt=''
+                    width={32}
+                    height={32}
+                    className='topic-filter-image'
+                  />
+                ) : (
+                  topic.icon
+                )}
               </div>
 
               <div className='topic-filter-copy min-w-0'>
