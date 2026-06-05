@@ -1,4 +1,11 @@
-import { Send, UserRound } from 'lucide-react';
+import Image from 'next/image';
+import { Layers3 as Layers3Icon } from 'lucide-react';
+
+declare global {
+  var Layers3: typeof Layers3Icon;
+}
+
+globalThis.Layers3 = Layers3Icon;
 
 const HEADER_BUTTON_CLASS = 'mint-btn mint-btn--header pressable';
 
