@@ -3699,3 +3699,201 @@ body :is(
 }
 
 /* === END FINAL GLOSSY CHROME BUTTONS EVERYWHERE === */
+
+
+/* === FINAL ALL BUTTONS MINT 7CD8B3 OVERRIDE === */
+
+/*
+  Финальное переопределение:
+  все интерактивные кнопки проекта получают фирменный цвет #7CD8B3,
+  включая кнопки, которые ранее остались белыми из-за более специфичных правил.
+*/
+
+:root {
+  --ab-button-mint: #7CD8B3;
+  --ab-button-mint-top: #d9fff0;
+  --ab-button-mint-mid: #9ce8ca;
+  --ab-button-mint-bottom: #7CD8B3;
+}
+
+/* ---------------------------------------------------------
+   1. ОБЩЕЕ ПРАВИЛО ДЛЯ ВСЕХ КНОПОК
+--------------------------------------------------------- */
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+) {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.62) 22%,
+      rgba(255, 255, 255, 0.14) 23%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   2. КНОПКИ «СОБЫТИЯ ВЫБРАННОГО ДНЯ»
+--------------------------------------------------------- */
+
+.page-shell .selected-day-events-list .mint-btn,
+.page-shell .selected-day-events-list .mint-btn--event-tab,
+.page-shell .selected-day-events-list button,
+.page-shell .selected-day-events-list a {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.58) 24%,
+      rgba(255, 255, 255, 0.10) 25%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   3. КНОПКИ ПОД КАЛЕНДАРЁМ
+--------------------------------------------------------- */
+
+.page-shell .calendar-bottom-panel button,
+.page-shell .calendar-bottom-panel .mint-btn,
+.page-shell .calendar-filter-button,
+.page-shell .calendar-controls button {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.58) 24%,
+      rgba(255, 255, 255, 0.10) 25%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   4. КНОПКИ ВАЖНЫХ СОБЫТИЙ
+--------------------------------------------------------- */
+
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .highlight-hero-joined button,
+.page-shell .highlight-hero-joined a {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.58) 24%,
+      rgba(255, 255, 255, 0.10) 25%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   5. ПОДБОРКИ И ГЛАВНАЯ ПАНЕЛЬ
+--------------------------------------------------------- */
+
+.page-shell .topic-filter-button,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.58) 24%,
+      rgba(255, 255, 255, 0.10) 25%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/* ---------------------------------------------------------
+   6. СОХРАНЯЕМ ОРАНЖЕВЫЙ АКЦЕНТ АКТИВНОЙ ПОДБОРКИ
+--------------------------------------------------------- */
+
+.page-shell .topic-filter-button-active {
+  border-color: #f29f59 !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.96),
+    0 0 0 2px rgba(242, 159, 89, 0.94),
+    0 0 0 3px rgba(255, 235, 217, 0.98),
+    0 5px 9px rgba(0, 0, 0, 0.30),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.11) !important;
+}
+
+/* ---------------------------------------------------------
+   7. DISABLED-КНОПКИ
+--------------------------------------------------------- */
+
+body :is(
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .mint-btn,
+  .pressable,
+  .admin-editor-btn
+):disabled,
+body [aria-disabled='true'] {
+  opacity: 0.56 !important;
+}
+
+/* === END FINAL ALL BUTTONS MINT 7CD8B3 OVERRIDE === */
