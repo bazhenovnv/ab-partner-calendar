@@ -3164,3 +3164,107 @@ body [data-dialog-content='true'] {
 }
 
 /* === END FINAL SMALLER TOPIC FILTER BUTTONS FIX === */
+
+
+/* === FINAL HEADER TOPICS BLACK TIME FIX === */
+
+/*
+  1. Подборки: весь текст на кнопках фильтров чёрный.
+*/
+
+.page-shell .calendar-topic-panel .topic-filter-button,
+.page-shell .calendar-topic-panel .topic-filter-button *,
+.page-shell .calendar-topic-panel button.topic-filter-button,
+.page-shell .calendar-topic-panel button.topic-filter-button *,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button *,
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-filter-copy,
+.page-shell .calendar-topic-panel .topic-count-number,
+.page-shell .topic-filter-title,
+.page-shell .topic-count-number {
+  color: #000000 !important;
+}
+
+/*
+  Иконки в подборках не трогаем радикально, но текст и цифры делаем чёрными.
+*/
+
+.page-shell .calendar-topic-panel .topic-filter-button svg {
+  color: inherit;
+}
+
+/*
+  2. События выбранного дня: время проведения чёрное.
+*/
+
+.page-shell .selected-day-events-list .selected-day-event-time,
+.page-shell .selected-day-events-list button > .selected-day-event-time,
+.page-shell .selected-day-events-list .selected-day-event-time *,
+.page-shell .selected-day-events-list button > .selected-day-event-time * {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/*
+  3. Главная панель: все кнопки одной ширины по самой длинной надписи.
+*/
+
+.page-shell .site-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+}
+
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .site-header-panel a.site-header-action,
+.page-shell .site-header-panel button.site-header-action {
+  width: 184px !important;
+  min-width: 184px !important;
+  max-width: 184px !important;
+
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+
+  padding: 6px 10px !important;
+
+  white-space: nowrap !important;
+}
+
+.page-shell .site-header-action > span:not(:first-child),
+.page-shell .mint-btn--header > span:not(:first-child),
+.page-shell .site-header-panel a.site-header-action > span:not(:first-child),
+.page-shell .site-header-panel button.site-header-action > span:not(:first-child) {
+  display: inline-flex !important;
+  align-items: center !important;
+
+  max-width: none !important;
+
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+/*
+  4. Логотип: убираем возможную CSS-обводку/круг вокруг контейнера логотипа.
+  Если круг нарисован внутри PNG-картинки, нужен отдельный файл логотипа без круга.
+*/
+
+.page-shell .site-header-logo-link,
+.page-shell .site-header-brand,
+.page-shell .site-header-logo-image,
+.page-shell .site-header-logo-img {
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* === END FINAL HEADER TOPICS BLACK TIME FIX === */
