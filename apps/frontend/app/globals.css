@@ -3897,3 +3897,168 @@ body [aria-disabled='true'] {
 }
 
 /* === END FINAL ALL BUTTONS MINT 7CD8B3 OVERRIDE === */
+
+
+/* === FINAL REMAINING CALENDAR AND IMPORTANT BUTTONS FIX === */
+
+/*
+  Точечное усиление селекторов для оставшихся кнопок:
+  - «Подробнее» и «Напомнить» в блоке «Важные события»;
+  - кнопки под календарём «Только бесплатные» и «Только важные»;
+  - служебные кнопки управления календарём;
+  - ссылки-кнопки внутри тех же блоков.
+*/
+
+:root {
+  --ab-button-mint: #7CD8B3;
+  --ab-button-mint-top: #d9fff0;
+  --ab-button-mint-mid: #9ce8ca;
+  --ab-button-mint-bottom: #7CD8B3;
+}
+
+/* Общий миксин через повторяющийся набор свойств */
+.page-shell :is(
+  .highlight-hero-joined,
+  .important-events-combined,
+  .important-events-shell,
+  .important-events-text-panel,
+  .calendar-bottom-panel,
+  .calendar-panel,
+  .calendar-unified-shell,
+  .right-calendar-shell,
+  .calendar-controls,
+  .calendar-top-panel
+) :is(
+  button,
+  a,
+  [role='button'],
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset']
+) {
+  appearance: none !important;
+
+  color: #000000 !important;
+
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: #151515 !important;
+  border-radius: 18px !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.62) 22%,
+      rgba(255, 255, 255, 0.14) 23%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.96),
+    0 0 0 2px rgba(85, 91, 91, 0.92),
+    0 0 0 3px rgba(236, 239, 239, 0.98),
+    0 5px 9px rgba(0, 0, 0, 0.30),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.11) !important;
+
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) !important;
+}
+
+/*
+  Отдельно фиксируем именно две кнопки важного события,
+  так как они могли оставаться под старым правилом белой кнопки.
+*/
+.page-shell .important-event-action-btn,
+.page-shell .highlight-hero-joined .important-event-action-btn,
+.page-shell .important-events-text-panel .important-event-action-btn,
+.page-shell .highlight-hero-joined :is(button, a):has(span),
+.page-shell .important-events-combined :is(button, a):has(span) {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.62) 22%,
+      rgba(255, 255, 255, 0.14) 23%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+}
+
+/*
+  Кнопки под календарём.
+*/
+.page-shell .calendar-bottom-panel :is(button, a, [role='button']),
+.page-shell .right-calendar-shell :is(button, a, [role='button']),
+.page-shell .calendar-panel :is(button, a, [role='button']),
+.page-shell .calendar-filter-button {
+  color: #000000 !important;
+
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.62) 22%,
+      rgba(255, 255, 255, 0.14) 23%,
+      rgba(255, 255, 255, 0.00) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.96),
+    0 0 0 2px rgba(85, 91, 91, 0.92),
+    0 0 0 3px rgba(236, 239, 239, 0.98),
+    0 5px 9px rgba(0, 0, 0, 0.30),
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.11) !important;
+}
+
+/*
+  Круглые стрелки карусели и круглые кнопки календаря
+  сохраняют круглую форму.
+*/
+.page-shell :is(
+  .important-nav-btn,
+  .calendar-nav-btn,
+  .mint-btn--icon,
+  button[class*='rounded-full'],
+  a[class*='rounded-full']
+) {
+  border-radius: 999px !important;
+}
+
+/* Hover */
+.page-shell :is(
+  .highlight-hero-joined,
+  .important-events-combined,
+  .calendar-bottom-panel,
+  .calendar-panel,
+  .right-calendar-shell,
+  .calendar-controls
+) :is(button, a, [role='button']):hover {
+  filter: brightness(1.035) saturate(1.02) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* === END FINAL REMAINING CALENDAR AND IMPORTANT BUTTONS FIX === */
