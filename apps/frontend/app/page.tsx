@@ -585,8 +585,8 @@ export default function HomePage() {
                   <div key={event.id} className='compact-event-card rounded-[18px] border border-[#e5e7eb] bg-white p-4 text-left transition hover:-translate-y-[1px]'>
                     <button type='button' onClick={() => setActiveEvent(event)} className='compact-event-main-button w-full text-left'>
                       <div className='compact-event-card-header flex flex-col items-start justify-between gap-3 lg:flex-row lg:items-start'>
-                        <div>
-                          <div className='text-lg font-semibold text-[#17191e]'>{event.title}</div>
+                        <div className='min-w-0 flex-1 pr-4'>
+                          <div className='break-words pr-2 text-lg font-semibold leading-snug text-[#17191e]'>{event.title}</div>
                           <div className='compact-event-meta mt-2 text-sm text-slate-500'>
                             {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(event.startAt))}
                             {' · '}
@@ -594,8 +594,8 @@ export default function HomePage() {
                           </div>
                         </div>
                         <div className='compact-event-badges flex flex-wrap items-center gap-2'>
-                          <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format}</span>
                           {event.isImportant ? <span className='rounded-full border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-1 text-xs font-semibold text-black'>Важное</span> : null}
+                          <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{event.format === 'ONLINE' ? 'Онлайн' : event.format === 'OFFLINE' ? 'Офлайн' : event.format === 'HYBRID' ? 'Гибрид' : event.format}</span>
                         </div>
                       </div>
                     </button>
