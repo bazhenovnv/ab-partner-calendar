@@ -316,8 +316,7 @@ export function EventsCalendarBoard({
     ? cleanDescriptionText(selectedEvent.descriptionFull || selectedEvent.descriptionShort, selectedEvent)
     : '';
 
-  const visibleSelectedDayEvents = selectedDayEvents.slice(0, MAX_VISIBLE_SELECTED_DAY_EVENTS);
-  const hiddenSelectedDayEventsCount = Math.max(selectedDayEvents.length - MAX_VISIBLE_SELECTED_DAY_EVENTS, 0);
+  const visibleSelectedDayEvents = selectedDayEvents;
 
   return (
     <>
@@ -412,11 +411,6 @@ export function EventsCalendarBoard({
                   </button>
                 ))}
 
-                {hiddenSelectedDayEventsCount > 0 && (
-                  <div className='inline-flex min-h-[54px] items-center justify-center rounded-[18px] border border-[#7CD8B3] bg-[#eefbf4] px-3 py-3 text-[13px] font-semibold text-black'>
-                    + ещё {hiddenSelectedDayEventsCount}
-                  </div>
-                )}
               </div>
             ) : (
               <div className='flex min-h-[220px] items-center justify-center rounded-[16px] border border-[#d9e9e1] bg-[#fafafa] px-4 text-center text-[16px] font-medium text-[#4b5563]'>
