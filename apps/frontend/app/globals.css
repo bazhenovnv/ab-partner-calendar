@@ -4605,3 +4605,51 @@ body [aria-disabled='true'] {
 }
 
 /* === END FINAL CALENDAR CONTROLS AND TOPIC ACTIVE OUTLINE FIX === */
+
+
+/* === FINAL FULL MODE LEFT PADDING FIX === */
+
+/*
+  Полный режим: основной кликабельный блок карточки события.
+  Добавляем безопасные внутренние отступы, чтобы заголовок и мета-строка
+  не прилипали к хромированной рамке и не обрезались слева.
+*/
+
+.page-shell .compact-event-card {
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-main-button {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  overflow: visible !important;
+}
+
+.page-shell .compact-event-card-header {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.page-shell .compact-event-card-header > :first-child {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  padding-left: 2px !important;
+  padding-right: 14px !important;
+}
+
+.page-shell .compact-event-card-header .compact-event-meta {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+.page-shell .compact-event-badges {
+  flex: 0 0 auto !important;
+  align-self: flex-start !important;
+}
+
+/* === END FINAL FULL MODE LEFT PADDING FIX === */
