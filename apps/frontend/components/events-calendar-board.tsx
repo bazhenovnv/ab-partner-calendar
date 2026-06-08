@@ -495,7 +495,7 @@ export function EventsCalendarBoard({
 
                     {dayEvents.length > 0 && (
                       <div className='mt-2 flex flex-wrap gap-1.5'>
-                        {dayEvents.slice(0, 4).map((event) => (
+                        {dayEvents.map((event) => (
                           <span key={event.id} className={`h-2 w-2 rounded-full ${eventDotClass(event)}`} />
                         ))}
                         {dayEvents.length > 4 && (

@@ -4062,3 +4062,130 @@ body [aria-disabled='true'] {
 }
 
 /* === END FINAL REMAINING CALENDAR AND IMPORTANT BUTTONS FIX === */
+
+
+/* === FINAL CALENDAR SELECTED DAY AND FILTERS FIX === */
+
+:root {
+  --ab-button-mint: #7CD8B3;
+  --ab-button-mint-top: #d9fff0;
+  --ab-button-mint-mid: #9ce8ca;
+  --ab-button-mint-bottom: #7CD8B3;
+  --ab-chrome-dark: #151515;
+}
+
+/* Показываем все события выбранного дня */
+.page-shell .selected-day-events-panel,
+.page-shell .selected-day-secondary-pane,
+.page-shell .selected-day-events-list {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.page-shell .selected-day-events-list {
+  display: grid !important;
+  gap: 8px !important;
+}
+
+/* Кнопки календаря: «Сегодня», стрелки, нижние фильтры */
+.page-shell :is(
+  .calendar-panel,
+  .calendar-unified-shell,
+  .right-calendar-shell,
+  .calendar-top-panel,
+  .calendar-bottom-panel,
+  .calendar-controls
+) :is(button, a, [role='button']):not(.day-cell) {
+  appearance: none !important;
+  color: #000000 !important;
+  border: 1px solid var(--ab-chrome-dark) !important;
+  border-radius: 18px !important;
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.66) 22%,
+      rgba(255,255,255,.14) 23%,
+      rgba(255,255,255,0) 52%),
+    linear-gradient(180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.96),
+    0 0 0 2px rgba(85,91,91,.92),
+    0 0 0 3px rgba(236,239,239,.98),
+    0 5px 9px rgba(0,0,0,.30),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(0,0,0,.11) !important;
+}
+
+/* Круглые стрелки остаются круглыми */
+.page-shell :is(
+  .calendar-panel,
+  .calendar-unified-shell,
+  .right-calendar-shell,
+  .calendar-top-panel,
+  .calendar-bottom-panel,
+  .calendar-controls
+) :is(
+  button[class*='rounded-full'],
+  a[class*='rounded-full'],
+  .calendar-nav-btn,
+  .mint-btn--icon
+) {
+  border-radius: 999px !important;
+}
+
+/* Выбранный день календаря — #7CD8B3 */
+.page-shell .day-cell[aria-selected='true'],
+.page-shell .day-cell[aria-pressed='true'],
+.page-shell .day-cell[data-selected='true'],
+.page-shell .day-cell[data-active='true'],
+.page-shell .day-cell.is-selected,
+.page-shell .day-cell.selected,
+.page-shell .day-cell.day-cell--selected,
+.page-shell .calendar-day-selected,
+.page-shell .day-cell[class*='border-red'] {
+  border-color: var(--ab-button-mint) !important;
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(255,255,255,.92) 0%,
+      rgba(255,255,255,.50) 24%,
+      rgba(255,255,255,.04) 54%),
+    linear-gradient(180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%) !important;
+}
+
+/* Фильтры: Формат, Город, Тема, Источник, Период */
+.page-shell select {
+  appearance: auto !important;
+  color: #000000 !important;
+  border: 1px solid var(--ab-chrome-dark) !important;
+  border-radius: 14px !important;
+  background-color: var(--ab-button-mint) !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.66) 22%,
+      rgba(255,255,255,.14) 23%,
+      rgba(255,255,255,0) 52%),
+    linear-gradient(180deg,
+      var(--ab-button-mint-top) 0%,
+      var(--ab-button-mint-mid) 50%,
+      var(--ab-button-mint-bottom) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.96),
+    0 0 0 2px rgba(85,91,91,.92),
+    0 0 0 3px rgba(236,239,239,.98),
+    0 4px 8px rgba(0,0,0,.24),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(0,0,0,.11) !important;
+}
+
+/* === END FINAL CALENDAR SELECTED DAY AND FILTERS FIX === */
