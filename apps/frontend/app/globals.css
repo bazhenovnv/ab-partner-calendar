@@ -4429,3 +4429,179 @@ body [aria-disabled='true'] {
 }
 
 /* === END FINAL EXACT SELECTED DAY AND CALENDAR HIGHLIGHT FIX === */
+
+
+/* === FINAL CALENDAR CONTROLS AND TOPIC ACTIVE OUTLINE FIX === */
+
+:root {
+  --ab-mint: #7CD8B3;
+  --ab-mint-top: #d9fff0;
+  --ab-mint-mid: #9ce8ca;
+  --ab-mint-bottom: #7CD8B3;
+  --ab-peach: #F29F59;
+  --ab-chrome-dark: #151515;
+}
+
+/* ---------------------------------------------------------
+   1. КНОПКИ ПОД КАЛЕНДАРЁМ
+   «Только бесплатные» и «Только важные»
+   получают тот же объёмный эффект, что остальные кнопки.
+--------------------------------------------------------- */
+
+.page-shell .calendar-inline-controls :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+),
+.page-shell .calendar-bottom-panel :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+) {
+  appearance: none !important;
+
+  color: #000000 !important;
+
+  border: 1px solid var(--ab-chrome-dark) !important;
+  border-radius: 18px !important;
+
+  background-color: var(--ab-mint) !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.96) 0%,
+      rgba(255,255,255,.66) 22%,
+      rgba(255,255,255,.14) 23%,
+      rgba(255,255,255,0) 52%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ab-mint-top) 0%,
+      var(--ab-mint-mid) 50%,
+      var(--ab-mint-bottom) 100%
+    ) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.96),
+    0 0 0 2px rgba(85,91,91,.92),
+    0 0 0 3px rgba(236,239,239,.98),
+    0 5px 9px rgba(0,0,0,.30),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(0,0,0,.11) !important;
+
+  text-shadow: 0 1px 0 rgba(255,255,255,.78) !important;
+
+  transform: translateY(0) !important;
+
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease,
+    filter .12s ease !important;
+}
+
+.page-shell .calendar-inline-controls :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+):hover,
+.page-shell .calendar-bottom-panel :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+):hover {
+  filter: brightness(1.035) saturate(1.02) !important;
+  transform: translateY(-1px) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.98),
+    0 0 0 2px rgba(85,91,91,.94),
+    0 0 0 3px rgba(247,249,249,1),
+    0 7px 12px rgba(0,0,0,.34),
+    inset 0 2px 0 rgba(255,255,255,.98),
+    inset 0 -3px 5px rgba(0,0,0,.10) !important;
+}
+
+.page-shell .calendar-inline-controls :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+):active,
+.page-shell .calendar-bottom-panel :is(
+  button,
+  a,
+  label,
+  [role='button'],
+  .pressable,
+  .mint-btn
+):active {
+  transform: translateY(2px) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.92),
+    0 0 0 2px rgba(85,91,91,.88),
+    0 0 0 3px rgba(225,228,228,.98),
+    0 2px 4px rgba(0,0,0,.24),
+    inset 0 3px 6px rgba(0,0,0,.16),
+    inset 0 -1px 2px rgba(255,255,255,.48) !important;
+}
+
+/* Если внутри кнопки есть input, он не должен перекрывать фон */
+.page-shell .calendar-inline-controls input,
+.page-shell .calendar-bottom-panel input {
+  background: transparent !important;
+}
+
+/* ---------------------------------------------------------
+   2. АКТИВНАЯ ПОДБОРКА
+   Возвращаем персиковую обводку поверх общего стиля кнопок.
+--------------------------------------------------------- */
+
+.page-shell .calendar-topic-panel .topic-filter-button-active,
+.page-shell .calendar-topic-panel button.topic-filter-button-active,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button-active,
+.page-shell .topic-filter-button.topic-filter-button-active,
+.page-shell button.topic-filter-button-active {
+  border-color: var(--ab-peach) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.96),
+    0 0 0 2px rgba(242,159,89,.98),
+    0 0 0 4px rgba(255,228,203,.98),
+    0 5px 9px rgba(0,0,0,.30),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(0,0,0,.11) !important;
+}
+
+/* Hover активной подборки сохраняет персиковую рамку */
+.page-shell .calendar-topic-panel .topic-filter-button-active:hover,
+.page-shell .calendar-topic-panel button.topic-filter-button-active:hover,
+.page-shell .calendar-topic-panel .pressable.topic-filter-button-active:hover,
+.page-shell .topic-filter-button.topic-filter-button-active:hover,
+.page-shell button.topic-filter-button-active:hover {
+  border-color: var(--ab-peach) !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.98),
+    0 0 0 2px rgba(242,159,89,1),
+    0 0 0 4px rgba(255,228,203,1),
+    0 7px 12px rgba(0,0,0,.34),
+    inset 0 2px 0 rgba(255,255,255,.98),
+    inset 0 -3px 5px rgba(0,0,0,.10) !important;
+}
+
+/* === END FINAL CALENDAR CONTROLS AND TOPIC ACTIVE OUTLINE FIX === */
