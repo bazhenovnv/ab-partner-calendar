@@ -1,6 +1,6 @@
-/* Structural compatibility rules loaded after controls.css. */
+/* Structural geometry only. Visual states live in controls.css. */
 
-/* Hero arrows stay outside grid flow and never move on hover or press. */
+/* Hero arrows remain anchored over the carousel. */
 .page-shell .highlight-hero-joined .important-nav-btn,
 .page-shell .highlight-hero-joined .important-nav-btn:hover,
 .page-shell .highlight-hero-joined .important-nav-btn:active,
@@ -9,6 +9,8 @@
   top: 50% !important;
   bottom: auto !important;
   z-index: 30 !important;
+  margin: 0 !important;
+  translate: none !important;
   transform: translateY(-50%) !important;
 }
 
@@ -22,96 +24,7 @@
   right: 12px !important;
 }
 
-/* Compact list: the outer card owns visuals; the internal hit-area stays neutral. */
-.page-shell .compact-event-main-button,
-.page-shell .compact-event-main-button:hover,
-.page-shell .compact-event-main-button:active,
-.page-shell .compact-event-main-button:focus-visible {
-  display: block !important;
-  width: 100% !important;
-  height: auto !important;
-  max-height: none !important;
-  position: static !important;
-  isolation: auto !important;
-  overflow: visible !important;
-  padding: 10px 16px !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  filter: none !important;
-  transform: none !important;
-  transition: none !important;
-}
-
-.page-shell .compact-event-main-button::before,
-.page-shell .compact-event-main-button::after,
-.page-shell .compact-event-main-button:hover::before,
-.page-shell .compact-event-main-button:hover::after,
-.page-shell .compact-event-main-button:active::before,
-.page-shell .compact-event-main-button:active::after {
-  content: none !important;
-  display: none !important;
-}
-
-.page-shell .compact-event-card {
-  overflow: visible !important;
-  transform: none !important;
-  transition: transform 0.14s ease, box-shadow 0.14s ease !important;
-}
-
-.page-shell .compact-event-card:hover {
-  transform: translateY(-1px) !important;
-}
-
-/* Selected-day event: one active tab remains white until another event is chosen. */
-.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active,
-.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active:hover,
-.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active:active {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
-  color: #111616 !important;
-  border: 2px solid #4FAF8C !important;
-  box-shadow:
-    0 0 0 1px rgba(79, 175, 140, 0.22),
-    0 7px 14px rgba(0, 0, 0, 0.22),
-    0 2px 5px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.88),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
-  transform: none !important;
-}
-
-.page-shell .selected-day-events-list .mint-btn--event-tab:not(.mint-btn--active):not(:hover) {
-  background: var(--ab-mint) !important;
-  background-color: var(--ab-mint) !important;
-  color: #000000 !important;
-}
-
-/* Completed important dates always use a visible red outline. */
-.page-shell .important-events-ribbon .important-date-chip.is-past-month,
-.page-shell .important-events-ribbon .important-date-chip.is-past-month:hover,
-.page-shell .important-date-chip.is-past-month,
-.page-shell .important-date-chip.is-past-month:hover,
-.page-shell .important-date-chip[class*='border-[#E04B4B]'] {
-  border: 3px solid #E04B4B !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #111616 !important;
-  box-shadow:
-    0 0 0 1px rgba(224, 75, 75, 0.18),
-    0 5px 10px rgba(0, 0, 0, 0.16) !important;
-}
-
-/* Remove the obsolete completed stamp from the UI. */
-.page-shell .important-event-completed-stamp {
-  display: none !important;
-}
-
-/* Calendar popover stays over every dashboard layer. */
+/* Calendar popover stays above all dashboard layers. */
 .calendar-day-popover-portal {
   position: fixed !important;
   z-index: 2147483647 !important;
@@ -123,7 +36,7 @@
   transform-origin: center center !important;
 }
 
-/* Dialog geometry remains centered regardless of button animation. */
+/* Dialog geometry remains centered regardless of button state. */
 body [data-dialog-overlay='true'] {
   position: fixed !important;
   inset: 0 !important;
@@ -166,49 +79,16 @@ body [data-dialog-content='true'] .dialog-close-button:focus-visible {
   transform: none !important;
 }
 
-/* Remove native select arrow because JSX renders one ChevronDown icon. */
+/* Remove native select arrow because JSX renders ChevronDown. */
 .page-shell .select-clean {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
   padding-right: 42px !important;
-  background-color: #7CD8B3 !important;
-  background-image:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.82) 17%, rgba(255, 255, 255, 0.34) 18%, rgba(255, 255, 255, 0.06) 52%, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, #e4fff5 0%, #99e8c9 50%, #7cd8b3 100%) !important;
-  background-repeat: no-repeat, no-repeat !important;
-  background-position: center, center !important;
-  background-size: 100% 100%, 100% 100% !important;
 }
 
 .page-shell .select-clean::-ms-expand {
   display: none !important;
-}
-
-.page-shell .surface-card:has(.select-clean) .icon-chip {
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.72) !important;
-  border-radius: 999px !important;
-  background-color: #ffffff !important;
-  background-image:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.62) 34%, rgba(255, 255, 255, 0.14) 100%),
-    linear-gradient(180deg, #ffffff 0%, #eefbf4 100%) !important;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.98),
-    0 0 0 2px rgba(82, 91, 91, 0.82),
-    0 5px 9px rgba(0, 0, 0, 0.22),
-    inset 0 2px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -3px 5px rgba(0, 0, 0, 0.08) !important;
-}
-
-.page-shell .surface-card:has(.select-clean) .icon-chip svg {
-  width: 22px !important;
-  height: 22px !important;
-  color: #111616 !important;
-  stroke: #111616 !important;
-  stroke-width: 2.35 !important;
 }
 
 @media (max-width: 640px) {
