@@ -79,7 +79,7 @@ function getRuntimeStatus(event: EventItem) {
 }
 
 function isCompletedEvent(event: EventItem) {
-  if (getRuntimeStatus(event) === 'COMPLETED') return true;
+  if (String(getRuntimeStatus(event) || '').toUpperCase() === 'COMPLETED') return true;
 
   const endAt = new Date(event.endAt).getTime();
   if (Number.isFinite(endAt)) return endAt < Date.now();
@@ -227,12 +227,6 @@ export function HighlightCarousel({
                   </Button>
                   <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
                 </div>
-
-                {isCompletedEvent(item) ? (
-                  <div className='important-event-completed-stamp' aria-label='Проведено'>
-                    <span>ПРОВЕДЕНО</span>
-                  </div>
-                ) : null}
               </>
             ) : (
               <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
