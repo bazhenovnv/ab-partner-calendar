@@ -180,6 +180,44 @@
   border: 2.5px solid #f29f59 !important;
 }
 
+/* Expand the useful workspace by 20% and direct the extra room into text panels and calendar. */
+.page-shell {
+  width: min(1584px, calc(100vw - 40px)) !important;
+  max-width: none !important;
+  background-color: rgba(238,238,238,.15) !important;
+  background-image: none !important;
+}
+
+.page-shell .site-header-panel,
+.page-shell .metrics-grid {
+  width: min(1320px, 100%) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.page-shell .important-events-shell,
+.page-shell .dashboard-unified-shell,
+.page-shell .dashboard-filters-wrap,
+.page-shell .dashboard-calendar-wrap,
+.page-shell .calendar-unified-shell,
+.page-shell .compact-events-panel,
+.page-shell .platform-footer-shell {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+@media (min-width: 1024px) {
+  .page-shell .highlight-hero-joined > .grid {
+    grid-template-columns: minmax(0,.88fr) minmax(0,1.12fr) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-shell .calendar-unified-shell {
+    grid-template-columns: minmax(0,1.04fr) minmax(0,.96fr) !important;
+  }
+}
+
 @media (min-width: 768px) {
   .page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child {
     grid-column: 2 / span 1 !important;
@@ -187,6 +225,10 @@
 }
 
 @media (max-width: 900px) {
+  .page-shell {
+    width: calc(100vw - 20px) !important;
+  }
+
   .page-shell .calendar-days-grid + div > span:nth-child(2)::after {
     font-size: 10px !important;
   }
