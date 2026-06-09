@@ -80,6 +80,106 @@
   width: 100% !important;
 }
 
+/* Filter selects: one arrow only and the same glossy hover language as buttons. */
+.page-shell label > div.relative:has(> .select-clean) {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+  transition: transform .14s ease, box-shadow .16s ease !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean)::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  top: -70% !important;
+  left: -48% !important;
+  width: 42% !important;
+  height: 240% !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.24) 30%, rgba(255,255,255,.92) 50%, rgba(255,255,255,.24) 70%, rgba(255,255,255,0) 100%) !important;
+  transform: skewX(-22deg) translateX(-250%) !important;
+  transition: transform .48s ease, opacity .18s ease !important;
+}
+
+.page-shell .select-clean {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  width: 100% !important;
+  min-height: 56px !important;
+  padding: 0 48px 0 18px !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
+  border-radius: 18px !important;
+  background-color: #7CD8B3 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 28%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
+  background-position: center, center !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: 100% 100%, 100% 100% !important;
+  color: #111616 !important;
+  cursor: pointer !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow:
+    0 7px 13px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+  transition: background-color .18s ease, background-image .18s ease, border-color .18s ease, box-shadow .16s ease !important;
+}
+
+.page-shell .select-clean::-ms-expand {
+  display: none !important;
+}
+
+.page-shell .select-clean + svg {
+  z-index: 3 !important;
+  right: 16px !important;
+  width: 18px !important;
+  height: 18px !important;
+  color: #111616 !important;
+  stroke: #111616 !important;
+  stroke-width: 3 !important;
+  transition: transform .18s ease !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean):hover {
+  transform: translateY(-1px) !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean):hover::after {
+  opacity: .94 !important;
+  transform: skewX(-22deg) translateX(520%) !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean):hover .select-clean {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%) !important;
+  border-color: rgba(0,0,0,.72) !important;
+  box-shadow:
+    0 8px 15px rgba(0,0,0,.22),
+    0 3px 6px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -2px 4px rgba(0,0,0,.06) !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean):hover .select-clean + svg {
+  transform: translateY(-50%) scale(1.08) !important;
+}
+
+.page-shell label > div.relative:has(> .select-clean):active {
+  transform: translateY(1px) !important;
+}
+
+.page-shell .select-clean--active {
+  border: 2.5px solid #f29f59 !important;
+}
+
 @media (min-width: 768px) {
   .page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child {
     grid-column: 2 / span 1 !important;
@@ -94,5 +194,10 @@
   .page-shell .calendar-topic-panel .topic-filter-title,
   .page-shell .calendar-topic-panel .topic-count-number {
     font-size: 18px !important;
+  }
+
+  .page-shell .select-clean {
+    min-height: 50px !important;
+    font-size: 15px !important;
   }
 }
