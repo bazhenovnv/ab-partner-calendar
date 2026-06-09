@@ -1,0 +1,202 @@
+/* Single source of truth for button visuals and interaction states. */
+
+/* Base glossy control surface. */
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+),
+body [data-dialog-content='true'] :is(button, a) {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.16s ease,
+    background-color 0.18s ease,
+    background-image 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+)::after,
+body [data-dialog-content='true'] :is(button, a)::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  top: -70% !important;
+  left: -48% !important;
+  width: 42% !important;
+  height: 240% !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.24) 30%, rgba(255,255,255,.92) 50%, rgba(255,255,255,.24) 70%, rgba(255,255,255,0) 100%) !important;
+  transform: skewX(-22deg) translateX(-250%) !important;
+  transition: transform .48s ease, opacity .18s ease !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover::after,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover::after {
+  opacity: .94 !important;
+  transform: skewX(-22deg) translateX(520%) !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+) > *,
+body [data-dialog-content='true'] :is(button, a) > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Every real button turns white on hover. No peach hover outline. */
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 42%, #f3f3f3 100%) !important;
+  color: #111616 !important;
+  border-color: var(--ab-border) !important;
+  box-shadow:
+    0 8px 15px rgba(0,0,0,.22),
+    0 3px 6px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -2px 4px rgba(0,0,0,.06) !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover svg,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover svg {
+  color: #111616 !important;
+  stroke: currentColor !important;
+}
+
+/* Generic tactile press without moving anchored controls. */
+.page-shell :is(
+  button:not(.compact-event-main-button):not(.important-nav-btn),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):active,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):active {
+  transform: translateY(1px) !important;
+}
+
+/* Toggle controls keep peach outline until deactivated. */
+.page-shell :is(
+  .important-mode-btn-active,
+  .calendar-filter-toggle-active,
+  .calendar-today-btn-active,
+  .important-events-view-all-btn-active
+),
+.page-shell :is(
+  .important-mode-btn-active,
+  .calendar-filter-toggle-active,
+  .calendar-today-btn-active,
+  .important-events-view-all-btn-active
+):hover {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242,159,89,.28),
+    0 7px 14px rgba(0,0,0,.22),
+    0 2px 5px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.68),
+    inset 0 -2px 5px rgba(0,0,0,.08) !important;
+}
+
+/* Selected event tab is white while active. */
+.page-shell .mint-btn--event-tab.mint-btn--active,
+.page-shell .mint-btn--event-tab.mint-btn--active:hover {
+  background: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
+  color: #111616 !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow:
+    0 7px 14px rgba(0,0,0,.22),
+    0 2px 5px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.88),
+    inset 0 -2px 5px rgba(0,0,0,.06) !important;
+}
+
+/* Important date states. */
+.page-shell .important-date-chip.is-active,
+.page-shell .important-date-chip.is-active:hover {
+  background: #ffffff !important;
+  color: #111616 !important;
+}
+
+.page-shell .important-date-chip.is-past-month,
+.page-shell .important-date-chip.is-past-month:hover {
+  border-color: #E04B4B !important;
+  background: #ffffff !important;
+  color: #111616 !important;
+}
+
+/* Carousel arrows remain centered. No upward/downward jump. */
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
+  transform: translateY(-50%) !important;
+}
+
+/* Dialog close stays anchored. */
+body [data-dialog-content='true'] .dialog-close-button,
+body [data-dialog-content='true'] .dialog-close-button:hover,
+body [data-dialog-content='true'] .dialog-close-button:active,
+body [data-dialog-content='true'] .dialog-close-button:focus-visible {
+  transform: none !important;
+}
+
+/* Compact-mode inner hit area is never reskinned. */
+.page-shell .compact-event-main-button,
+.page-shell .compact-event-main-button:hover,
+.page-shell .compact-event-main-button:active {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-shell :is(button, a, [role='button']),
+  body [data-dialog-content='true'] :is(button, a) {
+    transition: none !important;
+  }
+}
