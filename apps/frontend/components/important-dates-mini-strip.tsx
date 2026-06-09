@@ -7,6 +7,9 @@ type MiniEvent = {
   id: string;
   title: string;
   startAt: string | Date;
+  endAt?: string | Date;
+  status?: string;
+  runtimeStatus?: string;
 };
 
 type Props = {
@@ -22,6 +25,14 @@ const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн'
 function dateKey(value: string | Date) {
   const d = new Date(value);
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
+
+function isCompletedEvent(event: MiniEvent) {
+  const runtimeStatus = String(event.runtimeStatus || event.status || '').toUpperCase();
+  if (runtimeStatus === 'COMPLETED') return true;
+
+  const timestamp = +new Date(event.endAt || event.startAt);
+  return Number.isFinite(timestamp) && timestamp < Date.now();
 }
 
 export function ImportantDatesMiniStrip({ events, selectedDate, className = '', onSelect, onOpenAll }: Props) {
@@ -65,13 +76,21 @@ export function ImportantDatesMiniStrip({ events, selectedDate, className = '', 
             const d = new Date(event.startAt);
             const day = d.getDate();
             const month = MONTHS_SHORT[d.getMonth()];
+            const active = dateKey(event.startAt) === activeKey;
+            const completed = isCompletedEvent(event);
 
             return (
               <button
                 key={event.id}
                 type='button'
                 onClick={() => onSelect?.(event)}
-                className={`important-date-chip group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border bg-[#7CD8B3] text-center transition hover:-translate-y-[2px] ${dateKey(event.startAt) === activeKey ? 'border-[2px] border-[#E04B4B]' : 'border-[#4FAF8C]'}`}
+                className={`important-date-chip group flex h-[74px] w-[74px] flex-col items-center justify-center rounded-full border text-center transition hover:-translate-y-[2px] ${
+                  completed
+                    ? 'is-past-month border-[2px] border-[#E04B4B] bg-white'
+                    : active
+                      ? 'is-active border-[2px] border-[#4FAF8C] bg-white'
+                      : 'border-[#4FAF8C] bg-[#7CD8B3]'
+                }`}
                 title={event.title}
               >
                 <span className='text-[22px] font-semibold leading-none text-[#1a1a1a]'>{day}</span>
