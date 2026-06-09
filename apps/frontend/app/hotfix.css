@@ -1,8 +1,6 @@
-/* Structural compatibility rules only.
- * Keep geometry stable. Button visuals live in controls.css.
- */
+/* Structural compatibility rules loaded after controls.css. */
 
-/* Hero arrows are anchored over the carousel and never enter grid flow. */
+/* Hero arrows stay outside grid flow and never move on hover or press. */
 .page-shell .highlight-hero-joined .important-nav-btn,
 .page-shell .highlight-hero-joined .important-nav-btn:hover,
 .page-shell .highlight-hero-joined .important-nav-btn:active,
@@ -24,7 +22,7 @@
   right: 12px !important;
 }
 
-/* Full-mode list: the outer card owns its visual shell. */
+/* Compact list: the outer card owns visuals; the internal hit-area stays neutral. */
 .page-shell .compact-event-main-button,
 .page-shell .compact-event-main-button:hover,
 .page-shell .compact-event-main-button:active,
@@ -67,6 +65,50 @@
 
 .page-shell .compact-event-card:hover {
   transform: translateY(-1px) !important;
+}
+
+/* Selected-day event: one active tab remains white until another event is chosen. */
+.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active,
+.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active:hover,
+.page-shell .selected-day-events-list .mint-btn--event-tab.mint-btn--active:active {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
+  color: #111616 !important;
+  border: 2px solid #4FAF8C !important;
+  box-shadow:
+    0 0 0 1px rgba(79, 175, 140, 0.22),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
+  transform: none !important;
+}
+
+.page-shell .selected-day-events-list .mint-btn--event-tab:not(.mint-btn--active):not(:hover) {
+  background: var(--ab-mint) !important;
+  background-color: var(--ab-mint) !important;
+  color: #000000 !important;
+}
+
+/* Completed important dates always use a visible red outline. */
+.page-shell .important-events-ribbon .important-date-chip.is-past-month,
+.page-shell .important-events-ribbon .important-date-chip.is-past-month:hover,
+.page-shell .important-date-chip.is-past-month,
+.page-shell .important-date-chip.is-past-month:hover,
+.page-shell .important-date-chip[class*='border-[#E04B4B]'] {
+  border: 3px solid #E04B4B !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #111616 !important;
+  box-shadow:
+    0 0 0 1px rgba(224, 75, 75, 0.18),
+    0 5px 10px rgba(0, 0, 0, 0.16) !important;
+}
+
+/* Remove the obsolete completed stamp from the UI. */
+.page-shell .important-event-completed-stamp {
+  display: none !important;
 }
 
 /* Calendar popover stays over every dashboard layer. */
@@ -143,7 +185,6 @@ body [data-dialog-content='true'] .dialog-close-button:focus-visible {
   display: none !important;
 }
 
-/* Filter section icon follows the same convex visual language. */
 .page-shell .surface-card:has(.select-clean) .icon-chip {
   position: relative !important;
   isolation: isolate !important;
