@@ -33,8 +33,66 @@
   line-height: 1 !important;
 }
 
+/* Collections panel: title left, count right, all in one row. */
+.page-shell .calendar-topic-panel .topic-filter-button {
+  min-height: 92px !important;
+  height: 92px !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-copy {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  text-align: left !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title,
+.page-shell .calendar-topic-panel .topic-count-number {
+  color: #000000 !important;
+  font-size: 21px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .calendar-topic-panel .topic-count-number {
+  flex: 0 0 auto !important;
+  min-width: 22px !important;
+  margin: 0 0 0 auto !important;
+  font-weight: 900 !important;
+  text-align: right !important;
+}
+
+/* Center the all-collections action in the lower row. */
+.page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child {
+  align-self: center !important;
+  justify-self: center !important;
+  width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child {
+    grid-column: 2 / span 1 !important;
+  }
+}
+
 @media (max-width: 900px) {
   .page-shell .calendar-days-grid + div > span:nth-child(2)::after {
     font-size: 10px !important;
+  }
+
+  .page-shell .calendar-topic-panel .topic-filter-title,
+  .page-shell .calendar-topic-panel .topic-count-number {
+    font-size: 18px !important;
   }
 }
