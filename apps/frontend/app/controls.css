@@ -31,6 +31,15 @@
 }
 
 .page-shell :is(
+  .topic-filter-button,
+  .important-events-view-all-btn,
+  .important-nav-btn
+) {
+  background-color: #7CD8B3 !important;
+  background-image: linear-gradient(180deg, #e4fff5 0%, #99e8c9 50%, #7CD8B3 100%) !important;
+}
+
+.page-shell :is(
   .mint-btn,
   .site-header-action,
   .important-event-action-btn,
@@ -189,6 +198,21 @@
   box-shadow: var(--control-shadow-hover) !important;
 }
 
+/* Carousel toolbar layout is explicit. */
+.page-shell .important-events-headline-row,
+.page-shell .important-events-controls-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-mode-controls {
+  width: min(420px, 100%) !important;
+  margin-left: auto !important;
+}
+
 /* Carousel arrows have the same visual hover effect, but never move vertically. */
 .page-shell .highlight-hero-joined .important-nav-btn,
 .page-shell .highlight-hero-joined .important-nav-btn:hover,
@@ -258,6 +282,19 @@ body [data-dialog-content='true'] .dialog-close-button::after {
 .page-shell .compact-event-main-button::after {
   content: none !important;
   display: none !important;
+}
+
+@media (max-width: 760px) {
+  .page-shell .important-events-headline-row,
+  .page-shell .important-events-controls-row {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
