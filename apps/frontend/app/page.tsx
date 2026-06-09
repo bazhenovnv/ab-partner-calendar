@@ -243,6 +243,7 @@ export default function HomePage() {
   const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('ALL');
   const [onlyImportant, setOnlyImportant] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('SHOWCASE');
+  const [didAutoSelectInitialDate, setDidAutoSelectInitialDate] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -282,6 +283,30 @@ export default function HomePage() {
     api.trackVisit({ anonId: getAnonId(), path: window.location.pathname, source: 'web-app' }).catch(() => undefined);
   }, []);
 
+  useEffect(() => {
+    if (didAutoSelectInitialDate || events.length === 0) return;
+
+    const sortedEvents = [...events]
+      .filter((item) => !Number.isNaN(new Date(item.startAt).getTime()))
+      .sort((a, b) => +new Date(a.startAt) - +new Date(b.startAt));
+
+    const now = Date.now();
+    const firstUpcomingEvent = sortedEvents.find((item) => {
+      const timestamp = +new Date(item.endAt || item.startAt);
+      return Number.isFinite(timestamp) && timestamp >= now;
+    });
+
+    const firstEvent = firstUpcomingEvent ?? sortedEvents[0];
+
+    if (firstEvent) {
+      const firstEventDate = new Date(firstEvent.startAt);
+      setSelectedDate(firstEventDate);
+      setCalendarViewDate(firstEventDate);
+    }
+
+    setDidAutoSelectInitialDate(true);
+  }, [didAutoSelectInitialDate, events]);
+
   const availableCities = useMemo(() => {
     const fromEvents = Array.from(new Set(events.map((item) => extractRussianCity(item.location)).filter((value): value is string => Boolean(value))));
     return fromEvents.filter((value) => RUSSIAN_CITIES.includes(value as (typeof RUSSIAN_CITIES)[number]));
@@ -317,9 +342,8 @@ export default function HomePage() {
 
   const filteredHighlights = useMemo(() => {
     const base = filteredEvents.filter((item) => item.isImportant);
-    if (base.length >= 10) return base;
     const fallback = highlights.filter((item) => !base.some((event) => event.id === item.id));
-    return [...base, ...fallback].slice(0, 10);
+    return [...base, ...fallback];
   }, [filteredEvents, highlights]);
 
   const importantEvents = useMemo(() => {
@@ -420,7 +444,7 @@ export default function HomePage() {
           viewMode === 'COMPACT' ? 'important-mode-btn-active' : ''
         }`}
       >
-        Полный режим
+        Компактный режим
       </Button>
     </>
   );
