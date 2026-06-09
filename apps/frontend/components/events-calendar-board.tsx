@@ -259,18 +259,24 @@ export function EventsCalendarBoard({
               <div className='selected-day-events-title mb-4 text-[18px] font-semibold uppercase tracking-[0.12em] text-[#f29f59]'>СОБЫТИЯ ВЫБРАННОГО ДНЯ</div>
               {selectedDayEvents.length > 0 ? (
                 <div className='selected-day-events-list grid grid-cols-1 gap-3 overflow-visible'>
-                  {selectedDayEvents.map((event, index) => (
-                    <button
-                      key={event.id}
-                      type='button'
-                      onClick={() => onSelectEventId(event.id)}
-                      className={`selected-day-event-btn mint-btn mint-btn--event-tab pressable min-h-[54px] w-full items-start justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.15] ${selectedEvent?.id === event.id ? 'mint-btn--active' : ''}`}
-                    >
-                      <span className={`mt-[3px] h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
-                      <span className='min-w-0 flex-1 whitespace-normal break-words text-left'>{index + 1}. {event.title}</span>
-                      <span className='selected-day-event-time ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-none text-black'><Clock3 className='h-3.5 w-3.5 text-[#2c8d67]' />{formatTime(event.startAt)}</span>
-                    </button>
-                  ))}
+                  {selectedDayEvents.map((event, index) => {
+                    const active = selectedEvent?.id === event.id;
+
+                    return (
+                      <button
+                        key={event.id}
+                        type='button'
+                        aria-pressed={active}
+                        data-active={active ? 'true' : 'false'}
+                        onClick={() => onSelectEventId(event.id)}
+                        className={`selected-day-event-btn mint-btn mint-btn--event-tab pressable min-h-[54px] w-full items-start justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.15] ${active ? 'mint-btn--active' : ''}`}
+                      >
+                        <span className={`mt-[3px] h-2.5 w-2.5 shrink-0 rounded-full ${eventDotClass(event)}`} />
+                        <span className='min-w-0 flex-1 whitespace-normal break-words text-left'>{index + 1}. {event.title}</span>
+                        <span className='selected-day-event-time ml-auto inline-flex shrink-0 items-center gap-1 text-[12px] leading-none text-black'><Clock3 className='h-3.5 w-3.5 text-[#2c8d67]' />{formatTime(event.startAt)}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className='flex min-h-[220px] items-center justify-center rounded-[16px] border border-[#d9e9e1] bg-[#fafafa] px-4 text-center text-[16px] font-medium text-[#4b5563]'>На выбранный день нет мероприятий</div>
@@ -329,7 +335,7 @@ export function EventsCalendarBoard({
                       <div className={`calendar-day-number ${selected || inMonth ? 'text-black' : 'text-slate-400'}`}>{day.getDate()}</div>
                       {dayEvents.length > 0 ? (
                         <div className='mt-2 flex flex-wrap gap-1.5'>
-                          {dayEvents.slice(0, 4).map((event) => <span key={event.id} className={`h-2 w-2 rounded-full ${eventDotClass(event)}`} />)}
+                          {dayEvents.map((event) => <span key={event.id} className={`h-2 w-2 rounded-full ${eventDotClass(event)}`} />)}
                         </div>
                       ) : null}
                     </div>
