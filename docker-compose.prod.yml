@@ -30,6 +30,9 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      SYNC_INTERVAL_MINUTES: "30"
+      MAX_SYNC_INTERVAL_MINUTES: "30"
     depends_on:
       postgres:
         condition: service_healthy
