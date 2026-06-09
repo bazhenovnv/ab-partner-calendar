@@ -78,15 +78,9 @@ function cleanDescriptionText(value?: string, event?: EventItem) {
       const normalized = normalizeText(line);
 
       if (!normalized) return false;
-
-      // Убираем дубль названия мероприятия.
       if (eventTitle && normalized === eventTitle) return false;
-
-      // Убираем служебные строки.
       if (/^(источник|ссылка|регистрация|зарегистрироваться)\b/i.test(line)) return false;
       if (/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/i.test(line)) return false;
-
-      // Убираем строки с датой, временем, форматом, городом, адресом и источником.
       if (/^(когда|дата|время|формат|стоимость|источник|город|адрес|место)\s*[:：]/i.test(line)) return false;
       if (/^\d{1,2}\s+[а-яё]+\s*(?:\d{4}\s*г?\.?)?\s*\|/i.test(line)) return false;
       if (/^(онлайн|офлайн|очно|гибрид|бесплатно|платно)(\s*\|\s*(онлайн|офлайн|очно|гибрид|бесплатно|платно))*$/i.test(line)) return false;
@@ -377,7 +371,7 @@ export function EventsCalendarBoard({
             ) : (
               <div className='flex min-h-[360px] flex-col items-center justify-center rounded-[18px] bg-transparent px-6 py-10 text-center'>
                 <div className='text-[28px] font-semibold leading-tight text-black'>
-                  На сегодня нет мероприятий
+                  На выбранный день нет мероприятий
                 </div>
               </div>
             )}
@@ -414,7 +408,7 @@ export function EventsCalendarBoard({
               </div>
             ) : (
               <div className='flex min-h-[220px] items-center justify-center rounded-[16px] border border-[#d9e9e1] bg-[#fafafa] px-4 text-center text-[16px] font-medium text-[#4b5563]'>
-                На сегодня нет мероприятий
+                На выбранный день нет мероприятий
               </div>
             )}
           </div>
