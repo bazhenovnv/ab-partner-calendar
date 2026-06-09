@@ -66,3 +66,44 @@
 .page-shell .important-events-copy-panel .mt-6.flex.flex-wrap > span:nth-child(5) {
   order: 4 !important;
 }
+
+/* Service buttons in important-events UI are deliberately static. */
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible,
+body [data-dialog-content='true'] .dialog-close-button,
+body [data-dialog-content='true'] .dialog-close-button:hover,
+body [data-dialog-content='true'] .dialog-close-button:active,
+body [data-dialog-content='true'] .dialog-close-button:focus-visible {
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  background-image: none !important;
+  border: 1.5px solid var(--ab-border) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn::before,
+.page-shell .highlight-hero-joined .important-nav-btn::after,
+body [data-dialog-content='true'] .dialog-close-button::before,
+body [data-dialog-content='true'] .dialog-close-button::after {
+  content: none !important;
+  display: none !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
+  transform: translateY(-50%) !important;
+}
+
+body [data-dialog-content='true'] .dialog-close-button,
+body [data-dialog-content='true'] .dialog-close-button:hover,
+body [data-dialog-content='true'] .dialog-close-button:active,
+body [data-dialog-content='true'] .dialog-close-button:focus-visible {
+  transform: none !important;
+}
