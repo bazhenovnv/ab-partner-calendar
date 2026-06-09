@@ -23,6 +23,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: root
           key: ${{ secrets.SERVER_SSH_KEY }}
+          command_timeout: 45m
           script: |
             set -e
 
@@ -37,14 +38,11 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "=== STOP OLD CONTAINERS ==="
-            docker compose -f docker-compose.prod.yml down --remove-orphans || true
+            echo "=== BUILD APPLICATION IMAGES ==="
+            docker compose -f docker-compose.prod.yml build backend frontend
 
-            echo "=== REMOVE STALE CONTAINERS ==="
-            docker rm -f app-nginx-1 app-frontend-1 app-backend-1 app-postgres-1 2>/dev/null || true
-
-            echo "=== BUILD & START PROD ==="
-            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+            echo "=== START OR UPDATE PROD ==="
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
             echo "=== CLEAN OLD IMAGES ==="
             docker image prune -f
