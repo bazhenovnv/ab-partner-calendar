@@ -3,7 +3,7 @@ import { BellRing, CalendarPlus2, Send, Share2 } from 'lucide-react';
 const items = [
   {
     icon: Send,
-    title: 'Синхронизация с Telegram',
+    title: 'Синхронизация с мессенджерами',
     text: 'Получайте напоминания в чате',
   },
   {
