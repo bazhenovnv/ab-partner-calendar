@@ -1,12 +1,8 @@
-/*
- * Targeted compatibility layer for the global button skin introduced in
- * ec6e02b. Keep the glossy CTA animation, but prevent it from changing the
- * geometry of passive card hit-areas and service controls.
+/* Structural compatibility rules only.
+ * Keep geometry stable. Button visuals live in controls.css.
  */
 
-/* Hero carousel arrows must stay outside grid flow. The global body button
- * rule changed position:absolute into position:relative and made the arrows
- * occupy grid cells, pushing the poster right and the copy onto a new row. */
+/* Hero arrows are anchored over the carousel and never enter grid flow. */
 .page-shell .highlight-hero-joined .important-nav-btn,
 .page-shell .highlight-hero-joined .important-nav-btn:hover,
 .page-shell .highlight-hero-joined .important-nav-btn:active,
@@ -28,16 +24,7 @@
   right: 12px !important;
 }
 
-.page-shell .highlight-hero-joined .important-nav-btn:hover {
-  transform: translateY(calc(-50% - 2px)) !important;
-}
-
-.page-shell .highlight-hero-joined .important-nav-btn:active {
-  transform: translateY(calc(-50% + 2px)) !important;
-}
-
-/* Full-mode list: the card itself owns the visual shell. The large internal
- * hit-area must stay transparent and must not jump on hover or press. */
+/* Full-mode list: the outer card owns its visual shell. */
 .page-shell .compact-event-main-button,
 .page-shell .compact-event-main-button:hover,
 .page-shell .compact-event-main-button:active,
@@ -46,40 +33,35 @@
   width: 100% !important;
   height: auto !important;
   max-height: none !important;
-
   position: static !important;
   isolation: auto !important;
   overflow: visible !important;
-
   padding: 10px 16px !important;
-
   border: 0 !important;
   border-radius: 0 !important;
-  outline-offset: 3px !important;
-
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
-
   box-shadow: none !important;
   text-shadow: none !important;
   filter: none !important;
   transform: none !important;
-
   transition: none !important;
 }
 
+.page-shell .compact-event-main-button::before,
 .page-shell .compact-event-main-button::after,
+.page-shell .compact-event-main-button:hover::before,
 .page-shell .compact-event-main-button:hover::after,
+.page-shell .compact-event-main-button:active::before,
 .page-shell .compact-event-main-button:active::after {
   content: none !important;
   display: none !important;
 }
 
-/* Preserve the subtle lift on the outer compact card only. */
 .page-shell .compact-event-card {
   overflow: visible !important;
-  transform: translateY(0) !important;
+  transform: none !important;
   transition: transform 0.14s ease, box-shadow 0.14s ease !important;
 }
 
@@ -87,24 +69,19 @@
   transform: translateY(-1px) !important;
 }
 
-/* Calendar popover is rendered through createPortal(document.body). It must
- * remain viewport-fixed and above every panel, independent of page stacking
- * contexts created by glossy buttons. */
+/* Calendar popover stays over every dashboard layer. */
 .calendar-day-popover-portal {
   position: fixed !important;
   z-index: 2147483647 !important;
   pointer-events: none !important;
   overflow: visible !important;
   isolation: isolate !important;
-
   width: 300px !important;
   max-width: calc(100vw - 28px) !important;
-
   transform-origin: center center !important;
 }
 
-/* Dialog geometry: keep Radix portal windows centered even when nested CTA
- * buttons animate. */
+/* Dialog geometry remains centered regardless of button animation. */
 body [data-dialog-overlay='true'] {
   position: fixed !important;
   inset: 0 !important;
@@ -117,20 +94,15 @@ body [data-dialog-content='true'] {
   top: 50% !important;
   right: auto !important;
   bottom: auto !important;
-
   z-index: 99999 !important;
-
   width: min(48rem, calc(100vw - 2rem)) !important;
   max-height: min(90vh, calc(100vh - 2rem)) !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
-
   transform: translate(-50%, -50%) !important;
   transform-origin: center center !important;
 }
 
-/* The close control keeps the glossy skin but never moves away from its
- * absolute top-right anchor. */
 body [data-dialog-content='true'] .dialog-close-button,
 body [data-dialog-content='true'] .dialog-close-button:hover,
 body [data-dialog-content='true'] .dialog-close-button:active,
@@ -140,117 +112,27 @@ body [data-dialog-content='true'] .dialog-close-button:focus-visible {
   right: 16px !important;
   left: auto !important;
   bottom: auto !important;
-
   display: inline-flex !important;
   width: 36px !important;
   height: 36px !important;
   min-width: 36px !important;
   min-height: 36px !important;
   padding: 0 !important;
-
   align-items: center !important;
   justify-content: center !important;
-
   border-radius: 999px !important;
   transform: none !important;
 }
 
-body [data-dialog-content='true'] .dialog-close-button:active {
-  transform: scale(0.96) !important;
-}
-
-/* Keep the intended glossy motion only on actual CTA controls. */
-.page-shell :is(
-  .topic-filter-button,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .mint-btn:not(.compact-event-main-button):not(.important-nav-btn),
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .calendar-nav-btn
-):not(:disabled):hover {
-  transform: translateY(-2px) !important;
-}
-
-.page-shell :is(
-  .topic-filter-button,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .mint-btn:not(.compact-event-main-button):not(.important-nav-btn),
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .calendar-nav-btn
-):not(:disabled):active {
-  transform: translateY(2px) !important;
-}
-
-/* Reduced-motion users keep the visual skin without moving controls. */
-@media (prefers-reduced-motion: reduce) {
-  .page-shell :is(
-    .topic-filter-button,
-    .important-mode-btn,
-    .calendar-filter-toggle,
-    .mint-btn,
-    .site-header-action,
-    .important-event-action-btn,
-    .important-events-view-all-btn,
-    .calendar-nav-btn
-  ),
-  body [data-dialog-content='true'] .dialog-close-button {
-    transition: none !important;
-    transform: none !important;
-  }
-
-  .page-shell :is(
-    .topic-filter-button,
-    .important-mode-btn,
-    .calendar-filter-toggle,
-    .mint-btn,
-    .site-header-action,
-    .important-event-action-btn,
-    .important-events-view-all-btn,
-    .calendar-nav-btn
-  )::after {
-    transition: none !important;
-  }
-
-  .page-shell .highlight-hero-joined .important-nav-btn,
-  .page-shell .highlight-hero-joined .important-nav-btn:hover,
-  .page-shell .highlight-hero-joined .important-nav-btn:active {
-    transform: translateY(-50%) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  body [data-dialog-content='true'] {
-    width: calc(100vw - 1rem) !important;
-    max-height: calc(100vh - 1rem) !important;
-  }
-}
-
-/* === FILTER CONTROLS CLEANUP === */
-
-/* JSX already renders one ChevronDown component. Keep the mint surface and
- * remove the second arrow embedded by legacy background-image rules. */
+/* Remove native select arrow because JSX renders one ChevronDown icon. */
 .page-shell .select-clean {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-
   padding-right: 42px !important;
-
   background-color: #7CD8B3 !important;
   background-image:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(255, 255, 255, 0.82) 17%,
-      rgba(255, 255, 255, 0.34) 18%,
-      rgba(255, 255, 255, 0.06) 52%,
-      rgba(255, 255, 255, 0) 100%
-    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.82) 17%, rgba(255, 255, 255, 0.34) 18%, rgba(255, 255, 255, 0.06) 52%, rgba(255, 255, 255, 0) 100%),
     linear-gradient(180deg, #e4fff5 0%, #99e8c9 50%, #7cd8b3 100%) !important;
   background-repeat: no-repeat, no-repeat !important;
   background-position: center, center !important;
@@ -261,26 +143,17 @@ body [data-dialog-content='true'] .dialog-close-button:active {
   display: none !important;
 }
 
-/* Filter section icon: semantic sliders glyph in the same convex circular
- * visual language as the other dashboard icons. */
+/* Filter section icon follows the same convex visual language. */
 .page-shell .surface-card:has(.select-clean) .icon-chip {
   position: relative !important;
   isolation: isolate !important;
   overflow: hidden !important;
-
   border: 1.5px solid rgba(0, 0, 0, 0.72) !important;
   border-radius: 999px !important;
-
   background-color: #ffffff !important;
   background-image:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(255, 255, 255, 0.62) 34%,
-      rgba(255, 255, 255, 0.14) 100%
-    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.62) 34%, rgba(255, 255, 255, 0.14) 100%),
     linear-gradient(180deg, #ffffff 0%, #eefbf4 100%) !important;
-
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.98),
     0 0 0 2px rgba(82, 91, 91, 0.82),
@@ -297,124 +170,9 @@ body [data-dialog-content='true'] .dialog-close-button:active {
   stroke-width: 2.35 !important;
 }
 
-/* === SAFE PROJECT-WIDE GLOSSY BUTTON EFFECT === */
-
-/* Apply the shine to real controls only. Do not use body button here: the
- * large transparent card hit-area is intentionally excluded, and carousel
- * arrows keep their absolute positioning. */
-.page-shell :is(
-  button:not(.compact-event-main-button):not(.important-nav-btn),
-  a.mint-btn,
-  a.pressable,
-  a[role='button'],
-  [role='button'].pressable,
-  .site-header-action
-),
-body [data-dialog-content='true'] :is(button:not(.dialog-close-button), a) {
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
-
-.page-shell :is(
-  button:not(.compact-event-main-button),
-  a.mint-btn,
-  a.pressable,
-  a[role='button'],
-  [role='button'].pressable,
-  .site-header-action
-)::after,
-body [data-dialog-content='true'] :is(button, a)::after {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 0 !important;
-
-  top: -70% !important;
-  left: -48% !important;
-  width: 42% !important;
-  height: 240% !important;
-
-  pointer-events: none !important;
-  opacity: 0 !important;
-
-  background:
-    linear-gradient(
-      105deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.24) 30%,
-      rgba(255, 255, 255, 0.92) 50%,
-      rgba(255, 255, 255, 0.24) 70%,
-      rgba(255, 255, 255, 0) 100%
-    ) !important;
-
-  transform: skewX(-22deg) translateX(-250%) !important;
-  transition: transform 0.48s ease, opacity 0.18s ease !important;
-}
-
-.page-shell :is(
-  button:not(.compact-event-main-button),
-  a.mint-btn,
-  a.pressable,
-  a[role='button'],
-  [role='button'].pressable,
-  .site-header-action
-):not(:disabled):hover::after,
-body [data-dialog-content='true'] :is(button, a):not(:disabled):hover::after {
-  opacity: 0.94 !important;
-  transform: skewX(-22deg) translateX(520%) !important;
-}
-
-.page-shell :is(
-  button:not(.compact-event-main-button),
-  a.mint-btn,
-  a.pressable,
-  a[role='button'],
-  [role='button'].pressable,
-  .site-header-action
-) > *,
-body [data-dialog-content='true'] :is(button, a) > * {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-/* Preserve anchored controls after enabling the common sheen. */
-.page-shell .highlight-hero-joined .important-nav-btn,
-.page-shell .highlight-hero-joined .important-nav-btn:hover,
-.page-shell .highlight-hero-joined .important-nav-btn:active,
-.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
-  position: absolute !important;
-  top: 50% !important;
-  bottom: auto !important;
-  z-index: 30 !important;
-}
-
-.page-shell .highlight-hero-joined .important-nav-btn {
-  transform: translateY(-50%) !important;
-}
-
-.page-shell .highlight-hero-joined .important-nav-btn:hover {
-  transform: translateY(calc(-50% - 2px)) !important;
-}
-
-.page-shell .highlight-hero-joined .important-nav-btn:active {
-  transform: translateY(calc(-50% + 2px)) !important;
-}
-
-body [data-dialog-content='true'] .dialog-close-button,
-body [data-dialog-content='true'] .dialog-close-button:hover,
-body [data-dialog-content='true'] .dialog-close-button:active,
-body [data-dialog-content='true'] .dialog-close-button:focus-visible {
-  position: absolute !important;
-  top: 16px !important;
-  right: 16px !important;
-  left: auto !important;
-  bottom: auto !important;
-}
-
-body [data-dialog-content='true'] .dialog-close-button:hover {
-  transform: translateY(-1px) !important;
-}
-
-body [data-dialog-content='true'] .dialog-close-button:active {
-  transform: scale(0.96) !important;
+@media (max-width: 640px) {
+  body [data-dialog-content='true'] {
+    width: calc(100vw - 1rem) !important;
+    max-height: calc(100vh - 1rem) !important;
+  }
 }
