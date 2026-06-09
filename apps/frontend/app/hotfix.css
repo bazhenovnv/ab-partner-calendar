@@ -141,9 +141,27 @@ body [data-dialog-content='true'] .dialog-close-button:focus-visible {
   display: none !important;
 }
 
+/* Collection buttons share one font family, one size and one normal visual weight. */
+.page-shell .calendar-topic-panel .grid .topic-filter-button,
+.page-shell .calendar-topic-panel .grid .topic-filter-button .topic-filter-title,
+.page-shell .calendar-topic-panel .grid .topic-filter-button .topic-count-number,
+.page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child .topic-filter-title {
+  font-family: inherit !important;
+  font-size: 21px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
 @media (max-width: 640px) {
   body [data-dialog-content='true'] {
     width: calc(100vw - 1rem) !important;
     max-height: calc(100vh - 1rem) !important;
+  }
+
+  .page-shell .calendar-topic-panel .grid .topic-filter-button,
+  .page-shell .calendar-topic-panel .grid .topic-filter-button .topic-filter-title,
+  .page-shell .calendar-topic-panel .grid .topic-filter-button .topic-count-number,
+  .page-shell .calendar-topic-panel .grid > .topic-filter-button:last-child .topic-filter-title {
+    font-size: 18px !important;
   }
 }
