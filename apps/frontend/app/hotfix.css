@@ -4,6 +4,38 @@
  * geometry of passive card hit-areas and service controls.
  */
 
+/* Hero carousel arrows must stay outside grid flow. The global body button
+ * rule changed position:absolute into position:relative and made the arrows
+ * occupy grid cells, pushing the poster right and the copy onto a new row. */
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
+  position: absolute !important;
+  top: 50% !important;
+  bottom: auto !important;
+  z-index: 30 !important;
+  transform: translateY(-50%) !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn[aria-label='Предыдущий слайд'] {
+  left: 12px !important;
+  right: auto !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn[aria-label='Следующий слайд'] {
+  left: auto !important;
+  right: 12px !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn:hover {
+  transform: translateY(calc(-50% - 2px)) !important;
+}
+
+.page-shell .highlight-hero-joined .important-nav-btn:active {
+  transform: translateY(calc(-50% + 2px)) !important;
+}
+
 /* Full-mode list: the card itself owns the visual shell. The large internal
  * hit-area must stay transparent and must not jump on hover or press. */
 .page-shell .compact-event-main-button,
@@ -132,11 +164,10 @@ body [data-dialog-content='true'] .dialog-close-button:active {
   .topic-filter-button,
   .important-mode-btn,
   .calendar-filter-toggle,
-  .mint-btn:not(.compact-event-main-button),
+  .mint-btn:not(.compact-event-main-button):not(.important-nav-btn),
   .site-header-action,
   .important-event-action-btn,
   .important-events-view-all-btn,
-  .important-nav-btn,
   .calendar-nav-btn
 ):not(:disabled):hover {
   transform: translateY(-2px) !important;
@@ -146,11 +177,10 @@ body [data-dialog-content='true'] .dialog-close-button:active {
   .topic-filter-button,
   .important-mode-btn,
   .calendar-filter-toggle,
-  .mint-btn:not(.compact-event-main-button),
+  .mint-btn:not(.compact-event-main-button):not(.important-nav-btn),
   .site-header-action,
   .important-event-action-btn,
   .important-events-view-all-btn,
-  .important-nav-btn,
   .calendar-nav-btn
 ):not(:disabled):active {
   transform: translateY(2px) !important;
@@ -166,7 +196,6 @@ body [data-dialog-content='true'] .dialog-close-button:active {
     .site-header-action,
     .important-event-action-btn,
     .important-events-view-all-btn,
-    .important-nav-btn,
     .calendar-nav-btn
   ),
   body [data-dialog-content='true'] .dialog-close-button {
@@ -182,10 +211,15 @@ body [data-dialog-content='true'] .dialog-close-button:active {
     .site-header-action,
     .important-event-action-btn,
     .important-events-view-all-btn,
-    .important-nav-btn,
     .calendar-nav-btn
   )::after {
     transition: none !important;
+  }
+
+  .page-shell .highlight-hero-joined .important-nav-btn,
+  .page-shell .highlight-hero-joined .important-nav-btn:hover,
+  .page-shell .highlight-hero-joined .important-nav-btn:active {
+    transform: translateY(-50%) !important;
   }
 }
 
