@@ -406,7 +406,9 @@ export default function HomePage() {
       <Button
         variant='primary'
         onClick={() => setViewMode('SHOWCASE')}
-        className='important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'
+        className={`important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${
+          viewMode === 'SHOWCASE' ? 'important-mode-btn-active' : ''
+        }`}
       >
         Витрина
       </Button>
@@ -414,7 +416,9 @@ export default function HomePage() {
       <Button
         variant='primary'
         onClick={() => setViewMode('COMPACT')}
-        className='important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black'
+        className={`important-mode-btn w-full border-[#7CD8B3] bg-[#7CD8B3] font-medium text-black ${
+          viewMode === 'COMPACT' ? 'important-mode-btn-active' : ''
+        }`}
       >
         Полный режим
       </Button>
