@@ -7,12 +7,11 @@
   border-color: #000000 !important;
 }
 
-/* Weekday header tiles: Monday-Friday mint, weekend peach. */
+/* Weekday header tiles: Monday-Friday white, weekend peach. */
 .page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid) > div {
-  background-color: #7CD8B3 !important;
+  background-color: #ffffff !important;
   background-image:
-    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.64) 28%, rgba(255,255,255,.10) 30%, rgba(255,255,255,0) 100%),
-    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.84) 32%, rgba(245,247,246,.96) 100%) !important;
 }
 
 .page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid) > div:nth-child(6),
