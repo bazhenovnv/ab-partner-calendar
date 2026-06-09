@@ -1,0 +1,74 @@
+/* Final UI state overrides loaded after white-hover.css. */
+
+/* Hover stays white, but peach outline is reserved for active states only. */
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
+  border-color: var(--ab-border) !important;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Selected day event: white surface instead of peach ring. */
+.page-shell .mint-btn--event-tab.mint-btn--active,
+.page-shell .mint-btn--event-tab.mint-btn--active:hover {
+  background: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
+  color: #111616 !important;
+  border: 1.5px solid #7CD8B3 !important;
+  box-shadow:
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Mode selection keeps peach outline as an active-state marker. */
+.page-shell .important-mode-btn.important-mode-btn-active,
+.page-shell .important-mode-btn.important-mode-btn-active:hover {
+  border: 2.5px solid #f29f59 !important;
+  box-shadow:
+    0 0 0 1px rgba(242, 159, 89, 0.28),
+    0 7px 14px rgba(0, 0, 0, 0.22),
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Important event arrow buttons stay centered on hover and press. */
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
+  transform: translateY(-50%) !important;
+}
+
+/* Completed important-event date chips shown by “Смотреть все”. */
+.page-shell .important-date-chip.is-past-month,
+.page-shell .important-date-chip.is-past-month:hover {
+  border-color: #E04B4B !important;
+  background: #ffffff !important;
+  color: #111616 !important;
+}
+
+/* Second mode button wording without disturbing component geometry. */
+.page-shell .important-mode-btn:nth-child(2) {
+  font-size: 0 !important;
+}
+
+.page-shell .important-mode-btn:nth-child(2)::before {
+  content: 'Компактный режим';
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  line-height: 1;
+}
