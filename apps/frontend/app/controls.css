@@ -7,7 +7,15 @@
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ),
 body [data-dialog-content='true'] :is(button, a) {
   position: relative !important;
@@ -28,7 +36,15 @@ body [data-dialog-content='true'] :is(button, a) {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 )::after,
 body [data-dialog-content='true'] :is(button, a)::after {
   content: '' !important;
@@ -51,7 +67,15 @@ body [data-dialog-content='true'] :is(button, a)::after {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ):not(:disabled):hover::after,
 body [data-dialog-content='true'] :is(button, a):not(:disabled):hover::after {
   opacity: .94 !important;
@@ -64,7 +88,15 @@ body [data-dialog-content='true'] :is(button, a):not(:disabled):hover::after {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ) > *,
 body [data-dialog-content='true'] :is(button, a) > * {
   position: relative !important;
@@ -78,7 +110,15 @@ body [data-dialog-content='true'] :is(button, a) > * {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ):not(:disabled):hover,
 body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
   background-color: #ffffff !important;
@@ -98,7 +138,15 @@ body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ):not(:disabled):hover svg,
 body [data-dialog-content='true'] :is(button, a):not(:disabled):hover svg {
   color: #111616 !important;
@@ -112,7 +160,15 @@ body [data-dialog-content='true'] :is(button, a):not(:disabled):hover svg {
   a.pressable,
   a[role='button'],
   [role='button'].pressable,
-  .site-header-action
+  .site-header-action,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .calendar-filter-toggle,
+  .calendar-today-btn,
+  .important-mode-btn,
+  .topic-filter-button,
+  .important-date-chip,
+  .event-modal-action-btn
 ):not(:disabled):active,
 body [data-dialog-content='true'] :is(button, a):not(:disabled):active {
   transform: translateY(1px) !important;
