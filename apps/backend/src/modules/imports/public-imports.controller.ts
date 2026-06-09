@@ -11,7 +11,11 @@ export class PublicImportsController {
 
   @Post('sync')
   sync() {
-    return this.connectors.syncAll();
+    return {
+      synced: false,
+      skipped: true,
+      reason: 'Public sync is disabled. Sources are synchronized by the backend scheduler or from the authenticated admin panel.',
+    };
   }
 
   @Get('connectors')
