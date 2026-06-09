@@ -1,14 +1,17 @@
 # АБ Партнер — Календарь бухгалтеров
 
-Monorepo-проект для публичной витрины бухгалтерских мероприятий, календаря, Telegram/API-импорта, напоминаний, административной панели и аналитики посещаемости.
+Monorepo-проект для публичной витрины бухгалтерских мероприятий, календаря, Max-импорта, Telegram-напоминаний, рассылок, административной панели и аналитики посещаемости.
 
 ## Что внутри
 
 - **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS.
 - **Backend**: NestJS, Prisma, PostgreSQL, JWT.
-- **Интеграции**: Telegram-канал `https://t.me/ab_afisha_buh`, внешние JSON API-коннекторы, опциональный Telegram-бот для напоминаний.
+- **Источник мероприятий**: Max API.
+- **Telegram**: бот напоминаний, подписки и рассылки; не является основным источником мероприятий.
 - **Админка**: авторизация, мероприятия, импорт, категории, reminders, пользователи, dashboard, аналитика.
 - **Публичная витрина**: highlights, календарь, фильтры, компактный режим, ICS-экспорт.
+
+Подробная эксплуатационная карта проекта находится в [`PROJECT_CONTEXT.md`](./PROJECT_CONTEXT.md).
 
 ## Структура
 
@@ -19,12 +22,14 @@ apps/
 nginx/
 docker-compose.yml
 docker-compose.prod.yml
+PROJECT_CONTEXT.md
 ```
 
 ## Быстрый запуск через Docker
 
 ```bash
 cp .env.example .env
+# Заполнить секреты только в .env
 docker compose up -d --build
 docker compose ps
 ```
@@ -42,7 +47,13 @@ Postgres: 127.0.0.1:5432
 ```bash
 curl http://127.0.0.1:4000/api/events
 curl http://127.0.0.1:4000/api/events/highlights
-curl -X POST http://127.0.0.1:4000/api/public/sync
+```
+
+Ручная синхронизация выполняется только из защищенной админки:
+
+```http
+POST /api/admin/imports/sync
+Authorization: Bearer <JWT>
 ```
 
 ## Локальный запуск без Docker
@@ -60,31 +71,43 @@ npm run dev
 
 ## Переменные окружения
 
+Шаблон `.env.example` не содержит рабочих секретов. Заполняйте значения только в локальном или серверном `.env`.
+
 ```env
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/app
 JWT_SECRET=change_me
-OPENAI_API_KEY=
-ADMIN_EMAIL=admin@ab-partner.ru
-ADMIN_PASSWORD=Admin12345!
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=change_me
 
-TELEGRAM_SYNC_ENABLED=true
-TELEGRAM_CHANNEL_URL=https://t.me/ab_afisha_buh
+# Legacy Telegram channel import. Keep disabled when MAX is the event source.
+TELEGRAM_SYNC_ENABLED=false
+TELEGRAM_CHANNEL_URL=
 AUTO_SYNC_ON_START=true
 TELEGRAM_SYNC_INTERVAL_MINUTES=60
+
+# Telegram bot: reminders and broadcasts only.
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_BOT_POLLING=true
-IMPORT_FALLBACK_ENABLED=false
-SOURCE_CONNECTORS_JSON=[]
+TELEGRAM_BOT_ADMIN_IDS=
+TELEGRAM_BOT_ADMIN_USERNAMES=
 
 NEXT_PUBLIC_API_URL=/api
-NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK=https://t.me/PartnersTogether_bot
+NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK=
+
+# MAX: primary event source.
+MAX_SYNC_ENABLED=true
+MAX_BOT_TOKEN=
+MAX_CHAT_ID=
+MAX_CHANNEL_URL=
+MAX_SYNC_INTERVAL_MINUTES=60
+MAX_MESSAGES_COUNT=50
 ```
 
 Для локального frontend без Nginx используется `apps/frontend/.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
-NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK=https://t.me/PartnersTogether_bot
+NEXT_PUBLIC_TELEGRAM_BOT_DEEP_LINK=https://t.me/<bot-name>
 ```
 
 ## Основные команды
@@ -98,12 +121,80 @@ npm run lint       # typecheck frontend + backend
 npm run build      # production build
 ```
 
-## Тестовый доступ в админку
+## Max-импорт событий
+
+Max API является основным источником мероприятий.
+
+Поток данных:
 
 ```text
-URL:      http://127.0.0.1:3000/admin/login
-Email:    admin@ab-partner.ru
-Password: Admin12345!
+Max API
+  -> SourceConnectorsService
+  -> TelegramImport (историческое имя общего журнала импорта)
+  -> Event
+  -> GET /api/events
+  -> frontend
+```
+
+Синхронизация запускается:
+
+- при старте backend, если `AUTO_SYNC_ON_START=true`;
+- планировщиком backend;
+- вручную из защищенной админки.
+
+Публичный endpoint:
+
+```http
+POST /api/public/sync
+```
+
+оставлен только для совместимости со старыми frontend-сборками и не должен обращаться к внешним источникам.
+
+## Telegram-бот для напоминаний и рассылок
+
+Если задан `TELEGRAM_BOT_TOKEN`, backend запускает bot polling и обрабатывает deep link вида:
+
+```text
+https://t.me/<bot>?start=afisha_<eventId>
+```
+
+Пользователь выбирает один или несколько интервалов напоминания, после чего записи сохраняются в таблице `Reminder`.
+
+Telegram также используется для подписчиков и рассылок через таблицы:
+
+```text
+TelegramSubscriber
+Broadcast
+BroadcastDelivery
+```
+
+Недоступность `api.telegram.org:443` не должна мешать загрузке и отображению мероприятий из Max.
+
+## Legacy Telegram-импорт событий
+
+Старый импорт событий из публичного Telegram-канала сохранен только для обратной совместимости. В текущей конфигурации он должен быть выключен:
+
+```env
+TELEGRAM_SYNC_ENABLED=false
+TELEGRAM_CHANNEL_URL=
+```
+
+Не включайте legacy Telegram-импорт одновременно с Max без отдельной проверки дедупликации.
+
+## Внешние API-коннекторы
+
+В `SOURCE_CONNECTORS_JSON` можно добавить JSON-массив дополнительных коннекторов.
+
+```env
+SOURCE_CONNECTORS_JSON=[{"id":"partner-api","name":"Partner API","type":"json-api","enabled":true,"url":"https://example.com/api/events","headers":{"X-API-Key":"secret-key"},"importantTag":"#Хит"}]
+```
+
+Поддерживаемые типы:
+
+```text
+telegram-public-html
+json-api
+max-api
 ```
 
 ## Публичные API-методы
@@ -115,12 +206,12 @@ GET  /api/events/:slug
 GET  /api/events/:slug/ics
 GET  /api/categories
 GET  /api/feed
-POST /api/public/sync
 GET  /api/public/connectors
 GET  /api/public/collections
 POST /api/public/visit
 POST /api/reminders
 POST /api/auth/login
+POST /api/public/sync      # compatibility no-op
 ```
 
 ## Админские API-методы
@@ -142,64 +233,6 @@ GET    /api/admin/reminders
 GET    /api/admin/users
 ```
 
-## Telegram-импорт
-
-Поддерживаются:
-
-### 1. Одиночный пост
-
-Форматы с маркерами:
-
-```text
-Мероприятие
-Название события
-Когда: 20 апреля 10:30
-Где: Онлайн
-Формат: онлайн
-#Хит
-```
-
-### 2. Подборка событий в одном посте
-
-Каждый блок с датой распознаётся как отдельное событие:
-
-```text
-20 апреля, 10:30 | Онлайн, бесплатно
-Название события
-Описание события
-
-22 апреля, 15:00 | Краснодар
-Название второго события
-Описание второго события
-```
-
-Тег `#Хит`, налоговые/бухгалтерские ключевые слова и первые посты канала помечают событие как важное.
-
-## Внешние API-коннекторы
-
-В `SOURCE_CONNECTORS_JSON` можно добавить JSON-массив коннекторов.
-
-```env
-SOURCE_CONNECTORS_JSON=[{"id":"partner-api","name":"Partner API","type":"json-api","enabled":true,"url":"https://example.com/api/events","headers":{"X-API-Key":"secret-key"},"importantTag":"#Хит"}]
-```
-
-Поддерживаемые типы:
-
-```text
-telegram-public-html
-json-api
-```
-
-## Telegram-бот для напоминаний
-
-Если задан `TELEGRAM_BOT_TOKEN`, backend запускает bot polling и обрабатывает deep link вида:
-
-```text
-https://t.me/<bot>?start=afisha_<eventId>
-```
-
-Пользователь выбирает интервал напоминания, после чего запись сохраняется в таблицу `Reminder`.
-
 ## Production/Nginx
 
 Backend использует глобальный префикс `/api`. Nginx проксирует `/api/` в backend без обрезания API-префикса:
@@ -216,33 +249,27 @@ Frontend в production должен использовать:
 NEXT_PUBLIC_API_URL=/api
 ```
 
-## Проверка после исправлений
+## Production-деплой
 
-В этой версии подключены ранее отсутствовавшие модули backend:
-
-```text
-AuthModule
-UsersModule
-CategoriesModule
-RemindersModule
-DashboardModule
-AnalyticsModule
-AdminEventsController
-TelegramService с опциональным bot polling
+```bash
+cd ~/deploy/app
+git pull --ff-only origin main
+docker compose -f docker-compose.prod.yml build frontend backend
+docker compose -f docker-compose.prod.yml up -d frontend backend
+docker compose -f docker-compose.prod.yml ps
 ```
 
-Также исправлены:
+Проверка после деплоя:
 
-```text
-единый API-префикс /api
-CORS
-backend start: node dist/src/main.js
-admin events CRUD
-admin imports sync/confirm/reject
-feed page
-admin categories page
-dashboard stats
-analytics summary
-локальный Docker API URL
-Nginx proxy_pass для /api
+```bash
+curl -sk https://ab-event.pro/api/events | head -c 2000
+curl -sk https://ab-event.pro/api/events/highlights | head -c 2000
+docker compose -f docker-compose.prod.yml logs --tail=200 backend
 ```
+
+## Безопасность
+
+- Не коммитьте реальные `.env`.
+- Не добавляйте токены, пароли, приватные ключи и SQL-дампы в Git.
+- После попадания токена в Git, чат или скриншот перевыпустите его.
+- В `.env.example` оставляйте только пустые значения токенов и демонстрационные заглушки.
