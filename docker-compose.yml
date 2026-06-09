@@ -25,6 +25,8 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
       TELEGRAM_SYNC_ENABLED: "false"
+      SYNC_INTERVAL_MINUTES: "30"
+      MAX_SYNC_INTERVAL_MINUTES: "30"
     depends_on:
       - postgres
 
