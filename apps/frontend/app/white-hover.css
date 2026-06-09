@@ -1,0 +1,118 @@
+/* Unified white hover state for real project buttons.
+ * Imported after hotfix.css so visual overrides do not alter layout geometry.
+ */
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+),
+body [data-dialog-content='true'] :is(button, a) {
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.16s ease,
+    filter 0.16s ease,
+    background-color 0.18s ease,
+    background-image 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
+  background-color: #ffffff !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.99) 0%,
+      rgba(255, 255, 255, 0.97) 30%,
+      rgba(249, 249, 249, 0.95) 72%,
+      rgba(243, 243, 243, 0.93) 100%
+    ) !important;
+
+  color: #111616 !important;
+  border-color: rgba(243, 184, 129, 0.98) !important;
+
+  box-shadow:
+    0 0 0 2px rgba(255, 212, 170, 0.92),
+    0 0 0 4px rgba(246, 190, 136, 0.50),
+    0 8px 16px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.06) !important;
+
+  filter: saturate(1.02) brightness(1.01) !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):hover svg,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):hover svg {
+  color: #111616 !important;
+  stroke: currentColor !important;
+}
+
+.page-shell :is(
+  button:not(.compact-event-main-button),
+  a.mint-btn,
+  a.pressable,
+  a[role='button'],
+  [role='button'].pressable,
+  .site-header-action
+):not(:disabled):active,
+body [data-dialog-content='true'] :is(button, a):not(:disabled):active {
+  background-color: #f7f7f7 !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(245, 245, 245, 0.94) 100%
+    ) !important;
+}
+
+/* Keep critical anchored controls in place after the shared hover style. */
+.page-shell .highlight-hero-joined .important-nav-btn,
+.page-shell .highlight-hero-joined .important-nav-btn:hover,
+.page-shell .highlight-hero-joined .important-nav-btn:active,
+.page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
+  position: absolute !important;
+}
+
+body [data-dialog-content='true'] .dialog-close-button,
+body [data-dialog-content='true'] .dialog-close-button:hover,
+body [data-dialog-content='true'] .dialog-close-button:active,
+body [data-dialog-content='true'] .dialog-close-button:focus-visible {
+  position: absolute !important;
+  top: 16px !important;
+  right: 16px !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-shell :is(
+    button:not(.compact-event-main-button),
+    a.mint-btn,
+    a.pressable,
+    a[role='button'],
+    [role='button'].pressable,
+    .site-header-action
+  ),
+  body [data-dialog-content='true'] :is(button, a) {
+    transition: none !important;
+  }
+}
