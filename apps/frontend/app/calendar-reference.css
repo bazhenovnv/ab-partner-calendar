@@ -1,0 +1,304 @@
+/* Calendar-only visual layer based on the approved mint convex reference. */
+
+/* Outer calendar card. */
+.page-shell .calendar-top-panel > div {
+  padding: 18px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(249,251,250,.98) 100%) !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.20),
+    0 4px 9px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -2px 7px rgba(0,0,0,.05) !important;
+}
+
+/* Month navigation row. */
+.page-shell .calendar-top-panel > div > div:first-child {
+  min-height: 64px !important;
+  margin-bottom: 14px !important;
+  padding: 0 4px 14px !important;
+  border-bottom: 0 !important;
+}
+
+.page-shell .calendar-top-panel .mint-btn--icon,
+.page-shell .calendar-top-panel .calendar-today-btn {
+  min-height: 48px !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
+  background-color: #7CD8B3 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 28%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
+  box-shadow:
+    0 7px 13px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .calendar-top-panel .mint-btn--icon {
+  width: 54px !important;
+  height: 48px !important;
+  min-width: 54px !important;
+  padding: 0 !important;
+  border-radius: 16px !important;
+}
+
+.page-shell .calendar-top-panel .mint-btn--icon svg {
+  width: 21px !important;
+  height: 21px !important;
+  stroke-width: 3 !important;
+}
+
+.page-shell .calendar-top-panel .calendar-today-btn {
+  min-width: 146px !important;
+  padding: 0 24px !important;
+  border-radius: 18px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+}
+
+.page-shell .calendar-top-panel .mint-btn--icon:hover,
+.page-shell .calendar-top-panel .calendar-today-btn:hover {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%) !important;
+}
+
+.page-shell .calendar-top-panel .ml-3.text-\[17px\] {
+  margin-left: 18px !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: .01em !important;
+  color: #111616 !important;
+}
+
+/* Weekday header and calendar grid are one soft mint module. */
+.page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid) {
+  gap: 2px !important;
+  padding: 8px 8px 0 !important;
+  border: 1.5px solid rgba(79,175,140,.55) !important;
+  border-bottom: 0 !important;
+  border-radius: 20px 20px 0 0 !important;
+  background: rgba(234,249,243,.88) !important;
+  overflow: hidden !important;
+}
+
+.page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid) > div {
+  padding: 10px 4px !important;
+  border: 1px solid rgba(79,175,140,.48) !important;
+  border-radius: 13px 13px 0 0 !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(236,250,244,.95) 48%, rgba(207,241,227,.92) 100%) !important;
+  color: #111616 !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+
+.page-shell .calendar-days-grid {
+  gap: 2px !important;
+  padding: 2px 8px 8px !important;
+  border: 1.5px solid rgba(79,175,140,.55) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 20px 20px !important;
+  background: rgba(234,249,243,.88) !important;
+  overflow: hidden !important;
+}
+
+/* Day cards. */
+.page-shell .calendar-days-grid .day-cell {
+  min-height: 88px !important;
+  padding: 13px 13px 10px !important;
+  border: 1.25px solid rgba(79,175,140,.64) !important;
+  border-radius: 14px !important;
+  background-color: #d9f4e8 !important;
+  background-image:
+    linear-gradient(145deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.60) 42%, rgba(255,255,255,.08) 100%),
+    linear-gradient(180deg, #effbf6 0%, #d4f2e5 52%, #bde8d6 100%) !important;
+  color: #111616 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -2px 4px rgba(35,135,99,.10),
+    0 2px 4px rgba(0,0,0,.08) !important;
+  transform: none !important;
+  transition: background-color .16s ease, background-image .16s ease, box-shadow .16s ease, border-color .16s ease !important;
+}
+
+.page-shell .calendar-days-grid .day-cell:hover {
+  z-index: 4 !important;
+  border-color: rgba(79,175,140,.92) !important;
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7fbf9 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    0 7px 12px rgba(0,0,0,.14) !important;
+}
+
+.page-shell .calendar-days-grid .day-cell-selected,
+.page-shell .calendar-days-grid .day-cell-selected:hover {
+  z-index: 3 !important;
+  border: 1.5px solid rgba(38,155,113,.88) !important;
+  border-radius: 14px !important;
+  background-color: #7CD8B3 !important;
+  background-image:
+    linear-gradient(145deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.25) 42%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #b9f0db 0%, #83ddb9 54%, #52bf97 100%) !important;
+  color: #07130e !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.90),
+    inset 0 -3px 5px rgba(16,112,77,.18),
+    0 5px 10px rgba(0,0,0,.14) !important;
+}
+
+.page-shell .calendar-days-grid .calendar-day-number {
+  min-width: 0 !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  color: #111616 !important;
+}
+
+.page-shell .calendar-days-grid .calendar-day-number.text-slate-400 {
+  color: rgba(17,22,22,.52) !important;
+}
+
+/* Event dots. */
+.page-shell .calendar-days-grid .day-cell > div[class*='mt-2'] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+  margin-top: 14px !important;
+}
+
+.page-shell .calendar-days-grid .day-cell > div[class*='mt-2'] > span {
+  width: 9px !important;
+  height: 9px !important;
+  border: 1px solid rgba(255,255,255,.96) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.16) !important;
+}
+
+/* Segmented legend. */
+.page-shell .calendar-days-grid + div {
+  display: flex !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 12px auto 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border: 1.25px solid rgba(79,175,140,.58) !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  background: rgba(239,250,246,.96) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    0 3px 7px rgba(0,0,0,.10) !important;
+}
+
+.page-shell .calendar-days-grid + div > span {
+  min-height: 34px !important;
+  padding: 0 16px !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border-right: 1px solid rgba(79,175,140,.45) !important;
+  color: #111616 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.page-shell .calendar-days-grid + div > span:last-child {
+  border-right: 0 !important;
+}
+
+.page-shell .calendar-days-grid + div > span > span {
+  width: 11px !important;
+  height: 11px !important;
+  border: 1px solid rgba(0,0,0,.05) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12) !important;
+}
+
+/* Quick filters under calendar. */
+.page-shell .calendar-inline-controls {
+  gap: 12px !important;
+  margin-top: 14px !important;
+}
+
+.page-shell .calendar-inline-controls .calendar-filter-toggle {
+  min-height: 46px !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
+  border-radius: 18px !important;
+  background-color: #7CD8B3 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.64) 28%, rgba(255,255,255,.10) 30%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
+  color: #111616 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow:
+    0 7px 13px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .calendar-inline-controls .calendar-filter-toggle:hover {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%) !important;
+}
+
+.page-shell .calendar-inline-controls .calendar-filter-toggle-active,
+.page-shell .calendar-inline-controls .calendar-filter-toggle-active:hover {
+  border: 2.5px solid #f29f59 !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .calendar-top-panel > div {
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .page-shell .calendar-top-panel .mint-btn--icon {
+    width: 44px !important;
+    height: 42px !important;
+    min-width: 44px !important;
+  }
+
+  .page-shell .calendar-top-panel .calendar-today-btn {
+    min-width: 108px !important;
+    min-height: 42px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+  }
+
+  .page-shell .calendar-top-panel .ml-3.text-\[17px\] {
+    margin-left: 8px !important;
+    font-size: 18px !important;
+  }
+
+  .page-shell .calendar-days-grid .day-cell {
+    min-height: 68px !important;
+    padding: 9px 8px 7px !important;
+    border-radius: 11px !important;
+  }
+
+  .page-shell .calendar-days-grid .calendar-day-number {
+    font-size: 15px !important;
+  }
+
+  .page-shell .calendar-days-grid .day-cell > div[class*='mt-2'] {
+    gap: 3px !important;
+    margin-top: 9px !important;
+  }
+
+  .page-shell .calendar-days-grid .day-cell > div[class*='mt-2'] > span {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  .page-shell .calendar-days-grid + div > span {
+    padding: 0 9px !important;
+    font-size: 10px !important;
+  }
+}
