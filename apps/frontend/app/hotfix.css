@@ -24,17 +24,17 @@
   right: 12px !important;
 }
 
-/* Preserve the established outer geometry of the important-events block. */
+/* Important-events shell uses the same light rectangular language as other panels. */
 .page-shell .important-events-shell {
-  background: var(--ab-mint) !important;
+  background: var(--ab-panel-bg) !important;
   border: 1.5px solid var(--ab-border) !important;
-  border-radius: 30px !important;
+  border-radius: 0 !important;
   padding: 12px !important;
   box-shadow:
     0 10px 20px var(--ab-shadow-1),
     0 3px 8px var(--ab-shadow-2),
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
+    inset 0 -2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
 /* Legacy globals.css contains a more specific mint rule for date chips.
@@ -56,6 +56,22 @@
 
 .page-shell .important-events-ribbon .important-date-chip.important-date-chip--active {
   border: 2.5px solid #f29f59 !important;
+}
+
+/* Selected-day event stays visibly active until another event is selected. */
+.page-shell .selected-day-events-list .selected-day-event-btn[aria-pressed='true'],
+.page-shell .selected-day-events-list .selected-day-event-btn[data-active='true'],
+.page-shell .selected-day-events-list .selected-day-event-btn.mint-btn--active,
+.page-shell .selected-day-events-list .selected-day-event-btn[aria-pressed='true']:hover,
+.page-shell .selected-day-events-list .selected-day-event-btn[aria-pressed='true']:active {
+  background-color: #ffffff !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
+  border: 2px solid #4FAF8C !important;
+  color: #111616 !important;
+  box-shadow:
+    0 0 0 1px rgba(79, 175, 140, 0.22),
+    var(--control-shadow) !important;
+  transform: none !important;
 }
 
 /* Calendar popover stays above all dashboard layers. */
