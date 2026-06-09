@@ -32,6 +32,13 @@ body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
     inset 0 -2px 5px rgba(0, 0, 0, 0.06) !important;
 }
 
+/* Active date in important events: white surface. */
+.page-shell .important-date-chip.is-active,
+.page-shell .important-date-chip.is-active:hover {
+  background: #ffffff !important;
+  color: #111616 !important;
+}
+
 /* Mode selection keeps peach outline as an active-state marker. */
 .page-shell .important-mode-btn.important-mode-btn-active,
 .page-shell .important-mode-btn.important-mode-btn-active:hover {
@@ -58,17 +65,4 @@ body [data-dialog-content='true'] :is(button, a):not(:disabled):hover {
   border-color: #E04B4B !important;
   background: #ffffff !important;
   color: #111616 !important;
-}
-
-/* Second mode button wording without disturbing component geometry. */
-.page-shell .important-mode-btn:nth-child(2) {
-  font-size: 0 !important;
-}
-
-.page-shell .important-mode-btn:nth-child(2)::before {
-  content: 'Компактный режим';
-  position: relative;
-  z-index: 1;
-  font-size: 14px;
-  line-height: 1;
 }
