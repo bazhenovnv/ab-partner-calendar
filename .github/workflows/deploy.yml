@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,6 +26,10 @@ jobs:
           script: |
             set -e
 
+            echo "=== ACQUIRE DEPLOY LOCK ==="
+            exec 9>/tmp/ab-partner-calendar-deploy.lock
+            flock -w 900 9
+
             echo "=== GO TO PROJECT ==="
             cd ~/deploy/app
 
@@ -30,10 +38,13 @@ jobs:
             git reset --hard origin/main
 
             echo "=== STOP OLD CONTAINERS ==="
-            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml down --remove-orphans || true
+
+            echo "=== REMOVE STALE CONTAINERS ==="
+            docker rm -f app-nginx-1 app-frontend-1 app-backend-1 app-postgres-1 2>/dev/null || true
 
             echo "=== BUILD & START PROD ==="
-            docker compose -f docker-compose.prod.yml up -d --build
+            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
 
             echo "=== CLEAN OLD IMAGES ==="
             docker image prune -f
