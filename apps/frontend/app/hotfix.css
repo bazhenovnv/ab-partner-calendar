@@ -24,6 +24,40 @@
   right: 12px !important;
 }
 
+/* Preserve the established outer geometry of the important-events block. */
+.page-shell .important-events-shell {
+  background: var(--ab-mint) !important;
+  border: 1.5px solid var(--ab-border) !important;
+  border-radius: 30px !important;
+  padding: 12px !important;
+  box-shadow:
+    0 10px 20px var(--ab-shadow-1),
+    0 3px 8px var(--ab-shadow-2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Legacy globals.css contains a more specific mint rule for date chips.
+ * Keep the refactored planned/completed palettes authoritative. */
+.page-shell .important-events-ribbon .important-date-chip.important-date-chip--planned,
+.page-shell .important-events-ribbon .important-date-chip.important-date-chip--active {
+  border: 1.5px solid var(--control-border) !important;
+  background-color: #7CD8B3 !important;
+  background-image: linear-gradient(180deg, #e4fff5 0%, #99e8c9 50%, #7CD8B3 100%) !important;
+  box-shadow: var(--control-shadow) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip.important-date-chip--completed {
+  border: 1.5px solid var(--control-border) !important;
+  background-color: #ef8b8b !important;
+  background-image: linear-gradient(180deg, #ffdada 0%, #ef8b8b 52%, #e04b4b 100%) !important;
+  box-shadow: var(--control-shadow) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip.important-date-chip--active {
+  border: 2.5px solid #f29f59 !important;
+}
+
 /* Calendar popover stays above all dashboard layers. */
 .calendar-day-popover-portal {
   position: fixed !important;
