@@ -13,12 +13,19 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { EventItem } from '@/lib/types';
+import type { EventItem } from '@/lib/types';
+import {
+  compareCompletedEvents,
+  compareUpcomingEvents,
+  extractPriceText,
+  formatEventType,
+  isCompletedEvent,
+  isRecentlyCompletedEvent,
+} from '@/lib/event-utils';
 import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
-const RECENT_COMPLETED_WINDOW_MS = 31 * 24 * 60 * 60 * 1000;
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 
 function normalizeText(value: string) {
@@ -28,20 +35,6 @@ function normalizeText(value: string) {
     .replace(/[*_`"«»“”.,:;!?()[\]{}|/\\-]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
-}
-
-function extractPriceText(value?: string) {
-  if (!value) return '';
-
-  const lines = value.split('\n').map((line) => line.trim()).filter(Boolean);
-  const explicit = lines.find((line) => /^(стоимость|цена|участие)\s*[:：]/i.test(line));
-
-  if (explicit) {
-    return explicit.replace(/^(стоимость|цена|участие)\s*[:：]\s*/i, '').trim();
-  }
-
-  if (/\bбесплатн(?:о|ый|ая|ое|ые)?\b/i.test(value)) return 'Бесплатно';
-  return '';
 }
 
 function cleanDescriptionText(value?: string, title?: string) {
@@ -74,43 +67,14 @@ function isActualEventImage(value?: string) {
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
 }
 
-function getRuntimeStatus(event: EventItem) {
-  return event.runtimeStatus || event.status;
-}
-
-function isCompletedEvent(event: EventItem) {
-  if (String(getRuntimeStatus(event) || '').toUpperCase() === 'COMPLETED') return true;
-
-  const endAt = new Date(event.endAt).getTime();
-  if (Number.isFinite(endAt)) return endAt < Date.now();
-
-  const startAt = new Date(event.startAt).getTime();
-  return Number.isFinite(startAt) && startAt < Date.now();
-}
-
-function isRecentlyCompletedEvent(event: EventItem) {
-  if (!isCompletedEvent(event)) return false;
-
-  const timestamp = +new Date(event.endAt || event.startAt);
-  return Number.isFinite(timestamp) && timestamp >= Date.now() - RECENT_COMPLETED_WINDOW_MS;
-}
-
-function compareUpcomingEvents(a: EventItem, b: EventItem) {
-  return +new Date(a.startAt) - +new Date(b.startAt);
-}
-
-function compareCompletedEvents(a: EventItem, b: EventItem) {
-  return +new Date(b.endAt || b.startAt) - +new Date(a.endAt || a.startAt);
-}
-
 export function HighlightCarousel({
   items,
-  onOpen,
+  onSelectEvent,
   embedded = false,
   controls,
 }: {
   items: EventItem[];
-  onOpen: (item: EventItem) => void;
+  onSelectEvent: (item: EventItem) => void;
   embedded?: boolean;
   controls?: ReactNode;
 }) {
@@ -139,7 +103,7 @@ export function HighlightCarousel({
 
   useEffect(() => {
     if (slides.length <= 1) return;
-    const timer = window.setTimeout(() => setActive((prev) => (prev + 1) % slides.length), 10000);
+    const timer = window.setTimeout(() => setActive((previous) => (previous + 1) % slides.length), 10000);
     return () => window.clearTimeout(timer);
   }, [active, slides.length]);
 
@@ -160,8 +124,8 @@ export function HighlightCarousel({
           <button
             type='button'
             disabled={arrowsDisabled}
-            onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
-            className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+            onClick={() => setActive((previous) => (previous - 1 + slides.length) % slides.length)}
+            className='important-nav-btn absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
             aria-label='Предыдущий слайд'
           >
             <ChevronLeft className='h-5 w-5' />
@@ -180,9 +144,7 @@ export function HighlightCarousel({
           </div>
 
           <div className='important-events-copy-panel relative flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
-              Важные события
-            </div>
+            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>Важные события</div>
 
             <h2 className='max-w-2xl text-[28px] font-medium leading-tight text-black xl:text-[36px]'>
               {item?.title || 'Важные события появятся после синхронизации с Max'}
@@ -190,29 +152,29 @@ export function HighlightCarousel({
 
             {item ? (
               <>
-                <div className='mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
-                  <span className='inline-flex items-center gap-2 text-[15px]'>
+                <div className='important-event-meta mt-6 flex flex-wrap gap-x-7 gap-y-3 text-slate-700'>
+                  <span className='important-meta-date inline-flex items-center gap-2 text-[15px]'>
                     <CalendarDays className='h-5 w-5 text-[#2c8d67]' />
                     {format(new Date(item.startAt), 'd MMMM yyyy', { locale: ru })}
                   </span>
-                  <span className='inline-flex items-center gap-2 text-[15px]'>
+                  <span className='important-meta-time inline-flex items-center gap-2 text-[15px]'>
                     <Clock3 className='h-5 w-5 text-[#2c8d67]' />
                     {format(new Date(item.startAt), 'HH:mm')} – {format(new Date(item.endAt), 'HH:mm')}
                   </span>
-                  <span className='inline-flex items-center gap-2 text-[15px]'>
+                  <span className='important-meta-format inline-flex items-center gap-2 text-[15px]'>
                     <MonitorPlay className='h-5 w-5 text-[#2c8d67]' />
-                    {item.format === 'ONLINE' ? 'Онлайн' : item.format === 'OFFLINE' ? 'Офлайн' : 'Гибрид'}
-                  </span>
-                  <span className='inline-flex items-center gap-2 text-[15px]'>
-                    <MapPin className='h-5 w-5 text-[#2c8d67]' />
-                    {item.location || 'Локация уточняется'}
+                    {formatEventType(item)}
                   </span>
                   {priceText ? (
-                    <span className='inline-flex items-center gap-2 text-[15px]'>
+                    <span className='important-meta-price inline-flex items-center gap-2 text-[15px]'>
                       <CircleDollarSign className='h-5 w-5 text-[#2c8d67]' />
                       {priceText}
                     </span>
                   ) : null}
+                  <span className='important-meta-location inline-flex w-full basis-full items-center gap-2 text-[15px]'>
+                    <MapPin className='h-5 w-5 text-[#2c8d67]' />
+                    {item.location || 'Локация уточняется'}
+                  </span>
                 </div>
 
                 {description ? (
@@ -222,7 +184,7 @@ export function HighlightCarousel({
                 ) : null}
 
                 <div className='mt-6 flex flex-wrap items-center gap-3'>
-                  <Button variant='primary' onClick={() => onOpen(item)} className='important-event-action-btn min-w-[170px]'>
+                  <Button variant='primary' onClick={() => onSelectEvent(item)} className='important-event-action-btn min-w-[170px]'>
                     Подробнее
                   </Button>
                   <ReminderButton event={item} variant='primary' className='important-event-action-btn min-w-[170px]' />
@@ -238,8 +200,8 @@ export function HighlightCarousel({
           <button
             type='button'
             disabled={arrowsDisabled}
-            onClick={() => setActive((prev) => (prev + 1) % slides.length)}
-            className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+            onClick={() => setActive((previous) => (previous + 1) % slides.length)}
+            className='important-nav-btn absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
             aria-label='Следующий слайд'
           >
             <ChevronRight className='h-5 w-5' />
@@ -264,7 +226,7 @@ export function HighlightCarousel({
               setShowRecentCompleted((current) => !current);
               setActive(0);
             }}
-            className={`important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition ${
+            className={`important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black ${
               showRecentCompleted ? 'important-events-view-all-btn-active' : ''
             }`}
           >
@@ -277,20 +239,21 @@ export function HighlightCarousel({
 
         {slides.length > 0 ? (
           <div className='flex flex-wrap items-center gap-3'>
-            {slides.map((event, idx) => {
+            {slides.map((event, index) => {
               const date = new Date(event.startAt);
               const completed = isCompletedEvent(event);
+
               return (
                 <button
                   key={event.id}
                   type='button'
-                  onClick={() => setActive(idx)}
-                  className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border text-center transition ${
+                  onClick={() => setActive(index)}
+                  className={`important-date-chip flex h-[58px] w-[58px] flex-col items-center justify-center rounded-[18px] text-center ${
                     completed
-                      ? 'is-past-month border-[2px] border-[#E04B4B] bg-white'
-                      : idx === active
-                        ? 'is-active border-[2px] border-[#4FAF8C] bg-white'
-                        : 'border-[#7CD8B3] bg-white'
+                      ? 'important-date-chip--completed'
+                      : index === active
+                        ? 'important-date-chip--active'
+                        : 'important-date-chip--planned'
                   }`}
                   title={event.title}
                 >
