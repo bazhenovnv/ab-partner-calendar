@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/api';
 import type { EventItem } from '@/lib/types';
@@ -17,7 +17,6 @@ import { HighlightCarousel } from './highlight-carousel';
 import { EventsCalendarBoard } from './events-calendar-board';
 import { EventModal } from './event-modal';
 import { ReminderPanel } from './reminder-panel';
-import { ReminderButton } from './reminder-button';
 import { CompactEventsList } from './compact-events-list';
 import { Button } from './ui/button';
 
@@ -122,7 +121,7 @@ function FilterSelect({
   label: string;
   value: string;
   onChange: (value: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className='grid min-w-0 gap-1'>
@@ -142,7 +141,6 @@ export function HomePage() {
   const [highlights, setHighlights] = useState<EventItem[]>([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-  const [calendarViewDate, setCalendarViewDate] = useState(new Date());
   const [activeModalEvent, setActiveModalEvent] = useState<EventItem | null>(null);
   const [formatFilter, setFormatFilter] = useState<FormatFilter>('ALL');
   const [cityFilter, setCityFilter] = useState('ALL');
@@ -186,9 +184,7 @@ export function HomePage() {
     const sorted = [...events].filter((event) => !Number.isNaN(+new Date(event.startAt))).sort(compareUpcomingEvents);
     const first = sorted.find((event) => !isCompletedEvent(event)) ?? sorted[0];
     if (first) {
-      const date = new Date(first.startAt);
-      setSelectedDate(date);
-      setCalendarViewDate(date);
+      setSelectedDate(new Date(first.startAt));
       setSelectedEventId(first.id);
     }
     setDidAutoSelect(true);
@@ -253,11 +249,16 @@ export function HomePage() {
   const topicCards = useMemo(() => topicPresets.map((topic) => ({ ...topic, count: events.filter(isCounterActiveEvent).filter((event) => eventMatchesTopic(event, topic.value)).length })), [events]);
 
   const selectImportantEvent = useCallback((event: EventItem) => {
-    const date = new Date(event.startAt);
-    setSelectedDate(date);
-    setCalendarViewDate(date);
+    setFormatFilter('ALL');
+    setCityFilter('ALL');
+    setTopicFilter('ALL');
+    setPriceFilter('ALL');
+    setSourceFilter('ALL');
+    setPeriodFilter('ALL');
+    setOnlyImportant(false);
+    setSelectedDate(new Date(event.startAt));
     setSelectedEventId(event.id);
-    window.setTimeout(() => document.querySelector('.dashboard-calendar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 0);
+    window.setTimeout(() => document.querySelector('.dashboard-calendar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
   }, []);
 
   const viewModeControls = (
@@ -352,7 +353,6 @@ export function HomePage() {
                   selectedEventId={selectedEventId}
                   onSelectDate={setSelectedDate}
                   onSelectEventId={setSelectedEventId}
-                  onMonthChange={setCalendarViewDate}
                   calendarControls={calendarQuickFilters}
                   filtersPanel={topicButtons}
                 />
