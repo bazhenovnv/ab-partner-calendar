@@ -17,7 +17,7 @@
 .page-shell .important-date-chip.is-past-month,
 .page-shell .important-date-chip.is-past-month:hover,
 .page-shell .important-date-chip.is-past-month:active {
-  border: 2px solid #E04B4B !important;
+  border: 1.5px solid var(--ab-border) !important;
   border-radius: 18px !important;
   background-color: #ef8b8b !important;
   background-image: linear-gradient(180deg, #ffdada 0%, #ef8b8b 52%, #e04b4b 100%) !important;
