@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { ReminderButton } from './reminder-button';
 
 const IMPORTANT_EVENTS_PHOTO = '/important-events-photo-v2.png';
+const RECENT_COMPLETED_WINDOW_MS = 31 * 24 * 60 * 60 * 1000;
 
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 
@@ -54,6 +55,13 @@ function isCompletedEvent(event: EventItem) {
   return Number.isFinite(startAt) && startAt < Date.now();
 }
 
+function isRecentlyCompletedEvent(event: EventItem) {
+  if (!isCompletedEvent(event)) return false;
+
+  const timestamp = +new Date(event.endAt || event.startAt);
+  return Number.isFinite(timestamp) && timestamp >= Date.now() - RECENT_COMPLETED_WINDOW_MS;
+}
+
 function compareUpcomingEvents(a: EventItem, b: EventItem) {
   return +new Date(a.startAt) - +new Date(b.startAt);
 }
@@ -75,26 +83,42 @@ export function HighlightCarousel({
   embedded?: boolean;
   controls?: ReactNode;
 }) {
-  const slides = useMemo(() => {
-    const uniqueItems = Array.from(new Map(items.map((event) => [event.id, event])).values());
-    const activeEvents = uniqueItems
-      .filter((event) => !isCompletedEvent(event))
-      .sort(compareUpcomingEvents);
-    const completedEvents = uniqueItems
-      .filter(isCompletedEvent)
-      .sort(compareCompletedEvents);
-
-    if (activeEvents.length >= 2) return activeEvents;
-    if (activeEvents.length === 1) return [...activeEvents, ...completedEvents.slice(0, 1)];
-    return completedEvents.slice(0, 3);
-  }, [items]);
+  const uniqueItems = useMemo(
+    () => Array.from(new Map(items.map((event) => [event.id, event])).values()),
+    [items],
+  );
+  const [showRecentCompleted, setShowRecentCompleted] = useState(false);
   const [active, setActive] = useState(0);
 
-  const plannedSlides = useMemo(() => {
-    return slides
-      .map((event, idx) => ({ event, idx }))
-      .filter(({ event }) => !isCompletedEvent(event));
-  }, [slides]);
+  const upcomingEvents = useMemo(
+    () => uniqueItems.filter((event) => !isCompletedEvent(event)).sort(compareUpcomingEvents),
+    [uniqueItems],
+  );
+
+  const recentlyCompletedEvents = useMemo(
+    () => uniqueItems.filter(isRecentlyCompletedEvent).sort(compareCompletedEvents),
+    [uniqueItems],
+  );
+
+  const slides = useMemo(() => {
+    if (showRecentCompleted) {
+      return [...upcomingEvents, ...recentlyCompletedEvents];
+    }
+
+    if (upcomingEvents.length >= 2) return upcomingEvents;
+    if (upcomingEvents.length === 1) return [...upcomingEvents, ...recentlyCompletedEvents.slice(0, 1)];
+    return recentlyCompletedEvents.slice(0, 3);
+  }, [recentlyCompletedEvents, showRecentCompleted, upcomingEvents]);
+
+  const dateButtons = useMemo(
+    () =>
+      slides.map((event, idx) => ({
+        event,
+        idx,
+        isPastMonth: isCompletedEvent(event),
+      })),
+    [slides],
+  );
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -107,7 +131,12 @@ export function HighlightCarousel({
   }, [active, slides.length]);
 
   useEffect(() => {
-    if (slides.length > 0 && active >= slides.length) {
+    if (slides.length === 0) {
+      setActive(0);
+      return;
+    }
+
+    if (active >= slides.length) {
       setActive(0);
     }
   }, [active, slides.length]);
@@ -115,27 +144,84 @@ export function HighlightCarousel({
   if (!slides.length) {
     const fallback = (
       <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
-        <div className='grid min-h-[320px] gap-0 lg:grid-cols-2'>
-          <div className='important-events-image-panel min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
-            <img
-              src={IMPORTANT_EVENTS_PHOTO}
-              alt='Важные события'
-              className='h-full w-full object-contain object-center'
-            />
-          </div>
+        <div className='highlight-hero-joined relative overflow-hidden bg-transparent'>
+          <div className='grid min-h-[320px] gap-0 lg:grid-cols-[0.95fr_1fr]'>
+            <button
+              type='button'
+              disabled
+              className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+              aria-label='Предыдущий слайд'
+            >
+              <ChevronLeft className='h-5 w-5' />
+            </button>
 
-          <div className='important-events-copy-panel relative flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
-            <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
-              Важные события
+            <div className='important-events-image-panel relative min-h-[280px] overflow-hidden border-b border-[#7CD8B3] bg-white p-4 lg:border-b-0'>
+              <img
+                src={IMPORTANT_EVENTS_PHOTO}
+                alt='Важные события'
+                className='h-full w-full object-contain object-center'
+              />
             </div>
 
-            <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
-              Важные события загружаются из Telegram-канала и API-источников
-            </h2>
+            <div className='important-events-copy-panel relative flex flex-col justify-center bg-transparent p-6 text-black lg:p-8'>
+              <div className='mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#2c8d67]'>
+                Важные события
+              </div>
 
-            <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
-              После синхронизации здесь появятся главные события с приоритетными публикациями из подключённых источников.
-            </p>
+              <h2 className='max-w-2xl text-3xl font-medium leading-tight text-black lg:text-4xl'>
+                Важные события появятся после синхронизации с Max
+              </h2>
+
+              <p className='mt-5 max-w-2xl text-lg leading-8 text-slate-700'>
+                После загрузки здесь появятся главные события с приоритетными публикациями из подключенного Max-канала.
+              </p>
+            </div>
+
+            <button
+              type='button'
+              disabled
+              className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
+              aria-label='Следующий слайд'
+            >
+              <ChevronRight className='h-5 w-5' />
+            </button>
+          </div>
+        </div>
+
+        <div className='important-events-divider mx-6 border-t border-[#cfcfcf]' />
+
+        <div className='important-events-ribbon bg-transparent px-3 pb-5 pt-5'>
+          <div className='important-events-headline-row'>
+            <h3 className='important-events-ribbon-title'>ВАЖНЫЕ СОБЫТИЯ</h3>
+
+            {controls ? (
+              <h3 className='important-events-mode-title'>РЕЖИМ ОТОБРАЖЕНИЯ</h3>
+            ) : (
+              <div aria-hidden='true' />
+            )}
+          </div>
+
+          <div className='important-events-controls-row'>
+            <button
+              type='button'
+              disabled
+              className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
+            >
+              Смотреть все
+              <ArrowRight className='h-4 w-4' />
+            </button>
+
+            {controls ? (
+              <div className='important-events-mode-controls grid gap-3 sm:grid-cols-2'>
+                {controls}
+              </div>
+            ) : (
+              <div aria-hidden='true' />
+            )}
+          </div>
+
+          <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-4 py-3 text-sm text-black'>
+            Запланированных важных событий пока нет.
           </div>
         </div>
       </div>
@@ -146,6 +232,7 @@ export function HighlightCarousel({
 
   const item = slides[active] ?? slides[0];
   const slideImage = isActualEventImage(item.imageUrl) ? item.imageUrl! : IMPORTANT_EVENTS_PHOTO;
+  const arrowsDisabled = slides.length <= 1;
 
   const content = (
     <div className='important-events-shell important-events-unified overflow-hidden rounded-[30px] border border-black bg-[var(--ab-panel-bg)]'>
@@ -153,6 +240,7 @@ export function HighlightCarousel({
         <div className='grid min-h-[320px] gap-0 lg:grid-cols-[0.95fr_1fr]'>
           <button
             type='button'
+            disabled={arrowsDisabled}
             onClick={() => setActive((prev) => (prev - 1 + slides.length) % slides.length)}
             className='important-nav-btn pressable absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
             aria-label='Предыдущий слайд'
@@ -234,6 +322,7 @@ export function HighlightCarousel({
 
           <button
             type='button'
+            disabled={arrowsDisabled}
             onClick={() => setActive((prev) => (prev + 1) % slides.length)}
             className='important-nav-btn pressable absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full lg:inline-flex'
             aria-label='Следующий слайд'
@@ -259,7 +348,10 @@ export function HighlightCarousel({
         <div className='important-events-controls-row'>
           <button
             type='button'
-            onClick={() => setActive(plannedSlides[0]?.idx ?? 0)}
+            onClick={() => {
+              setShowRecentCompleted(true);
+              setActive(0);
+            }}
             className='important-events-view-all-btn inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-black transition'
           >
             Смотреть все
@@ -275,9 +367,9 @@ export function HighlightCarousel({
           )}
         </div>
 
-        {plannedSlides.length > 0 ? (
+        {dateButtons.length > 0 ? (
           <div className='flex flex-wrap items-center gap-3'>
-            {plannedSlides.map(({ event, idx }) => {
+            {dateButtons.map(({ event, idx, isPastMonth }) => {
               const date = new Date(event.startAt);
 
               return (
@@ -286,7 +378,11 @@ export function HighlightCarousel({
                   type='button'
                   onClick={() => setActive(idx)}
                   className={`important-date-chip group flex h-[58px] w-[58px] flex-col items-center justify-center rounded-full border bg-white text-center transition ${
-                    idx === active ? 'border-[#E04B4B]' : 'border-[#7CD8B3]'
+                    isPastMonth
+                      ? 'is-past-month border-[#E04B4B]'
+                      : idx === active
+                        ? 'is-active border-[#4FAF8C]'
+                        : 'border-[#7CD8B3]'
                   }`}
                   title={event.title}
                 >
