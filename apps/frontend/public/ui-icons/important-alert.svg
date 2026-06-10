@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Важно">
+  <defs>
+    <radialGradient id="g" cx="38%" cy="24%" r="82%">
+      <stop offset="0" stop-color="#6f6f6f"/>
+      <stop offset="0.34" stop-color="#222"/>
+      <stop offset="1" stop-color="#000"/>
+    </radialGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#g)" stroke="#111" stroke-width="4" filter="url(#shadow)"/>
+  <ellipse cx="51" cy="35" rx="34" ry="19" fill="url(#shine)" opacity=".55"/>
+  <path d="M64 25c8 0 12 5 11 13l-5 39c-.6 5-2 7-6 7s-5.4-2-6-7l-5-39c-1-8 3-13 11-13Z" fill="#fff"/>
+  <circle cx="64" cy="99" r="10" fill="#fff"/>
+  <path d="M29 76c-10 9-15 16-13 21 5 12 88 12 96 0 3-5-3-13-13-21" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <path d="M39 69c-8 8-12 13-10 17 4 8 65 8 70 0 2-4-2-10-10-17" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+</svg>
