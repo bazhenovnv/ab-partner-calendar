@@ -16,13 +16,20 @@
   background-image: none !important;
 }
 
-/* Calendar outer panels return to translucent white. Black backing between day tiles stays intact. */
+/* Calendar outer panels return to translucent white. */
 .page-shell .calendar-top-panel > div,
 .page-shell .calendar-left-panel,
 .page-shell .calendar-bottom-panel,
 .page-shell .selected-day-events-panel {
   background-color: rgba(255, 255, 255, .75) !important;
   background-image: none !important;
+}
+
+/* Calendar backing between weekday and day tiles matches the project shell background. */
+.page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid),
+.page-shell .calendar-days-grid {
+  background: rgba(238, 238, 238, .75) !important;
+  border-color: rgba(0, 0, 0, .72) !important;
 }
 
 /* Filters select controls match the regular project-button footprint. */
