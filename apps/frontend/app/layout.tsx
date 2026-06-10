@@ -3,6 +3,7 @@ import './controls.css';
 import './hotfix.css';
 import './calendar-reference.css';
 import './calendar-final-overrides.css';
+import './section-title-overrides.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
