@@ -10,13 +10,13 @@
   font-weight: 900 !important;
   letter-spacing: .14em !important;
   text-transform: uppercase !important;
-  color: #f29f59 !important;
+  color: #4FAF8C !important;
   background-image:
-    linear-gradient(180deg, #fff1e4 0%, #ffd4b5 18%, #f7bd8d 42%, #f29f59 68%, #df7e35 100%) !important;
+    linear-gradient(180deg, #effff9 0%, #c9f4e3 18%, #9be4c8 42%, #7CD8B3 68%, #4FAF8C 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  -webkit-text-stroke: .45px rgba(204, 105, 36, .78) !important;
+  -webkit-text-stroke: .45px rgba(44, 141, 103, .78) !important;
   text-shadow: none !important;
   filter: none !important;
 }
