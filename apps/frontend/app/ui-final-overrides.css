@@ -46,7 +46,7 @@
   border-radius: 18px !important;
 }
 
-/* Top metric cards follow the reference: light rectangular panel, black dial on the left, label on the right. */
+/* Top metric cards follow the reference: light rectangular panel, peach convex dial on the left, label on the right. */
 .page-shell .metrics-grid .metric-card {
   display: flex !important;
   min-height: 88px !important;
@@ -110,28 +110,24 @@
   min-height: 52px !important;
   margin: 0 !important;
   padding: 0 0 2px !important;
-  border: 2px solid #bcbcbc !important;
+  border: 1.5px solid rgba(0, 0, 0, .72) !important;
   border-radius: 999px !important;
-  outline: 1px solid #2a2a2a !important;
-  background-color: #050505 !important;
+  outline: 0 !important;
+  background-color: #f2b789 !important;
   background-image:
-    radial-gradient(circle at 38% 24%, rgba(255,255,255,.20) 0%, rgba(255,255,255,.05) 23%, rgba(255,255,255,0) 43%),
-    radial-gradient(circle at 50% 60%, #161616 0%, #080808 55%, #000000 100%) !important;
-  color: #ffffff !important;
+    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.62) 28%, rgba(255,255,255,.10) 30%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #ffe5d2 0%, #f7c49e 54%, #efa66f 100%) !important;
+  color: #111616 !important;
   font-size: 25px !important;
   font-weight: 800 !important;
   line-height: 1 !important;
   text-align: center !important;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.42),
-    0 2px 3px rgba(0,0,0,.95) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.58) !important;
   box-shadow:
-    0 0 0 1px #555555,
-    0 0 0 3px #e4e4e4,
-    0 0 0 4px #505050,
-    0 4px 6px rgba(0,0,0,.38),
-    inset 0 2px 2px rgba(255,255,255,.18),
-    inset 0 -3px 5px rgba(0,0,0,.92) !important;
+    0 7px 13px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(148,78,32,.18) !important;
 }
 
 /* Quick calendar filters: center the icon and label as one inline group. */
