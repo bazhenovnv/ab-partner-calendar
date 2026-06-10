@@ -1,0 +1,76 @@
+/* Final raised typography for section labels and the important-event kicker. */
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title,
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  font-size: 22px !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: #f29f59 !important;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.98),
+    0 2px 0 rgba(255,255,255,.70),
+    0 3px 0 rgba(255,255,255,.28),
+    0 4px 8px rgba(0,0,0,.20) !important;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.10)) !important;
+}
+
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title {
+  font-size: 24px !important;
+}
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title {
+  margin-top: 2px !important;
+}
+
+/* Green label above the important-event title: larger, bolder and visibly raised. */
+.page-shell .important-events-copy-panel > div:first-child {
+  display: inline-flex !important;
+  align-self: flex-start !important;
+  margin: 0 0 16px !important;
+  padding: 8px 13px !important;
+  border: 1.5px solid rgba(44,141,103,.62) !important;
+  border-radius: 14px !important;
+  background-color: rgba(238,251,244,.96) !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.12) 36%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #ffffff 0%, #eefbf4 100%) !important;
+  color: #2c8d67 !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: .15em !important;
+  text-transform: uppercase !important;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.98),
+    0 2px 0 rgba(255,255,255,.58),
+    0 3px 6px rgba(0,0,0,.16) !important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.16),
+    0 2px 4px rgba(0,0,0,.12),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(44,141,103,.10) !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .important-events-ribbon-title,
+  .page-shell .important-events-mode-title,
+  .page-shell .selected-day-events-title,
+  .page-shell .calendar-topic-panel-title,
+  .page-shell .topic-panel-title {
+    font-size: 18px !important;
+    letter-spacing: .12em !important;
+  }
+
+  .page-shell .important-events-copy-panel > div:first-child {
+    padding: 7px 11px !important;
+    font-size: 16px !important;
+    letter-spacing: .12em !important;
+  }
+}
