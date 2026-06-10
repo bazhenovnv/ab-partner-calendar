@@ -1,0 +1,64 @@
+/* Final isolated overrides for the collection panel and top metric counters. */
+
+/* Top metric badges: replace circular dials with compact rounded-square convex tiles. */
+.page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+  flex: 0 0 52px !important;
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  min-height: 52px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+/* Collection panel: remove all left icons from buttons. */
+.page-shell .calendar-topic-panel .topic-filter-icon,
+.page-shell .calendar-topic-panel .topic-filter-image {
+  display: none !important;
+}
+
+/* Keep collection buttons aligned after removing icons. */
+.page-shell .calendar-topic-panel .topic-filter-button {
+  justify-content: center !important;
+  gap: 0 !important;
+}
+
+/* Collection label and counter stay in one row; counter moves before the label. */
+.page-shell .calendar-topic-panel .topic-filter-copy {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+.page-shell .calendar-topic-panel .topic-count-number {
+  order: -1 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title {
+  order: 2 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* The standalone 'Все подборки' button remains centered without its old icon. */
+.page-shell .calendar-topic-panel .topic-filter-button:last-child {
+  justify-content: center !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+    flex-basis: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 12px !important;
+  }
+}
