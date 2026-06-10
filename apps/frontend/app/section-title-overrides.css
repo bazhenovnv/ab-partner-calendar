@@ -11,12 +11,14 @@
   letter-spacing: .14em !important;
   text-transform: uppercase !important;
   color: #f29f59 !important;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.98),
-    0 2px 0 rgba(255,255,255,.70),
-    0 3px 0 rgba(255,255,255,.28),
-    0 4px 8px rgba(0,0,0,.20) !important;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,.10)) !important;
+  background-image:
+    linear-gradient(180deg, #fff1e4 0%, #ffd4b5 18%, #f7bd8d 42%, #f29f59 68%, #df7e35 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: .45px rgba(204, 105, 36, .78) !important;
+  text-shadow: none !important;
+  filter: none !important;
 }
 
 .page-shell .selected-day-events-title,
