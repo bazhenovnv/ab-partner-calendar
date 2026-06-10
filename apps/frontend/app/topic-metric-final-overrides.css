@@ -62,3 +62,92 @@
     border-radius: 12px !important;
   }
 }
+
+/* Final alignment: collection labels left, counters right. */
+.page-shell .calendar-topic-panel .topic-filter-copy {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+.page-shell .calendar-topic-panel .topic-filter-title {
+  order: 1 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+}
+
+.page-shell .calendar-topic-panel .topic-count-number {
+  order: 2 !important;
+  display: inline-flex !important;
+  flex: 0 0 34px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
+  border-radius: 10px !important;
+  background-color: #f2b789 !important;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.98) 0%,
+      rgba(255,255,255,.74) 28%,
+      rgba(255,255,255,.10) 30%,
+      rgba(255,255,255,0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      #ffe5d2 0%,
+      #f7c49e 54%,
+      #efa66f 100%
+    ) !important;
+  color: #111616 !important;
+  text-align: center !important;
+  box-shadow:
+    0 5px 9px rgba(0,0,0,.18),
+    0 2px 4px rgba(0,0,0,.12),
+    inset 0 2px 0 rgba(255,255,255,.94),
+    inset 0 -3px 5px rgba(148,78,32,.18) !important;
+}
+
+/* Top metric number tiles: slightly smaller. */
+.page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+  flex: 0 0 46px !important;
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  border-radius: 12px !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+    flex-basis: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    border-radius: 11px !important;
+  }
+
+  .page-shell .calendar-topic-panel .topic-count-number {
+    flex-basis: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    border-radius: 9px !important;
+  }
+}
