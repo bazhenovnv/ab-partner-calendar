@@ -25,10 +25,10 @@
   background-image: none !important;
 }
 
-/* Calendar backing between weekday and day tiles matches the project shell background. */
+/* Calendar backing between weekday and day tiles uses one solid gray color. */
 .page-shell .calendar-top-panel > div > .grid.grid-cols-7:not(.calendar-days-grid),
 .page-shell .calendar-days-grid {
-  background: rgba(238, 238, 238, .75) !important;
+  background: #828282 !important;
   border-color: rgba(0, 0, 0, .72) !important;
 }
 
