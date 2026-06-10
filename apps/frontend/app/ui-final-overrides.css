@@ -39,6 +39,59 @@
   border-radius: 18px !important;
 }
 
+/* Top metric cards: label and count in one row, count inside the same peach badge as collection counters. */
+.page-shell .metrics-grid .metric-card {
+  min-height: 72px !important;
+  padding: 12px 16px !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child > div:first-child {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: #111616 !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  margin-left: auto !important;
+  padding: 0 !important;
+  border: 1.5px solid rgba(0, 0, 0, .72) !important;
+  border-radius: 999px !important;
+  background-color: #f2b789 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.62) 28%, rgba(255,255,255,.10) 30%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #ffe5d2 0%, #f7c49e 54%, #efa66f 100%) !important;
+  color: #111616 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.16),
+    inset 0 2px 0 rgba(255,255,255,.90),
+    inset 0 -2px 4px rgba(148,78,32,.12) !important;
+}
+
 /* Quick calendar filters: add the approved important icon and a custom glossy ruble icon. */
 .page-shell .calendar-inline-controls .calendar-filter-toggle {
   position: relative !important;
@@ -104,6 +157,11 @@
     font-size: 14px !important;
   }
 
+  .page-shell .metrics-grid .metric-card > div:last-child > div:first-child {
+    font-size: 14px !important;
+  }
+
+  .page-shell .metrics-grid .metric-card > div:last-child > div:last-child,
   .page-shell .calendar-topic-panel .topic-count-number {
     width: 30px !important;
     height: 30px !important;
