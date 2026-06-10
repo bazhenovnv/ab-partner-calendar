@@ -151,3 +151,65 @@
     border-radius: 9px !important;
   }
 }
+
+/* Compact top metric panel: smaller cards and smaller number tiles. */
+.page-shell .metrics-grid {
+  gap: 10px !important;
+}
+
+.page-shell .metrics-grid .metric-card {
+  min-height: 62px !important;
+  padding: 8px 12px !important;
+  border-radius: 14px !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child {
+  gap: 12px !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child > div:first-child {
+  font-size: 14px !important;
+  line-height: 1.08 !important;
+}
+
+/* Smaller peach number windows */
+.page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  border-radius: 9px !important;
+  padding-bottom: 1px !important;
+  font-size: 18px !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .metrics-grid {
+    gap: 8px !important;
+  }
+
+  .page-shell .metrics-grid .metric-card {
+    min-height: 56px !important;
+    padding: 7px 10px !important;
+    border-radius: 13px !important;
+  }
+
+  .page-shell .metrics-grid .metric-card > div:last-child {
+    gap: 9px !important;
+  }
+
+  .page-shell .metrics-grid .metric-card > div:last-child > div:first-child {
+    font-size: 13px !important;
+  }
+
+  .page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+    flex-basis: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+  }
+}
