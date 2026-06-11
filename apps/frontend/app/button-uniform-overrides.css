@@ -1,18 +1,41 @@
-/* === FINAL UNIFORM PROJECT BUTTON HEIGHT OVERRIDES === */
+/* === FINAL UNIFORM PROJECT BUTTON SYSTEM === */
 
 :root {
-  --ab-uniform-button-height: 34px;
-  --ab-uniform-button-radius: 14px;
-  --ab-uniform-button-font-size: 12px;
-  --ab-uniform-button-px: 12px;
-  --ab-uniform-button-py: 6px;
-  --ab-uniform-button-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%);
+  --ab-button-h: 34px;
+  --ab-button-radius: 15px;
+  --ab-button-font: 12px;
+  --ab-button-text: #041f16;
+  --ab-button-border: #0f3f2c;
+  --ab-button-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.22),
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 8px 12px rgba(255, 255, 255, 0.32),
+    inset 0 -4px 8px rgba(0, 48, 28, 0.18);
+  --ab-button-shadow-hover:
+    0 6px 12px rgba(0, 0, 0, 0.24),
+    0 2px 5px rgba(0, 0, 0, 0.17),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98),
+    inset 0 8px 12px rgba(255, 255, 255, 0.36),
+    inset 0 -4px 8px rgba(0, 48, 28, 0.18);
+  --ab-button-bg:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0.32) 18%,
+      rgba(142, 232, 196, 1) 48%,
+      rgba(99, 205, 162, 1) 100%);
+  --ab-button-bg-hover:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.80) 0%,
+      rgba(255, 255, 255, 0.36) 18%,
+      rgba(153, 238, 203, 1) 48%,
+      rgba(99, 205, 162, 1) 100%);
 }
 
-.page-shell button,
-.page-shell a.mint-btn,
+/* Only actual action buttons. Do not target every button globally: calendar cells and form controls have their own styles. */
 .page-shell .mint-btn,
+.page-shell a.mint-btn,
+.page-shell button.mint-btn,
 .page-shell .pressable,
 .page-shell .site-header-action,
 .page-shell .mint-btn--header,
@@ -24,59 +47,42 @@
 .page-shell .calendar-today-btn,
 .page-shell .topic-filter-name-button,
 .page-shell .all-topic-filter-button,
-.page-shell .selected-day-event-btn,
-.page-shell [role='button'] {
-  height: var(--ab-uniform-button-height) !important;
-  min-height: var(--ab-uniform-button-height) !important;
-  max-height: var(--ab-uniform-button-height) !important;
-  padding-top: var(--ab-uniform-button-py) !important;
-  padding-bottom: var(--ab-uniform-button-py) !important;
-  padding-left: var(--ab-uniform-button-px) !important;
-  padding-right: var(--ab-uniform-button-px) !important;
-  border-radius: var(--ab-uniform-button-radius) !important;
-  font-size: var(--ab-uniform-button-font-size) !important;
-  line-height: 1 !important;
+.page-shell .selected-day-event-btn {
+  height: var(--ab-button-h) !important;
+  min-height: var(--ab-button-h) !important;
+  max-height: var(--ab-button-h) !important;
   box-sizing: border-box !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+
+  padding: 6px 14px !important;
+  border: 1.5px solid var(--ab-button-border) !important;
+  border-radius: var(--ab-button-radius) !important;
+
+  background: var(--ab-button-bg) !important;
+  background-color: #8ee8c4 !important;
+  color: var(--ab-button-text) !important;
+
+  font-size: var(--ab-button-font) !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+
+  box-shadow: var(--ab-button-shadow) !important;
+  transform: translate(0, 0) !important;
+  opacity: 1 !important;
 }
 
-.page-shell button:not(.topic-filter-counter-window):not([disabled]),
-.page-shell a.mint-btn,
-.page-shell .mint-btn:not(.topic-filter-counter-window),
-.page-shell .pressable:not(.topic-filter-counter-window),
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-nav-btn,
-.page-shell .important-mode-btn,
-.page-shell .calendar-filter-toggle,
-.page-shell .calendar-today-btn,
-.page-shell .topic-filter-name-button,
-.page-shell .all-topic-filter-button {
-  background: var(--ab-uniform-button-bg) !important;
-  background-color: var(--ab-mint) !important;
-  color: #06422d !important;
-  border: 1.5px solid #0f3f2c !important;
-}
-
-.page-shell button:not(.topic-filter-counter-window):not([disabled]):hover,
-.page-shell button:not(.topic-filter-counter-window):not([disabled]):focus,
-.page-shell button:not(.topic-filter-counter-window):not([disabled]):focus-visible,
-.page-shell button:not(.topic-filter-counter-window):not([disabled]):active,
+.page-shell .mint-btn:hover,
 .page-shell a.mint-btn:hover,
-.page-shell a.mint-btn:focus,
-.page-shell a.mint-btn:focus-visible,
-.page-shell a.mint-btn:active,
-.page-shell .mint-btn:not(.topic-filter-counter-window):hover,
-.page-shell .mint-btn:not(.topic-filter-counter-window):focus,
-.page-shell .mint-btn:not(.topic-filter-counter-window):focus-visible,
-.page-shell .mint-btn:not(.topic-filter-counter-window):active,
+.page-shell button.mint-btn:hover,
+.page-shell .pressable:hover,
 .page-shell .site-header-action:hover,
-.page-shell .site-header-action:focus,
-.page-shell .site-header-action:focus-visible,
 .page-shell .mint-btn--header:hover,
-.page-shell .mint-btn--header:focus,
-.page-shell .mint-btn--header:focus-visible,
 .page-shell .important-event-action-btn:hover,
 .page-shell .important-events-view-all-btn:hover,
 .page-shell .important-nav-btn:hover,
@@ -84,73 +90,185 @@
 .page-shell .calendar-filter-toggle:hover,
 .page-shell .calendar-today-btn:hover,
 .page-shell .topic-filter-name-button:hover,
-.page-shell .all-topic-filter-button:hover {
-  background: var(--ab-uniform-button-bg) !important;
-  background-color: var(--ab-mint) !important;
-  color: #06422d !important;
-  border-color: #0f3f2c !important;
+.page-shell .all-topic-filter-button:hover,
+.page-shell .selected-day-event-btn:hover,
+.page-shell .mint-btn:focus,
+.page-shell a.mint-btn:focus,
+.page-shell button.mint-btn:focus,
+.page-shell .pressable:focus,
+.page-shell .site-header-action:focus,
+.page-shell .mint-btn--header:focus,
+.page-shell .important-event-action-btn:focus,
+.page-shell .important-events-view-all-btn:focus,
+.page-shell .important-nav-btn:focus,
+.page-shell .important-mode-btn:focus,
+.page-shell .calendar-filter-toggle:focus,
+.page-shell .calendar-today-btn:focus,
+.page-shell .topic-filter-name-button:focus,
+.page-shell .all-topic-filter-button:focus,
+.page-shell .selected-day-event-btn:focus,
+.page-shell .mint-btn:focus-visible,
+.page-shell a.mint-btn:focus-visible,
+.page-shell button.mint-btn:focus-visible,
+.page-shell .pressable:focus-visible,
+.page-shell .site-header-action:focus-visible,
+.page-shell .mint-btn--header:focus-visible,
+.page-shell .important-event-action-btn:focus-visible,
+.page-shell .important-events-view-all-btn:focus-visible,
+.page-shell .important-nav-btn:focus-visible,
+.page-shell .important-mode-btn:focus-visible,
+.page-shell .calendar-filter-toggle:focus-visible,
+.page-shell .calendar-today-btn:focus-visible,
+.page-shell .topic-filter-name-button:focus-visible,
+.page-shell .all-topic-filter-button:focus-visible,
+.page-shell .selected-day-event-btn:focus-visible {
+  background: var(--ab-button-bg-hover) !important;
+  background-color: #99eecb !important;
+  color: var(--ab-button-text) !important;
+  border-color: var(--ab-button-border) !important;
+  box-shadow: var(--ab-button-shadow-hover) !important;
+  transform: translateY(-1px) !important;
+  opacity: 1 !important;
 }
 
+.page-shell .mint-btn:active,
+.page-shell a.mint-btn:active,
+.page-shell button.mint-btn:active,
+.page-shell .pressable:active,
+.page-shell .site-header-action:active,
+.page-shell .mint-btn--header:active,
+.page-shell .important-event-action-btn:active,
+.page-shell .important-events-view-all-btn:active,
+.page-shell .important-nav-btn:active,
+.page-shell .important-mode-btn:active,
+.page-shell .calendar-filter-toggle:active,
+.page-shell .calendar-today-btn:active,
+.page-shell .topic-filter-name-button:active,
+.page-shell .all-topic-filter-button:active,
+.page-shell .selected-day-event-btn:active {
+  transform: translateY(1px) !important;
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.18),
+    inset 0 2px 5px rgba(0, 0, 0, 0.13),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.46) !important;
+}
+
+/* Square arrow/icon buttons. */
 .page-shell .mint-btn--icon,
 .page-shell button.mint-btn--icon,
+.page-shell .mint-btn--icon:hover,
 .page-shell button.mint-btn--icon:hover,
+.page-shell .mint-btn--icon:focus,
 .page-shell button.mint-btn--icon:focus,
-.page-shell button.mint-btn--icon:focus-visible,
-.page-shell button.mint-btn--icon:active {
-  width: var(--ab-uniform-button-height) !important;
-  min-width: var(--ab-uniform-button-height) !important;
-  max-width: var(--ab-uniform-button-height) !important;
+.page-shell .mint-btn--icon:focus-visible,
+.page-shell button.mint-btn--icon:focus-visible {
+  width: var(--ab-button-h) !important;
+  min-width: var(--ab-button-h) !important;
+  max-width: var(--ab-button-h) !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
+/* Icons inside buttons must stay readable, not faded. */
+.page-shell .mint-btn svg,
+.page-shell .pressable svg,
+.page-shell .site-header-action svg,
+.page-shell .mint-btn--header svg,
+.page-shell .important-event-action-btn svg,
+.page-shell .important-events-view-all-btn svg,
+.page-shell .important-nav-btn svg,
+.page-shell .important-mode-btn svg,
+.page-shell .calendar-filter-toggle svg,
+.page-shell .calendar-today-btn svg,
+.page-shell .topic-filter-name-button svg,
+.page-shell .all-topic-filter-button svg {
+  color: var(--ab-button-text) !important;
+  stroke: var(--ab-button-text) !important;
+  opacity: 1 !important;
+}
+
+/* Header buttons can be wider but not taller. */
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  min-width: 128px !important;
+  max-width: none !important;
+}
+
+/* Event action buttons keep their practical width. */
+.page-shell .event-action-row .mint-btn,
+.page-shell .event-action-row a.mint-btn,
+.page-shell .event-action-row button.mint-btn {
+  min-width: 170px !important;
+}
+
+/* Selected-day event rows can grow vertically for long text, but start from the same button height. */
+.page-shell .selected-day-event-btn {
+  height: auto !important;
+  min-height: var(--ab-button-h) !important;
+  max-height: none !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+/* Topic counter bubbles are counters, not green action buttons. */
 .page-shell .topic-filter-counter-window,
 .page-shell .topic-filter-counter-window:hover,
 .page-shell .topic-filter-counter-window:focus,
 .page-shell .topic-filter-counter-window:focus-visible,
 .page-shell .topic-filter-counter-window:active {
-  width: var(--ab-uniform-button-height) !important;
-  height: var(--ab-uniform-button-height) !important;
-  min-width: var(--ab-uniform-button-height) !important;
-  min-height: var(--ab-uniform-button-height) !important;
-  max-width: var(--ab-uniform-button-height) !important;
-  max-height: var(--ab-uniform-button-height) !important;
+  width: var(--ab-button-h) !important;
+  height: var(--ab-button-h) !important;
+  min-width: var(--ab-button-h) !important;
+  min-height: var(--ab-button-h) !important;
+  max-width: var(--ab-button-h) !important;
+  max-height: var(--ab-button-h) !important;
   padding: 0 !important;
   border-radius: 999px !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  opacity: 1 !important;
 }
 
-.page-shell .selected-day-event-btn {
-  height: auto !important;
-  min-height: var(--ab-uniform-button-height) !important;
-  max-height: none !important;
-  align-items: center !important;
+/* Active topic: only the counter becomes peach. */
+.page-shell .topic-selection-item-active .topic-filter-name-button,
+.page-shell .topic-selection-item-active .topic-filter-name-button:hover,
+.page-shell .topic-selection-item-active .topic-filter-name-button:focus,
+.page-shell .topic-selection-item-active .topic-filter-name-button:focus-visible {
+  border-color: var(--ab-button-border) !important;
+  background: var(--ab-button-bg) !important;
+  background-color: #8ee8c4 !important;
+  color: var(--ab-button-text) !important;
 }
 
-.page-shell .event-action-row .mint-btn,
-.page-shell .event-action-row a.mint-btn,
-.page-shell .event-action-row button.mint-btn {
-  width: auto !important;
-  min-width: 170px !important;
+.page-shell .topic-selection-item-active .topic-filter-counter-window,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:hover,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:focus,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:focus-visible {
+  background: #ffd8bd !important;
+  background-color: #ffd8bd !important;
+  color: #000000 !important;
+  border-color: var(--ab-button-border) !important;
 }
 
-.page-shell .important-events-mode-controls .important-mode-btn,
-.page-shell .calendar-inline-controls .calendar-filter-toggle,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header {
-  height: var(--ab-uniform-button-height) !important;
-  min-height: var(--ab-uniform-button-height) !important;
-  max-height: var(--ab-uniform-button-height) !important;
-}
-
-/* Do not repaint form controls as buttons; only normalize their height separately. */
+/* Selects are not action buttons. Normalize height only. */
 .page-shell select,
 .page-shell .select-clean {
-  height: var(--ab-uniform-button-height) !important;
-  min-height: var(--ab-uniform-button-height) !important;
-  max-height: var(--ab-uniform-button-height) !important;
-  border-radius: var(--ab-uniform-button-radius) !important;
-  font-size: var(--ab-uniform-button-font-size) !important;
-  line-height: 1 !important;
+  height: var(--ab-button-h) !important;
+  min-height: var(--ab-button-h) !important;
+  max-height: var(--ab-button-h) !important;
+  border-radius: var(--ab-button-radius) !important;
+  font-size: var(--ab-button-font) !important;
+  font-weight: 700 !important;
+  color: #041f16 !important;
 }
 
-/* === END FINAL UNIFORM PROJECT BUTTON HEIGHT OVERRIDES === */
+/* Disabled elements stay visibly disabled. */
+.page-shell button:disabled,
+.page-shell button[disabled],
+.page-shell [aria-disabled='true'] {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* === END FINAL UNIFORM PROJECT BUTTON SYSTEM === */
