@@ -1,0 +1,156 @@
+/* === FINAL UNIFORM PROJECT BUTTON HEIGHT OVERRIDES === */
+
+:root {
+  --ab-uniform-button-height: 34px;
+  --ab-uniform-button-radius: 14px;
+  --ab-uniform-button-font-size: 12px;
+  --ab-uniform-button-px: 12px;
+  --ab-uniform-button-py: 6px;
+  --ab-uniform-button-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%);
+}
+
+.page-shell button,
+.page-shell a.mint-btn,
+.page-shell .mint-btn,
+.page-shell .pressable,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-nav-btn,
+.page-shell .important-mode-btn,
+.page-shell .calendar-filter-toggle,
+.page-shell .calendar-today-btn,
+.page-shell .topic-filter-name-button,
+.page-shell .all-topic-filter-button,
+.page-shell .selected-day-event-btn,
+.page-shell [role='button'] {
+  height: var(--ab-uniform-button-height) !important;
+  min-height: var(--ab-uniform-button-height) !important;
+  max-height: var(--ab-uniform-button-height) !important;
+  padding-top: var(--ab-uniform-button-py) !important;
+  padding-bottom: var(--ab-uniform-button-py) !important;
+  padding-left: var(--ab-uniform-button-px) !important;
+  padding-right: var(--ab-uniform-button-px) !important;
+  border-radius: var(--ab-uniform-button-radius) !important;
+  font-size: var(--ab-uniform-button-font-size) !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.page-shell button:not(.topic-filter-counter-window):not([disabled]),
+.page-shell a.mint-btn,
+.page-shell .mint-btn:not(.topic-filter-counter-window),
+.page-shell .pressable:not(.topic-filter-counter-window),
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .important-nav-btn,
+.page-shell .important-mode-btn,
+.page-shell .calendar-filter-toggle,
+.page-shell .calendar-today-btn,
+.page-shell .topic-filter-name-button,
+.page-shell .all-topic-filter-button {
+  background: var(--ab-uniform-button-bg) !important;
+  background-color: var(--ab-mint) !important;
+  color: #06422d !important;
+  border: 1.5px solid #0f3f2c !important;
+}
+
+.page-shell button:not(.topic-filter-counter-window):not([disabled]):hover,
+.page-shell button:not(.topic-filter-counter-window):not([disabled]):focus,
+.page-shell button:not(.topic-filter-counter-window):not([disabled]):focus-visible,
+.page-shell button:not(.topic-filter-counter-window):not([disabled]):active,
+.page-shell a.mint-btn:hover,
+.page-shell a.mint-btn:focus,
+.page-shell a.mint-btn:focus-visible,
+.page-shell a.mint-btn:active,
+.page-shell .mint-btn:not(.topic-filter-counter-window):hover,
+.page-shell .mint-btn:not(.topic-filter-counter-window):focus,
+.page-shell .mint-btn:not(.topic-filter-counter-window):focus-visible,
+.page-shell .mint-btn:not(.topic-filter-counter-window):active,
+.page-shell .site-header-action:hover,
+.page-shell .site-header-action:focus,
+.page-shell .site-header-action:focus-visible,
+.page-shell .mint-btn--header:hover,
+.page-shell .mint-btn--header:focus,
+.page-shell .mint-btn--header:focus-visible,
+.page-shell .important-event-action-btn:hover,
+.page-shell .important-events-view-all-btn:hover,
+.page-shell .important-nav-btn:hover,
+.page-shell .important-mode-btn:hover,
+.page-shell .calendar-filter-toggle:hover,
+.page-shell .calendar-today-btn:hover,
+.page-shell .topic-filter-name-button:hover,
+.page-shell .all-topic-filter-button:hover {
+  background: var(--ab-uniform-button-bg) !important;
+  background-color: var(--ab-mint) !important;
+  color: #06422d !important;
+  border-color: #0f3f2c !important;
+}
+
+.page-shell .mint-btn--icon,
+.page-shell button.mint-btn--icon,
+.page-shell button.mint-btn--icon:hover,
+.page-shell button.mint-btn--icon:focus,
+.page-shell button.mint-btn--icon:focus-visible,
+.page-shell button.mint-btn--icon:active {
+  width: var(--ab-uniform-button-height) !important;
+  min-width: var(--ab-uniform-button-height) !important;
+  max-width: var(--ab-uniform-button-height) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-shell .topic-filter-counter-window,
+.page-shell .topic-filter-counter-window:hover,
+.page-shell .topic-filter-counter-window:focus,
+.page-shell .topic-filter-counter-window:focus-visible,
+.page-shell .topic-filter-counter-window:active {
+  width: var(--ab-uniform-button-height) !important;
+  height: var(--ab-uniform-button-height) !important;
+  min-width: var(--ab-uniform-button-height) !important;
+  min-height: var(--ab-uniform-button-height) !important;
+  max-width: var(--ab-uniform-button-height) !important;
+  max-height: var(--ab-uniform-button-height) !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+}
+
+.page-shell .selected-day-event-btn {
+  height: auto !important;
+  min-height: var(--ab-uniform-button-height) !important;
+  max-height: none !important;
+  align-items: center !important;
+}
+
+.page-shell .event-action-row .mint-btn,
+.page-shell .event-action-row a.mint-btn,
+.page-shell .event-action-row button.mint-btn {
+  width: auto !important;
+  min-width: 170px !important;
+}
+
+.page-shell .important-events-mode-controls .important-mode-btn,
+.page-shell .calendar-inline-controls .calendar-filter-toggle,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header {
+  height: var(--ab-uniform-button-height) !important;
+  min-height: var(--ab-uniform-button-height) !important;
+  max-height: var(--ab-uniform-button-height) !important;
+}
+
+/* Do not repaint form controls as buttons; only normalize their height separately. */
+.page-shell select,
+.page-shell .select-clean {
+  height: var(--ab-uniform-button-height) !important;
+  min-height: var(--ab-uniform-button-height) !important;
+  max-height: var(--ab-uniform-button-height) !important;
+  border-radius: var(--ab-uniform-button-radius) !important;
+  font-size: var(--ab-uniform-button-font-size) !important;
+  line-height: 1 !important;
+}
+
+/* === END FINAL UNIFORM PROJECT BUTTON HEIGHT OVERRIDES === */
