@@ -1,4 +1,6 @@
-/* === FINAL SPLIT TOPIC FILTERS OVERRIDES === */
+/* === METRIC COMPACTNESS AND DASH SEPARATOR ONLY ===
+ * Topic table/buttons/counters are controlled by topic-table-overrides.css and button-uniform-overrides.css.
+ */
 
 .page-shell .metrics-grid .metric-card,
 .page-shell .metric-card.surface-card {
@@ -32,160 +34,6 @@
   line-height: 1 !important;
 }
 
-.page-shell .calendar-topic-panel {
-  padding: 18px 16px 16px !important;
-  min-height: auto !important;
-  overflow: visible !important;
-}
-
-.page-shell .calendar-topic-panel-title {
-  margin-bottom: 14px !important;
-}
-
-.page-shell .topic-selection-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 10px 12px !important;
-  align-items: start !important;
-}
-
-.page-shell .topic-selection-item {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 44px !important;
-  gap: 8px !important;
-  align-items: center !important;
-  min-width: 0 !important;
-}
-
-.page-shell .topic-filter-name-button,
-.page-shell .all-topic-filter-button {
-  min-width: 0 !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 8px 14px !important;
-  border: 1.5px solid #0f3f2c !important;
-  border-radius: 18px !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%) !important;
-  color: #06422d !important;
-  font-size: 16px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.22),
-    0 2px 5px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-    inset 0 8px 12px rgba(255, 255, 255, 0.32),
-    inset 0 -4px 8px rgba(0, 48, 28, 0.18) !important;
-  transform: translate(0, 0) !important;
-}
-
-.page-shell .topic-filter-name-button:hover,
-.page-shell .all-topic-filter-button:hover {
-  transform: translateY(-1px) !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.24) 20%, rgba(134, 225, 189, 1) 48%, rgba(79, 175, 140, 1) 100%) !important;
-}
-
-.page-shell .topic-filter-name-button:active,
-.page-shell .all-topic-filter-button:active {
-  transform: translateY(1px) !important;
-  box-shadow:
-    0 3px 7px rgba(0, 0, 0, 0.18),
-    inset 0 2px 5px rgba(0, 0, 0, 0.14),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.48) !important;
-}
-
-.page-shell .topic-filter-name-button .topic-filter-title {
-  display: block !important;
-  color: #06422d !important;
-  font-size: 16px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-}
-
-.page-shell .topic-filter-counter-window {
-  width: 44px !important;
-  height: 42px !important;
-  min-width: 44px !important;
-  min-height: 42px !important;
-  max-width: 44px !important;
-  max-height: 42px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 !important;
-  border: 1.5px solid #000000 !important;
-  border-radius: 14px !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #f29f59 !important;
-  font-size: 19px !important;
-  font-weight: 900 !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.20),
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.94),
-    inset 0 -3px 7px rgba(0, 0, 0, 0.08) !important;
-}
-
-.page-shell .topic-selection-item-active .topic-filter-counter-window {
-  background: #ffd8bd !important;
-  background-color: #ffd8bd !important;
-  color: #000000 !important;
-  border-color: #000000 !important;
-}
-
-.page-shell .topic-selection-item-active .topic-filter-name-button {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%) !important;
-  color: #06422d !important;
-  border-color: #0f3f2c !important;
-}
-
-.page-shell .all-topic-filter-button {
-  grid-column: 1 / -1 !important;
-  width: 100% !important;
-  height: 50px !important;
-  min-height: 50px !important;
-  font-size: 17px !important;
-}
-
-.page-shell .all-topic-filter-button-active {
-  border-color: #0f3f2c !important;
-}
-
-@media (max-width: 900px) {
-  .page-shell .topic-selection-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 560px) {
-  .page-shell .topic-selection-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* === END FINAL SPLIT TOPIC FILTERS OVERRIDES === */
-
-/* === REQUESTED COMPACT BUTTONS AND METRIC DASH FIX === */
-
 .page-shell .metrics-grid .metric-card > div:last-child {
   display: flex !important;
   align-items: center !important;
@@ -215,85 +63,14 @@
   white-space: nowrap !important;
 }
 
-.page-shell .mint-btn,
-.page-shell a.mint-btn,
-.page-shell button.mint-btn,
-.page-shell .calendar-filter-toggle,
-.page-shell .calendar-today-btn,
-.page-shell .important-mode-btn,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .topic-filter-name-button,
-.page-shell .all-topic-filter-button {
-  height: 34px !important;
-  min-height: 34px !important;
-  max-height: 34px !important;
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  border-radius: 14px !important;
-  font-size: 12px !important;
-  line-height: 1 !important;
-}
-
-.page-shell .mint-btn--icon,
-.page-shell button.mint-btn--icon {
-  width: 34px !important;
-  min-width: 34px !important;
-  max-width: 34px !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-.page-shell .topic-selection-grid {
-  gap: 8px 10px !important;
-}
-
-.page-shell .topic-selection-item {
-  grid-template-columns: minmax(0, 1fr) 36px !important;
-  gap: 7px !important;
-}
-
-.page-shell .topic-filter-name-button .topic-filter-title {
-  font-size: 13px !important;
-}
-
-.page-shell .topic-filter-counter-window {
-  width: 34px !important;
-  height: 32px !important;
-  min-width: 34px !important;
-  min-height: 32px !important;
-  max-width: 34px !important;
-  max-height: 32px !important;
-  border-radius: 12px !important;
-  font-size: 16px !important;
-}
-
-.page-shell .topic-selection-item-active .topic-filter-name-button,
-.page-shell .all-topic-filter-button-active {
-  box-shadow:
-    0 0 0 2px rgba(255, 216, 189, 0.95),
-    0 5px 10px rgba(0, 0, 0, 0.20),
-    0 2px 4px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-    inset 0 7px 10px rgba(255, 255, 255, 0.28),
-    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
-}
-
 .page-shell .calendar-topic-panel {
   padding: 14px 14px 13px !important;
+  min-height: auto !important;
+  overflow: visible !important;
 }
 
 .page-shell .calendar-topic-panel-title {
   margin-bottom: 10px !important;
 }
 
-.page-shell .selected-day-event-btn {
-  min-height: 34px !important;
-  height: auto !important;
-  padding-top: 7px !important;
-  padding-bottom: 7px !important;
-}
-
-/* === END REQUESTED COMPACT BUTTONS AND METRIC DASH FIX === */
+/* === END METRIC COMPACTNESS AND DASH SEPARATOR ONLY === */
