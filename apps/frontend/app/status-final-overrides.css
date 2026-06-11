@@ -1,0 +1,55 @@
+/* === FINAL EVENT STATUS AND SCROLL HIGHLIGHT OVERRIDES === */
+
+.page-shell .event-status-ribbon {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 4 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  padding: 0 14px !important;
+  border: 1.5px solid rgba(0, 0, 0, .72) !important;
+  border-radius: 999px !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -2px 4px rgba(0,0,0,.10) !important;
+}
+
+.page-shell .event-status-ribbon--scheduled {
+  background: linear-gradient(180deg, #dffbef 0%, #7CD8B3 56%, #4FAF8C 100%) !important;
+  background-color: #7CD8B3 !important;
+}
+
+.page-shell .event-status-ribbon--live {
+  background: linear-gradient(180deg, #fff1bf 0%, #f7c948 56%, #e6a900 100%) !important;
+  background-color: #f7c948 !important;
+}
+
+.page-shell .event-status-ribbon--completed {
+  background: linear-gradient(180deg, #ffd7d7 0%, #ef8b8b 52%, #E04B4B 100%) !important;
+  background-color: #E04B4B !important;
+}
+
+.page-shell .selected-day-event-btn[data-highlighted='true'] {
+  outline: 3px solid #f29f59 !important;
+  outline-offset: 2px !important;
+  background-color: #ffd8bd !important;
+  background-image: linear-gradient(180deg, #fff1e8 0%, #ffd8bd 58%, #f7c49e 100%) !important;
+  color: #000000 !important;
+  box-shadow:
+    0 0 0 2px rgba(242,159,89,.28),
+    0 8px 16px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.90) !important;
+}
+
+/* === END FINAL EVENT STATUS AND SCROLL HIGHLIGHT OVERRIDES === */
