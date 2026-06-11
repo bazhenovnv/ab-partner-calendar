@@ -60,9 +60,11 @@
   background-color: #7CD8B3 !important;
   background-image: var(--ab-btn-green-bg) !important;
   color: var(--ab-btn-text) !important;
+  font-family: inherit !important;
   font-size: var(--ab-btn-font) !important;
   font-weight: 800 !important;
   line-height: 1 !important;
+  letter-spacing: 0 !important;
   text-decoration: none !important;
   white-space: nowrap !important;
   box-shadow: var(--ab-btn-shadow) !important;
@@ -129,14 +131,20 @@
 .page-shell .calendar-top-panel :is(.mint-btn--icon, .calendar-today-btn),
 .page-shell .calendar-top-panel :is(.mint-btn--icon, .calendar-today-btn):is(:hover, :focus, :focus-visible, :active),
 .page-shell .calendar-inline-controls .calendar-filter-toggle,
-.page-shell .calendar-inline-controls .calendar-filter-toggle:is(:hover, :focus, :focus-visible, :active) {
+.page-shell .calendar-inline-controls .calendar-filter-toggle:is(:hover, :focus, :focus-visible, :active),
+.page-shell .important-events-mode-controls .important-mode-btn,
+.page-shell .important-events-mode-controls .important-mode-btn:is(:hover, :focus, :focus-visible, :active) {
   box-sizing: border-box !important;
   height: var(--ab-btn-h) !important;
   min-height: var(--ab-btn-h) !important;
   max-height: var(--ab-btn-h) !important;
   border-radius: var(--ab-btn-radius) !important;
+  font-family: inherit !important;
   font-size: var(--ab-btn-font) !important;
+  font-weight: 800 !important;
   line-height: 1 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .page-shell .calendar-top-panel .mint-btn--icon,
@@ -200,6 +208,17 @@
   height: var(--ab-btn-h) !important;
   min-height: var(--ab-btn-h) !important;
   max-height: var(--ab-btn-h) !important;
+  font-family: inherit !important;
+  font-size: var(--ab-btn-font) !important;
+  font-weight: 800 !important;
+}
+
+.page-shell .topic-filter-name-button .topic-filter-title,
+.page-shell .topic-filter-name-button:is(:hover, :focus, :focus-visible, :active) .topic-filter-title {
+  font-family: inherit !important;
+  font-size: var(--ab-btn-font) !important;
+  font-weight: 800 !important;
+  color: var(--ab-btn-text) !important;
 }
 
 .page-shell .topic-filter-counter-window,
@@ -212,10 +231,18 @@
   max-width: var(--ab-btn-h) !important;
   max-height: var(--ab-btn-h) !important;
   padding: 0 !important;
+  border: 1.5px solid rgba(0,0,0,.62) !important;
   border-radius: 999px !important;
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  color: #041f16 !important;
+  font-family: inherit !important;
   font-size: 15px !important;
   font-weight: 900 !important;
   line-height: 1 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease !important;
 }
 
 .page-shell .topic-selection-item-active .topic-filter-name-button,
@@ -228,7 +255,9 @@
   background: #ffd8bd !important;
   background-color: #ffd8bd !important;
   color: #000000 !important;
-  border-color: var(--ab-btn-border) !important;
+  border-color: rgba(0,0,0,.62) !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Long event rows are selectable cards, not compact action buttons. */
