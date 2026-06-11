@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { CalendarClock, MapPin, Tag, ExternalLink, BellRing } from 'lucide-react';
 import { EventItem } from '@/lib/types';
-import { formatLabelMap, statusLabelMap } from '@/lib/utils';
+import { statusLabelMap } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { Modal } from './ui/dialog';
 import { Button } from './ui/button';
@@ -20,7 +20,6 @@ function formatMoscowDateTime(value: string) {
   }).format(new Date(value));
 }
 
-
 function resolveDisplayFormat(item: EventItem): 'ONLINE' | 'OFFLINE' | 'HYBRID' {
   const source = `${item.location || ''}\n${item.descriptionShort || ''}\n${item.descriptionFull || ''}`.toLowerCase();
 
@@ -33,14 +32,12 @@ function resolveDisplayFormat(item: EventItem): 'ONLINE' | 'OFFLINE' | 'HYBRID' 
   return 'ONLINE';
 }
 
-function getFormatLabel(value: 'ONLINE' | 'OFFLINE' | 'HYBRID') {
-  if (value === 'OFFLINE') return 'Офлайн';
-  if (value === 'HYBRID') return 'Гибрид';
-  return 'Онлайн';
-}
-
 function isCompletedStatus(value?: string) {
   return ['COMPLETED', 'FINISHED', 'DONE', 'ARCHIVED'].includes(String(value || '').toUpperCase());
+}
+
+function isLiveStatus(value?: string) {
+  return ['LIVE', 'NOW', 'IN_PROGRESS', 'ONGOING'].includes(String(value || '').toUpperCase());
 }
 
 function formatDisplayLabel(value: 'ONLINE' | 'OFFLINE' | 'HYBRID') {
@@ -63,12 +60,28 @@ function cleanDescriptionText(value?: string) {
     .filter((line) => !/зарегистрироваться|регистрация|телеграм|telegram|\bmax\b/iu.test(line))
     .filter((line) => !/^(Когда|Дата|Время|Формат|Стоимость|Источник|Город|Адрес|Место)\s*[:：]/iu.test(line))
     .filter((line) => !/(?:^|[?&])q=|%[0-9a-f]{2}/iu.test(line))
-    .filter((line) => !/^\(?\??\)?$/.test(line))
+    .filter((line) => !/^\(\?\)?$/.test(line))
     .join('\n')
     .replace(/\(\s*\)/g, '')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
+}
+
+function getSourceUrl(item: EventItem) {
+  return item.sourceUrl || item.registrationUrl || item.telegramUrl || '';
+}
+
+function getRibbonLabel(status?: string) {
+  if (isCompletedStatus(status)) return 'ПРОВЕДЕНО';
+  if (isLiveStatus(status)) return 'УЖЕ ИДЕТ';
+  return 'ЗАПЛАНИРОВАНО';
+}
+
+function getRibbonClass(status?: string) {
+  if (isCompletedStatus(status)) return 'event-status-ribbon--completed';
+  if (isLiveStatus(status)) return 'event-status-ribbon--live';
+  return 'event-status-ribbon--scheduled';
 }
 
 export function EventModal({
@@ -84,8 +97,8 @@ export function EventModal({
 
   const status = item.runtimeStatus ?? item.status;
   const displayFormat = resolveDisplayFormat(item);
-  const completed = isCompletedStatus(status);
   const telegramChannelUrl = item.telegramUrl || 'https://t.me/ab_afisha_buh';
+  const sourceUrl = getSourceUrl(item);
   const description = cleanDescriptionText(item.descriptionFull || item.descriptionShort) || 'Описание мероприятия будет добавлено позже.';
 
   return (
@@ -112,6 +125,15 @@ export function EventModal({
               label='Напомнить в Telegram'
               className='event-modal-action-btn event-modal-action-btn-primary'
             />
+
+            {sourceUrl ? (
+              <Button asChild variant='ghost' className='event-modal-action-btn'>
+                <a href={sourceUrl} target='_blank' rel='noreferrer'>
+                  <MapPin className='h-4 w-4' />
+                  📍 Источник мероприятия
+                </a>
+              </Button>
+            ) : null}
           </div>
         </div>
 
@@ -138,14 +160,8 @@ export function EventModal({
           </div>
         </aside>
 
-        <div
-          className={`event-status-ribbon ${
-            completed
-              ? 'event-status-ribbon--completed'
-              : 'event-status-ribbon--scheduled'
-          }`}
-        >
-          {completed ? 'ПРОВЕДЕНО' : 'ЗАПЛАНИРОВАНО'}
+        <div className={`event-status-ribbon ${getRibbonClass(status)}`}>
+          {getRibbonLabel(status)}
         </div>
       </div>
     </Modal>
