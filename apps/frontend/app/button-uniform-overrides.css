@@ -1,272 +1,261 @@
-/* === FINAL UNIFORM PROJECT BUTTON SYSTEM === */
+/* === FINAL UNIFORM PROJECT BUTTON SYSTEM ===
+ * Single source of truth for action-button geometry and states.
+ * Do not style calendar day cells, important date chips, counters, or cards here.
+ */
 
 :root {
-  --ab-button-h: 34px;
-  --ab-button-radius: 15px;
-  --ab-button-font: 12px;
-  --ab-button-text: #041f16;
-  --ab-button-border: #0f3f2c;
-  --ab-button-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.22),
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 8px 12px rgba(255, 255, 255, 0.32),
-    inset 0 -4px 8px rgba(0, 48, 28, 0.18);
-  --ab-button-shadow-hover:
-    0 6px 12px rgba(0, 0, 0, 0.24),
-    0 2px 5px rgba(0, 0, 0, 0.17),
-    inset 0 1px 0 rgba(255, 255, 255, 0.98),
-    inset 0 8px 12px rgba(255, 255, 255, 0.36),
-    inset 0 -4px 8px rgba(0, 48, 28, 0.18);
-  --ab-button-bg:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, 0.72) 0%,
-      rgba(255, 255, 255, 0.32) 18%,
-      rgba(142, 232, 196, 1) 48%,
-      rgba(99, 205, 162, 1) 100%);
-  --ab-button-bg-hover:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, 0.80) 0%,
-      rgba(255, 255, 255, 0.36) 18%,
-      rgba(153, 238, 203, 1) 48%,
-      rgba(99, 205, 162, 1) 100%);
+  --ab-btn-h: 34px;
+  --ab-btn-radius: 15px;
+  --ab-btn-px: 14px;
+  --ab-btn-font: 12px;
+  --ab-btn-text: #041f16;
+  --ab-btn-border: rgba(0, 0, 0, 0.72);
+  --ab-btn-green-bg:
+    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%);
+  --ab-btn-white-bg:
+    linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%);
+  --ab-btn-shadow:
+    0 6px 12px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(25,117,85,.16);
+  --ab-btn-shadow-hover:
+    0 8px 15px rgba(0,0,0,.22),
+    0 3px 6px rgba(0,0,0,.17),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -2px 4px rgba(0,0,0,.06);
+  --ab-btn-shadow-active:
+    0 3px 8px rgba(0,0,0,.16),
+    inset 0 2px 4px rgba(0,0,0,.10),
+    inset 0 -1px 2px rgba(255,255,255,.35);
 }
 
-/* Only actual action buttons. Do not target every button globally: calendar cells and form controls have their own styles. */
-.page-shell .mint-btn,
-.page-shell a.mint-btn,
-.page-shell button.mint-btn,
-.page-shell .pressable,
-.page-shell .site-header-action,
-.page-shell .mint-btn--header,
-.page-shell .important-event-action-btn,
-.page-shell .important-events-view-all-btn,
-.page-shell .important-nav-btn,
-.page-shell .important-mode-btn,
-.page-shell .calendar-filter-toggle,
-.page-shell .calendar-today-btn,
-.page-shell .topic-filter-name-button,
-.page-shell .all-topic-filter-button,
-.page-shell .selected-day-event-btn {
-  height: var(--ab-button-h) !important;
-  min-height: var(--ab-button-h) !important;
-  max-height: var(--ab-button-h) !important;
+.page-shell :is(
+  .mint-btn,
+  a.mint-btn,
+  button.mint-btn,
+  .site-header-action,
+  .mint-btn--header,
+  .calendar-today-btn,
+  .calendar-filter-toggle,
+  .important-mode-btn,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .important-nav-btn,
+  .event-modal-action-btn,
+  .topic-filter-name-button,
+  .all-topic-filter-button
+) {
   box-sizing: border-box !important;
-
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
-
-  padding: 6px 14px !important;
-  border: 1.5px solid var(--ab-button-border) !important;
-  border-radius: var(--ab-button-radius) !important;
-
-  background: var(--ab-button-bg) !important;
-  background-color: #8ee8c4 !important;
-  color: var(--ab-button-text) !important;
-
-  font-size: var(--ab-button-font) !important;
+  padding: 0 var(--ab-btn-px) !important;
+  border: 1.5px solid var(--ab-btn-border) !important;
+  border-radius: var(--ab-btn-radius) !important;
+  background-color: #7CD8B3 !important;
+  background-image: var(--ab-btn-green-bg) !important;
+  color: var(--ab-btn-text) !important;
+  font-size: var(--ab-btn-font) !important;
   font-weight: 800 !important;
   line-height: 1 !important;
   text-decoration: none !important;
   white-space: nowrap !important;
-
-  box-shadow: var(--ab-button-shadow) !important;
-  transform: translate(0, 0) !important;
+  box-shadow: var(--ab-btn-shadow) !important;
+  transform: none !important;
   opacity: 1 !important;
+  overflow: hidden !important;
 }
 
-.page-shell .mint-btn:hover,
-.page-shell a.mint-btn:hover,
-.page-shell button.mint-btn:hover,
-.page-shell .pressable:hover,
-.page-shell .site-header-action:hover,
-.page-shell .mint-btn--header:hover,
-.page-shell .important-event-action-btn:hover,
-.page-shell .important-events-view-all-btn:hover,
-.page-shell .important-nav-btn:hover,
-.page-shell .important-mode-btn:hover,
-.page-shell .calendar-filter-toggle:hover,
-.page-shell .calendar-today-btn:hover,
-.page-shell .topic-filter-name-button:hover,
-.page-shell .all-topic-filter-button:hover,
-.page-shell .selected-day-event-btn:hover,
-.page-shell .mint-btn:focus,
-.page-shell a.mint-btn:focus,
-.page-shell button.mint-btn:focus,
-.page-shell .pressable:focus,
-.page-shell .site-header-action:focus,
-.page-shell .mint-btn--header:focus,
-.page-shell .important-event-action-btn:focus,
-.page-shell .important-events-view-all-btn:focus,
-.page-shell .important-nav-btn:focus,
-.page-shell .important-mode-btn:focus,
-.page-shell .calendar-filter-toggle:focus,
-.page-shell .calendar-today-btn:focus,
-.page-shell .topic-filter-name-button:focus,
-.page-shell .all-topic-filter-button:focus,
-.page-shell .selected-day-event-btn:focus,
-.page-shell .mint-btn:focus-visible,
-.page-shell a.mint-btn:focus-visible,
-.page-shell button.mint-btn:focus-visible,
-.page-shell .pressable:focus-visible,
-.page-shell .site-header-action:focus-visible,
-.page-shell .mint-btn--header:focus-visible,
-.page-shell .important-event-action-btn:focus-visible,
-.page-shell .important-events-view-all-btn:focus-visible,
-.page-shell .important-nav-btn:focus-visible,
-.page-shell .important-mode-btn:focus-visible,
-.page-shell .calendar-filter-toggle:focus-visible,
-.page-shell .calendar-today-btn:focus-visible,
-.page-shell .topic-filter-name-button:focus-visible,
-.page-shell .all-topic-filter-button:focus-visible,
-.page-shell .selected-day-event-btn:focus-visible {
-  background: var(--ab-button-bg-hover) !important;
-  background-color: #99eecb !important;
-  color: var(--ab-button-text) !important;
-  border-color: var(--ab-button-border) !important;
-  box-shadow: var(--ab-button-shadow-hover) !important;
+.page-shell :is(
+  .mint-btn,
+  a.mint-btn,
+  button.mint-btn,
+  .site-header-action,
+  .mint-btn--header,
+  .calendar-today-btn,
+  .calendar-filter-toggle,
+  .important-mode-btn,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .important-nav-btn,
+  .event-modal-action-btn,
+  .topic-filter-name-button,
+  .all-topic-filter-button
+):not(:disabled):is(:hover, :focus, :focus-visible) {
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-radius: var(--ab-btn-radius) !important;
+  background-color: #ffffff !important;
+  background-image: var(--ab-btn-white-bg) !important;
+  color: var(--ab-btn-text) !important;
+  border-color: var(--ab-btn-border) !important;
+  box-shadow: var(--ab-btn-shadow-hover) !important;
   transform: translateY(-1px) !important;
   opacity: 1 !important;
 }
 
-.page-shell .mint-btn:active,
-.page-shell a.mint-btn:active,
-.page-shell button.mint-btn:active,
-.page-shell .pressable:active,
-.page-shell .site-header-action:active,
-.page-shell .mint-btn--header:active,
-.page-shell .important-event-action-btn:active,
-.page-shell .important-events-view-all-btn:active,
-.page-shell .important-nav-btn:active,
-.page-shell .important-mode-btn:active,
-.page-shell .calendar-filter-toggle:active,
-.page-shell .calendar-today-btn:active,
-.page-shell .topic-filter-name-button:active,
-.page-shell .all-topic-filter-button:active,
-.page-shell .selected-day-event-btn:active {
+.page-shell :is(
+  .mint-btn,
+  a.mint-btn,
+  button.mint-btn,
+  .site-header-action,
+  .mint-btn--header,
+  .calendar-today-btn,
+  .calendar-filter-toggle,
+  .important-mode-btn,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .important-nav-btn,
+  .event-modal-action-btn,
+  .topic-filter-name-button,
+  .all-topic-filter-button
+):not(:disabled):active {
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
+  box-shadow: var(--ab-btn-shadow-active) !important;
   transform: translateY(1px) !important;
-  box-shadow:
-    0 3px 7px rgba(0, 0, 0, 0.18),
-    inset 0 2px 5px rgba(0, 0, 0, 0.13),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.46) !important;
 }
 
-/* Square arrow/icon buttons. */
+/* Calendar navigation and quick filters had older, more specific rules. Keep the white hover, but lock one geometry. */
+.page-shell .calendar-top-panel :is(.mint-btn--icon, .calendar-today-btn),
+.page-shell .calendar-top-panel :is(.mint-btn--icon, .calendar-today-btn):is(:hover, :focus, :focus-visible, :active),
+.page-shell .calendar-inline-controls .calendar-filter-toggle,
+.page-shell .calendar-inline-controls .calendar-filter-toggle:is(:hover, :focus, :focus-visible, :active) {
+  box-sizing: border-box !important;
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
+  border-radius: var(--ab-btn-radius) !important;
+  font-size: var(--ab-btn-font) !important;
+  line-height: 1 !important;
+}
+
+.page-shell .calendar-top-panel .mint-btn--icon,
+.page-shell .calendar-top-panel .mint-btn--icon:is(:hover, :focus, :focus-visible, :active),
 .page-shell .mint-btn--icon,
-.page-shell button.mint-btn--icon,
-.page-shell .mint-btn--icon:hover,
-.page-shell button.mint-btn--icon:hover,
-.page-shell .mint-btn--icon:focus,
-.page-shell button.mint-btn--icon:focus,
-.page-shell .mint-btn--icon:focus-visible,
-.page-shell button.mint-btn--icon:focus-visible {
-  width: var(--ab-button-h) !important;
-  min-width: var(--ab-button-h) !important;
-  max-width: var(--ab-button-h) !important;
+.page-shell .mint-btn--icon:is(:hover, :focus, :focus-visible, :active) {
+  width: var(--ab-btn-h) !important;
+  min-width: var(--ab-btn-h) !important;
+  max-width: var(--ab-btn-h) !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-/* Icons inside buttons must stay readable, not faded. */
-.page-shell .mint-btn svg,
-.page-shell .pressable svg,
-.page-shell .site-header-action svg,
-.page-shell .mint-btn--header svg,
-.page-shell .important-event-action-btn svg,
-.page-shell .important-events-view-all-btn svg,
-.page-shell .important-nav-btn svg,
-.page-shell .important-mode-btn svg,
-.page-shell .calendar-filter-toggle svg,
-.page-shell .calendar-today-btn svg,
-.page-shell .topic-filter-name-button svg,
-.page-shell .all-topic-filter-button svg {
-  color: var(--ab-button-text) !important;
-  stroke: var(--ab-button-text) !important;
-  opacity: 1 !important;
+.page-shell .calendar-top-panel .calendar-today-btn,
+.page-shell .calendar-top-panel .calendar-today-btn:is(:hover, :focus, :focus-visible, :active) {
+  min-width: 104px !important;
+  padding-left: var(--ab-btn-px) !important;
+  padding-right: var(--ab-btn-px) !important;
 }
 
-/* Header buttons can be wider but not taller. */
-.page-shell .site-header-action,
-.page-shell .mint-btn--header {
-  min-width: 128px !important;
-  max-width: none !important;
+.page-shell .calendar-inline-controls .calendar-filter-toggle,
+.page-shell .calendar-inline-controls .calendar-filter-toggle:is(:hover, :focus, :focus-visible, :active) {
+  padding-left: 14px !important;
+  padding-right: 14px !important;
 }
 
-/* Event action buttons keep their practical width. */
-.page-shell .event-action-row .mint-btn,
-.page-shell .event-action-row a.mint-btn,
-.page-shell .event-action-row button.mint-btn {
+/* Active toggles: visual active marker only, no size changes. */
+.page-shell :is(
+  .important-mode-btn-active,
+  .calendar-filter-toggle-active,
+  .calendar-today-btn-active,
+  .important-events-view-all-btn-active,
+  .all-topic-filter-button-active
+),
+.page-shell :is(
+  .important-mode-btn-active,
+  .calendar-filter-toggle-active,
+  .calendar-today-btn-active,
+  .important-events-view-all-btn-active,
+  .all-topic-filter-button-active
+):is(:hover, :focus, :focus-visible, :active) {
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
+  border-width: 2px !important;
+  border-color: #f29f59 !important;
+  box-sizing: border-box !important;
+}
+
+/* Event action buttons keep useful width but share the same height. */
+.page-shell .event-action-row :is(.mint-btn, a.mint-btn, button.mint-btn),
+.page-shell .event-action-row :is(.mint-btn, a.mint-btn, button.mint-btn):is(:hover, :focus, :focus-visible, :active) {
   min-width: 170px !important;
 }
 
-/* Selected-day event rows can grow vertically for long text, but start from the same button height. */
-.page-shell .selected-day-event-btn {
-  height: auto !important;
-  min-height: var(--ab-button-h) !important;
-  max-height: none !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
+/* Topic filter table: action button + counter. Counter is not a green action button. */
+.page-shell .topic-filter-name-button,
+.page-shell .topic-filter-name-button:is(:hover, :focus, :focus-visible, :active),
+.page-shell .all-topic-filter-button,
+.page-shell .all-topic-filter-button:is(:hover, :focus, :focus-visible, :active) {
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
 }
 
-/* Topic counter bubbles are counters, not green action buttons. */
 .page-shell .topic-filter-counter-window,
-.page-shell .topic-filter-counter-window:hover,
-.page-shell .topic-filter-counter-window:focus,
-.page-shell .topic-filter-counter-window:focus-visible,
-.page-shell .topic-filter-counter-window:active {
-  width: var(--ab-button-h) !important;
-  height: var(--ab-button-h) !important;
-  min-width: var(--ab-button-h) !important;
-  min-height: var(--ab-button-h) !important;
-  max-width: var(--ab-button-h) !important;
-  max-height: var(--ab-button-h) !important;
+.page-shell .topic-filter-counter-window:is(:hover, :focus, :focus-visible, :active) {
+  box-sizing: border-box !important;
+  width: var(--ab-btn-h) !important;
+  height: var(--ab-btn-h) !important;
+  min-width: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-width: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
   padding: 0 !important;
   border-radius: 999px !important;
   font-size: 15px !important;
   font-weight: 900 !important;
-  opacity: 1 !important;
+  line-height: 1 !important;
 }
 
-/* Active topic: only the counter becomes peach. */
 .page-shell .topic-selection-item-active .topic-filter-name-button,
-.page-shell .topic-selection-item-active .topic-filter-name-button:hover,
-.page-shell .topic-selection-item-active .topic-filter-name-button:focus,
-.page-shell .topic-selection-item-active .topic-filter-name-button:focus-visible {
-  border-color: var(--ab-button-border) !important;
-  background: var(--ab-button-bg) !important;
-  background-color: #8ee8c4 !important;
-  color: var(--ab-button-text) !important;
+.page-shell .topic-selection-item-active .topic-filter-name-button:is(:hover, :focus, :focus-visible, :active) {
+  border-color: var(--ab-btn-border) !important;
 }
 
 .page-shell .topic-selection-item-active .topic-filter-counter-window,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:hover,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus-visible {
+.page-shell .topic-selection-item-active .topic-filter-counter-window:is(:hover, :focus, :focus-visible, :active) {
   background: #ffd8bd !important;
   background-color: #ffd8bd !important;
   color: #000000 !important;
-  border-color: var(--ab-button-border) !important;
+  border-color: var(--ab-btn-border) !important;
 }
 
-/* Selects are not action buttons. Normalize height only. */
-.page-shell select,
-.page-shell .select-clean {
-  height: var(--ab-button-h) !important;
-  min-height: var(--ab-button-h) !important;
-  max-height: var(--ab-button-h) !important;
-  border-radius: var(--ab-button-radius) !important;
-  font-size: var(--ab-button-font) !important;
+/* Long event rows are selectable cards, not compact action buttons. */
+.page-shell .selected-day-event-btn,
+.page-shell .selected-day-event-btn:is(:hover, :focus, :focus-visible, :active) {
+  height: auto !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: none !important;
+  justify-content: flex-start !important;
+  white-space: normal !important;
+}
+
+/* Selects match height only; no action-button paint. */
+.page-shell :is(select, .select-clean) {
+  box-sizing: border-box !important;
+  height: var(--ab-btn-h) !important;
+  min-height: var(--ab-btn-h) !important;
+  max-height: var(--ab-btn-h) !important;
+  border-radius: var(--ab-btn-radius) !important;
+  font-size: var(--ab-btn-font) !important;
   font-weight: 700 !important;
-  color: #041f16 !important;
 }
 
-/* Disabled elements stay visibly disabled. */
 .page-shell button:disabled,
 .page-shell button[disabled],
 .page-shell [aria-disabled='true'] {
-  opacity: 0.55 !important;
+  opacity: .55 !important;
   cursor: not-allowed !important;
   transform: none !important;
 }
