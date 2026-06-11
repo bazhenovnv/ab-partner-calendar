@@ -1,0 +1,117 @@
+/* === TOPIC FILTER TABLE VIEW OVERRIDES === */
+
+.page-shell .calendar-topic-panel {
+  padding: 14px 14px 13px !important;
+}
+
+.page-shell .topic-selection-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  padding: 1px !important;
+  background: #ffd8bd !important;
+  border: 1px solid #e7b28f !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .topic-selection-item {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 34px !important;
+  gap: 7px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  padding: 6px !important;
+  background: #f7f7f7 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.page-shell .topic-filter-name-button {
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 5px 10px !important;
+  border: 1.5px solid #0f3f2c !important;
+  border-radius: 14px !important;
+  font-size: 12px !important;
+}
+
+.page-shell .topic-filter-name-button .topic-filter-title {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: #06422d !important;
+}
+
+.page-shell .topic-filter-counter-window {
+  width: 32px !important;
+  height: 30px !important;
+  min-width: 32px !important;
+  min-height: 30px !important;
+  max-width: 32px !important;
+  max-height: 30px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid #0f3f2c !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #06422d !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.page-shell .topic-selection-item-active .topic-filter-name-button {
+  border-color: #f29f59 !important;
+  box-shadow:
+    0 0 0 1.5px rgba(242, 159, 89, 0.72),
+    0 5px 10px rgba(0, 0, 0, 0.20),
+    0 2px 4px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 7px 10px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
+}
+
+.page-shell .topic-selection-item-active .topic-filter-counter-window {
+  background: #ffd8bd !important;
+  background-color: #ffd8bd !important;
+  color: #000000 !important;
+  border-color: #f29f59 !important;
+}
+
+.page-shell .all-topic-filter-button {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  margin: 0 !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #0f3f2c !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%) !important;
+  color: #06422d !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+.page-shell .all-topic-filter-button-active {
+  border-color: #f29f59 !important;
+  box-shadow:
+    0 0 0 1.5px rgba(242, 159, 89, 0.72),
+    0 5px 10px rgba(0, 0, 0, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
+}
+
+@media (max-width: 900px) {
+  .page-shell .topic-selection-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-shell .topic-selection-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === END TOPIC FILTER TABLE VIEW OVERRIDES === */
