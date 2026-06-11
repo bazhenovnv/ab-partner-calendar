@@ -1,173 +1,14 @@
-/* Explicit interaction styles. Avoid broad button selectors here. */
+/* Interaction helpers that are NOT part of the global action-button system.
+ * The action buttons themselves are controlled by button-uniform-overrides.css.
+ */
 
 :root {
   --control-border: rgba(0, 0, 0, 0.72);
   --control-shadow: 0 6px 12px rgba(0, 0, 0, 0.20), 0 2px 5px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.72), inset 0 -2px 5px rgba(0, 0, 0, 0.08);
   --control-shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.22), 0 3px 6px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.94), inset 0 -2px 4px rgba(0, 0, 0, 0.06);
-  --control-shadow-active: 0 3px 8px rgba(0, 0, 0, 0.16), inset 0 2px 4px rgba(0, 0, 0, 0.10), inset 0 -1px 2px rgba(255, 255, 255, 0.35);
 }
 
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn,
-  .important-nav-btn
-) {
-  position: relative !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-  border: 1.5px solid var(--control-border) !important;
-  border-radius: 18px !important;
-  color: #111616 !important;
-  box-shadow: var(--control-shadow) !important;
-  transition: transform .14s ease, box-shadow .16s ease, background-color .18s ease, background-image .18s ease, border-color .18s ease !important;
-}
-
-.page-shell :is(
-  .topic-filter-button,
-  .important-events-view-all-btn,
-  .important-nav-btn
-) {
-  background-color: #7CD8B3 !important;
-  background-image: linear-gradient(180deg, #e4fff5 0%, #99e8c9 50%, #7CD8B3 100%) !important;
-}
-
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn,
-  .important-nav-btn
-)::after {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 0 !important;
-  top: -70% !important;
-  left: -48% !important;
-  width: 42% !important;
-  height: 240% !important;
-  pointer-events: none !important;
-  opacity: 0 !important;
-  background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.24) 30%, rgba(255,255,255,.92) 50%, rgba(255,255,255,.24) 70%, rgba(255,255,255,0) 100%) !important;
-  transform: skewX(-22deg) translateX(-250%) !important;
-  transition: transform .48s ease, opacity .18s ease !important;
-}
-
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn,
-  .important-nav-btn
-) > * {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn,
-  .important-nav-btn
-):not(:disabled):hover {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 42%, #f3f3f3 100%) !important;
-  border-color: var(--control-border) !important;
-  color: #111616 !important;
-  box-shadow: var(--control-shadow-hover) !important;
-  transform: translateY(-1px) !important;
-}
-
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn,
-  .important-nav-btn
-):not(:disabled):hover::after {
-  opacity: .94 !important;
-  transform: skewX(-22deg) translateX(520%) !important;
-}
-
-.page-shell :is(
-  .mint-btn,
-  .site-header-action,
-  .important-event-action-btn,
-  .important-events-view-all-btn,
-  .important-mode-btn,
-  .calendar-filter-toggle,
-  .calendar-today-btn,
-  .topic-filter-button,
-  .selected-day-event-btn,
-  .event-modal-action-btn
-):not(:disabled):active {
-  box-shadow: var(--control-shadow-active) !important;
-  transform: translateY(1px) !important;
-}
-
-/* Active toggle buttons retain a peach outline until switched off. */
-.page-shell :is(
-  .important-mode-btn-active,
-  .calendar-filter-toggle-active,
-  .calendar-today-btn-active,
-  .important-events-view-all-btn-active,
-  .topic-filter-button-active
-),
-.page-shell :is(
-  .important-mode-btn-active,
-  .calendar-filter-toggle-active,
-  .calendar-today-btn-active,
-  .important-events-view-all-btn-active,
-  .topic-filter-button-active
-):hover {
-  border: 2.5px solid #f29f59 !important;
-  box-shadow: 0 0 0 1px rgba(242,159,89,.28), var(--control-shadow) !important;
-}
-
-/* The selected event of the chosen day stays white until another event is selected. */
-.page-shell .selected-day-event-btn.mint-btn--active,
-.page-shell .selected-day-event-btn.mint-btn--active:hover,
-.page-shell .selected-day-event-btn.mint-btn--active:active {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%) !important;
-  border: 2px solid #4FAF8C !important;
-  box-shadow: 0 0 0 1px rgba(79,175,140,.22), var(--control-shadow) !important;
-  transform: none !important;
-}
-
-/* Important-date buttons share one convex shape; only the palette differs. */
+/* Important-date buttons keep their approved convex shape and palette. */
 .page-shell .important-date-chip {
   position: relative !important;
   isolation: isolate !important;
@@ -213,18 +54,12 @@
   margin-left: auto !important;
 }
 
-/* Carousel arrows have the same visual hover effect, but never move vertically. */
+/* Carousel arrows stay pinned vertically. Their button paint comes from button-uniform-overrides.css. */
 .page-shell .highlight-hero-joined .important-nav-btn,
 .page-shell .highlight-hero-joined .important-nav-btn:hover,
 .page-shell .highlight-hero-joined .important-nav-btn:active,
 .page-shell .highlight-hero-joined .important-nav-btn:focus-visible {
-  background-color: #7CD8B3 !important;
   transform: translateY(-50%) !important;
-}
-
-.page-shell .highlight-hero-joined .important-nav-btn:hover {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 42%, #f3f3f3 100%) !important;
 }
 
 /* Dialog close button deliberately stays static. */
@@ -256,49 +91,4 @@ body [data-dialog-content='true'] .dialog-close-button::after {
 
 .page-shell .compact-event-card:hover {
   background: #ffffff !important;
-}
-
-.page-shell .compact-event-card--completed {
-  border: 2px solid #E04B4B !important;
-  box-shadow: 0 0 0 1px rgba(224,75,75,.16), 0 7px 14px rgba(0,0,0,.18) !important;
-}
-
-.page-shell .compact-event-main-button,
-.page-shell .compact-event-main-button:hover,
-.page-shell .compact-event-main-button:active,
-.page-shell .compact-event-main-button:focus-visible {
-  display: block !important;
-  width: 100% !important;
-  position: static !important;
-  overflow: visible !important;
-  border: 0 !important;
-  border-radius: 18px !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.page-shell .compact-event-main-button::before,
-.page-shell .compact-event-main-button::after {
-  content: none !important;
-  display: none !important;
-}
-
-@media (max-width: 760px) {
-  .page-shell .important-events-headline-row,
-  .page-shell .important-events-controls-row {
-    align-items: flex-start !important;
-    flex-direction: column !important;
-  }
-
-  .page-shell .important-events-mode-controls {
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-shell :is(.mint-btn, .important-date-chip, .topic-filter-button, .important-nav-btn) {
-    transition: none !important;
-  }
 }
