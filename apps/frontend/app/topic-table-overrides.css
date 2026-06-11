@@ -1,4 +1,6 @@
-/* === TOPIC FILTER TABLE VIEW OVERRIDES === */
+/* === TOPIC FILTER TABLE VIEW OVERRIDES ===
+ * Table/grid structure only. Button and counter geometry comes from button-uniform-overrides.css.
+ */
 
 .page-shell .calendar-topic-panel {
   padding: 14px 14px 13px !important;
@@ -7,157 +9,31 @@
 .page-shell .topic-selection-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 1px !important;
-  padding: 1px !important;
-  background: #ffd8bd !important;
-  border: 1px solid #e7b28f !important;
+  gap: 2px !important;
+  padding: 2px !important;
+  background: #828282 !important;
+  border: 2px solid #828282 !important;
   border-radius: 14px !important;
   overflow: hidden !important;
 }
 
 .page-shell .topic-selection-item {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 36px !important;
+  grid-template-columns: minmax(0, 1fr) 34px !important;
   gap: 7px !important;
   align-items: center !important;
   min-width: 0 !important;
   padding: 6px !important;
-  background: var(--ab-panel-bg) !important;
-  background-color: var(--ab-panel-bg) !important;
+  background: #d9d9d9 !important;
+  background-color: #d9d9d9 !important;
   border: 0 !important;
   border-radius: 0 !important;
-}
-
-.page-shell .topic-filter-name-button,
-.page-shell .topic-filter-name-button:hover,
-.page-shell .topic-filter-name-button:focus,
-.page-shell .topic-filter-name-button:focus-visible,
-.page-shell .topic-filter-name-button[aria-pressed='true'],
-.page-shell .all-topic-filter-button,
-.page-shell .all-topic-filter-button:hover,
-.page-shell .all-topic-filter-button:focus,
-.page-shell .all-topic-filter-button:focus-visible,
-.page-shell .all-topic-filter-button[aria-pressed='true'] {
-  height: 34px !important;
-  min-height: 34px !important;
-  max-height: 34px !important;
-  padding: 6px 12px !important;
-  border: 1.5px solid #0f3f2c !important;
-  border-radius: 14px !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.20) 20%, rgba(124, 216, 179, 0.98) 48%, rgba(79, 175, 140, 1) 100%) !important;
-  background-color: var(--ab-mint) !important;
-  color: #06422d !important;
-  font-size: 12px !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
-  transform: translate(0, 0) !important;
-}
-
-.page-shell .topic-filter-name-button .topic-filter-title {
-  font-size: 12px !important;
-  font-weight: 800 !important;
-  color: #06422d !important;
-}
-
-.page-shell .topic-filter-counter-window,
-.page-shell .topic-filter-counter-window:hover,
-.page-shell .topic-filter-counter-window:focus,
-.page-shell .topic-filter-counter-window:focus-visible {
-  width: 34px !important;
-  height: 34px !important;
-  min-width: 34px !important;
-  min-height: 34px !important;
-  max-width: 34px !important;
-  max-height: 34px !important;
-  border-radius: 999px !important;
-  border: 1.5px solid #0f3f2c !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #06422d !important;
-  font-size: 15px !important;
-  font-weight: 900 !important;
-  transform: translate(0, 0) !important;
-}
-
-.page-shell .topic-selection-item-active .topic-filter-name-button,
-.page-shell .topic-selection-item-active .topic-filter-name-button:hover,
-.page-shell .topic-selection-item-active .topic-filter-name-button:focus,
-.page-shell .topic-selection-item-active .topic-filter-name-button:focus-visible {
-  border-color: #0f3f2c !important;
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.20),
-    0 2px 4px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-    inset 0 7px 10px rgba(255, 255, 255, 0.28),
-    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
-}
-
-.page-shell .topic-selection-item-active .topic-filter-counter-window,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:hover,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus-visible {
-  background: #ffd8bd !important;
-  background-color: #ffd8bd !important;
-  color: #000000 !important;
-  border-color: #0f3f2c !important;
 }
 
 .page-shell .all-topic-filter-button {
   grid-column: 1 / -1 !important;
   width: 100% !important;
   margin: 0 !important;
-}
-
-.page-shell .all-topic-filter-button-active,
-.page-shell .all-topic-filter-button-active:hover,
-.page-shell .all-topic-filter-button-active:focus,
-.page-shell .all-topic-filter-button-active:focus-visible {
-  border-color: #0f3f2c !important;
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.20),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
-}
-
-.page-shell .calendar-inline-controls .calendar-filter-toggle,
-.page-shell .calendar-inline-controls .calendar-filter-toggle:hover,
-.page-shell .calendar-inline-controls .calendar-filter-toggle:focus,
-.page-shell .calendar-inline-controls .calendar-filter-toggle:focus-visible,
-.page-shell .calendar-today-btn,
-.page-shell .calendar-today-btn:hover,
-.page-shell .calendar-today-btn:focus,
-.page-shell .calendar-today-btn:focus-visible,
-.page-shell .mint-btn,
-.page-shell .mint-btn:hover,
-.page-shell .mint-btn:focus,
-.page-shell .mint-btn:focus-visible,
-.page-shell .site-header-action,
-.page-shell .site-header-action:hover,
-.page-shell .site-header-action:focus,
-.page-shell .site-header-action:focus-visible,
-.page-shell .mint-btn--header,
-.page-shell .mint-btn--header:hover,
-.page-shell .mint-btn--header:focus,
-.page-shell .mint-btn--header:focus-visible {
-  height: 34px !important;
-  min-height: 34px !important;
-  max-height: 34px !important;
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  border-radius: 14px !important;
-}
-
-.page-shell .mint-btn--icon,
-.page-shell button.mint-btn--icon,
-.page-shell button.mint-btn--icon:hover,
-.page-shell button.mint-btn--icon:focus,
-.page-shell button.mint-btn--icon:focus-visible {
-  width: 34px !important;
-  min-width: 34px !important;
-  max-width: 34px !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
 }
 
 @media (max-width: 900px) {
