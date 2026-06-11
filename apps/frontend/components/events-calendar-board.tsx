@@ -128,6 +128,7 @@ export function EventsCalendarBoard({
 }) {
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
   const [todayFilterActive, setTodayFilterActive] = useState(false);
+  const [highlightedEventId, setHighlightedEventId] = useState<string | null>(null);
   const [calendarPopover, setCalendarPopover] = useState<{
     day: Date;
     events: EventItem[];
@@ -185,6 +186,19 @@ export function EventsCalendarBoard({
       onSelectEventId(selectedDayEvents[0].id);
     }
   }, [onSelectEventId, selectedDayEvents, selectedEventId]);
+
+  useEffect(() => {
+    if (!selectedEventId) return;
+
+    const element = document.querySelector<HTMLElement>(`[data-selected-day-event-id="${selectedEventId}"]`);
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    setHighlightedEventId(selectedEventId);
+
+    const timer = window.setTimeout(() => setHighlightedEventId((current) => (current === selectedEventId ? null : current)), 1400);
+    return () => window.clearTimeout(timer);
+  }, [selectedEventId]);
 
   const selectedEvent = selectedDayEvents.find((event) => event.id === selectedEventId) ?? selectedDayEvents[0] ?? null;
 
@@ -261,6 +275,7 @@ export function EventsCalendarBoard({
                 <div className='selected-day-events-list grid grid-cols-1 gap-3 overflow-visible'>
                   {selectedDayEvents.map((event, index) => {
                     const active = selectedEvent?.id === event.id;
+                    const highlighted = highlightedEventId === event.id;
 
                     return (
                       <button
@@ -268,6 +283,8 @@ export function EventsCalendarBoard({
                         type='button'
                         aria-pressed={active}
                         data-active={active ? 'true' : 'false'}
+                        data-highlighted={highlighted ? 'true' : 'false'}
+                        data-selected-day-event-id={event.id}
                         onClick={() => onSelectEventId(event.id)}
                         className={`selected-day-event-btn mint-btn mint-btn--event-tab pressable min-h-[54px] w-full items-start justify-start overflow-hidden px-3 py-3 text-left text-[13px] leading-[1.15] ${active ? 'mint-btn--active' : ''}`}
                       >
@@ -345,7 +362,7 @@ export function EventsCalendarBoard({
 
               <div className='flex items-center justify-center gap-5 px-2 pt-3 text-[12px] text-slate-700'>
                 <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#39c285]' />Запланировано</span>
-                <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#f7c948]' />Идёт сегодня</span>
+                <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#f7c948]' />Идет сейчас</span>
                 <span className='inline-flex items-center gap-2'><span className='h-2.5 w-2.5 rounded-full bg-[#ef4444]' />Прошло</span>
               </div>
               {calendarControls ? <div className='calendar-inline-controls mt-4 grid gap-3 md:grid-cols-2'>{calendarControls}</div> : null}
