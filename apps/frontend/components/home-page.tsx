@@ -258,7 +258,6 @@ export function HomePage() {
     setOnlyImportant(false);
     setSelectedDate(new Date(event.startAt));
     setSelectedEventId(event.id);
-    window.setTimeout(() => document.querySelector('.dashboard-calendar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
   }, []);
 
   const viewModeControls = (
@@ -297,17 +296,38 @@ export function HomePage() {
   const topicButtons = (
     <div className='calendar-topic-panel p-0'>
       <div className='calendar-topic-panel-title'>ПОДБОРКИ</div>
-      <div className='grid gap-3 md:grid-cols-3'>
-        {topicCards.map((topic) => (
-          <button key={topic.value} type='button' onClick={() => setTopicFilter(topic.value)} className={`topic-filter-button flex min-h-[92px] min-w-0 items-center gap-4 rounded-[18px] px-4 py-3 text-left ${topicFilter === topic.value ? 'topic-filter-button-active' : ''}`}>
-            <div className='topic-filter-icon flex h-11 w-11 flex-none items-center justify-center rounded-full bg-[#eefbf4] text-[17px] text-[#2a8f68]'>
-              {topic.iconSrc ? <Image src={topic.iconSrc} alt='' width={32} height={32} className='topic-filter-image' /> : topic.icon}
+      <div className='topic-selection-grid'>
+        {topicCards.map((topic) => {
+          const isActive = topicFilter === topic.value;
+          return (
+            <div key={topic.value} className={`topic-selection-item ${isActive ? 'topic-selection-item-active' : ''}`}>
+              <button
+                type='button'
+                onClick={() => setTopicFilter(topic.value)}
+                className='topic-filter-name-button'
+                aria-pressed={isActive}
+              >
+                <span className='topic-filter-title'>{topic.cardLabel}</span>
+              </button>
+              <button
+                type='button'
+                onClick={() => setTopicFilter(topic.value)}
+                className='topic-filter-counter-window'
+                aria-label={`${topic.cardLabel}: ${topic.count}`}
+                aria-pressed={isActive}
+              >
+                {topic.count}
+              </button>
             </div>
-            <div className='topic-filter-copy min-w-0'><div className='topic-filter-title'>{topic.cardLabel}</div><div className='topic-count-number'>{topic.count}</div></div>
-          </button>
-        ))}
-        <button type='button' onClick={() => setTopicFilter('ALL')} className={`topic-filter-button flex min-h-[92px] min-w-0 items-center justify-center gap-3 rounded-[18px] px-4 py-3 text-center ${topicFilter === 'ALL' ? 'topic-filter-button-active' : ''}`}>
-          <Image src='/ui-icons/all-collections.png' alt='' width={32} height={32} className='topic-filter-image flex-none' /><span className='topic-filter-title'>Все подборки</span>
+          );
+        })}
+        <button
+          type='button'
+          onClick={() => setTopicFilter('ALL')}
+          className={`all-topic-filter-button ${topicFilter === 'ALL' ? 'all-topic-filter-button-active' : ''}`}
+          aria-pressed={topicFilter === 'ALL'}
+        >
+          Все подборки
         </button>
       </div>
     </div>
@@ -326,7 +346,7 @@ export function HomePage() {
               { label: 'Бесплатно', value: metrics.free, icon: '/ui-icons/metric-free.png' },
               { label: 'Оффлайн', value: metrics.offline, icon: '/ui-icons/metric-offline.png' },
               { label: cityFilter === 'ALL' ? 'По всем городам' : cityFilter, value: metrics.city, icon: '/ui-icons/metric-cities.png' },
-            ].map((item) => <div key={item.label} className='metric-card surface-card !bg-white flex items-center gap-3 px-4 py-3'><div className='metric-icon icon-chip h-10 w-10'><Image src={item.icon} alt='' width={40} height={40} className='metric-icon-image' /></div><div><div className='text-sm text-slate-500'>{item.label}</div><div className='text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div></div></div>)}
+            ].map((item) => <div key={item.label} className='metric-card surface-card !bg-white flex items-center gap-3 px-4 py-3'><div className='metric-icon icon-chip h-10 w-10'><Image src={item.icon} alt='' width={40} height={40} className='metric-icon-image' /></div><div><div className='text-sm text-slate-500'>{item.label}</div><div className='metric-value-number text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div></div></div>)}
           </div>
         </section>
 
