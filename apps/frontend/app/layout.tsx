@@ -8,6 +8,7 @@ import './ui-final-overrides.css';
 import './topic-metric-final-overrides.css';
 import './topic-split-overrides.css';
 import './topic-table-overrides.css';
+import './button-uniform-overrides.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
