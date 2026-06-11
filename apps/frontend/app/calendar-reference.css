@@ -1,4 +1,4 @@
-/* Calendar-only visual layer based on the approved mint convex reference. */
+/* Calendar-only visual layer. Action-button paint and geometry are controlled by button-uniform-overrides.css. */
 
 /* Outer calendar card. */
 .page-shell .calendar-top-panel > div {
@@ -14,60 +14,23 @@
     inset 0 -2px 7px rgba(0,0,0,.05) !important;
 }
 
-/* Month navigation row. */
+/* Month navigation row layout only. Buttons are styled globally. */
 .page-shell .calendar-top-panel > div > div:first-child {
-  min-height: 64px !important;
-  margin-bottom: 14px !important;
-  padding: 0 4px 14px !important;
+  min-height: 44px !important;
+  margin-bottom: 12px !important;
+  padding: 0 4px 12px !important;
   border-bottom: 0 !important;
 }
 
-.page-shell .calendar-top-panel .mint-btn--icon,
-.page-shell .calendar-top-panel .calendar-today-btn {
-  min-height: 48px !important;
-  border: 1.5px solid rgba(0,0,0,.72) !important;
-  background-color: #7CD8B3 !important;
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 28%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 100%),
-    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
-  box-shadow:
-    0 7px 13px rgba(0,0,0,.20),
-    0 2px 5px rgba(0,0,0,.15),
-    inset 0 2px 0 rgba(255,255,255,.92),
-    inset 0 -3px 5px rgba(25,117,85,.16) !important;
-}
-
-.page-shell .calendar-top-panel .mint-btn--icon {
-  width: 54px !important;
-  height: 48px !important;
-  min-width: 54px !important;
-  padding: 0 !important;
-  border-radius: 16px !important;
-}
-
 .page-shell .calendar-top-panel .mint-btn--icon svg {
-  width: 21px !important;
-  height: 21px !important;
+  width: 18px !important;
+  height: 18px !important;
   stroke-width: 3 !important;
 }
 
-.page-shell .calendar-top-panel .calendar-today-btn {
-  min-width: 146px !important;
-  padding: 0 24px !important;
-  border-radius: 18px !important;
-  font-size: 17px !important;
-  font-weight: 700 !important;
-}
-
-.page-shell .calendar-top-panel .mint-btn--icon:hover,
-.page-shell .calendar-top-panel .calendar-today-btn:hover {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%) !important;
-}
-
 .page-shell .calendar-top-panel .ml-3.text-\[17px\] {
-  margin-left: 18px !important;
-  font-size: 24px !important;
+  margin-left: 14px !important;
+  font-size: 20px !important;
   line-height: 1 !important;
   font-weight: 800 !important;
   letter-spacing: .01em !important;
@@ -219,57 +182,16 @@
   box-shadow: 0 1px 2px rgba(0,0,0,.12) !important;
 }
 
-/* Quick filters under calendar. */
+/* Quick filters row layout only. Buttons are styled globally. */
 .page-shell .calendar-inline-controls {
   gap: 12px !important;
   margin-top: 14px !important;
-}
-
-.page-shell .calendar-inline-controls .calendar-filter-toggle {
-  min-height: 46px !important;
-  border: 1.5px solid rgba(0,0,0,.72) !important;
-  border-radius: 18px !important;
-  background-color: #7CD8B3 !important;
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.64) 28%, rgba(255,255,255,.10) 30%, rgba(255,255,255,0) 100%),
-    linear-gradient(180deg, #e8fff6 0%, #9be9ca 54%, #70cfaa 100%) !important;
-  color: #111616 !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  box-shadow:
-    0 7px 13px rgba(0,0,0,.20),
-    0 2px 5px rgba(0,0,0,.15),
-    inset 0 2px 0 rgba(255,255,255,.92),
-    inset 0 -3px 5px rgba(25,117,85,.16) !important;
-}
-
-.page-shell .calendar-inline-controls .calendar-filter-toggle:hover {
-  background-color: #ffffff !important;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfb 52%, #f1f3f2 100%) !important;
-}
-
-.page-shell .calendar-inline-controls .calendar-filter-toggle-active,
-.page-shell .calendar-inline-controls .calendar-filter-toggle-active:hover {
-  border: 2.5px solid #f29f59 !important;
 }
 
 @media (max-width: 900px) {
   .page-shell .calendar-top-panel > div {
     padding: 12px !important;
     border-radius: 20px !important;
-  }
-
-  .page-shell .calendar-top-panel .mint-btn--icon {
-    width: 44px !important;
-    height: 42px !important;
-    min-width: 44px !important;
-  }
-
-  .page-shell .calendar-top-panel .calendar-today-btn {
-    min-width: 108px !important;
-    min-height: 42px !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
   }
 
   .page-shell .calendar-top-panel .ml-3.text-\[17px\] {
