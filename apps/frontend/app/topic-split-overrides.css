@@ -183,3 +183,117 @@
 }
 
 /* === END FINAL SPLIT TOPIC FILTERS OVERRIDES === */
+
+/* === REQUESTED COMPACT BUTTONS AND METRIC DASH FIX === */
+
+.page-shell .metrics-grid .metric-card > div:last-child {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child > div:last-child {
+  order: 1 !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child::before {
+  content: '-' !important;
+  order: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #000000 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .metrics-grid .metric-card > div:last-child > div:first-child {
+  order: 3 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .mint-btn,
+.page-shell a.mint-btn,
+.page-shell button.mint-btn,
+.page-shell .calendar-filter-toggle,
+.page-shell .calendar-today-btn,
+.page-shell .important-mode-btn,
+.page-shell .important-event-action-btn,
+.page-shell .important-events-view-all-btn,
+.page-shell .site-header-action,
+.page-shell .mint-btn--header,
+.page-shell .topic-filter-name-button,
+.page-shell .all-topic-filter-button {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  border-radius: 14px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+.page-shell .mint-btn--icon,
+.page-shell button.mint-btn--icon {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page-shell .topic-selection-grid {
+  gap: 8px 10px !important;
+}
+
+.page-shell .topic-selection-item {
+  grid-template-columns: minmax(0, 1fr) 36px !important;
+  gap: 7px !important;
+}
+
+.page-shell .topic-filter-name-button .topic-filter-title {
+  font-size: 13px !important;
+}
+
+.page-shell .topic-filter-counter-window {
+  width: 34px !important;
+  height: 32px !important;
+  min-width: 34px !important;
+  min-height: 32px !important;
+  max-width: 34px !important;
+  max-height: 32px !important;
+  border-radius: 12px !important;
+  font-size: 16px !important;
+}
+
+.page-shell .topic-selection-item-active .topic-filter-name-button,
+.page-shell .all-topic-filter-button-active {
+  box-shadow:
+    0 0 0 2px rgba(255, 216, 189, 0.95),
+    0 5px 10px rgba(0, 0, 0, 0.20),
+    0 2px 4px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 7px 10px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 7px rgba(0, 48, 28, 0.16) !important;
+}
+
+.page-shell .calendar-topic-panel {
+  padding: 14px 14px 13px !important;
+}
+
+.page-shell .calendar-topic-panel-title {
+  margin-bottom: 10px !important;
+}
+
+.page-shell .selected-day-event-btn {
+  min-height: 34px !important;
+  height: auto !important;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+}
+
+/* === END REQUESTED COMPACT BUTTONS AND METRIC DASH FIX === */
