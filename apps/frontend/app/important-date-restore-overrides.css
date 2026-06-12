@@ -1,0 +1,103 @@
+/* === RESTORE ORIGINAL IMPORTANT EVENTS DATE BUTTONS === */
+
+.page-shell .important-events-ribbon .important-date-chip,
+.page-shell .important-events-ribbon .important-date-chip:hover,
+.page-shell .important-events-ribbon .important-date-chip:focus,
+.page-shell .important-events-ribbon .important-date-chip:focus-visible,
+.page-shell .important-events-ribbon .important-date-chip:active {
+  position: relative !important;
+  box-sizing: border-box !important;
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  min-height: 58px !important;
+  max-width: 58px !important;
+  max-height: 58px !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border: 1.5px solid rgba(0,0,0,.62) !important;
+  border-radius: 16px !important;
+  background-color: #bff0dd !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #dff8ee 42%, #7CD8B3 100%) !important;
+  color: #041f16 !important;
+  font-family: inherit !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  transform: none !important;
+  box-shadow:
+    0 5px 10px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip::before,
+.page-shell .important-events-ribbon .important-date-chip::after {
+  content: none !important;
+  display: none !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip > span:first-child,
+.page-shell .important-events-ribbon .important-date-chip-number {
+  display: block !important;
+  color: #041f16 !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip > span:last-child,
+.page-shell .important-events-ribbon .important-date-chip-month {
+  display: block !important;
+  margin-top: 3px !important;
+  color: #041f16 !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: .02em !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip--planned,
+.page-shell .important-events-ribbon .important-date-chip--planned:hover,
+.page-shell .important-events-ribbon .important-date-chip--planned:focus,
+.page-shell .important-events-ribbon .important-date-chip--planned:focus-visible,
+.page-shell .important-events-ribbon .important-date-chip--planned:active {
+  border-color: rgba(0,0,0,.62) !important;
+  background-color: #bff0dd !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #dff8ee 42%, #7CD8B3 100%) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip--active,
+.page-shell .important-events-ribbon .important-date-chip--active:hover,
+.page-shell .important-events-ribbon .important-date-chip--active:focus,
+.page-shell .important-events-ribbon .important-date-chip--active:focus-visible,
+.page-shell .important-events-ribbon .important-date-chip--active:active {
+  border: 2px solid #f29f59 !important;
+  background-color: #bff0dd !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #dff8ee 42%, #7CD8B3 100%) !important;
+  box-shadow:
+    0 0 0 2px rgba(242,159,89,.18),
+    0 5px 10px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.94),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-events-ribbon .important-date-chip--completed,
+.page-shell .important-events-ribbon .important-date-chip--completed:hover,
+.page-shell .important-events-ribbon .important-date-chip--completed:focus,
+.page-shell .important-events-ribbon .important-date-chip--completed:focus-visible,
+.page-shell .important-events-ribbon .important-date-chip--completed:active {
+  border-color: rgba(0,0,0,.62) !important;
+  background-color: #ffb3b3 !important;
+  background-image: linear-gradient(180deg, #ffffff 0%, #ffdede 42%, #E04B4B 100%) !important;
+}
+
+/* === END RESTORE ORIGINAL IMPORTANT EVENTS DATE BUTTONS === */
