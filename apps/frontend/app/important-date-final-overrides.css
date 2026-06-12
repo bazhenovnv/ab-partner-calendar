@@ -1,0 +1,199 @@
+/* === IMPORTANT EVENTS DATE TILES FINAL OVERRIDES === */
+
+.page-shell .important-date-chip-list {
+  gap: 18px !important;
+  align-items: flex-end !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.page-shell .important-date-chip,
+.page-shell .important-date-chip:hover,
+.page-shell .important-date-chip:focus,
+.page-shell .important-date-chip:focus-visible,
+.page-shell .important-date-chip:active {
+  position: relative !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 76px !important;
+  height: 84px !important;
+  min-width: 76px !important;
+  min-height: 84px !important;
+  max-width: 76px !important;
+  max-height: 84px !important;
+  padding: 22px 6px 9px !important;
+  border: 2px solid #55b994 !important;
+  border-radius: 15px !important;
+  background-color: #e8fff6 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 36%, rgba(255,255,255,0) 39%),
+    linear-gradient(180deg, #fffef8 0%, #f2fff9 42%, #c1f0dc 100%) !important;
+  color: #062a1d !important;
+  font-family: inherit !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  overflow: visible !important;
+  cursor: pointer !important;
+  transform: none !important;
+  box-shadow:
+    0 8px 13px rgba(0,0,0,.28),
+    0 5px 0 #3f9f7d,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -4px 7px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-date-chip::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 11px !important;
+  right: 11px !important;
+  top: 20px !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: #55b994 !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.86) !important;
+}
+
+.page-shell .important-date-chip::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 6px !important;
+  right: 6px !important;
+  bottom: -8px !important;
+  height: 13px !important;
+  border: 2px solid #55b994 !important;
+  border-top: 0 !important;
+  border-radius: 0 0 13px 13px !important;
+  background: #7cd8b3 !important;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.58) !important;
+}
+
+.page-shell .important-date-chip-rings {
+  position: absolute !important;
+  left: 9px !important;
+  right: 9px !important;
+  top: -12px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 5px !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+.page-shell .important-date-chip-rings > span {
+  position: relative !important;
+  display: block !important;
+  width: 10px !important;
+  height: 28px !important;
+  margin: 0 auto !important;
+  border: 1px solid rgba(0,0,0,.78) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(90deg, #5d6563 0%, #f9fffd 32%, #9fa8a5 50%, #343a39 68%, #f4fbf8 100%) !important;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.92) !important;
+}
+
+.page-shell .important-date-chip-rings > span::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: -2px !important;
+  width: 15px !important;
+  height: 9px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 999px !important;
+  background: rgba(0,0,0,.18) !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.34) !important;
+}
+
+.page-shell .important-date-chip-number {
+  display: block !important;
+  color: #062a1d !important;
+  font-size: 29px !important;
+  font-weight: 950 !important;
+  line-height: .88 !important;
+  letter-spacing: 0 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+.page-shell .important-date-chip-month {
+  display: block !important;
+  margin-top: 5px !important;
+  color: #062a1d !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  letter-spacing: .02em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+.page-shell .important-date-chip--planned,
+.page-shell .important-date-chip--planned:hover,
+.page-shell .important-date-chip--planned:focus,
+.page-shell .important-date-chip--planned:focus-visible,
+.page-shell .important-date-chip--planned:active {
+  border-color: #55b994 !important;
+  background-color: #e8fff6 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 36%, rgba(255,255,255,0) 39%),
+    linear-gradient(180deg, #fffef8 0%, #f2fff9 42%, #c1f0dc 100%) !important;
+  box-shadow:
+    0 8px 13px rgba(0,0,0,.28),
+    0 5px 0 #3f9f7d,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -4px 7px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-date-chip--planned::before { background: #55b994 !important; }
+.page-shell .important-date-chip--planned::after { border-color: #55b994 !important; background: #7cd8b3 !important; }
+
+.page-shell .important-date-chip--live,
+.page-shell .important-date-chip--live:hover,
+.page-shell .important-date-chip--live:focus,
+.page-shell .important-date-chip--live:focus-visible,
+.page-shell .important-date-chip--live:active {
+  border-color: #f29f59 !important;
+  background-color: #fff1e8 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 36%, rgba(255,255,255,0) 39%),
+    linear-gradient(180deg, #fffefa 0%, #ffe6d5 45%, #ffc398 100%) !important;
+  box-shadow:
+    0 8px 13px rgba(0,0,0,.28),
+    0 5px 0 #d27628,
+    0 0 0 2px rgba(242,159,89,.22),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -4px 7px rgba(148,78,32,.18) !important;
+}
+
+.page-shell .important-date-chip--live::before { background: #f29f59 !important; }
+.page-shell .important-date-chip--live::after { border-color: #f29f59 !important; background: #f29f59 !important; }
+
+.page-shell .important-date-chip--completed,
+.page-shell .important-date-chip--completed:hover,
+.page-shell .important-date-chip--completed:focus,
+.page-shell .important-date-chip--completed:focus-visible,
+.page-shell .important-date-chip--completed:active {
+  border-color: #e04b4b !important;
+  background-color: #fff0f0 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 36%, rgba(255,255,255,0) 39%),
+    linear-gradient(180deg, #fffafa 0%, #ffdada 46%, #ef8b8b 100%) !important;
+  box-shadow:
+    0 8px 13px rgba(0,0,0,.28),
+    0 5px 0 #b72f2f,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -4px 7px rgba(137,26,26,.18) !important;
+}
+
+.page-shell .important-date-chip--completed::before { background: #e04b4b !important; }
+.page-shell .important-date-chip--completed::after { border-color: #e04b4b !important; background: #e04b4b !important; }
+
+/* === END IMPORTANT EVENTS DATE TILES FINAL OVERRIDES === */
