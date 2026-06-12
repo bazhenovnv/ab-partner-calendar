@@ -1,0 +1,155 @@
+/* === AB EVENT DESIGN SYSTEM LAYOUT FIX ===
+ * Restores structural layout after removing legacy override files.
+ */
+
+.page-shell {
+  width: min(1500px, calc(100vw - 28px)) !important;
+}
+
+.page-shell .site-header-panel {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  padding: 10px 14px !important;
+}
+
+.page-shell .metrics-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.page-shell .dashboard-unified-shell {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.page-shell .dashboard-filters-wrap,
+.page-shell .dashboard-calendar-wrap {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.page-shell .calendar-common-shell.calendar-unified-shell {
+  display: grid !important;
+  grid-template-columns: minmax(620px, 1.02fr) minmax(540px, .98fr) !important;
+  align-items: start !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+.page-shell .calendar-left-panel,
+.page-shell .right-calendar-shell {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.page-shell .calendar-left-panel,
+.page-shell .event-details-panel {
+  min-height: 760px !important;
+  align-self: start !important;
+}
+
+.page-shell .selected-day-shared-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 760px !important;
+}
+
+.page-shell .selected-day-primary-pane {
+  flex: 1 1 auto !important;
+}
+
+.page-shell .selected-day-secondary-pane {
+  flex: 0 0 auto !important;
+  min-height: 300px !important;
+}
+
+.page-shell .right-calendar-shell.calendar-right-stack {
+  display: grid !important;
+  gap: 12px !important;
+  align-self: start !important;
+}
+
+.page-shell .highlight-hero-joined {
+  display: grid !important;
+  grid-template-columns: minmax(380px, .9fr) minmax(520px, 1.1fr) !important;
+  align-items: stretch !important;
+  min-height: 340px !important;
+  overflow: hidden !important;
+}
+
+.page-shell .highlight-hero-joined > div,
+.page-shell .highlight-hero-joined > div > div {
+  min-width: 0 !important;
+}
+
+.page-shell .highlight-hero-joined img {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.page-shell .important-events-actions-row {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+.page-shell .important-events-mode-block {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 8px !important;
+  min-width: 360px !important;
+}
+
+.page-shell .important-events-mode-controls {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 360px !important;
+  max-width: 100% !important;
+}
+
+.page-shell .platform-footer-shell {
+  display: grid !important;
+  gap: 12px !important;
+  padding: 14px !important;
+}
+
+@media (max-width: 1279px) {
+  .page-shell .metrics-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .page-shell .calendar-common-shell.calendar-unified-shell,
+  .page-shell .highlight-hero-joined {
+    grid-template-columns: 1fr !important;
+  }
+
+  .page-shell .important-events-actions-row {
+    flex-direction: column !important;
+  }
+
+  .page-shell .important-events-mode-block {
+    align-items: stretch !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .page-shell .important-events-mode-controls {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-shell .metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === END AB EVENT DESIGN SYSTEM LAYOUT FIX === */
