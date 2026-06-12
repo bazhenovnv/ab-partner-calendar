@@ -1,5 +1,6 @@
 import './globals.css';
 import './design-system.css';
+import './design-system-layout-fix.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
