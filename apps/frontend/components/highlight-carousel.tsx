@@ -19,7 +19,6 @@ import {
   compareUpcomingEvents,
   extractPriceText,
   formatEventType,
-  getRuntimeStatus,
   isCompletedEvent,
   isRecentlyCompletedEvent,
 } from '@/lib/event-utils';
@@ -66,15 +65,6 @@ function isActualEventImage(value?: string) {
   if (value === IMPORTANT_EVENTS_PHOTO) return false;
   if (value.startsWith('/important-events-photo')) return false;
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
-}
-
-function getImportantDateChipClass(event: EventItem) {
-  const status = getRuntimeStatus(event);
-  const isLive = ['LIVE', 'NOW', 'IN_PROGRESS', 'ONGOING'].includes(status);
-
-  if (isCompletedEvent(event)) return 'important-date-chip--completed';
-  if (isLive) return 'important-date-chip--live';
-  return 'important-date-chip--planned';
 }
 
 export function HighlightCarousel({
@@ -248,26 +238,27 @@ export function HighlightCarousel({
         </div>
 
         {slides.length > 0 ? (
-          <div className='important-date-chip-list flex flex-wrap items-center gap-3'>
+          <div className='flex flex-wrap items-center gap-3'>
             {slides.map((event, index) => {
               const date = new Date(event.startAt);
+              const completed = isCompletedEvent(event);
 
               return (
                 <button
                   key={event.id}
                   type='button'
                   onClick={() => setActive(index)}
-                  className={`important-date-chip ${getImportantDateChipClass(event)}`}
+                  className={`important-date-chip flex h-[58px] w-[58px] flex-col items-center justify-center rounded-[18px] text-center ${
+                    completed
+                      ? 'important-date-chip--completed'
+                      : index === active
+                        ? 'important-date-chip--active'
+                        : 'important-date-chip--planned'
+                  }`}
                   title={event.title}
                 >
-                  <span className='important-date-chip-rings' aria-hidden='true'>
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                  </span>
-                  <span className='important-date-chip-number'>{date.getDate()}</span>
-                  <span className='important-date-chip-month'>{MONTHS_SHORT[date.getMonth()]}</span>
+                  <span className='text-[18px] font-semibold leading-none text-black'>{date.getDate()}</span>
+                  <span className='mt-1 text-[10px] uppercase tracking-[0.06em] text-black'>{MONTHS_SHORT[date.getMonth()]}</span>
                 </button>
               );
             })}
