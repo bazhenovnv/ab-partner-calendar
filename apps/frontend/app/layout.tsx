@@ -1,15 +1,5 @@
 import './globals.css';
-import './controls.css';
-import './hotfix.css';
-import './calendar-reference.css';
-import './calendar-final-overrides.css';
-import './section-title-overrides.css';
-import './ui-final-overrides.css';
-import './topic-metric-final-overrides.css';
-import './topic-split-overrides.css';
-import './topic-table-overrides.css';
-import './button-uniform-overrides.css';
-import './status-final-overrides.css';
+import './design-system.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
