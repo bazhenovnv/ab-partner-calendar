@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { api } from '@/lib/api';
 import type { EventItem } from '@/lib/types';
 import { extractRussianCity, RUSSIAN_CITIES } from '@/lib/russian-cities';
@@ -102,12 +101,6 @@ function isCounterActiveEvent(event: EventItem) {
   return status === 'SCHEDULED' || status === 'LIVE';
 }
 
-function sourceLabel(source: string) {
-  if (/^telegram$/i.test(source)) return 'Telegram';
-  if (/^max$/i.test(source)) return 'Max';
-  return source;
-}
-
 function isFreeEvent(event: EventItem) {
   return /бесплат|free|0\s*₽|0\s*руб/.test(eventToSearchText(event));
 }
@@ -196,7 +189,6 @@ export function HomePage() {
   }, [events]);
 
   const availableTopics = useMemo(() => getTopicList(events), [events]);
-  const availableSources = useMemo(() => Array.from(new Set([...events.map((event) => event.source || 'MAX'), 'MAX'])), [events]);
 
   const filteredEvents = useMemo(() => {
     const now = new Date();
@@ -267,21 +259,32 @@ export function HomePage() {
     </>
   );
 
+  const metricItems = [
+    { label: 'Сегодня', value: metrics.today },
+    { label: 'На 7 дней', value: metrics.week },
+    { label: 'Важно', value: metrics.important },
+    { label: 'Бесплатно', value: metrics.free },
+    { label: 'Оффлайн', value: metrics.offline },
+    { label: cityFilter === 'ALL' ? 'По всем городам' : cityFilter, value: metrics.city },
+  ];
+
   const advancedFilters = (
-    <div className='surface-card p-4'>
-      <div className='mb-4 flex flex-wrap items-center justify-between gap-4'>
-        <div className='flex items-center gap-3'>
-          <div className='icon-chip h-12 w-12'><SlidersHorizontal className='h-5 w-5 text-[#2c2f36]' /></div>
-          <div><div className='text-sm font-medium text-slate-500'>Фильтры</div><div className='text-lg font-semibold text-[#17191e]'>Формат, город, тема, источник и период</div></div>
-        </div>
-        <div className='rounded-[14px] border border-[#7CD8B3] bg-white px-3 py-2 text-sm text-slate-500'>Текущая тема: {topicFilter === 'ALL' ? 'Все темы' : topicFilter}<br />Найдено событий: {filteredCounterEvents.length}</div>
+    <div className='surface-card dashboard-filter-panel p-3'>
+      <div className='dashboard-filter-metrics-row'>
+        {metricItems.map((item) => (
+          <div key={item.label} className='dashboard-filter-metric-card'>
+            <span className='dashboard-filter-metric-value'>{item.value}</span>
+            <span className='dashboard-filter-metric-dash'>-</span>
+            <span className='dashboard-filter-metric-label'>{item.label}</span>
+          </div>
+        ))}
       </div>
-      <div className='grid gap-3 md:grid-cols-2 xl:grid-cols-5'>
+      <div className='dashboard-filter-select-row'>
         <FilterSelect label='Формат' value={formatFilter} onChange={(value) => setFormatFilter(value as FormatFilter)}>{formatOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</FilterSelect>
         <FilterSelect label='Город' value={cityFilter} onChange={setCityFilter}><option value='ALL'>Все города</option>{availableCities.map((city) => <option key={city} value={city}>{city}</option>)}</FilterSelect>
         <FilterSelect label='Тема' value={topicFilter} onChange={setTopicFilter}><option value='ALL'>Все темы</option>{availableTopics.map((topic) => <option key={topic} value={topic}>{topic}</option>)}</FilterSelect>
-        <FilterSelect label='Источник' value={sourceFilter} onChange={setSourceFilter}><option value='ALL'>Все источники</option>{availableSources.map((source) => <option key={source} value={source}>{sourceLabel(source)}</option>)}</FilterSelect>
         <FilterSelect label='Период' value={periodFilter} onChange={(value) => setPeriodFilter(value as PeriodFilter)}><option value='ALL'>Все даты</option><option value='TODAY'>Сегодня</option><option value='WEEK'>Неделя</option><option value='MONTH'>Месяц</option></FilterSelect>
+        <div className='dashboard-filter-found'>Найдено событий: {filteredCounterEvents.length}</div>
       </div>
     </div>
   );
@@ -337,18 +340,6 @@ export function HomePage() {
     <main className='min-h-screen bg-black px-4 py-6 lg:px-6 lg:py-8'>
       <div className='page-shell mx-auto max-w-[1500px] px-4 py-5 lg:px-6 lg:py-6'>
         <SiteHeader />
-        <section className='container-shell mt-4'>
-          <div className='metrics-grid grid gap-3 md:grid-cols-2 xl:grid-cols-6'>
-            {[
-              { label: 'Сегодня', value: metrics.today, icon: '/ui-icons/metric-today.png' },
-              { label: 'На 7 дней', value: metrics.week, icon: '/ui-icons/metric-week.png' },
-              { label: 'Важно', value: metrics.important, icon: '/ui-icons/metric-important.png' },
-              { label: 'Бесплатно', value: metrics.free, icon: '/ui-icons/metric-free.png' },
-              { label: 'Оффлайн', value: metrics.offline, icon: '/ui-icons/metric-offline.png' },
-              { label: cityFilter === 'ALL' ? 'По всем городам' : cityFilter, value: metrics.city, icon: '/ui-icons/metric-cities.png' },
-            ].map((item) => <div key={item.label} className='metric-card surface-card !bg-white flex items-center gap-3 px-4 py-3'><div className='metric-icon icon-chip h-10 w-10'><Image src={item.icon} alt='' width={40} height={40} className='metric-icon-image' /></div><div><div className='text-sm text-slate-500'>{item.label}</div><div className='metric-value-number text-xl font-semibold leading-none text-[#14171c]'>{item.value}</div></div></div>)}
-          </div>
-        </section>
 
         {viewMode === 'SHOWCASE' ? (
           <section className='container-shell mt-4'>
