@@ -23,22 +23,28 @@ export function ThemeToggleInjector() {
     if (!actions || actions.querySelector('[data-theme-toggle-button="true"]')) return;
 
     const button = document.createElement('button');
-    const icon = document.createElement('span');
-    const label = document.createElement('span');
+    const moon = document.createElement('span');
+    const sun = document.createElement('span');
+    const thumb = document.createElement('span');
 
     button.type = 'button';
     button.dataset.themeToggleButton = 'true';
-    button.className = 'mint-btn mint-btn--header pressable theme-toggle-btn';
-    icon.className = 'site-header-icon theme-toggle-icon';
-    icon.setAttribute('aria-hidden', 'true');
-    label.textContent = 'Тема';
-    button.append(icon, label);
+    button.className = 'theme-switch-toggle';
+    moon.className = 'theme-switch-icon theme-switch-icon-moon';
+    sun.className = 'theme-switch-icon theme-switch-icon-sun';
+    thumb.className = 'theme-switch-thumb';
+    moon.setAttribute('aria-hidden', 'true');
+    sun.setAttribute('aria-hidden', 'true');
+    thumb.setAttribute('aria-hidden', 'true');
+    moon.textContent = '☾';
+    sun.textContent = '☼';
+    button.append(moon, sun, thumb);
 
     const render = () => {
       const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
       button.setAttribute('aria-pressed', String(current === 'dark'));
+      button.setAttribute('aria-label', current === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему');
       button.setAttribute('title', current === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему');
-      icon.textContent = current === 'dark' ? '☀' : '☾';
     };
 
     button.addEventListener('click', () => {
