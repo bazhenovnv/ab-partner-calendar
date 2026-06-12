@@ -1,4 +1,28 @@
-/* === FINAL EVENT STATUS, SECTION TITLES, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
+/* === FINAL EVENT STATUS, SECTION TITLES, IMPORTANT DATE CHIPS, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
+
+/* Uniform action-button typography. */
+.page-shell :is(
+  .mint-btn,
+  a.mint-btn,
+  button.mint-btn,
+  .site-header-action,
+  .mint-btn--header,
+  .calendar-today-btn,
+  .calendar-filter-toggle,
+  .important-mode-btn,
+  .important-event-action-btn,
+  .important-events-view-all-btn,
+  .important-nav-btn,
+  .event-modal-action-btn,
+  .topic-filter-name-button,
+  .all-topic-filter-button
+) {
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+}
 
 /* Absolute last typography layer for all visible section headers. */
 .page-shell .important-events-ribbon-title,
@@ -27,11 +51,179 @@
   filter: none !important;
 }
 
-.page-shell .selected-day-events-title,
-.page-shell .calendar-topic-panel-title,
-.page-shell .topic-panel-title {
-  font-size: 20px !important;
+/* Important-events date chips: calendar-card buttons drawn by CSS, no images. */
+.page-shell .important-date-chip-list {
+  gap: 16px !important;
+  align-items: flex-end !important;
+  padding-top: 4px !important;
 }
+
+.page-shell .important-date-chip,
+.page-shell .important-date-chip:hover,
+.page-shell .important-date-chip:focus,
+.page-shell .important-date-chip:focus-visible,
+.page-shell .important-date-chip:active {
+  position: relative !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 72px !important;
+  height: 76px !important;
+  min-width: 72px !important;
+  min-height: 76px !important;
+  padding: 18px 6px 8px !important;
+  border: 2px solid #55b994 !important;
+  border-radius: 12px !important;
+  background-color: #e8fff6 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.10) 36%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #fbfffc 0%, #e5fbf1 48%, #b7ead7 100%) !important;
+  color: #062a1d !important;
+  font-family: inherit !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  overflow: visible !important;
+  cursor: pointer !important;
+  transform: none !important;
+  box-shadow:
+    0 7px 12px rgba(0,0,0,.24),
+    0 3px 0 #3f9f7d,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-date-chip::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 9px !important;
+  right: 9px !important;
+  top: 16px !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: #55b994 !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.78) !important;
+}
+
+.page-shell .important-date-chip::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 8px !important;
+  right: 8px !important;
+  bottom: -7px !important;
+  height: 10px !important;
+  border: 2px solid #55b994 !important;
+  border-top: 0 !important;
+  border-radius: 0 0 10px 10px !important;
+  background: #7cd8b3 !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,.22) !important;
+}
+
+.page-shell .important-date-chip-rings {
+  position: absolute !important;
+  left: 8px !important;
+  right: 8px !important;
+  top: -13px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 4px !important;
+  pointer-events: none !important;
+}
+
+.page-shell .important-date-chip-rings > span {
+  display: block !important;
+  width: 8px !important;
+  height: 26px !important;
+  margin: 0 auto !important;
+  border: 1px solid rgba(0,0,0,.72) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(90deg, #7e8584 0%, #f7fbfa 35%, #606765 65%, #f3f7f6 100%) !important;
+  box-shadow:
+    0 2px 3px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+.page-shell .important-date-chip-number {
+  display: block !important;
+  color: #062a1d !important;
+  font-size: 27px !important;
+  font-weight: 900 !important;
+  line-height: .9 !important;
+  letter-spacing: 0 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.82) !important;
+}
+
+.page-shell .important-date-chip-month {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #062a1d !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: .02em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.82) !important;
+}
+
+.page-shell .important-date-chip--planned,
+.page-shell .important-date-chip--planned:hover,
+.page-shell .important-date-chip--planned:focus,
+.page-shell .important-date-chip--planned:active {
+  border-color: #55b994 !important;
+  background-color: #e8fff6 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.10) 36%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #fbfffc 0%, #e5fbf1 48%, #b7ead7 100%) !important;
+  box-shadow:
+    0 7px 12px rgba(0,0,0,.24),
+    0 3px 0 #3f9f7d,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+.page-shell .important-date-chip--planned::before { background: #55b994 !important; }
+.page-shell .important-date-chip--planned::after { border-color: #55b994 !important; background: #7cd8b3 !important; }
+
+.page-shell .important-date-chip--live,
+.page-shell .important-date-chip--live:hover,
+.page-shell .important-date-chip--live:focus,
+.page-shell .important-date-chip--live:active {
+  border-color: #f29f59 !important;
+  background-color: #fff1e8 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.10) 36%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #fffdf8 0%, #ffe6d5 48%, #ffc398 100%) !important;
+  box-shadow:
+    0 7px 12px rgba(0,0,0,.25),
+    0 3px 0 #d27628,
+    0 0 0 2px rgba(242,159,89,.20),
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(148,78,32,.18) !important;
+}
+
+.page-shell .important-date-chip--live::before { background: #f29f59 !important; }
+.page-shell .important-date-chip--live::after { border-color: #f29f59 !important; background: #f29f59 !important; }
+
+.page-shell .important-date-chip--completed,
+.page-shell .important-date-chip--completed:hover,
+.page-shell .important-date-chip--completed:focus,
+.page-shell .important-date-chip--completed:active {
+  border-color: #e04b4b !important;
+  background-color: #fff0f0 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.10) 36%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, #fffafa 0%, #ffdada 48%, #ef8b8b 100%) !important;
+  box-shadow:
+    0 7px 12px rgba(0,0,0,.25),
+    0 3px 0 #b72f2f,
+    inset 0 2px 0 rgba(255,255,255,.96),
+    inset 0 -3px 5px rgba(137,26,26,.18) !important;
+}
+
+.page-shell .important-date-chip--completed::before { background: #e04b4b !important; }
+.page-shell .important-date-chip--completed::after { border-color: #e04b4b !important; background: #e04b4b !important; }
 
 /* Event status ribbon. */
 .page-shell .event-status-ribbon {
@@ -162,4 +354,4 @@
     inset 0 1px 0 rgba(255,255,255,.90) !important;
 }
 
-/* === END FINAL EVENT STATUS, SECTION TITLES, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
+/* === END FINAL EVENT STATUS, SECTION TITLES, IMPORTANT DATE CHIPS, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
