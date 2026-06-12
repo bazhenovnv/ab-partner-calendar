@@ -68,12 +68,12 @@ function isActualEventImage(value?: string) {
   return /^(https?:)?\/\//i.test(value) || value.startsWith('/');
 }
 
-function getImportantDateChipClass(event: EventItem, active: boolean) {
+function getImportantDateChipClass(event: EventItem) {
   const status = getRuntimeStatus(event);
   const isLive = ['LIVE', 'NOW', 'IN_PROGRESS', 'ONGOING'].includes(status);
 
   if (isCompletedEvent(event)) return 'important-date-chip--completed';
-  if (isLive || active) return 'important-date-chip--live';
+  if (isLive) return 'important-date-chip--live';
   return 'important-date-chip--planned';
 }
 
@@ -257,7 +257,7 @@ export function HighlightCarousel({
                   key={event.id}
                   type='button'
                   onClick={() => setActive(index)}
-                  className={`important-date-chip ${getImportantDateChipClass(event, index === active)}`}
+                  className={`important-date-chip ${getImportantDateChipClass(event)}`}
                   title={event.title}
                 >
                   <span className='important-date-chip-rings' aria-hidden='true'>
