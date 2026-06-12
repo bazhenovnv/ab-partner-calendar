@@ -12,6 +12,7 @@ import './button-uniform-overrides.css';
 import './status-final-overrides.css';
 import './important-date-restore-overrides.css';
 import './filter-panel-merge-overrides.css';
+import './topic-counter-inline-overrides.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
