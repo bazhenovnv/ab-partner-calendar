@@ -341,12 +341,6 @@ export function HomePage() {
       <div className='page-shell mx-auto max-w-[1500px] px-4 py-5 lg:px-6 lg:py-6'>
         <SiteHeader />
 
-        {viewMode === 'SHOWCASE' ? (
-          <section className='container-shell mt-4'>
-            <HighlightCarousel embedded items={filteredHighlights} onSelectEvent={selectImportantEvent} controls={viewModeControls} />
-          </section>
-        ) : null}
-
         {viewMode === 'COMPACT' ? (
           <>
             <section className='container-shell mt-4'>{advancedFilters}</section>
@@ -371,6 +365,12 @@ export function HomePage() {
             </div>
           </section>
         )}
+
+        {viewMode === 'SHOWCASE' ? (
+          <section className='container-shell mt-4'>
+            <HighlightCarousel embedded items={filteredHighlights} onSelectEvent={selectImportantEvent} controls={viewModeControls} />
+          </section>
+        ) : null}
 
         <footer className='container-shell mt-4'><div className='platform-footer-shell'><div className='platform-footer-title'>Возможности с платформой:</div><ReminderPanel /><div className='platform-footer-copy'>Отдел по работе с партнерами 2022–{new Date().getFullYear()}</div></div></footer>
         <EventModal item={activeModalEvent} open={!!activeModalEvent} onOpenChange={(open) => !open && setActiveModalEvent(null)} />
