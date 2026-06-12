@@ -1,0 +1,133 @@
+/* === FILTERS + METRICS MERGED PANEL FINAL OVERRIDES === */
+
+.page-shell .dashboard-filter-panel {
+  display: grid !important;
+  gap: 12px !important;
+  padding: 14px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid rgba(0,0,0,.58) !important;
+  border-radius: 0 !important;
+  box-shadow:
+    0 7px 14px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.96) !important;
+}
+
+.page-shell .dashboard-filter-metrics-row {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.page-shell .dashboard-filter-metric-card {
+  min-width: 0 !important;
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  padding: 0 14px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid rgba(0,0,0,.16) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.98) !important;
+  color: #000000 !important;
+}
+
+.page-shell .dashboard-filter-metric-value {
+  display: inline !important;
+  min-width: auto !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #000000 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+.page-shell .dashboard-filter-metric-dash,
+.page-shell .dashboard-filter-metric-label {
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.page-shell .dashboard-filter-select-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(150px, .72fr) !important;
+  align-items: end !important;
+  gap: 14px !important;
+  padding-top: 6px !important;
+  border-top: 1px solid rgba(0,0,0,.10) !important;
+}
+
+.page-shell .dashboard-filter-select-row label {
+  gap: 5px !important;
+}
+
+.page-shell .dashboard-filter-select-row label > span {
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.page-shell .dashboard-filter-select-row .select-clean {
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.page-shell .dashboard-filter-found {
+  min-height: 30px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(0,0,0,.16) !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,.10) !important;
+}
+
+@media (max-width: 1279px) {
+  .page-shell .dashboard-filter-metrics-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .page-shell .dashboard-filter-select-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .page-shell .dashboard-filter-found {
+    justify-content: flex-start !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-shell .dashboard-filter-metrics-row,
+  .page-shell .dashboard-filter-select-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === END FILTERS + METRICS MERGED PANEL FINAL OVERRIDES === */
