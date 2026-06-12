@@ -1,0 +1,116 @@
+/* === LIGHT / DARK THEME OVERRIDES === */
+
+html[data-theme='light'] {
+  --ab-site-bg: #000000;
+  --ab-page-bg: #eeeeee;
+  --ab-panel-bg: #f6f6f6;
+  --ab-card-bg: #ffffff;
+  --ab-soft-card-bg: #ffffff;
+  --ab-main-text: #111111;
+  --ab-muted-text: #4b5563;
+  --ab-border-theme: rgba(0, 0, 0, .72);
+  --ab-subtle-border-theme: rgba(0, 0, 0, .16);
+}
+
+html[data-theme='dark'] {
+  --ab-site-bg: #050607;
+  --ab-page-bg: #15181b;
+  --ab-panel-bg: #1c2024;
+  --ab-card-bg: #20252a;
+  --ab-soft-card-bg: #252b30;
+  --ab-main-text: #f2f5f4;
+  --ab-muted-text: #c5cfcb;
+  --ab-border-theme: rgba(255, 255, 255, .46);
+  --ab-subtle-border-theme: rgba(255, 255, 255, .16);
+}
+
+html[data-theme='dark'],
+html[data-theme='dark'] body,
+html[data-theme='dark'] main {
+  background: var(--ab-site-bg) !important;
+  color: var(--ab-main-text) !important;
+}
+
+html[data-theme='dark'] .page-shell {
+  background: var(--ab-page-bg) !important;
+  border-color: var(--ab-border-theme) !important;
+}
+
+html[data-theme='dark'] .surface-card,
+html[data-theme='dark'] .site-header-panel,
+html[data-theme='dark'] .important-events-shell,
+html[data-theme='dark'] .dashboard-filter-panel,
+html[data-theme='dark'] .calendar-left-panel,
+html[data-theme='dark'] .event-details-panel,
+html[data-theme='dark'] .right-calendar-shell,
+html[data-theme='dark'] .calendar-topic-panel,
+html[data-theme='dark'] .platform-footer-shell,
+html[data-theme='dark'] .selected-day-shared-layout {
+  background: var(--ab-panel-bg) !important;
+  background-color: var(--ab-panel-bg) !important;
+  color: var(--ab-main-text) !important;
+  border-color: var(--ab-border-theme) !important;
+}
+
+html[data-theme='dark'] :is(h1,h2,h3,h4,p,span,div,label,button,a,li,strong) {
+  color: inherit;
+}
+
+html[data-theme='dark'] .text-black,
+html[data-theme='dark'] .text-slate-700,
+html[data-theme='dark'] .text-slate-600,
+html[data-theme='dark'] .text-slate-500,
+html[data-theme='dark'] .text-[#17191e],
+html[data-theme='dark'] .text-[#14171c] {
+  color: var(--ab-main-text) !important;
+}
+
+html[data-theme='dark'] .dashboard-filter-metric-card,
+html[data-theme='dark'] .dashboard-filter-found,
+html[data-theme='dark'] .selected-day-event-btn,
+html[data-theme='dark'] .platform-card,
+html[data-theme='dark'] .event-card,
+html[data-theme='dark'] .important-events-image-panel,
+html[data-theme='dark'] .important-events-copy-panel {
+  background: var(--ab-card-bg) !important;
+  background-color: var(--ab-card-bg) !important;
+  color: var(--ab-main-text) !important;
+  border-color: var(--ab-subtle-border-theme) !important;
+}
+
+html[data-theme='dark'] .calendar-day-cell,
+html[data-theme='dark'] .calendar-grid-cell,
+html[data-theme='dark'] .calendar-cell {
+  background-color: #eefbf6 !important;
+  color: #000000 !important;
+}
+
+html[data-theme='dark'] .select-clean,
+html[data-theme='dark'] select,
+html[data-theme='dark'] input,
+html[data-theme='dark'] textarea {
+  color: #000000 !important;
+}
+
+html[data-theme='dark'] .topic-selection-item {
+  background: #343a3f !important;
+  background-color: #343a3f !important;
+}
+
+html[data-theme='dark'] .topic-selection-grid {
+  background: #5f666b !important;
+  background-color: #5f666b !important;
+  border-color: #5f666b !important;
+}
+
+html[data-theme='dark'] .theme-toggle-btn[aria-pressed='true'] {
+  background-image: linear-gradient(180deg, #fff7f1 0%, #ffd8bd 52%, #f29f59 100%) !important;
+}
+
+.theme-toggle-icon {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+/* === END LIGHT / DARK THEME OVERRIDES === */
