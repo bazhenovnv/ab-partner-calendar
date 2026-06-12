@@ -3,7 +3,7 @@
  * Counter is visually merged with the topic button and no longer looks like a round chip.
  */
 
-.page-shell .topic-selection-grid {
+.page-shell .calendar-topic-panel .topic-selection-grid {
   gap: 2px !important;
   padding: 2px !important;
   background: #828282 !important;
@@ -13,10 +13,10 @@
   overflow: hidden !important;
 }
 
-.page-shell .topic-selection-item {
+.page-shell .calendar-topic-panel .topic-selection-item {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) 36px !important;
-  align-items: center !important;
+  grid-template-columns: minmax(0, 1fr) 38px !important;
+  align-items: stretch !important;
   gap: 0 !important;
   padding: 5px !important;
   background: #d9d9d9 !important;
@@ -25,33 +25,38 @@
   border-radius: 0 !important;
 }
 
-.page-shell .topic-filter-name-button,
-.page-shell .topic-filter-name-button:hover,
-.page-shell .topic-filter-name-button:focus,
-.page-shell .topic-filter-name-button:focus-visible,
-.page-shell .topic-filter-name-button:active {
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-name-button,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-name-button:hover,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-name-button:focus,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-name-button:focus-visible,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-name-button:active {
+  box-sizing: border-box !important;
   height: 30px !important;
   min-height: 30px !important;
   max-height: 30px !important;
   width: 100% !important;
+  min-width: 0 !important;
   margin: 0 !important;
+  border: 1.5px solid rgba(0,0,0,.72) !important;
   border-right: 0 !important;
   border-radius: 15px 0 0 15px !important;
   transform: none !important;
 }
 
-.page-shell .topic-filter-counter-window,
-.page-shell .topic-filter-counter-window:hover,
-.page-shell .topic-filter-counter-window:focus,
-.page-shell .topic-filter-counter-window:focus-visible,
-.page-shell .topic-filter-counter-window:active {
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-counter-window,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-counter-window:hover,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-counter-window:focus,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-counter-window:focus-visible,
+.page-shell .calendar-topic-panel .topic-selection-item .topic-filter-counter-window:active,
+html body .page-shell .calendar-topic-panel .topic-selection-grid .topic-selection-item > .topic-filter-counter-window {
   box-sizing: border-box !important;
-  width: 36px !important;
+  width: 38px !important;
   height: 30px !important;
-  min-width: 36px !important;
+  min-width: 38px !important;
   min-height: 30px !important;
-  max-width: 36px !important;
+  max-width: 38px !important;
   max-height: 30px !important;
+  aspect-ratio: auto !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -60,6 +65,7 @@
   border: 1.5px solid rgba(0,0,0,.72) !important;
   border-left: 1px solid rgba(0,0,0,.34) !important;
   border-radius: 0 15px 15px 0 !important;
+  clip-path: none !important;
   background: linear-gradient(180deg, #ffffff 0%, #dff8ee 42%, #7CD8B3 100%) !important;
   background-color: #7CD8B3 !important;
   color: #000000 !important;
@@ -74,14 +80,16 @@
   transform: none !important;
 }
 
-.page-shell .topic-selection-item-active .topic-filter-counter-window,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:hover,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:focus-visible,
-.page-shell .topic-selection-item-active .topic-filter-counter-window:active {
+.page-shell .calendar-topic-panel .topic-selection-item-active .topic-filter-counter-window,
+.page-shell .calendar-topic-panel .topic-selection-item-active .topic-filter-counter-window:hover,
+.page-shell .calendar-topic-panel .topic-selection-item-active .topic-filter-counter-window:focus,
+.page-shell .calendar-topic-panel .topic-selection-item-active .topic-filter-counter-window:focus-visible,
+.page-shell .calendar-topic-panel .topic-selection-item-active .topic-filter-counter-window:active,
+html body .page-shell .calendar-topic-panel .topic-selection-grid .topic-selection-item-active > .topic-filter-counter-window {
   background: linear-gradient(180deg, #ffffff 0%, #ffe7d7 44%, #ffd8bd 100%) !important;
   background-color: #ffd8bd !important;
   color: #000000 !important;
+  border-radius: 0 15px 15px 0 !important;
   box-shadow:
     0 5px 10px rgba(0,0,0,.16),
     inset 0 1px 0 rgba(255,255,255,.94),
@@ -89,11 +97,11 @@
   transform: none !important;
 }
 
-.page-shell .all-topic-filter-button,
-.page-shell .all-topic-filter-button:hover,
-.page-shell .all-topic-filter-button:focus,
-.page-shell .all-topic-filter-button:focus-visible,
-.page-shell .all-topic-filter-button:active {
+.page-shell .calendar-topic-panel .all-topic-filter-button,
+.page-shell .calendar-topic-panel .all-topic-filter-button:hover,
+.page-shell .calendar-topic-panel .all-topic-filter-button:focus,
+.page-shell .calendar-topic-panel .all-topic-filter-button:focus-visible,
+.page-shell .calendar-topic-panel .all-topic-filter-button:active {
   height: 30px !important;
   min-height: 30px !important;
   max-height: 30px !important;
