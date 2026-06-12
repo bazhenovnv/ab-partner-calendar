@@ -13,7 +13,9 @@ import './status-final-overrides.css';
 import './important-date-restore-overrides.css';
 import './filter-panel-merge-overrides.css';
 import './topic-counter-inline-overrides.css';
+import './theme-overrides.css';
 import type { Metadata } from 'next';
+import { ThemeToggleInjector } from '@/components/theme-toggle-injector';
 
 export const metadata: Metadata = {
   title: 'АБ| Афиша',
@@ -21,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang='ru'><body>{children}</body></html>;
+  return <html lang='ru'><body><ThemeToggleInjector />{children}</body></html>;
 }
