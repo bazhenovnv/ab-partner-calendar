@@ -1,5 +1,44 @@
-/* === FINAL EVENT STATUS AND SCROLL HIGHLIGHT OVERRIDES === */
+/* === FINAL EVENT STATUS, SECTION TITLES, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
 
+/* Absolute last typography layer for all section headers visible on the public page. */
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title,
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title,
+.page-shell .platform-footer-title,
+.page-shell .platform-capabilities-title {
+  color: #f29f59 !important;
+  background-image: linear-gradient(180deg, #ffe4cf 0%, #ffc39b 24%, #f29f59 52%, #d87a35 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: .35px rgba(109, 50, 11, .86) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .14em !important;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.90),
+    0 2px 0 rgba(134,67,21,.20),
+    0 4px 7px rgba(0,0,0,.22) !important;
+  filter: drop-shadow(0 2px 1px rgba(255,255,255,.54)) !important;
+}
+
+.page-shell .important-events-ribbon-title,
+.page-shell .important-events-mode-title,
+.page-shell .platform-footer-title {
+  font-size: 18px !important;
+  line-height: 1.05 !important;
+}
+
+.page-shell .selected-day-events-title,
+.page-shell .calendar-topic-panel-title,
+.page-shell .topic-panel-title {
+  font-size: 24px !important;
+  line-height: 1.05 !important;
+}
+
+/* Event status ribbon. */
 .page-shell .event-status-ribbon {
   position: absolute !important;
   top: 14px !important;
@@ -40,6 +79,82 @@
   background-color: #E04B4B !important;
 }
 
+/* Topic table: final neutral cells and static number windows. */
+.page-shell .topic-selection-grid {
+  gap: 2px !important;
+  padding: 2px !important;
+  background: #828282 !important;
+  background-color: #828282 !important;
+  border: 2px solid #828282 !important;
+  border-radius: 14px !important;
+}
+
+.page-shell .topic-selection-item {
+  padding: 6px !important;
+  background: #d9d9d9 !important;
+  background-color: #d9d9d9 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.page-shell .topic-filter-counter-window,
+.page-shell .topic-filter-counter-window:hover,
+.page-shell .topic-filter-counter-window:focus,
+.page-shell .topic-filter-counter-window:focus-visible,
+.page-shell .topic-filter-counter-window:active {
+  box-sizing: border-box !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  max-width: 34px !important;
+  max-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border: 1.5px solid rgba(0,0,0,.62) !important;
+  border-radius: 999px !important;
+  background: #7CD8B3 !important;
+  background-color: #7CD8B3 !important;
+  background-image: none !important;
+  color: #041f16 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color .16s ease, color .16s ease !important;
+}
+
+.page-shell .topic-selection-item-active .topic-filter-counter-window,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:hover,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:focus,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:focus-visible,
+.page-shell .topic-selection-item-active .topic-filter-counter-window:active {
+  background: #ffd8bd !important;
+  background-color: #ffd8bd !important;
+  background-image: none !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.page-shell .topic-selection-item-active .topic-filter-name-button,
+.page-shell .topic-selection-item-active .topic-filter-name-button:hover,
+.page-shell .topic-selection-item-active .topic-filter-name-button:focus,
+.page-shell .topic-selection-item-active .topic-filter-name-button:focus-visible,
+.page-shell .topic-selection-item-active .topic-filter-name-button:active {
+  border-color: rgba(0,0,0,.72) !important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.20),
+    0 2px 5px rgba(0,0,0,.15),
+    inset 0 2px 0 rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(25,117,85,.16) !important;
+}
+
+/* Selected day event scroll target highlight. */
 .page-shell .selected-day-event-btn[data-highlighted='true'] {
   outline: 3px solid #f29f59 !important;
   outline-offset: 2px !important;
@@ -52,4 +167,4 @@
     inset 0 1px 0 rgba(255,255,255,.90) !important;
 }
 
-/* === END FINAL EVENT STATUS AND SCROLL HIGHLIGHT OVERRIDES === */
+/* === END FINAL EVENT STATUS, SECTION TITLES, TOPIC COUNTERS AND SCROLL HIGHLIGHT OVERRIDES === */
