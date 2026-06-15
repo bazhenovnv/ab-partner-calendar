@@ -103,21 +103,26 @@ html[data-theme='dark'] .topic-selection-grid {
   border-color: #5f666b !important;
 }
 
+.site-header-panel .theme-switch-toggle {
+  order: 99 !important;
+  margin-left: auto !important;
+}
+
 .theme-switch-toggle,
 .theme-switch-toggle:hover,
 .theme-switch-toggle:focus,
 .theme-switch-toggle:focus-visible,
 .theme-switch-toggle:active {
   position: relative !important;
-  width: 42px !important;
-  height: 74px !important;
-  min-width: 42px !important;
-  min-height: 74px !important;
+  width: 74px !important;
+  height: 42px !important;
+  min-width: 74px !important;
+  min-height: 42px !important;
   display: inline-flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: 8px 0 !important;
+  padding: 0 8px !important;
   border: 1.5px solid rgba(0,0,0,.34) !important;
   border-radius: 999px !important;
   background: linear-gradient(180deg, #f4f4f4 0%, #d9d9d9 100%) !important;
@@ -150,8 +155,9 @@ html[data-theme='dark'] .topic-selection-grid {
 
 .theme-switch-thumb {
   position: absolute !important;
-  left: 6px !important;
-  bottom: 6px !important;
+  left: auto !important;
+  right: 6px !important;
+  bottom: 5px !important;
   z-index: 1 !important;
   width: 30px !important;
   height: 30px !important;
@@ -164,7 +170,7 @@ html[data-theme='dark'] .topic-selection-grid {
 }
 
 .theme-switch-toggle[aria-pressed='true'] .theme-switch-thumb {
-  transform: translateY(-32px) !important;
+  transform: translateX(-32px) !important;
   background: linear-gradient(180deg, #72787d 0%, #3f454a 100%) !important;
 }
 
