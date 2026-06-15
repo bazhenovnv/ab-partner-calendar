@@ -1,0 +1,79 @@
+/* === FINAL DARK THEME AND THEME SWITCH SIZE FIXES === */
+
+html[data-theme='dark'] .important-events-shell,
+html[data-theme='dark'] .important-events-unified,
+html[data-theme='dark'] .highlight-hero-joined,
+html[data-theme='dark'] .important-events-copy-panel {
+  background: #1c2024 !important;
+  background-color: #1c2024 !important;
+  color: #f2f5f4 !important;
+}
+
+html[data-theme='dark'] .important-events-image-panel {
+  background: #20252a !important;
+  background-color: #20252a !important;
+}
+
+html[data-theme='dark'] .important-events-copy-panel :is(h1,h2,h3,h4,p,span,div,li,strong),
+html[data-theme='dark'] .important-event-description,
+html[data-theme='dark'] .important-event-meta,
+html[data-theme='dark'] .important-event-meta span,
+html[data-theme='dark'] .important-meta-date,
+html[data-theme='dark'] .important-meta-time,
+html[data-theme='dark'] .important-meta-format,
+html[data-theme='dark'] .important-meta-price,
+html[data-theme='dark'] .important-meta-location {
+  color: #f2f5f4 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme='dark'] .important-events-copy-panel .text-slate-700,
+html[data-theme='dark'] .important-events-copy-panel .text-slate-600,
+html[data-theme='dark'] .important-events-copy-panel .text-slate-500,
+html[data-theme='dark'] .important-event-description {
+  color: #d9e3df !important;
+  opacity: 1 !important;
+}
+
+html[data-theme='dark'] .important-events-copy-panel svg {
+  color: #7CD8B3 !important;
+  opacity: 1 !important;
+}
+
+.site-header-panel .theme-switch-toggle {
+  order: 99 !important;
+  margin-left: auto !important;
+}
+
+.theme-switch-toggle,
+.theme-switch-toggle:hover,
+.theme-switch-toggle:focus,
+.theme-switch-toggle:focus-visible,
+.theme-switch-toggle:active {
+  width: 62px !important;
+  height: 30px !important;
+  min-width: 62px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  padding: 0 5px !important;
+  border-radius: 999px !important;
+}
+
+.theme-switch-icon {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 14px !important;
+}
+
+.theme-switch-thumb {
+  right: 4px !important;
+  bottom: 3px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.theme-switch-toggle[aria-pressed='true'] .theme-switch-thumb {
+  transform: translateX(-30px) !important;
+}
+
+/* === END FINAL DARK THEME AND THEME SWITCH SIZE FIXES === */
