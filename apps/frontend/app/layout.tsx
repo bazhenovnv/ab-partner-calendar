@@ -14,6 +14,7 @@ import './important-date-restore-overrides.css';
 import './filter-panel-merge-overrides.css';
 import './topic-counter-inline-overrides.css';
 import './theme-overrides.css';
+import './theme-final-fixes.css';
 import type { Metadata } from 'next';
 import { ThemeToggleInjector } from '@/components/theme-toggle-injector';
 
