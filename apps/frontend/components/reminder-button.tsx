@@ -40,7 +40,7 @@ export function ReminderButton({
         className={cn('whitespace-nowrap', className)}
         onClick={(eventClick: MouseEvent<HTMLButtonElement>) => {
           eventClick.stopPropagation();
-          window.alert('Мероприятие проведено');
+          window.alert('Мероприятие завершено');
         }}
       >
         <BellRing className='h-4 w-4' />

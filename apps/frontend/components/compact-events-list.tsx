@@ -42,7 +42,7 @@ export function CompactEventsList({
                   </div>
                 </div>
                 <div className='compact-event-badges flex flex-wrap items-center gap-2'>
-                  {completed ? <span className='rounded-full border border-[#E04B4B] bg-white px-3 py-1 text-xs font-semibold text-black'>Проведено</span> : null}
+                  {completed ? <span className='rounded-full border border-[#E04B4B] bg-white px-3 py-1 text-xs font-semibold text-black'>Завершено</span> : null}
                   {event.isImportant ? <span className='rounded-full border border-[#4FAF8C] bg-[#7CD8B3] px-3 py-1 text-xs font-semibold text-black'>Важное</span> : null}
                   <span className='rounded-full bg-[#eefbf4] px-3 py-1 text-xs font-semibold text-[#2c8d67]'>{formatEventType(event)}</span>
                 </div>

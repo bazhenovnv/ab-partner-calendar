@@ -3,16 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import TelegramBot = require('node-telegram-bot-api');
 import { PrismaService } from '../../services/prisma.service';
 
-const REMINDER_OPTIONS = [
-  { label: 'За 5 минут', value: '5m' },
-  { label: 'За 15 минут', value: '15m' },
-  { label: 'За 30 минут', value: '30m' },
-  { label: 'За 1 час', value: '1h' },
-  { label: 'За 1 день', value: '1d' },
-] as const;
+const MSK_OFFSET_MS = 3 * 60 * 60_000;
 
-type ReminderValue = (typeof REMINDER_OPTIONS)[number]['value'];
 type AdminState = { mode: 'awaiting_broadcast_text' } | { mode: 'confirm_broadcast'; broadcastId: string };
+type ReminderState = { mode: 'awaiting_reminder_time'; eventId: string };
 
 function escapeHtml(value: string) {
   return value
@@ -22,7 +16,7 @@ function escapeHtml(value: string) {
     .replace(/"/g, '&quot;');
 }
 
-function parseReminderOffset(value: string) {
+function parseReminderOffset(value: string): number {
   const match = /^(\d+)(m|h|d)$/.exec(value);
   if (!match) return 0;
   const amount = Number(match[1]);
@@ -31,6 +25,26 @@ function parseReminderOffset(value: string) {
   if (unit === 'h') return amount * 60 * 60_000;
   if (unit === 'd') return amount * 24 * 60 * 60_000;
   return 0;
+}
+
+// Parse user-typed date in Russian format: "15.07.2025 10:00" or "2025-07-15 10:00" (MSK)
+function parseMskDateInput(text: string): Date | null {
+  const t = text.trim();
+  let match = /^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{1,2}):(\d{2})$/.exec(t);
+  if (match) {
+    const [, dd, mm, yyyy, hh, min] = match;
+    const utcMs = Date.UTC(+yyyy, +mm - 1, +dd, +hh, +min) - MSK_OFFSET_MS;
+    const d = new Date(utcMs);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  match = /^(\d{4})-(\d{2})-(\d{2})\s+(\d{1,2}):(\d{2})$/.exec(t);
+  if (match) {
+    const [, yyyy, mm, dd, hh, min] = match;
+    const utcMs = Date.UTC(+yyyy, +mm - 1, +dd, +hh, +min) - MSK_OFFSET_MS;
+    const d = new Date(utcMs);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  return null;
 }
 
 
@@ -53,8 +67,8 @@ function getReminderSourceUrl(event: { sourceUrl?: string | null }): string {
 export class TelegramService implements OnModuleInit {
   private readonly logger = new Logger(TelegramService.name);
   private bot?: TelegramBot;
-  private readonly reminderSelections = new Map<string, Set<ReminderValue>>();
   private readonly adminStates = new Map<string, AdminState>();
+  private readonly reminderStates = new Map<string, ReminderState>();
   private reminderTimer?: NodeJS.Timeout;
 
   constructor(
@@ -119,9 +133,17 @@ export class TelegramService implements OnModuleInit {
     bot.on('message', async (message) => {
       if (!message.text || message.text.startsWith('/')) return;
       await this.upsertSubscriber(message);
+
+      const userKey = String(message.from?.id || message.chat.id);
+      const reminderState = this.reminderStates.get(userKey);
+      if (reminderState?.mode === 'awaiting_reminder_time') {
+        await this.handleReminderTimeInput(bot, message, reminderState.eventId);
+        return;
+      }
+
       if (!this.isAdmin(message)) return;
 
-      const state = this.adminStates.get(String(message.from?.id || message.chat.id));
+      const state = this.adminStates.get(userKey);
       if (!state || state.mode !== 'awaiting_broadcast_text') return;
 
       const text = message.text.trim();
@@ -155,16 +177,17 @@ export class TelegramService implements OnModuleInit {
       const chatId = query.message?.chat.id;
       if (!chatId) return;
 
-      if (data.startsWith('remtoggle:')) {
-        await this.handleReminderToggle(bot, query, data);
+      if (data.startsWith('remcancel:')) {
+        const eventId = data.replace('remcancel:', '');
+        this.reminderStates.delete(String(query.from.id));
+        await bot.answerCallbackQuery(query.id, { text: 'Отменено.' });
+        if (query.message) {
+          await bot.deleteMessage(query.message.chat.id, query.message.message_id).catch(() => undefined);
+        }
         return;
       }
 
-      if (data.startsWith('remdone:')) {
-        await this.handleReminderDone(bot, query, data);
-        return;
-      }
-
+      // Legacy handler kept for old deep links still in circulation
       if (data.startsWith('rem:')) {
         await this.handleLegacySingleReminder(bot, query, data);
         return;
@@ -254,10 +277,6 @@ export class TelegramService implements OnModuleInit {
     return new Set(raw.split(',').map((item) => item.trim().replace(/^@/, '').toLowerCase()).filter(Boolean));
   }
 
-  private selectionKey(userId: number, eventId: string) {
-    return `${userId}:${eventId}`;
-  }
-
   private async openReminderFlow(bot: TelegramBot, message: TelegramBot.Message, eventId: string) {
     const chatId = message.chat.id;
     const userId = message.from?.id;
@@ -267,106 +286,73 @@ export class TelegramService implements OnModuleInit {
       return;
     }
 
-    const key = this.selectionKey(userId, event.id);
-    this.reminderSelections.set(key, new Set<ReminderValue>());
+    this.reminderStates.set(String(userId), { mode: 'awaiting_reminder_time', eventId: event.id });
 
     await bot.sendMessage(
       chatId,
-      `Вы можете выбрать несколько временных периодов для напоминания.\n\n${event.title}\n${formatMoscowDateTime(event.startAt)}\n\nНажимайте на варианты, чтобы поставить или снять галочку. Затем нажмите «Готово».`,
-      { reply_markup: { inline_keyboard: this.reminderKeyboard(event.id, this.reminderSelections.get(key) || new Set()) } },
+      `Мероприятие: ${event.title}\nДата начала: ${formatMoscowDateTime(event.startAt)} МСК\n\nВведите дату и время напоминания по московскому времени (UTC+3) в формате:\n<b>ДД.ММ.ГГГГ ЧЧ:ММ</b>\n\nПример: <b>15.07.2025 09:00</b>`,
+      {
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [[{ text: '❌ Отмена', callback_data: `remcancel:${event.id}` }]],
+        },
+      },
     );
   }
 
-  private reminderKeyboard(eventId: string, selected: Set<ReminderValue>) {
-    const rows = [
-      REMINDER_OPTIONS.slice(0, 2),
-      REMINDER_OPTIONS.slice(2, 4),
-      REMINDER_OPTIONS.slice(4),
-    ].map((row) =>
-      row.map((option) => ({
-        text: `${selected.has(option.value) ? '✅' : '⬜'} ${option.label}`,
-        callback_data: `remtoggle:${eventId}:${option.value}`,
-      })),
-    );
+  private async handleReminderTimeInput(bot: TelegramBot, message: TelegramBot.Message, eventId: string) {
+    const chatId = message.chat.id;
+    const userId = String(message.from?.id || chatId);
+    const text = message.text?.trim() || '';
 
-    rows.push([{ text: 'Готово', callback_data: `remdone:${eventId}` }]);
-    return rows;
-  }
-
-  private async handleReminderToggle(bot: TelegramBot, query: TelegramBot.CallbackQuery, data: string) {
-    const [, eventId, value] = data.split(':') as [string, string, ReminderValue];
-    if (!eventId || !REMINDER_OPTIONS.some((option) => option.value === value)) {
-      await bot.answerCallbackQuery(query.id, { text: 'Некорректный формат напоминания.' });
+    const remindAt = parseMskDateInput(text);
+    if (!remindAt) {
+      await bot.sendMessage(
+        chatId,
+        'Не удалось распознать дату. Пожалуйста, введите в формате <b>ДД.ММ.ГГГГ ЧЧ:ММ</b>, например: <b>15.07.2025 09:00</b>',
+        { parse_mode: 'HTML' },
+      );
       return;
     }
-    const key = this.selectionKey(query.from.id, eventId);
-    const selected = this.reminderSelections.get(key) || new Set<ReminderValue>();
-    if (selected.has(value)) selected.delete(value);
-    else selected.add(value);
-    this.reminderSelections.set(key, selected);
 
-    if (query.message) {
-      await bot.editMessageReplyMarkup(
-        { inline_keyboard: this.reminderKeyboard(eventId, selected) },
-        { chat_id: query.message.chat.id, message_id: query.message.message_id },
-      );
-    }
-    await bot.answerCallbackQuery(query.id, { text: selected.has(value) ? 'Выбрано' : 'Снято' });
-  }
-
-  private async handleReminderDone(bot: TelegramBot, query: TelegramBot.CallbackQuery, data: string) {
-    const [, eventId] = data.split(':');
-    const selected = this.reminderSelections.get(this.selectionKey(query.from.id, eventId)) || new Set<ReminderValue>();
-    if (!selected.size) {
-      await bot.answerCallbackQuery(query.id, { text: 'Выберите хотя бы один период.' });
+    if (remindAt.getTime() <= Date.now()) {
+      await bot.sendMessage(chatId, 'Указанное время уже прошло. Введите будущую дату и время.');
       return;
     }
 
     const event = await this.prisma.event.findFirst({ where: { id: eventId, deletedAt: null, published: true } });
     if (!event) {
-      await bot.answerCallbackQuery(query.id, { text: 'Событие не найдено.' });
+      this.reminderStates.delete(userId);
+      await bot.sendMessage(chatId, 'Событие не найдено или уже удалено.');
       return;
     }
 
-    for (const remindBefore of selected) {
-      await this.prisma.reminder.upsert({
-        where: {
-          eventId_telegramUserId_remindBefore: {
-            eventId,
-            telegramUserId: String(query.from.id),
-            remindBefore,
-          },
-        },
-        update: {
-          telegramUsername: query.from.username || null,
-          isActive: true,
-          sentAt: null,
-        },
-        create: {
-          eventId,
-          telegramUserId: String(query.from.id),
-          telegramUsername: query.from.username || null,
-          remindBefore,
-        },
-      });
+    if (remindAt.getTime() >= event.startAt.getTime()) {
+      await bot.sendMessage(
+        chatId,
+        `Напоминание должно быть раньше начала мероприятия (${formatMoscowDateTime(event.startAt)} МСК). Введите более раннее время.`,
+      );
+      return;
     }
 
-    this.reminderSelections.delete(this.selectionKey(query.from.id, eventId));
-    await bot.answerCallbackQuery(query.id, { text: 'Напоминания сохранены.' });
-    const labels = [...selected]
-      .map((value) => REMINDER_OPTIONS.find((option) => option.value === value)?.label)
-      .filter(Boolean)
-      .map((label) => `— ${label}`)
-      .join('\n');
+    const remindBefore = remindAt.toISOString();
+    await this.prisma.reminder.upsert({
+      where: { eventId_telegramUserId_remindBefore: { eventId, telegramUserId: userId, remindBefore } },
+      update: { telegramUsername: message.from?.username || null, isActive: true, sentAt: null },
+      create: { eventId, telegramUserId: userId, telegramUsername: message.from?.username || null, remindBefore },
+    });
 
-    if (query.message) {
-      await bot.sendMessage(query.message.chat.id, `Готово. Напоминания добавлены:\n${labels}\n\nНапоминание о мероприятии\n\n${event.title}\n${formatMoscowDateTime(event.startAt)}\n${event.format === 'ONLINE' ? 'Онлайн' : event.location}`);
-    }
+    this.reminderStates.delete(userId);
+    await bot.sendMessage(
+      chatId,
+      `Готово! Напоминание установлено на <b>${formatMoscowDateTime(remindAt)}</b> МСК\n\nМероприятие: ${event.title}\nНачало: ${formatMoscowDateTime(event.startAt)} МСК`,
+      { parse_mode: 'HTML' },
+    );
   }
 
   private async handleLegacySingleReminder(bot: TelegramBot, query: TelegramBot.CallbackQuery, data: string) {
-    const [, eventId, remindBefore] = data.split(':') as [string, string, ReminderValue];
-    if (!eventId || !REMINDER_OPTIONS.some((option) => option.value === remindBefore)) {
+    const [, eventId, remindBefore] = data.split(':');
+    if (!eventId || !remindBefore || !parseReminderOffset(remindBefore)) {
       await bot.answerCallbackQuery(query.id, { text: 'Некорректный формат напоминания.' });
       return;
     }
@@ -539,9 +525,17 @@ export class TelegramService implements OnModuleInit {
     });
 
     for (const reminder of reminders) {
-      const offset = parseReminderOffset(reminder.remindBefore);
-      if (!offset) continue;
-      const dueAt = new Date(reminder.event.startAt.getTime() - offset);
+      let dueAt: Date;
+      if (/^\d{4}-\d{2}-\d{2}T/.test(reminder.remindBefore)) {
+        // New-style: absolute ISO datetime
+        dueAt = new Date(reminder.remindBefore);
+        if (isNaN(dueAt.getTime())) continue;
+      } else {
+        // Legacy: relative offset
+        const offset = parseReminderOffset(reminder.remindBefore);
+        if (!offset) continue;
+        dueAt = new Date(reminder.event.startAt.getTime() - offset);
+      }
       if (dueAt > now) continue;
       if (reminder.event.startAt.getTime() + 60 * 60_000 < now.getTime()) {
         await this.prisma.reminder.update({ where: { id: reminder.id }, data: { isActive: false, sentAt: now } });
