@@ -11,6 +11,7 @@ import {
   BroadcastItem,
   BroadcastDelivery,
   TelegramSubscriber,
+  QuoteItem,
 } from './types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
@@ -163,6 +164,32 @@ export const api = {
     }),
   deleteUser: (token: string, id: string) =>
     fetcher<AdminUser>(`/admin/users/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  quotes: (token: string) =>
+    fetcher<QuoteItem[]>('/quotes/admin', {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  createQuote: (token: string, payload: { text: string; author: string; isActive?: boolean; sortOrder?: number }) =>
+    fetcher<QuoteItem>('/quotes/admin', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  updateQuote: (token: string, id: string, payload: { text?: string; author?: string; isActive?: boolean; sortOrder?: number }) =>
+    fetcher<QuoteItem>(`/quotes/admin/${id}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    }),
+  toggleQuote: (token: string, id: string) =>
+    fetcher<QuoteItem>(`/quotes/admin/${id}/toggle`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  deleteQuote: (token: string, id: string) =>
+    fetcher(`/quotes/admin/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     }),

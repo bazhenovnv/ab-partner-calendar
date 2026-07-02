@@ -13,6 +13,7 @@ import { ImportsModule } from './modules/imports/imports.module';
 import { RemindersModule } from './modules/reminders/reminders.module';
 import { TelegramModule } from './modules/telegram/telegram.module';
 import { UsersModule } from './modules/users/users.module';
+import { QuotesModule } from './modules/quotes/quotes.module';
 import { PrismaModule } from './services/prisma.module';
 
 @Module({
@@ -31,6 +32,7 @@ import { PrismaModule } from './services/prisma.module';
     RemindersModule,
     DashboardModule,
     AnalyticsModule,
+    QuotesModule,
   ],
 })
 export class AppModule {}

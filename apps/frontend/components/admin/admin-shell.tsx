@@ -14,6 +14,7 @@ import {
   Users,
   BarChart3,
   BriefcaseBusiness,
+  FileText,
 } from 'lucide-react';
 import { clearAdminToken } from '@/lib/admin-utils';
 import { cn } from '@/lib/utils';
@@ -27,6 +28,7 @@ const items = [
   ['Аналитика', '/admin/analytics', BarChart3],
   ['Кабинет организатора', '/admin/organizer', BriefcaseBusiness],
   ['Категории', '/admin/categories', Tag],
+  ['Цитаты', '/admin/quotes', FileText],
   ['Пользователи', '/admin/users', Users],
   ['Настройки', '/admin/settings', Settings],
 ] as const;

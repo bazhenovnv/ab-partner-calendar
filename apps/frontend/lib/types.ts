@@ -139,3 +139,13 @@ export type BroadcastDelivery = {
   sentAt?: string | null;
   createdAt: string;
 };
+
+export type QuoteItem = {
+  id: string;
+  text: string;
+  author: string;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};

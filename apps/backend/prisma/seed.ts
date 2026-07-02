@@ -108,6 +108,20 @@ async function main() {
     await prisma.event.upsert({ where: { slug: event.slug }, update: event, create: event });
   }
 
+  const seedQuotes = [
+    { text: 'Бухгалтер — это не профессия, это призвание. Каждая цифра имеет смысл.', author: 'Народная мудрость', sortOrder: 0 },
+    { text: 'Учёт — основа управления. Без точных данных нет верных решений.', author: 'Народная мудрость', sortOrder: 1 },
+    { text: 'Порядок в документах — порядок в делах.', author: 'Народная мудрость', sortOrder: 2 },
+    { text: 'Хороший бухгалтер знает законы лучше, чем те, кто их пишет.', author: 'Народная мудрость', sortOrder: 3 },
+    { text: 'Цифры не лгут — лгут только те, кто ими манипулирует.', author: 'Народная мудрость', sortOrder: 4 },
+  ];
+
+  const existingQuoteCount = await prisma.quote.count();
+  if (existingQuoteCount === 0) {
+    await prisma.quote.createMany({ data: seedQuotes });
+    console.log(`Seeded ${seedQuotes.length} quotes`);
+  }
+
   console.log('Seed complete');
 }
 
