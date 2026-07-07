@@ -13,6 +13,7 @@ dist
 coverage
 apps/frontend/.next
 apps/backend/dist
+*.tsbuildinfo
 
 # -------------------------------
 # environment
