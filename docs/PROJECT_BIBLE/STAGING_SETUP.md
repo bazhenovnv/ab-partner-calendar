@@ -10,7 +10,7 @@
 
 | Компонент | Статус |
 |-----------|--------|
-| Nginx HTTP-блок (port 80) для `test.ab-event.pro` | ✅ Настроен |
+| Nginx HTTP-блок (port 80) для `test.ab-event.pro` | ✅ Был настроен |
 | Nginx HTTPS-блок (port 443) для `test.ab-event.pro` | ✅ Добавлен в `prod.conf` |
 | TLS-сертификат `/etc/letsencrypt/live/test.ab-event.pro/` | ❌ Нужно выпустить |
 | DNS A-запись `test.ab-event.pro` | ❓ Нужно проверить |
@@ -38,9 +38,6 @@ Nginx-конфиг обновлён в репозитории — после д�
    - `/api/` проксируется на backend
    - HSTS с коротким `max-age=3600` (без `includeSubDomains`) — безопасно для staging
 
-**Файл:** `docker-compose.prod.yml`
-- Добавлен volume `/var/www/certbot:/var/www/certbot:ro` для nginx
-
 ---
 
 ## Порядок действий на сервере
@@ -55,11 +52,11 @@ dig ab-event.pro A +short
 # Сравнить IP
 ```
 
-**Если DNS-записи нет** — создать A-запись в панели DNS (на регистраторе или Timeweb):
+**Если DNS-записи нет** — создать A-запись в панели DNS (Timeweb или другой регистратор):
 ```
 test.ab-event.pro.   A   <IP_сервера>   TTL 300
 ```
-Подождать распространения (5–15 минут).
+Подождать распространения (обычно 5–15 минут).
 
 ---
 
@@ -69,38 +66,30 @@ test.ab-event.pro.   A   <IP_сервера>   TTL 300
 cd /path/to/project   # путь к репозиторию на сервере
 
 git pull origin claude/ab-afisha-architecture-plan-805f5o
+# или в main, если ветка уже смержена
 
-# Создать директорию для webroot challenge
-mkdir -p /var/www/certbot
-
-# Перезапустить nginx (новый volume + обновлённый conf)
-# Сертификат ещё не выпущен, поэтому сразу запустить nginx нельзя!
-# Временно убрать HTTPS-блок test.ab-event.pro из conf, запустить, затем вернуть.
+docker compose -f docker-compose.prod.yml exec nginx nginx -t
+# Ожидается: nginx: configuration file /etc/nginx/nginx.conf syntax is OK
+#            nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
 
-**ВАЖНО:** nginx сейчас не запустится с HTTPS-блоком до выпуска сертификата.  
-Поэтому порядок: сначала certbot → затем nginx reload.
-
-**Вариант A — ОБЫЧНЫЙ (nginx не перезапускать):**
-```bash
-# Только обновить конфиг + volume (nginx уже запущен, только HTTP-блок активен)
-docker compose -f docker-compose.prod.yml up -d --no-deps nginx
-```
-
-**Вариант B — ЕСЛИ nginx не запустится из-за отсутствия сертификата:**
-```bash
-# Убрать HTTPS-блок из prod.conf временно,
-# запустить nginx,
-# затем выпустить сертификат,
-# затем вернуть HTTPS-блок и перезагрузить nginx.
-```
+**ВАЖНО:** не перезагружать nginx до шага 3 — сертификат ещё не выпущен.
 
 ---
 
-### Шаг 3 — Выпустить сертификат
+### Шаг 3 — Создать webroot-директорию и выпустить сертификат
 
 ```bash
-# Webroot метод (предпочтительный)
+# Создать директорию для webroot challenge (если не существует)
+mkdir -p /var/www/certbot
+
+# Примонтировать её в nginx-контейнер:
+# (добавить в docker-compose.prod.yml в раздел volumes nginx-сервиса)
+# - /var/www/certbot:/var/www/certbot:ro
+# Затем пересоздать nginx-контейнер:
+docker compose -f docker-compose.prod.yml up -d --no-deps nginx
+
+# Выпустить сертификат (webroot метод):
 certbot certonly \
   --webroot \
   --webroot-path /var/www/certbot \
@@ -138,7 +127,6 @@ docker compose -f docker-compose.prod.yml start nginx
 ```bash
 # Проверить конфиг после выпуска сертификата
 docker compose -f docker-compose.prod.yml exec nginx nginx -t
-# Ожидается: nginx: configuration file ... syntax is OK
 
 # Если OK — перезагрузить nginx
 docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
@@ -163,13 +151,12 @@ curl -I https://test.ab-event.pro
 
 # Проверить редирект с HTTP
 curl -I http://test.ab-event.pro
-# Ожидается: HTTP/1.1 301 Moved Permanently
-#             Location: https://test.ab-event.pro/
+# Ожидается: HTTP/1.1 301 Moved Permanently → Location: https://test.ab-event.pro/
 ```
 
 ---
 
-### Шаг 6 — Проверить контейнеры
+### Шаг 6 — Проверить контейнеры (диагностика)
 
 ```bash
 docker compose -f docker-compose.prod.yml ps
@@ -177,6 +164,21 @@ docker compose -f docker-compose.prod.yml ps
 
 docker compose -f docker-compose.prod.yml logs nginx --tail=20
 docker compose -f docker-compose.prod.yml logs frontend --tail=20
+```
+
+---
+
+## Обновление docker-compose.prod.yml для webroot
+
+Добавить в секцию `nginx → volumes`:
+
+```yaml
+nginx:
+  volumes:
+    - ./infra/nginx/conf.d/prod.conf:/etc/nginx/conf.d/default.conf:ro
+    - /etc/letsencrypt:/etc/letsencrypt:ro
+    - /var/www/certbot:/var/www/certbot:ro   # ← добавить эту строку
+    - uploads:/app/uploads:ro
 ```
 
 ---
